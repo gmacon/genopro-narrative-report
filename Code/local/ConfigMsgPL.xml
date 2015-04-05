@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- For documentation about this file, please visit http://www.genopro.com/sdk/Report-Generator/Configuration/ -->
+<Skin Name="Polski Raport Narracyjny" Language="PL">
+	<Version>2009.01.12</Version>
+	<DateLastModified>12-Jan-2009</DateLastModified>
+	<Authors>
+		<Author Name="Quayle"  Version="2009.02.12" DateLastModified="12-Feb-2009" Comment="Polish version for GenoPro 2.0.1.6" />
+	</Authors>
+	<!-- CHANGE HISTORY -->
+	<!-- Changes are indicated by a comment to the left of XML comments & elements below
+	in the following format -->
+	<!--?a.b.c.d -->
+	<!-- where a.b.c.d is version number and ? is the type of change
+
+		+ before version indicates an insertion
+		x 		 indicates a deletetion
+		± 		 indicates an amendment   
+		~ 		 indicates a reposition up or down 
+-->
+	<ReportGenerator ScriptLanguage="VBScript">
+		<ParameterDescriptions TextDirection="ltr">
+			<!-- Note to translators: You may change all text in these tags except for the values before the ':' in 'option' attributes O1, O2 etc. so O1="Y:Oui"is OK but not O1="O:Oui" -->
+			<PresentationSettings T="Ustawienia Prezentacji">
+				<fHideFamilyDetails 		Desc="Szczegóły o rodzinie mogą się pojawić na stronach osób. Jeżeli nie to wpis jest podmieniony odsyłaczem do odpowiedniej stronie o rodzinie." 
+					T="Połączyć szczegóły rodziny ze stronami osób?" 				Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fHideNameTreeIndex 	T="Ukryć alfabetyczny indeks w wyskakującym okienku przy starcie?" 			Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fJoinPlaceNames 		Desc="Pokaż nazwy miejsc jako listę wszystkich, oddzielonych przecinkami, miejsc w hierarchii. Jest to użyteczne jeśli nazywasz miejsca używając ogólnych okresleń(miasto), a nie szczegółowych('miasto, województwo, kraj')" 
+					T="Połączyć nazwy hierarchicznych miejsc?" 				Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fJoinSourceCitationNames 	Desc="Pokaż nazwy źródeł i cytatów jako oddzielaną @ listę wszystkich cytatów/źródeł w hierarchii. Jest to użyteczne jeśli nazywasz źródła używając ogólnych określeń (książka), a nie szczegółowych('książka na półce w bibliotece itp.). Zauważ, że wywoływana jest specjalna akcja jeśli tytuł źródła jest taki sam jak tytuł źródła naczelnego, np. jest dziedziczone. Jeżeli znacznik WhereInSource (Gdzie w źródle) (lub 'odniesienie') istnieje, zakłada się, że jest to cytat źródła, a nie źródło samo w sobie. W tym przypadku WhereInSource zajmuje miejsce tytułu, więc połączona nazwa staje się 'WhereInSource @ source title' (Gdzie w źródle @ tytuł źródła)." 
+					T="Połączyć nazwy hierarchicznych źródeł?" 				Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fCollapseNotes 		T="Pokazać wszystkie uwagi w zwiniętym widoku?" 				Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fCollapseReferences 	T="Pokazać podsekcje i odniesienia w zwiniętym widoku?" 	Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<cTocExpand 		Desc="Określa kiedy indeksy mają być zwinięte, a kiedy nie. Wartość -1 oznacza zawsze rozwinięty indeks, 0 oznacza, że indeks ma być zawsze rozwinięty" 
+					T="Limit przy którym indeksy są wyświetlone w zwiniętym widoku." 			Default="1000" 	Size="6"/>
+				<StyleSheet 		Desc="Używane by nadpisać jeden lub więcej domyślnych stylów." 
+					T="Plik zawierający własne stylowanie CSS (opcjonalne)" 			Default="" 	Type="file"/>
+				<PedigreeCharts 		T="Pokazać wywody przodków?" 			Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<Calendar 		T="Pokazać kalendarz wydarzeń?" 	Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+			</PresentationSettings>
+			<PictureSettings T="Ustawienia obrazów">
+				<fShowPictureDetails 	Desc="Show picture details phrase and any picture notes/description together with the picture on Individual &amp; Family html pages. This information is always shown on the 'picture-&lt;pictureid&gt;.htm' and 'pictures.htm' pages." 
+					T="Pokaż wszystkie informacje dotyczące obrazka na stronach osób i rodzin." 		Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fHidePictureName 	Desc="Ukrywa nazwę obrazka, którą GenoPro domyśnie tworzy dla nazwy pliku. Normalnie jest pokazywane pod obrazkami." 
+					T="Ukryć tytuł pod obrazkiem?" 					Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fUsePictureThumbnails 	T="Miniaturki" Default="Y" 	O1="Y:tak" O2="N:nie"/>
+				<fUsePictureId 		T="Użyć ID obrazu w miejscu tytułu obrazu?" 				Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<PictureSizeLarge 	T="Większy rozmiar obrazu - Szerokość x Wysokość (w pikselach)" 				Default="250x250" Size="9"/>
+				<PictureSizeSmall 	T="Mniejszy rozmiar obrazu - Szerokość x Wysokość (w pikselach)" 				Default="100x100" Size="9"/>
+				<PicturePadding 	T="Obramowanie obrazka (w pikselach)" 						Default="15" 	Size="2"/>
+				<PictureInterval 	T="Przerwa podczas pokazu slajdów (w milisekundach) od 1000 do 10000" 		Default="4000" 	Size="5"/>
+			</PictureSettings>
+			<ThumbnailSettings T="Ustawienia miniaturek">
+				<ThumbnailCreate 	Desc="Ustaw na Y/yes to create resized pictures in the 'thumbnails' folder within the Report folder using IrfanView. Thumbnail size will be the same as the 'PictureSizeLarge' parameter value i.e by default 250x250. A dpi value of 72 is suggested. Thumbnails will also be produced for any Pictures to be displayed on the SVG or PDF GenoMap images, defined using the special Social Entity object. Use of this parameter together with the resized pictures will improve the download speed considerably." 
+					T="Stworzyć miniaturki obrazków?" 				Default="Y" 	O1="Y:tak" O2="N:nie"/>
+				<ThumbnailDpi 		T="dots per inch (dpi)" 				Default="72" 	Size="3"/>
+				<ThumbnailQuality 	T="Jakość JPEGa (1-100)" 				Default="70" 	Size="3"/>
+				<!--±2.0.1.6 -->
+				<IrfanViewPath 		T="Ścieżka do programu IrfanView używanego do tworzenia miniaturek&#10;(Domyślnie {0})" 		Default="?:\Program Files\IrfanView\i_view32.exe" 	Type="file"/>
+			</ThumbnailSettings>
+			<MapSettings T="Ustawienia Google Map">
+				<GoogleMaps 		Desc="Następujące cztery parametry mogą być pominięte dla poszczególnych miejsc przez stworzenie własnych znaczników(custom tags). Użyj w GenoPro Narzędzia/Edytor znaczników by stworzyć Dialog Layout dla miejsc nazwanych 'Mapping', ustaw opis na '_Mapping' (Zauważ, że podkreślnik: _, jest ważny gdyż zapobiega on wyświetlaniu tych znaczników przed wyświetleniem jako 'Place Additional Information' (Dodatkowe informacje dotyczące miejsca). W tym oknie dialogowym dodaj trzy znaczniki: Map.Google.Zoom, Map.Google.Type, Map.Google.Width oraz Map.Google.Height. Możesz wtedy użyć zakładki '_Mapping' w oknie właściwości miejsca, by dostosować te wartości dla każdego poszczególnego miejsca." 
+					T="Wyświetlać Mapy Google dla miejsc?" 					Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<GoogleMapsType 	T="Typ wyświetlania mapy" 					Default="1" 	O1="1:map" O2="2:satellite" O3="3:hybrid"/>
+				<GoogleMapsSmall 	T="Rozmiar Google Map, gdy pokazywane inline i miejsce ma dołączone obrazy - Szer. x Wys. (w pikselach)" 
+													Default="400x250" Size="9"/>
+				<GoogleMapsLarge 	T="Rozmiar Google Map, gdy pokazywane inline i miejsce nie ma dołączonych obrazów - Szer. x Wys. (w pikselach)" 
+													Default="650x250" Size="9"/>
+				<GoogleMapsZoom 	T="Domyślnie inicjowane przybliżenie Google Map (1-13)" 				Default="7" 	Size="2"/>
+				<fGoogleMapsLink 		Desc="W przeciwnym przypadku jest wyświetlane jako zwinięta/rozwinięta linia w ther place details popup page." 
+					T="Pokazać miejsce Mapę Google w 'wyskakującej' ramce poprzez odsyłacz?" 		Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<fGoogleMapsOverview 	T="Dostarcz odsyłacz 'Google Maps' na stronę domową do mapy z wszystkimi geokodowanymi miejscami?" 
+													Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<GoogleMapsApiKey 	T="Klucz API Google Maps (zmień, jeżeli host'em nie jest familytrees.genopro.com)" 	Default="ABQIAAAASJ0G4SOiaQ8eyk3nzNi7YhS8Sug1lBz5d9mEGdwPgwjMebPy9xQoQLPIM-CcpjAnaGoBwGuJrnArCQ"/>
+			</MapSettings>
+			<TimelineSettings T="Ustawienia linii czasu">
+				<Timelines 		T="Pokazać linie czasu dla osób, rodzin i genomap?" 	Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<TimelineShowDuration 	T="Pokazać długość wydarzeń za pomocą kolorowych pasków?" 				Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<TimelineContemporary 	Desc="Duration bars can be extended to the Report date for events that are still current e.g. living people" 
+					T="Pokazać czas trwanie do daty raportu dla niezakończonych wydarzeń?" 			Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<TimelineWrapEvents 	Desc="I funset then a track is used for only one event." 
+					T="Powtórnie użyć ścieżki na linii czasu dla nie nakładających się na siebie wydarzeń?" 			Default="Y" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<TimelineMinEventsIndividual T="Minimalna liczba wydarzeń, zanim osobista linia czasu zostanie pokazana" 		Default="2" 	Size="2"/>
+				<TimelineMinEventsFamily 	T="Minimalna liczba wydarzeń, zanim rodzinna linia czasu zostanie pokazana" 		Default="2" 	Size="2"/>
+			</TimelineSettings>
+			<LanguageSettings T="Ustawienia języka">
+				<LangPossessiveLookup 	T="Użyć NameDictionary, by uzyskać wyjątki form rzeczownika w dopełniaczu?" 	Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<LangLocativeLookup 	T="Użyć NameDictionary, by uzyskać wyjątki form rzeczownika w miejscowniku?" 		Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<LangBaseNameLookup 	T="Użyć NameDictionary, by uzyskać 'podstawę' lub 'rdzeń' nazw?" 		Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<LangNames 		T="By użyć NameDictionary do tłumaczenia nazw na język raportu, ustaw na kod języka Z KTÓREGO tłumaczyć." 
+													Default="" 	Size="3"/>
+				<LangPlace 		T="By użyć NameDictionary do tłumaczenia miejsc na język raportu, ustaw na kod języka Z KTÓREGO tłumaczyć." 
+													Default="" 	Size="3"/>
+				<LangOccupation 	T="By użyć NameDictionary do tłumaczenia miejsc zatrudnienia na język raportu, ustaw na kod języka Z KTÓREGO tłumaczyć." 
+													Default="" 	Size="3"/>
+				<LangAlternative 	T="Kod języka używany, by określić która 'alternatywna' nazwa ma być przetłumaczona poprzez NameDictionary." 
+															Default="" 	Size="3"/>
+				<LangHtmlCulture 	T="HTML 'Content-Language' podtyp lub 'dialekt' np. 'us' by oznaczyć 'en-us'" 	Default="" 	Size="2"/>
+				<!--±2.0.1.6 -->
+				<LangNameDictionary 	T="Plik NameDictionary używany do tłumaczenia języka i wyjątkowych przypadków rzeczownika" 
+															Default="NameDictionary.xml" Type="file"/>
+				<LangShowOthers 	T="Pokaż inne języki w multi-językowych polach" 				Default="N" 	O1="Y:tak" O2="N:nie" Type="bool"/>
+				<LangShowDefault 	T="Domyślny język do multi-językowych pól, gdy język nie pasuje do skórki" 	Default="EN" 	Size="3"/>
+				<TextDirection 		T="Wymuś kierunek tekstu, pomija wszelkie wartości wcześniej ustawione." 	Default="" 	O1=":no override" O2="rtl:right to left" O3="ltr:left to right"/>
+				<OriginalNamesCharts 	T="Użyj oryginalnych, nie przetłumaczonych nazw w Pedigree Chart" 				Default="N" 	O1="Y:yes" O2="N:no" Type="bool"/>
+				<OriginalNamesTimelines 	T="Użyj oryginalnych, nie przetłumaczonych nazw dla linii czasu GenoMap" 			Default="N" 	O1="Y:yes" O2="N:no" Type="bool"/>
+				<OriginalNamesGoogleMaps 	T="Użyj oryginalnych, nie przetłumaczonych nazw do szukania w Mapach Google" 	Default="N" 	O1="Y:yes" O2="N:no" Type="bool"/>
+			</LanguageSettings>
+			<NameSettings T="Ustawienia nazw">
+				<TagNameFull 		T="Osobisty znacznik użyty jako pełna nazwa (używane w indeksach i nagłówkach)" 	Default="Name"/>
+				<TagNameFormal 		T="Osobisty znacznik użyty jako właściwa nazwa (używane w pierwszej linii narracyjnej)" 	Default="Name.First"/>
+				<TagNameKnownAs 	T="Osobisty znacznik użyty jako 'znany jako' nazwa (wyświetlane w pierwszej linii narracyjnej)" 
+															Default="Name.Nick"/>
+				<TagNameShort 		T="Osobisty znacznik użyty jako powszechna nazwa (używane w pozostałych miejscach w raporcie)" 
+															Default="Name.Short"/>
+				<TagNameAlternative 	T="Osobisty znacznik użyty jako alternatywna nazwa" 			Default="Name.Alternative"/>
+				<PhraseNameAlternative Desc="Np. 0=Pełna nazwa, 1=Alternatywna, 2=Pełna nazwa włącznie z alternatywną?" 
+					T="Szablon dla frazy 'nazwa z alternatywną nazwą'" 					Default="{0}[{?!2}[ ({1})]]"/>
+				<!--	<IndexAlternativeNames 	T="Show Alternative names separately in index" 				Default="N" 	O2="Y:yes" O1="N:no"  Type="bool"/> -->
+				<ShowBaseNameOnly 	T="Nie pokazuj odmian nazwisk w indeksie nazwisk" 			Default="N" 	O2="Y:tak" O1="N:nie" Type="bool"/>
+			</NameSettings>
+			<SVGSettings T="Ustawienia Genomap SVG">
+				<!--±2.0.1.6 -->
+				<SvgPdf 			Desc="N.B. Jeżeli chcesz załączyć plik PDF będziesz potrzebował uruchomić program InkScape, by przekształcić pliki SVG do PDF zanim the report can be accessed correctly" 
+					T="Załącz Genomapy SVG i/lub PDF w raporcie" 			Default="SVGPDF" 	O1="SVG:Tylko SVG" O2="PDF:Tylko PDF" O3="SVGPDF:Obie z SVG jako domyślnym" O4="PDFSVG:Obie z PDF jako domyślnym" O5=":Żadne"/>
+				<fSvgZoomExtent 	T="Pokaż początkowy widok grafiki SVG jako całej GenoMapy." 	Default="N" 	O2="Y:tak" O1="N:nie" Type="bool"/>
+				<fSvgExpandFrame 	T="Maksymalizuj 'wyskakującą' ramkę SVG, kiedy tylko jest otwarta." 		Default="N" 	O2="Y:tak" O1="N:nie" Type="bool"/>
+				<fSvgCompress 		T="Skompresuj pliki SVG, by przyśpieszyć wgrywanie i prawdopodobnie też ściąganie." 		Default="Y" 	O2="Y:tak" O1="N:nie" Type="bool"/>
+				<!--±2.0.1.6 -->
+				<PdfToolbar 		T="Pokazać domyślnie pasek narzędzi Adobe PDF Reader (Acrobat)?" 		Default="Y" 	O2="Y:tak" O1="N:nie" Type="bool"/>
+				<!--±2.0.1.6 -->
+				<InkscapePath 		T="Ścieżka do programu Inkscape używanego do konwersji SVG na PDF&#10;(domyślnie {0})" 	Default="?:\Program Files\Inkscape\inkscape.exe" Type="file"/>
+			</SVGSettings>
+		</ParameterDescriptions>
+		<GenerationMessages>
+			<Cancel T="Anuluj"/>
+			<ErrorCantLoadNameDictionary T="Błąd: Nie można było wczytać zawartości Name Dictionary"/>
+			<ErrorConfigMessageNotFound T="Config GenerationMessages: Nie można znaleźć "/>
+			<!-- 0=Custom Tag Name, 1=New Tag Name, Test={0}=Custom_tag|, {1}=New_Custom_tag| -->
+			<ErrorCustomDateTag T="Error Custom Tag '{0}' is invalid as it is subordinate to a GenoPro Date field, Dates may be reported incorrectly.&#10;"/>
+			<ErrorCustomTag T="Error Invalid Custom Tag '{0}' : tag names must start with a letter or an underscore.&#10;"/>
+			<ErrorCustomTagRename T="Tag should be renamed using the Tag Editor e.g. '{0}' renamed to '{1}' or tag deleted if not required."/>
+			<ErrorDeleteFile T="Unable to delete existing file"/>
+			<!--+2.0.1.6 -->
+			<ErrorFetchHeader T="Error: Unable to retrieve 'date last modified' from HTTP header for {0}"/>
+			<!--+2.0.1.6 -->
+			<ErrorInkscapeNotFound T="N.B. Obrazy PDF dla GenoMap nie będą generowane, gdyż Inkscape musi być w tym celu zainstalowany, jednakże nie został on znaleziony w podanej ścieżce (lub domyślnej) w ustawieniach konfiguracyjnych 'InkscapePath'"/>
+			<ErrorInkscapeRun T="Błąd uruchamiania inkscape.exe"/>
+			<!--+2.0.1.6 -->
+			<ErrorIrfanviewNotFound T="N.B. Miniaturki dla obrazków i embedded obrazków w GenoMapach nie będą generowane, gdyż IrfanView musi być w tym celu zainstalowany, jednakże nie został on znaleziony w podanej ścieżce (lub domyślnej) w parametrach konfiguracyjnych 'IrfanViewPath'"/>
+			<!-- 1=Language Markup, Test={1}={?E:test}| -->
+			<ErrorLangMarkup T="Invalid language markup: {0}"/>
+			<!--+2.0.1.6 -->
+			<ErrorNoCachedSize T="Error: No cached size information for {}"/>
+			<ErrorNoCustomSkin T="Error: At present this Report can only be generated from a custom skin. Please use the 'New Skin' button above to create a custom version of this skin and run the Report again using it."/>
+			<!-- 0=error number, 1=error description -->
+			<ErrorNoNameDictionary T="Error: No NameDictionary.xml file for requested language options"/>
+			<!--+2.0.1.6 -->
+			<ErrorPdfUpload T="Error: Failed to write Pdf to Report Folder : "/>
+			<!--+2.0.1.6 -->
+			<ErrorPicLabelDeprecated T="Using label text 'picture=&quot;picnnnnn&quot;' for pictures in Labels is now superseded. Please use Label/SocialEntity Primary Picture and Custom Tags 'Picture.Style', 'Picture.FixRatio' and 'Picture.FitLabel' instead of text in Label/Social Entity"/>
+			<!--+2.0.1.6 -->
+			<ErrorPictureConvert T="Error {} converting picture {} to thumbnail {}"/>
+			<ErrorRegExpBroken T="Error: ({0}: {1}) - VBScript is not installed correctly on your system. It is recommended that you download and install Windows Scripting 5.6 or 5.7 from http://www.microsoft.com/downloads"/>
+			<ErrorScriptingVersion T="Error: This Report Skin requires Windows Script version 5.5 or above -&#10;Please install the latest version from the Microsoft Download Center."/>
+			<ErrorSliderRange T="Config.xml parameter 'PictureInterval' must be in range 1000 - 10000 (milliseconds)"/>
+			<!-- 0=object, 1=string in error, Test={0}=Individual, {1}=<?html>| -->
+			<ErrorTextFormat T="{0}: Invalid text format instruction: {1}"/>
+			<ErrorTextSyntax T="{0}: Invalid argument syntax for text format instruction: {1}"/>
+			<ErrorTextToken T="{0}: Invalid text format token: {1}"/>
+			<ErrorThumbnailCheck T="Error: Unable to check if update required to thumbnail. File"/>
+			<ErrorXMLEntities T="Error: The following fields contain invalid XML entities i.e. in range &amp;#0; - &amp;#31; but excluding valid entities &amp;#9;,&amp;#10; and &amp;#13;&#10;Custom Tag data including Config Parameters in Document Tags will not be processed"/>
+			<!-- 0=Error reason, 1=script line number, 2=script text, 3=File details
+			Test={0}=Invalid Entity, {1}=220, {2}=script stuff,, -->
+			<!--±2.0.1.6 -->
+			<ErrorXMLLoad T="Error attempting to parse {3} data: {0} on line {1}:&#10;&#09;{2}&#10;Custom Tag data including Config Parameters in Document Tags will not be processed"/>
+			<!--x2.0.1.6         0=Error reason, 1=script line number, 2=script text -->
+			<!--x2.0.1.6    <ErrorXMLLoadDic T="Warning: Unable to parse Dictionary: {0} on line {1}:&#10;&#09;{2}&#10;Some extended Dictionary elements &amp; attributes will not be available" />-->
+			<!--x2.0.1.6    <ErrorXMLLoadCfg T="Warning: Unable to parse Config.xml file: {0} on line {1}:&#10;&#09;{2}&#10;" />-->
+			<!-- 0=Error number, 1=Error description, 2=additional info
+			Test={0}=123456, {1}=Invalid Argument -->
+			<!--+2.0.1.6 -->
+			<ErrorHttpGet T="Błąd {}: {} (Cannot retrieve picture {})"/>
+			<ErrorXMLParser T="Błąd: Unable to load an ActiveX control for MS XML Parser. {0}:{1}"/>
+			<!--+2.0.1.6 -->
+			<ErrorVB T="Błąd {}: {} ({})"/>
+			<!--+2.0.1.6 -->
+			<FmtInvalidPictureID T="Picture ID {} in Label {} w GenoMapie {} jest niewłaściwy."/>
+			<!--+2.0.1.6 -->
+			<FmtNoDrawingObjects T="No Drawing objects for {}"/>
+			<!--+2.0.1.6 -->
+			<FmtPdfUpToDate T="Pdf dla GenoMapy {} jest aktualna."/>
+			<!--+2.0.1.6 -->
+			<FmtThumbnailCreate T="Uaktualnianie miniaturki dla {0}"/>
+			<!--+2.0.1.6 -->
+			<FmtThumbnailUpToDate T="Miniaturka dla {0} jest aktualna"/>
+			<!--±2.0.1.6 -->
+			<HeaderConfigParameters T="N.B. Kliknij na nagłówkach poniżej by otworzyć lub zamknąć daną sekcję.
+		Zrób wszelkie potrzebne zmiany w ustawieniach konfiguracyjnych w formulaczu i naciśnij 'OK'.
+		Wskaż myszką tekst oznaczony {0} by uzyskać więcej informacji."/>
+			<!--+2.0.1.6 -->
+			<Marker T="*"/>
+			<Ok T="OK"/>
+			<ParametersAbandoned T="Zmiany w konfiguracji anulowane przez użytkownika"/>
+			<!--x2.0.1.6    <ParametersAmend T="N.B. Change any parameter settings you require BEFORE clicking OK below. &#10;(Move this dialog box out of the way if required)" /> -->
+			<ParametersClearOption T="By włączyć wyświetlanie ustawień konfiguracyjnych, odznacz odpowiednią opcję w zakładce 'Opcje' tego okna."/>
+			<ParametersOverride T="Wyświetlanie ustawień konfiguracyjnych zostało pominięte, czego powodem był znacznik 'ChangeParameters'. Wyczyść ten znacznik aby używać ustawień z zakładki 'Opcje' tego okna."/>
+			<ParametersSetOption T="By wyłączyć wyświetlanie okna z ustawieniami konfiguracyjnymi, zaznacz odpowiednią opcję w zakładce 'Opcje' okna dialogowego 'Generuj Raport'."/>
+			<ParametersFormLoad T="Proszę czekać, podczas gdy formularz jest ładowany"/>
+			<!-- 0=Attribute name, Test={0}=Param -->
+			<WarningAttributeKeyMissing T= "Ostrzeżenie: StrDicAttribute. Lookup of '{0}' failed."/>
+			<!-- 0=Custom Tag Name, 1=Custom Tag Layout Name Test={0}=Custom_tag, {1}=My_Tag_Layout -->
+			<WarningCustomTLayoutExcluded T="Custom Tag Layout '{0}' jest oznaczony jako systemowy lub prywatny i został pominięty"/>
+			<WarningCustomTagExcluded T="Znacznik '{0}' in Layout '{1}' jest oznaczony jako systemowy lub prywatny i został pominięty"/>
+			<WarningEmptyNameDictionary T="Ostrzeżenie: Zaznaczona jest opcja języka, ale Name Dictionary nie ma wpisów."/>
+			<WarningTitleMissing T="Brak tytułu! Kliknij w zakładkę &quot;Dokument&quot; aby ustawić tytuł swojego raportu genealogicznego."/>
+		</GenerationMessages>
+	</ReportGenerator>
+</Skin>

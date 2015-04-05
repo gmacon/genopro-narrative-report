@@ -1,0 +1,71 @@
+/* Narrative Report Theme CSS file
+ the classes gno-heading, gno-index, gno-detail, anbd gno-popup defined below are applied to <body> tags of all pages thatare 
+ displayed in the heading, toc, detail and popup frames respectively.
+ 
+ all images must be loaded from the reports images folder. Any non default images must be present in the theme folder
+ (and referenced in the files.txt file if GenoPro 2.5.3.6 or below) and will be automatically copied to the report's images folder by the skin.
+
+*/
+
+/* the line below removes frame borders if Config Param 'FrameBorders' is set to 'Auto'. This cannot be done via CSS but the text below is 
+   detected in the skin and acted upon by setting border="0" frameborder="no" in the frameset tag in default.htm.
+   
+            set frameborder=No
+            
+*/
+/*  This file can also contain any custom stylesheet file contents used in earlier releases of the skin
+*/
+/* GreenLeaf by HarryCaper 2011.01.27 */
+/* GreenLeaf updated 2012.08.26 with calendar and title theme */
+
+body {background: #DAE4CB none; font-size: 0.875em;}
+body.gno-heading {background-color: #ACC291;}
+body.gno-index {margin: 0px;}
+body.gno-detail {margin-left:0px; padding-left:10px;}
+body.gno-popup {}
+img.button32,img.button24,img.control24,img.toggle24 {background:none;}
+
+table
+{
+font-size: 0.75em;background-color:#DAE4CB;
+}
+tr td
+{
+background-color:#DAE4CB;
+}
+th
+{
+background-color:#C4D6B0;
+}
+
+h2 { color: #556B2F; font-size: 1.25em; }
+h3 { color: #556B2F; font-size: 1.125em; } 
+h4 { color: #556B2F; font-size: 1em; }
+h5 { color: #556B2F; }
+h6 { color: #556B2F; display: inline; }
+
+a:link { color: #228B22 ;}
+a:visited { color: #228B22; }
+a:active { color: #228B22; }
+a:hover { color: #228B22; }
+
+#menu li a {border-top: 3px solid #ACC291;}
+#menu li a:hover {background: #DAE4CB url(images/arrow.gif) no-repeat center bottom; color:#9C4252;}
+
+.subhead { color: #556B2F;}
+.citation {margin: 0px; padding: 0px; border:none; font-size: 0.750em; background: none;}
+.citationpic {margin: 0px 0px 0px 0px; padding: 0px; border:none; font-size: 0.750em; border-color:none; background: none;}
+.infoWindow {font-size: 0.750em;}
+.footnote {font-size: 0.750em;font-style: normal;}
+.langtoggle {font-size: 0.75em;}
+.std {font-size:1em;}
+.themed {background-color:#ACC291;color:#DAE4CB;}
+.tiny {font-size: 2px;}
+
+.curvyboxbackground{
+	padding:5px;
+	background:#DAE4CB;
+	}
+.curvycorners_box {
+   background: #ACC291;
+}

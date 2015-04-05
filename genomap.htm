@@ -1,0 +1,89 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+If Not Session("Svg") Then Report.AbortPage
+
+ReportGenerator.NegateAxisY = True
+
+' Create an HTML file for each GenoMap
+Dim strAltShowGenoMapFrame, strAltHideGenoMapFrame, strMapInfo, strMapInfo1, oFso, oSvg, maxPopups
+strAltHideGenoMapFrame = StrDicExt("AltHideGenoMapFrame", "AltHideSvgFrame", "", "", "2.0.1.6")
+strAltToggleGenoMapFrame = StrDicExt("AltToggleGenoMapFrame", "AltToggleSvgFrame", "", "", "2.0.1.6")
+strMapInfo1 = Util.FormatString("ZoomExtent:{},ExpandFrame:{}", _
+                               Util.IfElse(Session("fSvgZoomExtent"), "true", "false"), _
+                               Util.IfElse(Session("fSvgExpandFrame"), "true", "false"))
+
+Set oFso = CreateObject("Scripting.FileSystemObject")
+
+For Each g In GenoMaps
+	strFile = Util.JavaScriptEncode(g.Session("FileSvg"))
+	If (strFile <> "") Then
+	   strMapInfo = "{File:""" & strFile & """, Bounds:[" & g.BoundaryRect & "]," &strMapInfo1 & "}"
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title></title>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="../style.css" type="text/css"/>
+<script type='text/javascript' language="JavaScript" src="../scripts/jquery.min.js"></script>
+<script type='text/javascript' language="JavaScript" src="../scripts/script.js"></script>
+<script type='text/javascript' language="JavaScript" src="../scripts/svg.js"></script>
+<script type='text/javascript' language="JavaScript">
+//<![CDATA[
+        var mapInfo = @[Report.Write strMapInfo]@;
+        var embed, svgdoc, svgwin, pdfparam;
+        showPopUpFrame(@[Report.Write Util.IfElse(Session("fSvgExpandFrame"),"'100%'","")]@);
+        $(function () {
+			setSvgFrame();
+			svgInit(mapInfo);
+			setupHandlers();
+			doResize();
+			$(window).resize(doResize);
+		});
+//]]>      
+</script>
+@[GoogleAnalytics]@
+</head>
+<body class=" gno-popup">
+<div class="floatright" style="display: inline;">
+	<img src="@[Report.WriteText Util.IfElse(Session("MaxPopup") Or Session("fSvgExpandFrame"),"../images/restore.gif","../images/maximize.gif")]@" class="control24" name="togglePopUp" id="togglePopUp" onclick="javascript:togglePopUpFrame(this.name, '../');" title="@[Report.WriteText strAltToggleGenoMapFrame]@" alt="@[Report.WriteText strAltToggleGenoMapFrame]@"/>
+	<img src="../images/close.gif" class="control24" onclick="hideGenoMapFrame(event);" title="@[Report.WriteText strAltHideGenoMapFrame]@" alt="@[Report.WriteText strAltHideGenoMapFrame]@"/>
+</div>
+<h4 style="margin:2;"><img src="../images/svg.gif" alt=""/> @[Report.WriteText Util.IfElse(GenoMaps.Count > 1, StrDicExt("HeaderGenoMap", "HeaderSvg", "", "", "2.0.1.6"), StrDicExt("HeaderGenoMap", "HeaderSvg", "1", "PC", "2.0.1.6")) & g.Name]@</h4>
+<div id="svgpdf">
+<div id="svgEmbed" class="svgwrapper">
+<%[
+Set oSvg = oFso.OpenTextFile(g.Session("svg"), 1, False, -1)
+Report.Write oSvg.ReadAll
+oSvg.Close
+oFso.DeleteFile g.Session("svg")
+]%>
+<p style="text-align:center; display:none;" id="nosvg" >A 'genogram' depicting a family tree should appear here<br/><br/>
+If no diagram is shown then either of the following could be the cause:<br/><br/>
+The diagram has been produced as a PDF and either no PDF viewer has been installed or the diagram has been opened in another window.<br/>
+The diagram has been produced in SVG format (Scaleable Vector Graphic) and either you are using Internet Explorer version 8 or below, in this case you should install the 'Adobe SVG Viewer', or you are using another browser that does not support SVG <br/>
+You are using Google Chrome browser but are viewing the report locally on a PC directly from the generated files (i.e. via the 'File' protocol) rather than via a web/HTTP server
+</p>
+</div>
+</div>
+<span class="clear"></span>
+<noscript>
+<embed src="@[Report.Write strFile]@" id="svgEmbed" height="88%" width="100%" type="image/svg+xml" border="2" pluginspage='http://www.adobe.com/svg/viewer/install/' />
+</noscript>
+</body>
+</html>
+
+<%[
+		Report.BufferWriteToFile g.Session("PathGenoMap")	' Write the content of the buffer to a file
+		Report.BufferLength = 0		' Flush the buffer for the next HTML page
+	End If
+	
+Next				' Generate the next HTML page
+
+Report.AbortPage	' Prevent the template file "genomap.htm" to be written to the output report
+]%>

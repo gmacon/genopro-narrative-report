@@ -1,0 +1,1544 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[
+    ' Check for appropriate version of MS Scripting
+    
+
+    If (ScriptEngineMajorVersion + (ScriptEngineMinorVersion / 10)) < 5.5 Then
+        Report.LogError ConfigMessage("ErrorScriptingVersion")
+    End If
+
+    Dim strXmlCOMs, strXmlCOM, oError, strXml, strGlobal, strBaseLanguage, strReportLanguage, ich, jch
+    Dim oMatches, oMatch, oSubMatches, oSubMatch, oRegExp_XML, oFso, oShell, oOutdated, oNode, oHttp, oBinaryStream
+    
+    ' store for any outdated or missing Dictionary tag messages (backwards compatibility feature)
+    Set oOutdated = Util.NewStringDictionary()
+    Session("Outdated")= oOutdated
+
+
+    Set oFso = CreateObject("Scripting.FileSystemObject")
+    Set oShell = CreateObject("WScript.Shell")
+    Set oHttp = CreateObject("Microsoft.XMLHTTP")
+    Set oBinaryStream = CreateObject("ADODB.Stream")
+    oBinaryStream.Type = 1        ' binary
+    oBinaryStream.Mode = 3        ' read/write
+    oBinaryStream.Open
+
+    ' determine latest version of MSXML installed'
+
+    strXmlCOMs = Array("Msxml2.DOMDocument.6.0","msxml2.DOMDocument.5.0","msxml2.DOMDocument.4.0","msxml2.DOMDocument.3.0","msxml2.DOMDocument", "Microsoft.XMLDOM")
+    On Error Resume Next
+    For Each strXmlCOM in strXmlCOMs
+        Err.Clear
+        Set oXmlDoc = CreateObject(strXmlCOM) 
+        If Err.Number=0 Then Exit For
+    Next
+    If Err.Number <> 0 Then Report.LogError Util.FormatString(ConfigMessage("ErrorXMLParser"), Err.Number, Err.Description)
+    On Error Goto 0
+    
+    Session("MSXML") = strXmlCOM
+    Dim oXmlDic, fOk, strXmlDic
+
+    Set oXmlDic = CreateObject(strXmlCOM)
+
+    'On Error Resume Next
+
+    strXmlDic = ReportGenerator.FileGetText("Dictionary.xml")
+
+    If Err.Number = 0 Then 
+      On Error Goto 0
+        oXmlDic.LoadXml strXmlDic
+    Else            ' pre version 2.0.0.6
+    On Error Goto 0
+        Report.LogWarning "Using pre 2.0.0.6 Dictionary handler"
+
+        fOk = oXmlDic.Load(ReportGenerator.PathSkin & "Dictionary.xml")
+
+    End If
+
+    Set oError = oXmlDic.parseError
+    If oError.errorCode = 0 Then
+        Set oNode = oXmlDic.selectSingleNode("/Dictionary/ReportGenerator")
+        Session("oDicRepGen") = oNode
+        oXmlDic.setProperty "SelectionLanguage", "XPath"
+      Session("ReportLanguage") = oXmlDic.selectSingleNode("Dictionary").getAttribute("Language")
+    End If
+
+
+    ' get base (GenoPro GUI) language
+    
+    strXml = ReportGenerator.Document.GetTextXml
+    jch = Instr(strXml,"</BaseLanguage>")
+
+    If jch > 0 Then
+        ich = InstrRev(Mid(strXml,1,jch),">") + 1
+        strBaseLanguage = Mid(strXml, ich, jch - ich)
+    End If
+    
+    If strBaseLanguage = "" Then
+           On Error Resume Next
+           strBaseLanguage = ReportGenerator.BaseLanguage
+        If strBaseLanguage = "" Then
+            strBaseLanguage = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\Settings\Language")
+        End If
+       On Error Goto 0
+      End If
+    If strBaseLanguage = "" Then
+       strBaseLanguage = Session("ReportLanguage")
+      End If  
+      
+      Session("BaseLanguage") = strBaseLanguage
+      
+    Dim oXmlCfg, oXmlCfg2, strXmlCfg, strConfigMsg, strVersion, strVersion2
+
+    Set oXmlCfg = CreateObject(strXmlCOM)
+    Set oXmlCfg2 = CreateObject(strXmlCOM)
+
+      strXmlCfg = ""
+  
+    If strBaseLanguage <> "EN" And strBaseLanguage <> "" Then
+        strConfigMsg = "Code\local\ConfigMsg" & strBaseLanguage & ".xml"
+        strXmlCfg = ReportGenerator.FileGetText(strConfigMsg)
+         If strXmlCfg = "" Then Report.LogComment "No Configuration Messages file found for Language code " & strBaseLanguage & " (" & strConfigMsg & ")", "#000080"
+    End If
+
+    If strXmlCfg = "" Then
+     strConfigMsg = "Config.xml"
+     strXmlCfg = ReportGenerator.FileGetText(strConfigMsg)
+  End If
+
+    oXmlCfg.LoadXml ReportGenerator.FileGetText("Code\local\ConfigMsgEN.xml")
+    If strXmlCfg <> "" Then ' language specific ConfigMsgXX.xml or Config.xml present so merge
+       oXmlCfg2.LoadXml strXmlCfg
+  
+       Set oNode = oXmlCfg2.selectSingleNode("Skin/Version")
+       If Not oNode Is Nothing Then strVersion2 = oNode.firstChild.text
+       Set oNode = oXmlCfg.selectSingleNode("Skin/Version")
+       If Not oNode Is Nothing Then strVersion = oNode.firstChild.text
+       Set oNode = oXmlCfg2.selectSingleNode("Skin/ReportGenerator/GenerationMessages/CommentMerge")
+       If Not oNode Is Nothing Then
+        Report.LogComment Util.FormatPhrase(oNode.getAttribute("T"), strConfigMsg, strVersion2, "ConfigMsgEN.xml", strVersion)
+       Else
+         Set oNode = oXmlCfg.selectSingleNode("Skin/ReportGenerator/GenerationMessages/CommentMerge")
+         If Not oNode Is Nothing Then Report.LogComment Util.FormatPhrase(oNode.getAttribute("T"), strConfigMsg, strVersion2, "ConfigMsgEN.xml", strVersion)
+       End If
+       XmlMerge oXmlCfg.selectSingleNode("Skin/ReportGenerator/ParameterDescriptions"), oXmlCfg2.selectSingleNode("Skin/ReportGenerator/ParameterDescriptions"), Nothing
+       XmlMerge oXmlCfg.selectSingleNode("Skin/ReportGenerator/GenerationMessages"), oXmlCfg2.selectSingleNode("Skin/ReportGenerator/GenerationMessages"), Nothing
+  End If
+
+    Set oError = oXmlCfg.parseError
+    If oError.errorCode <> 0 Then
+           Report.LogError Util.FormatString(ConfigMessage("ErrorXMLLoad"), oError.reason, oError.line ,oError.srcText, "Config XML")
+        Report.AbortReport
+    End If
+
+    oXmlCfg.setProperty "SelectionLanguage", "XPath"
+
+    Set oNode = oXmlCfg.selectSingleNode("/Skin/ReportGenerator/GenerationMessages")
+
+    Session("ConfigMessages") = oNode
+    Session("SkinVersion") = ReportGenerator.FileGetText("version.txt")
+    Session("SkinModified") = False
+    strPath = ReportGenerator.PathSkin
+    If strPath <> "" Then
+        strPath = Left(strPath, Len(strPath)-1)
+        arrTemp = Split(strPath,"\")
+        Session("SkinFolder") = arrTemp(Ubound(arrTemp))
+        ' skin not built-in so check for changes using a Microsoft utility 'File Checksum Integrity Verifier' or FCIV for short'
+        ExitCode = oShell.Run("""" & strPath & "\Code\fciv.exe"" -r -v -bp """ & strPath & """ -xml """ & strPath & "\Code\fciv.xml"" > """ & strPath & "\..\fciv.txt""", 0, True)
+        Session("SkinModified") = ExitCode <> 0
+  End If
+  Report.LogComment Util.FormatPhrase(ConfigMsg("CommentVersion", "Report Skin version {0} [{?1} *** with modifications ***]", "2013.07.30±") ,Session("SkinVersion"), Session("SkinModified"), ExitCode), Util.IfElse(ExitCode = 0, "#000080" , "#FF8040")   
+    Set oError = oXmlDic.parseError
+    If oError.errorCode <> 0 Then
+           Report.LogError Util.FormatString(ConfigMessage("ErrorXMLLoad"), oError.reason, oError.line ,oError.srcText, "Dictionary XML")
+        Report.AbortReport()
+
+    End If
+
+    Report.LogComment Util.FormatPhrase(ConfigMsg("CommentDictionary", "Report Language code '{0}' Dictionary version '{1}'", "2011.10.29"), Session("ReportLanguage"), Util.IfElse(oXmlDic.selectSingleNode("Dictionary").getAttribute("Version") <> Null , oXmlDic.selectSingleNode("Dictionary").getAttribute("Version") , "??"))
+
+' Use MS XML Parser to get   Tags from GenoPro Xml
+
+    On Error Resume Next
+    Err.Clear
+    Set oRegExp_XML = New RegExp
+    If Err.Number > 0 Then
+        Report.LogError Util.FormatString(ConfigMessage("ErrorRegExpBroken"), Err.Number, Err.Description)
+        Report.AbortReport
+    End If
+
+    On Error Goto 0
+
+    oRegExp_XML.Global = True
+    oRegExp_XML.IgnoreCase = True
+
+    oRegExp_XML.Pattern="&#([0-8]|1[124-9]|2[0-9]|3[01]);"
+    Set oMatches = oRegExp_XML.Execute(strXml)
+    If oMatches.Count > 0 Then
+        Report.LogError ConfigMessage("ErrorXMLEntities")
+        strPrevTag = ""
+        For Each oMatch in oMatches
+            ich = InstrRev(strXml,"<",oMatch.FirstIndex)
+            strTag = Mid(strXml, ich, Instr(oMatch.FirstIndex, strXml, "<") - ich)
+            strPrevTag = strTag
+        Next
+    End If
+    ich = Instr(strXml, "<Global") 
+    strGlobal = Mid(strXml,ich, Instr(strXml, "</Global>") - ich)
+    oRegExp_XML.Pattern="<TagData Name=""(.*)"">"
+    Set oMatches = oRegExp_Xml.Execute(strGlobal)
+    oRegExp_XML.Pattern = "\.[^_a-z]"
+    For Each oMatch in oMatches
+        Set oSubMatches = oRegExp_XML.Execute("." & oMatch.SubMatches(0))
+        If oSubMatches.Count > 0 Then
+            strTag = "." & oMatch.SubMatches(0)
+            For Each oSubMatch In oSubMatches
+                strTag = Replace(strTag, oSubMatch.Value, "._" & Mid(oSubMatch.Value, 2))
+            Next
+            Report.LogError ConfigMessage("ErrorCustomTag") & Util.FormatString(ConfigMessage("ErrorCustomTagRename"), oMatch.SubMatches(0), Mid(strTag, 2))
+        End If
+    Next
+    oRegExp_XML.Pattern = "^((Start|End)?Date)|^((Birth|Birth.Baptism|Death|Death.Funerals|Death.Disposition|Divorce|Marriage|Publication)?\.Date)\."
+    For Each oMatch in oMatches
+        Set oSubMatches = oRegExp_XML.Execute(oMatch.SubMatches(0))
+        If oSubMatches.Count > 0 Then
+            strTag = oSubMatches.Item(0).Value
+            strTag = Replace(oMatch.SubMatches(0), strTag, Left(strTag, Len(strTag)-1) & "_")
+            Report.LogError ConfigMessage("ErrorCustomDateTag") & Util.FormatString(ConfigMessage("ErrorCustomTagRename"), oMatch.SubMatches(0), strTag)
+        End If
+    Next
+    oXmlDoc.loadXml strXml
+
+    Set oError = oXmlDoc.parseError
+    If oError.errorCode <> 0 Then
+           Report.LogError Util.FormatString(ConfigMessage("ErrorXMLLoad"), oError.reason, oError.line, oError.srcText, "GenoPro XML")
+    End If
+        oXmlDoc.setProperty "SelectionLanguage", "XPath"
+
+    ' Now load Dictionary into MS XML parser to get access to non-standard attributes e.g. G1, G2 etc.
+
+
+    ' store some date format strings from the Dictionary in a String Dictionary Object (see also Lang.vbs GetDateFormat)
+
+    Set oDicCache = Util.NewStringDictionary()
+    Session("DicCache")=oDicCache
+
+    Session("SKAltDefault") = ""
+
+    If Not oXmlDic Is Nothing Then
+        Set oNode = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/FmtDateRange")
+        If Not oNode Is Nothing Then
+            For Each strType in Array("Since", "Until", "From", "To")
+                Set oChild = oNode.selectSingleNode("Fmt" & strType & "YMD")
+                If Not oChild Is Nothing Then oDicCache.Add strType & "YMD", oChild.firstChild.text
+                Set oChild = oNode.selectSingleNode("Fmt" & strType & "YM")
+                If Not oChild Is Nothing Then oDicCache.Add strType & "YM", oChild.firstChild.text
+                Set oChild = oNode.selectSingleNode("Fmt" & strType & "Y")
+                If Not oChild Is Nothing Then oDicCache.Add strType & "Y", oChild.firstChild.text
+                Set oChild = oNode.selectSingleNode("Fmt" & strType & "MD")
+                If Not oChild Is Nothing Then oDicCache.Add strType & "MD", oChild.firstChild.text
+            Next
+            Set oChild = oNode.selectSingleNode("FmtFromAndTo")
+            If Not oChild Is Nothing Then oDicCache.Add "FromAndTo", oChild.firstChild.text
+        End If
+        
+        Set oNode = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/FmtDateDefault/FmtYG")
+        If Not oNode Is Nothing Then
+       oDicCache.Add "DefaultYG", oNode.firstChild.text
+    Else
+            Set oNode = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/FmtDateDefault/FmtY")
+            If Not oNode Is Nothing Then oDicCache.Add "DefaultYG", oNode.firstChild.text & " GG"
+    End If
+        Set oNode = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/FmtDateNarrative/FmtYG")
+        If Not oNode Is Nothing Then
+       oDicCache.Add "NarrativeYG", oNode.firstChild.text
+    Else
+            Set oNode = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/FmtDateNarrative/FmtY")
+            If Not oNode Is Nothing Then oDicCache.Add "NarrativeYG", oNode.firstChild.text & " GG"
+    End If
+        
+        Set oNode = oXmlDic.selectSingleNode("/Dictionary/SearchKeywords/AltDefault")
+        If Not oNode Is Nothing Then Session("SKAltDefault") = oNode.getAttribute("T")
+
+        Dim strMonths, strWeekday, strWeekdays, strFirstDay
+        Set oNodes = oXmlDic.selectNodes("/Dictionary/DateFormatting/Months/*/text()")
+        If Not oNodes Is Nothing Then
+            strMonths = ""
+            For Each oNode In oNodes
+                strMonths = strMonths & ",'" & oNode.nodeValue & "'"
+            Next
+            oDicCache.Add "Months", Mid(strMonths,2)
+        End If
+        strWeekdays = ""
+        For Each strWeekday in Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat")
+            Set oNode = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/Weekdays/" & strWeekday & "/text()")
+            strWeekday = oNode.parentNode.getAttribute("S")
+            If IsNull(strWeekday) Then strWeekday = Left(oNode.nodeValue, 3)
+            strWeekdays = strWeekdays & ",'" & strWeekday & "'"
+        Next
+        oDicCache.Add "Weekdays", Mid(strWeekdays,2)
+        strFirstDay = oXmlDic.selectSingleNode("/Dictionary/DateFormatting/Weekdays").getAttribute("FirstDay")
+        If IsNull(strFirstDay) Then 
+       oDicCache.Add "FirstDay", "1"
+    Else
+        oDicCache.Add "FirstDay", strFirstDay
+    End If
+    End If
+
+	Session("OptimizeUpload") = "False"
+
+    ' now run a HTA (HTML Application) dialog to allow user to amend Report Parameters.
+
+    Dim oDialog, oExec, oForm, oGroup, oTable, oRow, OCell, oData, oSelect, oDiv, oTheme, f,g, fldr, i, j, k, strParam, strValue, strType, strTextDirection, strCellAlign, strText
+    Dim strTip, strDrive, strOptions, strOption, strOpt, arrOption, nResponse, arrSelect(100), arrText(100), arrBool(100), arrInt(100), iCnt, bCnt, sCnt, tCnt, nSize, nMax, btnOk, btnCancel, fFormChanged
+
+    ' Create 'volume' list from GenoMap titles for selective PDF report
+    Dim strVolumes, strSep, oVolumeMap, strTitle, oVolumeDescription
+    strSep =""
+    strVolumes = ""
+    Set oVolumeMap = Util.NewStringDictionary()
+    Set oVolumeDescription = Util.NewStringDictionary()
+    Session("VolumeMap") = oVolumeMap
+    Session("VolumeDescription") = oVolumeDescription
+    For Each g in GenoMaps
+        strTitle = g.Title
+        oVolumeMap.Add g.Name, strTitle
+        If strTitle <> "" Then
+            If Not InStr(strVolumes, strTitle) > 0 Then
+                strVolumes = strVolumes & strSep & strTitle
+                strSep = "|"
+                oVolumeDescription.Add strTitle, ""
+            End If
+            If g.Description <> "" Then
+                If oVolumeDescription.KeyValue(strTitle) = "" Then oVolumeDescription.KeyValue(strTitle) = g.Description
+            End If
+        End If
+        
+    Next
+    
+    oShell.RegWrite "HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & "NarrativeReport" & "\Volumes", strVolumes, "REG_SZ"
+  
+    If Not oXmlDic Is Nothing Then
+        Set oNode = oXmlDoc.selectSingleNode("/GenoPro/Global")
+        Session("oGlobal") = oNode
+        oXmlCfg.setProperty "SelectionLanguage", "XPath"
+        XMLMerge Nothing, oNode, oXmlCfg.selectSingleNode("Skin")
+        Set oNode = oXmlCfg.selectSingleNode("/Skin/ReportGenerator/ParameterDescriptions")
+        Dim fChange
+        fChange = False
+        If UCase(CustomTag(Null, "ChangeParameters")="Y") Then
+            fChange = True
+            Report.LogComment ConfigMessage("ParametersOverride"), "#000080"
+        ElseIf UCase(CustomTag(Null, "ChangeParameters")="N") Then
+            Report.LogComment ConfigMessage("ParametersOverride"), "#000080"
+        Else
+            If Report.ParametersShowDlg Then
+                fChange = True
+                Report.LogComment ConfigMessage("ParametersSetOption"), "#000080"
+            Else
+                Report.LogComment ConfigMessage("ParametersClearOption"), "#000080"
+            End If
+        End If
+        If Not oNode Is Nothing And fChange Then
+              ' Create folder for them sample images (set as Base href on dialogue page)
+            Set tmpFldr = oFso.CreateFolder(oFso.GetSpecialFolder(2).Path & "\" & oFso.GetTempName())
+              tmpFldrPath = tmpFldr.Path
+              oXmlCfg.save(tmpFldrPath & "\ConfigMsg.xml")
+              oFso.CopyFile ReportGenerator.PathSkin & "Code\ParameterSettings.hta", tmpFldrPath & "\ParameterSettings.hta"
+              oFso.CopyFile ReportGenerator.PathSkin & "Code\GenoPro.ico", tmpFldrPath & "\"
+              oFso.CopyFile ReportGenerator.PathSkin & "Code\info.png", tmpFldrPath & "\"
+            Set oChild = oNode.selectSingleNode("*/*['theme'=@Type][1]")
+            If oChild Is Nothing Then Report.LogError "Failed"
+            k=1
+            strOpt = oChild.getAttribute("O" & k)
+            Do Until IsNull(strOpt)
+                strOption=Split(strOpt,":")
+                strOpt=Split(strOption(0), "_")
+                'ReportGenerator.FileCopy "Code\themes\samples\" & strOpt(0) & "\" & strOpt(1) & ".jpg", tmpFldrPath & f & ".jpg"
+                If Not oFso.FolderExists(tmpFldrPath & "\" & strOpt(0)) Then oFso.CreateFolder tmpFldrPath & "\" & strOpt(0)
+                ' Report.LogComment "oFso.CopyFile " & ReportGenerator.PathSkin & "Code\themes\" & strOpt(0) & "\samples\" & strOpt(1) & ".jpg" & " to " & tmpFldrPath & "\" & strOpt(0) & "\"
+                oFso.CopyFile ReportGenerator.PathSkin & "Code\themes\" & strOpt(0) & "\samples\" & strOpt(1) & ".jpg", tmpFldrPath & "\" & strOpt(0) & "\"
+                k=k+1
+                strOpt = oChild.getAttribute("O" & k)
+            Loop
+            On Error Resume Next
+            oShell.RegDelete("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & "NarrativeReport" & "\ConfigFlag")
+            On Error Goto 0
+            Set oExec = oShell.Exec("mshta " & tmpFldrPath & "\ParameterSettings.hta")
+            Do While oExec.Status = 0
+                ReportGenerator.Sleep 100
+            Loop
+            If oFso.FolderExists(tmpFldr.Path) Then
+                 oFso.DeleteFolder tmpFldr.Path
+            End If
+            strParam=""
+            On Error Resume Next
+            strParam = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & "NarrativeReport" & "\ConfigFlag")
+          On Error Goto 0
+          If Not strParam = "OK" Then
+           Report.LogError ConfigMessage("ParametersAbandoned")
+           Report.AbortReport
+          End If
+        End If
+        strParam = ""
+        On Error Resume Next
+        strParam = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & "NarrativeReport" & "\CurrentProfile")
+        On Error Goto 0
+        If strParam <> ConfigMessage("ParametersLastUsed") And strParam <> ConfigMessage("ParametersDefault") Then 
+            Session("SavedProfile") = strParam
+        Else
+            Session("SavedProfile") = ""
+        End If
+        
+        For i = 0 To oNode.childNodes.length - 1
+            Set oChild = oNode.childNodes(i)
+            If oChild.nodeType = 1  Then             ' element node (i.e. ignore any comment nodes)
+                For j = 0 To oChild.childNodes.length - 1
+                    Set oParam = oChild.childNodes(j)
+                    sParam = oParam.nodeName
+                    If oParam.nodeType = 1 Then
+                         Session(sParam) = GetParameter(sParam)
+                     End If
+                Next
+            End If
+        Next
+    End If
+
+    Dim today, locale
+    locale = GetLocale()
+    SetLocale("en-gb")
+    today = Date
+    Session("Today") = Day(today) & " " & MonthName(Month(today), True) & " " & Year(today)
+    SetLocale(locale)
+    
+    ' set additional theme options
+    Dim themeOpt
+    If Instr(Session("StyleSheet"),"_") = 0 Then
+        Report.LogWarning "Warning: StyleSheet value '" & Session("StyleSheet") &"' invalid. Using 'Default_2'"
+        Session("StyleSheet") = "Default_2"
+    End If
+    themeOpt = Split(Session("StyleSheet"), "_")
+    Session("Theme") = themeOpt(0)
+    Session("fUseIconMenu") = (themeOpt(1) And 1) = 0
+    Session("fUseCurvyBoxes") = (themeOpt(1) And 2) = 2
+    Session("AutoHideTOCjs") = Util.IfElse(Session("fAutoHideTOC"), "true","false")
+    Session("FrameBorders") = True
+    Session("Trees") = (Left(ReportGenerator.PathOutputHttp, 31) = "http://familytrees.genopro.com/")
+    'On Error Resume next
+    
+  ' see if this version of the skin and theme have already been uploaded by comparing checksums
+  
+    skin = """" & ReportGenerator.PathSkin
+    outp = Util.FirstNonEmpty(ReportGenerator.PathOutputHttp, ReportGenerator.PathOutput)
+    Set oExec = oShell.Exec(skin & "Code\md5.exe"" -n " & skin & "version.txt""")
+    Do While oExec.Status = 0
+        ReportGenerator.Sleep 100
+    Loop
+    cksm = oExec.StdOut.ReadLine()
+    tmp = GetFile(outp & "version.txt","")
+    Set oExec = oShell.Exec(skin & "Code\md5.exe"" -c" & cksm & " """ & tmp & """")
+    Do While oExec.Status = 0
+        ReportGenerator.Sleep 100
+    Loop
+    
+    Session("SameVersion") = (oExec.ExitCode = 0)
+
+    Set oExec = oShell.Exec(skin & "Code\md5.exe"" -n " & skin & "Code\themes\" & Session("Theme") & "\theme.css""")
+    Do While oExec.Status <> 1
+        ReportGenerator.Sleep 100
+    Loop
+    cksm = oExec.StdOut.ReadLine()
+    
+    Set oExec = oShell.Exec(skin & "Code\md5.exe"" -c" & cksm & " """ & GetFile(outp & "theme.css","") & """")
+    Do While oExec.Status = 0
+        ReportGenerator.Sleep 100
+    Loop
+    
+    Session("SameTheme") = (oExec.ExitCode = 0)
+
+    On Error Goto 0
+    '   copy support files if required
+    If Not Session("OptimizeUpload") Or Not Session("SameVersion") Then
+        ReportGenerator.FolderCopy "Code\google-maps-utility", "google-maps-utility"
+        ReportGenerator.FolderCopy "Code\timeline", "timeline"
+		ReportGenerator.FolderCopy "Code\fancybox", "fancybox"
+         ReportGenerator.FileUpload ReportGenerator.PathSkin & "version.txt", "version.txt", GetFileTimestamp(ReportGenerator.PathSkin & "version.txt")
+    Else
+        Report.LogComment ConfigMessage("SameVersion"), "#000080"
+    End If
+    
+'    The following are used by StrPossessiveProperNoun, StrLocativeProperNoun & StrDateSpan respectively, which in turn all call StrSubstititute
+
+'    Create array of regular expressions for possessive proper noun conversion (see StrPossessiveProperNoun function in Lang.vbs)
+    Session("RegEx_PPN") = split(Replace(Dic("PossessiveProperNoun"),"=",":"),":")
+'    Create array of regular expressions for Place preposition exceptions e.g. French au Le Mans => au Mans
+    Session("RegEx_LPN") = split(Replace(Dic("LocativeProperNoun") & "(.*)=$1:","=",":"),":")
+'    Create array of regular expressions for Date Span phrase conversion e.g. French jusqu'en 12 mai 1968 => jusqu'au 12 mai 1968
+    Session("RegEx_CDS") = split(Replace(Dic("ConvertDateSpan") & "(.*)=$1:","=",":"),":")
+'    Create array of regular expressions for Time Span phrase conversion
+    Session("RegEx_CTS") = split(Replace(Dic("ConvertTimeSpan") & "(.*)=$1:","=",":"),":")
+
+    Session("RegEx_RNA") = split(Replace(Dic("RootNameAffixes") & "(.*)=$1:","=",":"),":")
+    
+    Session("MarkerFirstName")=StrDicExt("MarkerFirstName", "", "_", "", "2.0.1.6")
+    
+' set content flags
+    
+    strParam = UCase(Session("ShowFlags"))
+    For Each i In Array("A","E","K","O","P","R","S","T","W")
+        If InStr(strParam, i) > 0 Then
+            Session("Flag_" & i) = True
+        Else
+            Session("Flag_" & i) = False
+        End If
+    Next
+
+'    Create a general use RegExp object
+    Set oRegEx = New RegExp
+    oRegEx.IgnoreCase = True
+    Set eSpace = New RegExp
+    eSpace.Global = True
+    eSpace.Pattern = "\s+"
+    Set oReg = New RegExp
+
+    Session("RegEx") = oRegEx
+    Session("eSpace") = eSpace
+
+    Session("Global") = oXmlDoc.selectSingleNode("/GenoPro/Global")
+    
+    Session("DisplayAnthropologicalKinshipDiagram") = (Session("Global").getAttribute("DisplayAnthropologicalKinshipDiagram") = "Y")
+
+    Session("HtmlLang") = Util.FormatPhrase("{0}[-{1}]",LCase(Session("ReportLanguage")), LCase(GetParameter("LangHtmlCulture")))
+    Session("fUseTreeIndexes") = True
+    If ReportGenerator.Document.IsTextDirectionRTL And Session("TextDirection") = "" then Session("TextDirection") = "rtl"
+
+    strImgSize         = Session("PictureSizeLarge")
+    Session("cxPictureSizeLarge")     = Util.GetWidth(strImgSize)
+    Session("cyPictureSizeLarge")     = Util.GetHeight(strImgSize)
+    strImgSize         = Session("PictureSizeSmall")
+    Session("cxPictureSizeSmall")     = Util.GetWidth(strImgSize)
+    Session("cyPictureSizeSmall")     = Util.GetHeight(strImgSize)
+    Session("cxyPicturePadding") = Util.IfElse(IsNumeric(Session("PicturePadding")), CInt(Session("PicturePadding")), 0)
+    Dim nPictureInterval
+    nPictureInterval = Session("PictureInterval") + 0
+    If nPictureInterval < 1000  Or   nPictureInterval > 10000 Then Report.LogError ConfigMessage("ErrorSliderRange")
+    If nPictureInterval < 1000  Then nPictureInterval = 1000
+    If nPictureInterval > 10000 Then nPictureInterval = 10000
+    Session("PictureInterval") = (-30+(30-9)*((10000 - nPictureInterval)/(10000-1000))) & ""
+
+    Session("IrfanViewPath") = Replace(Replace(Session("IrfanViewPath"),"?",strDrive),"%ProgramFiles%",oShell.ExpandEnvironmentStrings("%ProgramFiles%"))
+    If Session("IrfanViewPath") = "" Then Session("IrfanViewPath") = oShell.ExpandEnvironmentStrings("%ProgramFiles%") & "\IrfanView\i_view32.exe"
+        If Not Session("fUsePictureThumbnails") Then Session("ThumbnailCreate") = False ' don't create thumbnails if not used
+
+    Session("wkhtmltopdfPath") = Replace(Replace(Session("wkhtmltopdfPath"), "?", strDrive),"%ProgramFiles%",oShell.ExpandEnvironmentStrings("%ProgramFiles%"))
+    If Session("wkhtmltopdfPath") = "" Then Session("wkhtmltopdfPath") = oShell.ExpandEnvironmentStrings("%ProgramFiles%") & "\wkhtmltopdf\bin\wkhtmltopdf.exe"
+
+    If Session("Book") Then
+		If ReportGenerator.PathOutputHttp <> "" Then
+			Report.LogError ConfigMsg("ErrorBookAndWeb", _
+										"Error: Book style report requested under 'Printing' parameter settings tab but output is to web server. Output to local folder required for 'Book; report.", _
+										"2014.12.13")
+			Report.AbortReport: 
+		End If
+        Session("fCollapseReferences") = False
+        Session("fCollapseNotes") = False
+        Session("Timelines") = False
+    End If
+
+    If Session("Book") And Session("PDFCover") And Session("CoverImage") <> "" Then
+        ReportGenerator.FileUpload Session("CoverImage"), "cover.jpg"
+        Session("CoverImageWidth") = GetParameter("CoverImageWidth")
+        Session("CoverImageHeight") = GetParameter("CoverImageHeight")
+    Else
+        Session("CoverImageWidth") = 0
+        Session("CoverImageHeight") = 0
+    End If
+    If (Pictures.Count > 0) And (Session("Svg") Or Session("ThumbnailCreate")) Then
+        If Not oFso.FileExists(Session("IrfanViewPath")) Then
+            Report.LogComment ConfigMessage("ErrorIrfanviewNotFound") & " (" & Session("IrfanViewPath") & ")", "#000080"
+            Session("IrfanViewPath") = ""
+            If Session("ThumbnailCreate") Then
+                Session("fUsePictureThumbnails") = False
+            End If
+            Session("ThumbnailCreate") = False
+        End If
+    End If
+    
+    strTitle = StrParseText(ReportGenerator.document.Title, True)
+    If (strTitle = "") Then
+        Report.LogWarning ConfigMessage("WarningTitleMissing")
+        ' Use the default title from the language dictionary
+        strTitle = Dic("Title")
+    End If
+    Session("Title") = strTitle        ' Store the report title in the session variable, so it can be accessed from anywhere.
+
+    Dim strBasePath
+    On Error Resume Next
+    strBasePath = ""
+    strBasePath = oFso.GetFolder(ReportGenerator.PathOutput).ParentFolder.ParentFolder.Path
+    On Error Goto 0
+    Session("BasePath") = strBasePath
+    Dim cnt, strLast, oDate, strName, strShort, strTagFull, srTagFormal, strTagKnownAs, strTagShort, strTagAlternative
+    ' Initialise Tags for Name formats
+
+    strTagFull = GetParameter("TagNameFull")
+    srTagFormal = GetParameter("TagNameFormal")
+    strTagKnownAs = GetParameter("TagNameKnownAs")
+    strTagShort = GetParameter("TagNameShort")
+    strTagAlternative = GetParameter("TagNameAlternative")
+    strPhraseNameAlternative = GetParameter("PhraseNameAlternative")
+    Session("NameTags") = Array(strTagFull, strTagFormal, strTagKnownAs, strTagShort, strTagAlternative, strPhraseNameAlternative)
+    fShowBaseNameOnly = GetParameter("ShowBaseNameOnly")
+    
+' Initialise Name Dictionary lookups if required.
+
+    Dim oNameDicPlace, oNameDicAlternative, oNameDicRoot, oNameDicPossessive, oNameDicLocative, oNameDicJob, strPlace, strJob
+    strNameDic=GetParameter("LangNameDictionary")
+    If (GetParameter("LangNames") <> "" Or GetParameter("LangPlace") <> "" Or GetParameter("LangOccupation") <> "" Or GetParameter("LangAlternative") <> "" Or GetParameter("LangBaseNameLookup")=True Or GetParameter("LangLocativeLookup")=True Or GetParameter("LangPossessiveLookup")=True) Then
+        If (strNameDic = "") Then
+            ReportLogError ConfigMessage("ErrorNoNameDictionary")
+            Report.AbortReport()
+        End If
+
+        Set oXmlNam = CreateObject(strXmlCOM)
+
+        If Instr(strNameDic, "\")  > 0 Then
+            oXmlNam.load(strNameDic)
+        Else
+            oXmlNam.loadXML(ReportGenerator.FileGetText(strNameDic))
+        End If
+        If oXmlNam.parseError.errorCode <> 0 Then
+                   Report.LogError ConfigMessage("ErrorCantLoadNameDictionary")
+            Report.AbortReport()
+        End If
+               oXmlNam.setProperty "SelectionLanguage", "XPath"
+        
+        Dim oNodes
+        Set oNodes = oXmlNam.selectSingleNode("/NameDictionary/Names/N[1]")
+        If (oNodes Is Nothing) Then Report.LogWarning ConfigMessage("WarningEmptyNameDictionary")
+    End If
+    strNames = GetParameter("LangNames")
+    If strNames <> "" And strNames <> Session("ReportLanguage") Then
+        Set oNameDicNames = Util.NewNameDictionary
+        oNameDicNames.BuildLookupTable strNameDic, strNames, Session("ReportLanguage")
+    Else
+        Set oNameDicNames = Nothing
+    End If
+    Session("oNameDicNames") = oNameDicNames
+    strPlace = GetParameter("LangPlace")
+    If strPlace <> "" And strPlace <> Session("ReportLanguage") Then
+        Set oNameDicPlace = Util.NewNameDictionary
+        oNameDicPlace.BuildLookupTable strNameDic, "P." & strPlace, "P." & Session("ReportLanguage")
+    Else
+        Set oNameDicPlace = Nothing
+    End If
+    Session("oNameDicPlace") = oNameDicPlace
+    strJob = GetParameter("LangOccupation")
+    If strJob <> "" And strJob <> Session("ReportLanguage") Then
+        Set oNameDicJob = Util.NewNameDictionary
+        oNameDicJob.BuildLookupTable strNameDic, "O." & strJob, "O." & Session("ReportLanguage")
+    Else
+        Set oNameDicJob = Nothing
+    End If
+    strAlt = GetParameter("LangAlternative")
+    If strAlt <> "" And strAlt <> Session("ReportLanguage") Then
+        Set oNameDicAlternative = Util.NewNameDictionary
+        oNameDicAlternative.BuildLookupTable strNameDic, Session("ReportLanguage"), strAlt
+    Else
+        Set oNameDicAlternative = Nothing
+    End If
+    If GetParameter("LangBaseNameLookup") Then
+        Set oNameDicRoot = Util.NewNameDictionary
+        oNameDicRoot.BuildLookupTable strNameDic, Session("ReportLanguage"), Session("ReportLanguage") & "_B"
+    Else
+        Set oNameDicRoot = Nothing
+    End If
+    If GetParameter("LangPossessiveLookup") Then
+        Set oNameDicPossessive = Util.NewNameDictionary
+        oNameDicPossessive.BuildLookupTable strNameDic, Session("ReportLanguage"), Session("ReportLanguage") & "_P"
+    Else
+        Set oNameDicPossessive = Nothing
+    End If
+    If GetParameter("LangLocativeLookup") Then
+        Set oNameDicLocative = Util.NewNameDictionary
+        oNameDicLocative.BuildLookupTable strNameDic, "P." & Session("ReportLanguage"), "P." & Session("ReportLanguage") & "_L"
+    Else
+        Set oNameDicLocative = Nothing
+    End If
+
+' The following code generates a complete list of all the individuals
+' found in the report.  If an individual has an empty name, then
+' its href value is set to an empty string so the report generator
+' can skip those individuals.
+' The list of all individuals is stored in an "ObjectRepertory".
+' The first level is the letter of the alphabet, the second level
+' is the last name, and finally the individuals.
+' This repertory is stored in the Session object so it can be
+' accessed by other pages.
+
+Set oRepertoryIndividuals = Util.NewObjectRepertory    ' Global repertory
+' Store the repertory into the Session object
+Session("oRepertoryIndividuals") = oRepertoryIndividuals
+
+Set oRepertoryNoLastName = Util.NewObjectRepertory ' Repertory for the individuals without a last name
+Session("oRepertoryNoLastName") = oRepertoryNoLastName
+
+' Use a string dictionary to count the number of individuals starting with a given letter of the alphabet
+' A string dictionary is much faster and takes less memory than the object repertory
+Set oStringDictionaryFirstChar = Util.NewStringDictionary()
+Session("oStringDictionaryFirstChar") = oStringDictionaryFirstChar
+
+' Use a string dictionary to count the frequency of each last name.
+' A string dictionary is much faster than the object repertory for counting strings
+Set oStringDictionaryNames = Util.NewStringDictionary()
+Session("oStringDictionaryNames") = oStringDictionaryNames
+
+Set collectionIndividuals = Util.NewDataSorter()
+
+Dim strPart, arrParts, strTrans, strName1, strName2, pCnt, strTempFldr, strPath, strExt, strTempThumb, strThumbDate, strPictureDate, oTempThumb
+
+' Create an index of picture paths by picture id. and also an index of any image maps and create thumbnails if required.
+
+Set oPicIndex = Util.NewObjectRepertory()
+Session("oPicIndex")=oPicIndex
+Set oPicMaps = Util.NewStringDictionary()
+Session("oPicMaps")=oPicMaps
+
+If Session("ThumbnailCreate") Then
+    strTempFldr = oFso.GetSpecialFolder(2).Path & "\"
+    strTempThumb = oFso.GetTempName
+    strTempThumb = strTempFldr & Mid(strTempThumb, 1, InstrRev(strTempThumb, ".")-1)
+Report.LogComment "Checking thumbnails status"
+    'Set oTempThumb = oFso.CreateTextFile(strTempFldr & strTempThumb, True, True)
+    'oTempThumb.Close
+
+End If
+
+For Each p in Pictures
+    oPicIndex.Add p.ID, p
+    If Instr(p.Path.Report,":") > 0 Then     ' absolute path
+        oPicIndex.Add p.ID, ""
+    Else                    ' relative path
+        oPicIndex.Add p.ID, "../"
+    End If
+    If IsTrue(Util.FirstNonEmpty(CustomTag(p, "_Exclude"),CustomTag(p, "Exclude"), False),False) Then
+            p.Session("IsExcluded") = True
+  Else
+        If p.PictureDimension = "" Then 
+            p.Session("IsExcluded") = True
+        Else
+          p.Session("AreaMap") = Util.FirstNonEmpty(CustomTag(p, "AreaMap"),CustomTag(p, "_AreaMap"))
+            p.Session("IsExcluded") = False
+            If p.Session("AreaMap") <> "" Then oPicMaps.Add p.ID, p.Session("AreaMap")
+            If Session("ThumbnailCreate") Then
+                strPath = p.Path
+                strExt = Util.IfElse(InstrRev(strPath, ".") > 0, "." & oFso.GetExtensionName(strPath), ".jpg")
+                strFile = "thumbnails/" & Util.IfElse(Instr(p.Path.Report,"://") > 0, p.ID & strExt, p.Path.FileUnique)
+                p.Session("Thumbnail") = strFile
+                strThumbDate = ReportGenerator.FileUploadedGetTimestamp(strFile)
+                strPictureDate = GetFileTimestamp(strPath)
+                If strPictureDate <> "" Then
+                    If strPictureDate > strThumbDate Then strThumbDate = ""
+                    If strThumbDate = "" Then
+                        Report.LogComment Util.FormatString(ConfigMessage("FmtThumbnailCreate"), strPath)
+                        strThumbSize = PicResize(p, strTempThumb & strExt, Session("cxPictureSizeLarge"), Session("cyPictureSizeLarge"), True, False)
+                        strThumbSize = ReportGenerator.FileUpload(strTempThumb & strExt, strFile, strPictureDate)
+                        oFso.DeleteFile(strTempThumb & strExt)
+                    'Else
+                    '    Report.LogComment Util.FormatString(ConfigMessage("FmtThumbnailUpToDate"), strPath)
+                    End If
+                Else
+                    Report.LogError ConfigMessage("ErrorThumbnailCheck") & " " & strPath
+                End If
+            End If
+        End If
+    End If
+Next
+
+If Session("ThumbnailCreate") And oFso.FileExists(strTempFldr & strTempThumb) Then oFso.DeleteFile(strTempFldr & strTempThumb)
+
+cnt = 0
+For Each i in AllIndividuals
+'    Create some extra 'Properties' for each individual 
+
+    i.Session("NameFull") = StrNameTranslate(i.TagValue(strTagFull), oNameDicNames, False)
+    i.Session("NameFullPossessive")  = StrPossessiveProperNoun(i.Session("NameFull") , oNameDicPossessive)
+    i.Session("NameLast") = StrNameTranslate(i.Name.Last, oNameDicNames, False)
+    i.Session("NameLAstPossessive")  = StrPossessiveProperNoun(i.Session("NameLast") , oNameDicPossessive)
+    i.Session("NameOriginal") = i.TagValue(strTagFull)
+    strName = StrNameTranslate(i.TagValue(srTagFormal), oNameDicNames, False)
+    nStart = Instr(strName, Session("MarkerFirstName"))
+    If nStart > 0 Then
+        i.Session("NameFormal") = MId(strName, nStart + 1, Instr(nStart, strName & " ", " ") - nStart -1)
+    Else
+        i.Session("NameFormal") = strName
+    End If
+    i.Session("NameKnownAs") = StrNameTranslate(i.TagValue(strTagKnownAs), oNameDicNames, False)
+    i.Session("NameDisplay") = StrNameTranslate(i.Name.Display, oNameDicNames, False)
+    strName = StrNameTranslate(i.TagValue(strTagShort), oNameDicNames, False)
+    i.Session("NameShort") = Util.FirstNonEmpty(strName, StrDicMFU("_NoName", i.Gender.ID))
+    i.Session("NamePossessive") = StrPossessiveProperNoun(strName, oNameDicPossessive)
+    strName = ""
+    If strTagAlternative <> "" Then strName = StrNameTranslate(i.TagValue(strTagAlternative), oNameDicAlternative, False)
+    i.Session("NameAlternative") = Util.FormatPhrase(strPhraseNameAlternative, i.Session("NameFull"), strName, (Instr(i.Session("NameFull"), strName) > 0))
+    strName = StrNameTranslate(Util.FirstNonEmpty(i.Name.Last, i.Name.Last2), oNameDicNames, False)
+    i.Session("NameLast") =  strName
+    strName1 = StrSubstitute(strName, Session("RegEx_RNA"))
+    i.Session("Affix") = False
+    If Not strName1 = i.Session("NameLast") Then i.Session("Affix") = True
+    strName2= ""
+    If Not oNameDicRoot Is Nothing Then
+        strName2 = oNameDicRoot(strName1)
+        If Not strName2 = strName1 Then i.Session("Affix") = False
+    End If
+    If Session("Book") Then i.Href = "#" & i.ID
+    i.Session("NameRoot") = Util.FirstNonEmpty(CustomTag(i,"Name.Root"), strName2, strName1)
+    i.Session("Hlink") = StrHtmlHyperlink(i)
+    i.Session("HlinkNN") = StrHtmlHyperlinkNN(i)
+Next
+For Each o in Occupations
+    oReg.Pattern="^\|(\w+)\|(.*)$"
+    Set oMatches = oReg.Execute(o.Title)
+    If oMatches.Count > 0 Then
+        o.Session("Event") = oMatches(0).SubMatches(0)
+        o.Session("Title") = oMatches(0).SubMatches(1)
+        o.Session("EventName") = Util.IfElse(Dic.Peek("Ph" & o.Session("Event")) <> "", StrDicAttribute("Ph" & o.Session("Event"), "N"), o.Session("Event"))
+    Else
+        o.Session("Title") = o.Title
+    End If
+
+    oReg.Pattern="^([^\|]+)\|(.*)$"
+    Set oMatches = oReg.Execute(o.Session("Title"))
+    If oMatches.Count > 0 Then
+        o.Session("Title.Prefix") = oMatches(0).SubMatches(0)
+        o.Session("Title") = oMatches(0).SubMatches(1)
+    Else
+        o.Session("Title.Prefix") = CustomTag(o,"Title.Prefix")
+    End If
+    If Not oNameDicJob Is Nothing Then
+        o.Session("Title") = oNameDicJob(o.Session("Title"))
+    End If
+
+    Set oMatches = oReg.Execute(o.Company)
+    If oMatches.Count > 0 Then
+        o.Session("Company.Prefix") = oMatches(0).SubMatches(0)
+        o.Session("Company") = oMatches(0).SubMatches(1)
+    Else
+        o.Session("Company") = o.Company
+        o.Session("Company.Prefix") = CustomTag(o,"Company.Prefix")
+    End If
+   
+    pCnt=0
+    For Each pic in o.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    o.Session("PicturesIncluded") = pCnt
+Next
+cCnt = 0
+For Each i in Individuals
+    If IsTrue(CustomTag(i, "DescendantTreeChart"), False) Then cCnt = cCnt + 1
+    If Session("Volume") = "!All!" Or oVolumeMap.KeyValue(Util.IfElse(i.Position.GenoMap <> "", i.Position.GenoMap ,0)) = Session("Volume") Then
+        i.Session("gMap") = False
+        Set oDate = i.Birth.Date
+        If oDate.ToStringNarrative = "" Then Set oDate = i.Birth.Baptism.Date
+        strFirstAndMiddle = StrNameTranslate(i.Name.First, oNameDicNames, False) & StrNameTranslate(i.Name.Middle, oNameDicNames, False)
+        collectionIndividuals.Add i, Util.StrStripAccentsUCase(Util.StrStripPunctuation(Trim(i.Session("NameRoot")))), strFirstAndMiddle, oDate.Year, oDate.Month, oDate.Day, Util.StrStripAccentsUCase(Util.StrStripPunctuation(Trim(i.Session("NameLast"))))
+        pCnt=0
+        For Each pic in i.Pictures
+            If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+        Next
+        i.Session("PicturesIncluded") = pCnt
+
+        i.Session("Timeline") = False
+        oCnt = 0
+        For Each oEvent in i.Occupations.ToGenoCollection
+          If oEvent.Session("Event") <> "" Then oCnt = oCnt + 1
+        Next
+        i.Session("Events") = oCnt
+    End If
+Next
+
+Session("DescendantTreeCharts") = cCnt
+
+collectionIndividuals.SortByKey
+
+For Each i In collectionIndividuals
+    ' Keep only the individuals having a name and some data (ie, DataLevel > 1)
+    strName = i.Session("NameFull")
+    'If (strName <> "" AND i.DataLevel > 1) Then
+    If (strName <> "") Then
+    iCount = iCount + 1
+        strNameLast = i.Session("NameLast")
+        strNameRoot = i.Session("NameRoot")
+        If (strNameRoot <> "") Then
+            oStringDictionaryNames.Add strNameRoot
+        If Not i.Session("Affix") And Not fShowBaseNameOnly And strNameLast <> strNameRoot Then
+            strName = oStringDictionaryNames.KeyValue(strNameRoot)
+            If Not Instr("/" & strName & "/", "/" & strNameLast & "/") > 0 Then oStringDictionaryNames.KeyValue(strNameRoot) = strName & "/" & strNameLast
+        End If
+        End If
+        ' Get the first letter of the individual
+        strFirstChar = Util.StrGetFirstChar(Util.StrStripAccentsUCase(Util.StrStripPunctuation(Trim(strNameRoot))))
+        oStringDictionaryFirstChar.Add strFirstChar
+        If (strFirstChar <> "") Then
+            Set oRepertoryFirstChar = oRepertoryIndividuals.AddObjectRepertory(strFirstChar)
+            oRepertoryFirstChar.Add strNameRoot, i
+        Else
+            ' Add the individual to this special repertory
+            oRepertoryNoLastName.Add strName, i
+        End If
+    Else
+        ' Prevent any hyperlink to this individual because it has no name or not enough data
+        i.Href = ""
+        i.Session("skip") = True
+    End If
+Next
+
+
+
+Session("IndividualsCount") = iCount
+
+' Now, loop through each letter of the alphabet to determine how many individuals are present
+' under each letter of the alphabet
+' Store the formatted string in the second key (o.Object(1))
+For Each o In oRepertoryIndividuals
+    strFirstChar = o.Key
+    Set oRepertoryFamilies = o.Object(0)
+    o.Add Util.FormatString(StrDicExt("FmtCounters", "", "<bdo dir'ltr'>({}, {})</bdo>", "", "2011.02.16"), Dic.PlurialCount("Family", oRepertoryFamilies.Count), Dic.PlurialCount("Individual", oStringDictionaryFirstChar.KeyCounter(strFirstChar)))
+Next
+
+' Sort the dictionary from the largest to the smallest number. This dictionary is used to generate 
+' the meta description and display the most popular family names
+oStringDictionaryNames.SortByCounter
+oStringDictionaryNames.Reverse
+
+For Each f in Families
+    f.Session("Name") = StrFamilyName(f, True, strTagFull)
+    f.Session("NameOriginal") = StrFamilyName(f, False, strTagFull)
+    f.Session("Hlink") = StrHtmlHyperlink(f)
+    pCnt=0
+    For Each pic in f.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    If Session("Book") Then f.Href = "#" & f.ID
+    f.Session("PicturesIncluded") = pCnt
+    f.Session("gMap") = False
+
+    ' Check for Family events masqerading as Unions and set details of any events as Session entries
+    cnt = 0
+    For Each u in f.Unions
+        oReg.Pattern="^\|(\w+)\|(.*$)"
+        Set oMatches = oReg.Execute(u.Witnesses)
+        If oMatches.Count > 0 Then
+            cnt = cnt + 1
+            u.Session("Event") = oMatches(0).SubMatches(0)
+            u.Session("EventName") = Util.IfElse(Dic.Peek("Ph" & u.Session("Event")) <> "", StrDicAttribute("Ph" & u.Session("Event"), "N"), u.Session("Event"))
+            u.Session("Title") = oMatches(0).SubMatches(1)
+            oReg.Pattern="^([^\|]+)\|(.*)$"
+            Set oMatches = oReg.Execute(u.Session("Title"))
+            If oMatches.Count > 0 Then
+                u.Session("Title.Prefix") = oMatches(0).SubMatches(0)
+                u.Session("Title") = oMatches(0).SubMatches(1)
+            Else
+                u.Session("Title.Prefix") = CustomTag(u,"Title.Prefix")
+            End If
+        
+            Set oMatches = oReg.Execute(u.Officiator)
+            If oMatches.Count > 0 Then
+                u.Session("Agency.Prefix") = oMatches(0).SubMatches(0)
+                u.Session("Agency") = oMatches(0).SubMatches(1)
+            Else
+                u.Session("Agency") = u.Officiator
+                u.Session("Agency.Prefix") = CustomTag(u,"Agency.Prefix")
+            End If
+        End If
+    Next
+    f.Session("Events") = cnt
+Next
+
+
+' The following code stores addiitonal Properties for Places
+' in the Place Session object.  Since places are used everywhere in
+' the report, a good place to initialize those variables is
+' in the file Init.htm.
+'
+
+Dim rCnt
+Session("GeoTagging")=False
+For Each p in Places
+    p.Session("NameShort") = StrPlaceTranslate(p.Name)
+    p.Session("NameFull") = JoinPlaceNames(p, p.Session("NameShort"), 0)
+    p.Session("LocativeRaw") = JoinPlaceNames(p, StrLocativeProperNoun(p, oNameDicLocative), 0)    ' used by StrHtmlHyperlink()
+    p.Session("Locative") = Replace(Replace(p.Session("LocativeRaw"), "[", ""), "]", "")
+    p.Session("Hlink") = StrHtmlHyperlinkPlace(p)
+    p.Session("HlinkLocative") = StrHtmlHyperlink(p)
+    If p.City <> "" Then p.Session("City") = StrFormatText(p,StrParseText(StrPlaceTranslate(p.City), True))
+    If p.State <> "" Then p.Session("State") = StrFormatText(p,StrParseText(StrPlaceTranslate(p.State), True))
+    If p.County <> "" Then p.Session("County") = StrFormatText(p,StrParseText(StrPlaceTranslate(p.County), True))
+    If p.Country <> "" Then p.Session("Country") = StrFormatText(p,StrParseText(StrPlaceTranslate(p.Country), True))
+
+    rCnt = 0
+    
+    For Each obj in p.References
+        If obj.Class <> "SourceCitation" Then
+            rCnt = rCnt + 1
+        ' ignore references from sources with no references of their own or just a reference to parent source
+        ElseIf obj.References.Count > 0 Then
+            rCnt = rCnt + 1
+        End If
+    Next
+    p.Session("References") = rCnt
+    pCnt=0
+    For Each pic in p.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    p.Session("PicturesIncluded") = pCnt
+    
+    If Not Session("GeoTagging") Then
+       If p.Latitude <> "" And p.Longitude<>"" Then Session("GeoTagging")=True
+  End If
+Next
+
+Dim arrLines
+
+For Each s in SocialEntities
+    arrLines=Split(s.Text & vbLf, vbLf)
+    If Len(arrLines(0)) > 70 Then
+           ich = Instr(Mid(arrLines(0),2,70), ". ")
+           If ich = 0 Then ich = InstrRev(Mid(arrLines(0),2,70), " ")
+           If ich = 0 Then ich = 70
+           arrLines(0) = Mid(arrLines(0),1,ich)
+    End If
+    s.Session("Name") = Util.FirstNonEmpty(CustomTag(s, "Title"), arrLines(0))
+    s.Session("Hlink") = StrHtmlHyperlink(s)
+    pCnt=0
+    For Each pic in s.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    s.Session("PicturesIncluded") = pCnt
+Next
+
+For Each s in Labels
+    arrLines=Split(s.Text & vbLf, vbLf)
+    s.Session("Name") = Util.FirstNonEmpty(CustomTag(s, "Title"), arrLines(0), "(" & s.ID & ")")
+    pCnt=0
+    For Each pic in s.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    s.Session("PicturesIncluded") = pCnt
+Next
+For Each s in Contacts
+    arrLines=Split(s.Comment & vbLf, vbLf)
+    If Len(arrLines(0)) > 70 Then
+           ich = Instr(Mid(arrLines(0),2,70), ". ")
+           If ich = 0 Then ich = InstrRev(Mid(arrLines(0),2,70), " ")
+           If ich = 0 Then ich = 70
+           arrLines(0) = Mid(arrLines(0),1,ich)
+    End If
+    strName=""
+    strName1 = GetParameter("ContactTitle")
+    
+    For iCnt = 1 To Len(strName1)
+       Select Case Mid(strName1,iCnt,1)
+           Case "T" strName = CustomTag(s, "Title") 
+           Case "S" strName = Util.FormatPhrase(Util.FirstNonEmpty(StrDicVariant("PhContactSummary"), StrDicExt("PhContactSummary","","[Telephone: {0} ][Mobile: {4} ][Fax: {1} ][Email: {2} ][Web Site: {3}]","","")), s.Telephone, s.Fax, s.Email, s.Homepage, s.Mobile)
+           Case "O" strName = s.Place.Session("NameShort")
+           Case "C" strName = arrlines(0)
+           Case "I" strName = "(" & s.ID & ")"
+       End Select
+       If strName <> "" Then Exit For
+    Next
+    s.Session("Name") = strName
+    pCnt=0
+    For Each pic in s.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    s.Session("PicturesIncluded") = pCnt
+Next
+
+For Each s in SourcesAndCitations
+    s.Session("Hlink") = StrHtmlHyperlink(s)
+    rCnt = 0
+    For Each obj in s.References
+        If obj.Class <> "Place" Then
+            rCnt = rCnt + 1
+        ' ignore references from places with no references of their own
+        ElseIf obj.References.Count > 0 Then
+            rCnt = rCnt + 1
+        End If
+    Next
+    s.Session("References") = rCnt
+    pCnt=0
+    For Each pic in s.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    s.Session("PicturesIncluded") = pCnt
+Next
+For Each e in Educations
+    pCnt=0
+    For Each pic in E.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    E.Session("PicturesIncluded") = pCnt
+Next
+
+
+' Create ObjectRepertory for rings/chains of Hyperlinks
+
+Set oHyperlinkRings = Util.NewObjectRepertory
+Session("oHyperlinkRings") = oHyperlinkRings
+
+' Create index for entries in the above Repertory
+
+Set oHyperlinkRingIndex = Util.NewStringDictionary()
+Session("oHyperlinkRingIndex")=oHyperlinkRingIndex
+
+' now build the Repertory and Index
+
+For Each o In AllIndividuals ' include hyperlinks
+    If o.hyperlink.internal ="Y" Then
+        If o.IndividualInternalHyperlink.ID <> "" Then ' its the link only
+            oHyperlinkRings.Add o.IndividualInternalHyperlink.ID, o
+
+            oHyperlinkRingIndex.Add o.ID, oHyperlinkRings.KeyCounter(o.IndividualInternalHyperlink.ID)-1
+        Else    ' it's the source
+            oHyperlinkRings.Add o.ID, o 
+            oHyperlinkRingIndex.Add o.ID, oHyperlinkRings.KeyCounter(o.ID)-1
+        End If
+    End If
+Next
+
+' Create object repertories to hold Social Relationships indexed by Individual.
+Set oRepertoryEntity1 = Util.NewObjectRepertory    ' key is source entity
+Session("oRepertoryEntity1") = oRepertoryEntity1
+Set oRepertoryEntity2 = Util.NewObjectRepertory    ' key is target entity
+Session("oRepertoryEntity2") = oRepertoryEntity2
+
+For Each r in SocialRelationships
+
+    strLang = CustomTag(r, "Language")
+    If strLang="" Or strLang=Session("ReportLanguage") Then
+        If r.entity1.Class = "Individual" Then
+             AddRelationship r.entity1, r, oRepertoryEntity1
+        Else
+            oRepertoryEntity1.Add r.entity1.ID, r
+        End If
+        If r.entity2.Class = "Individual" Then
+            AddRelationship r.entity2, r, oRepertoryEntity2
+        Else
+            oRepertoryEntity2.Add r.entity2.ID, r
+        End If
+    End If
+    pCnt=0
+    For Each pic in r.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    r.Session("PicturesIncluded") = pCnt
+Next
+
+For Each r in EmotionalRelationships
+    if r.Entity1.Class = "Individual" Then AddRelationship r.Entity1, r, oRepertoryEntity1
+    if r.Entity2.Class = "Individual" Then AddRelationship r.Entity2, r, oRepertoryEntity2
+    pCnt=0
+    For Each pic in r.Pictures
+        If Not pic.Session("IsExcluded") Then pCnt = pCnt + 1
+    Next
+    r.Session("PicturesIncluded") = pCnt
+Next
+
+'    now create an ObjectRepertory with Dictionaries of each set of Custom Tags present together
+'    with the 'DialogLayout' groupings of each by accessing the GenoPro XML data via MS XMLDOM
+
+    Dim Layout, strDesc, strTag, strPrevTag, strTags, strPrivate, strSubTag, strSubTags
+
+    Set oCustomTagRepertory = Util.NewObjectRepertory
+  Set oReg = New RegExp
+
+    strPrivate = StrDicOrTag("", "Private") ' allows some tags to be excluded from the report.
+
+' build the Custom Tag Repertory.
+' -------------------------------
+'  The key of each entry is the object class, e.g. Individual, Family, Place etc.
+'     the 1st object, object(0), is a string dictionary that provides a lookup of tag description from the custom tag name, i.e. the TagData elements
+'    the 2nd & subsequent objects are string arrays that hold Custom Tag 'Dialog Layout' information as follows:
+'        element 0 of each array is the name of the 'Dialog Layout' i.e. 'name' attribute
+'        element 1 of each array is the description of the 'Dialog Layout' i.e. 'description' element
+'        element 2 onwards are the Custom Tag names in that 'Dialog Layout' i.e. 'tags' element
+
+    Set oTags = oXmlDoc.selectnodes("/GenoPro/Global/Tags")
+    For Each oTag In oTags
+        oId = oTag.GetAttribute("ID")
+        Set oTagData = oTag.selectnodes("TagData")
+        Set oCustomTagDictionary = Util.NewStringDictionary()
+        For Each oTagDatum In oTagData
+            strTag = oTagDatum.GetAttribute("Name")
+            oCustomTagDictionary.Add strTag, StrParseText(oTagDatum.selectsinglenode("DisplayName").firstChild.text, True)
+        Next
+
+        ' add the tag dictionary to the repertory entry for this class of GenoPro objects
+
+        oCustomTagRepertory.Add oId, oCustomTagDictionary
+        
+        strRE = Util.FirstNonEmpty(StrDicAttribute("TagsReserved", oID), "@@@")
+    oReg.Pattern = "^" & strRE & "$"
+
+        ' now add the DiaglogLayouts
+
+        Set oLayouts = oTag.selectnodes("DialogLayout")
+        For Each oLayout In oLayouts
+            Set oTemp = oLayout.selectsinglenode("Description")
+            If Not oTemp Is Nothing Then strDesc = oTemp.firstChild.text
+            Set oTemp = oLayout.selectsinglenode("Tags")
+            If Not oTemp Is Nothing Then strTags = oTemp.firstChild.text
+            If Left(strDesc,1) <> "_" And (strPrivate = "" Or Instr(strDesc, strPrivate) <> 1) Then
+                strTag = Replace(oLayout.GetAttribute("Name"), " ", "")
+                Layout = split(strTag & ",,," & Replace(strTags," ", ""),",")
+                Layout(1) = StrParseText(strDesc, True)
+                If Instr(Layout(1) , StrDicExt("CustomTagLayoutDefault","","A custom tag is a generic placeholder","","")) = 1 Then Layout(1)  = StrDicExt("CustomTagLayoutSubstitute","","Other Attributes","","")
+
+                Layout(2) = CustomTag(Null, "PhCT_" & strTag)
+                If Instr(Layout(2), "{¿") > 0 Then Layout(2) = StrParseText(Layout(2), False)
+                For i = 3 to Ubound(Layout)
+                    strCustomTagDesc = oCustomTagDictionary.KeyValue(Layout(i))
+                    If oReg.Test(Layout(i)) Then
+                        Layout(i) = ""    ' blank if reserved
+                    ElseIf Left(strCustomTagDesc,1) = "_" Or (strPrivate <> "" And Instr(strCustomTagDesc, strPrivate) = 1) Then
+                        Layout(i) = ""    ' blank if private
+                    End If
+                    
+                Next
+                oCustomTagRepertory.Add oId, Layout
+                Erase Layout
+            Else
+                ' Report.LogWarning Util.FormatString(ConfigMessage("WarningCustomLayoutExcluded"), strDesc)
+            End If
+            strDesc = ""
+            strTags = ""
+        Next
+    Next
+
+    Set oXmlDoc = nothing
+
+    Session("oCustomTagRepertory") = oCustomTagRepertory
+
+' Create a Twin 'lookup' repertory
+
+Dim t, s, oRepertoryTwins
+
+Set oRepertoryTwins = Util.NewObjectRepertory
+Session("oRepertoryTwins") = oRepertoryTwins
+
+For Each t in Twins
+    oRepertoryTwins.Add "T" & t.ID, t                ' add twin object
+    For Each s in t.Siblings
+        Set s = HyperlinkDataSource(s)
+        oRepertoryTwins.Add "I" & s.ID, "T" & t.ID        ' add lookup from each sibling
+    Next
+
+    If Not Util.IsNothing(t.Family) Then
+' t.Family.ID is broken at present (GenoPro 2.0 beta 18c), it returns twin link id instead of family id
+'        oRepertoryTwins.Add "F" & t.Family.ID, "T" & t.ID    ' add lookup from family
+' so use this instead
+        oRepertoryTwins.Add "F" & t.Siblings(0).Family.ID, "T" & t.ID    ' add lookup from each sibling
+    End If
+Next
+
+' Create an 'adopted/fostered child' lookup repertory
+
+Dim l, oRepertoryNonBio, fBio
+
+Set oRepertoryNonBio = Util.NewObjectRepertory
+Session("oRepertoryNonBio") = oRepertoryNonBio
+
+For Each l in PedigreeLinks
+    strLink = UCase(Left(l.PedigreeLink.ID,1)) 
+    fBio = False
+    If strLink = "B" Then
+        fBio = True
+        strLink = UCase(Left(CustomTag(l,"Classification") & " ",1))
+    End If
+    Set i = l.child
+    If Not Util.IsNothing(l.child.IndividualInternalHyperlink) Then Set i = l.child.IndividualInternalHyperlink
+    If strLink <> " " And Not i.IsLabel = True Then
+        oRepertoryNonBio.Add UCase(Left(strLink,1)) & ":" & l.Family.ID, l
+        oRepertoryNonBio.Add UCase(Left(strLink,1)) & ":" & l.Family.ID, i
+        If Not fBio Then
+            oRepertoryNonBio.Add "I" & i.ID, l
+            oRepertoryNonBio.Add "I" & i.ID & "F" & l.Family.ID, l
+            If Not Util.IsNothing(i.Family) Then oRepertoryNonBio.Add "B" & l.child.Family.ID, l
+        End If
+    End If
+Next
+
+' Create mapping array for Pedigree Ancestor Charts
+
+Dim ChartMap
+Set ChartMap = Util.NewObjectrepertory
+' 0=index position of anscestor marker, 1-(0)=format tags
+ChartMap.Add 0,  Array(6,"" ,"" ,""  ,""   ,"T"   ,"fffff")
+ChartMap.Add 1,  Array(5,"" ,"" ,""  ,"T"  ,"ffff",""     )
+ChartMap.Add 2,  Array(6,"" ,"" ,""  ,"I"  ,"L"   ,"ffffm")
+ChartMap.Add 3,  Array(4,"" ,"" ,"T" ,"fff",""    ,""     )
+ChartMap.Add 4,  Array(6,"" ,"" ,"I" ,"I"  ,"T"   ,"fffmf")
+ChartMap.Add 5,  Array(5,"" ,"" ,"I" ,"L"  ,"fffm",""     )
+ChartMap.Add 6,  Array(6,"" ,"" ,"I" ,""   ,"L"   ,"fffmm")
+ChartMap.Add 7,  Array(3,"" ,"T","ff",""   ,""    ,""     )
+ChartMap.Add 8,  Array(6,"" ,"I","I" ,""   ,"T"   ,"ffmff")
+ChartMap.Add 9,  Array(5,"" ,"I","I" ,"T"  ,"ffmf",""     )
+ChartMap.Add 10, Array(6,"" ,"I","I" ,"I"  ,"L"   ,"ffmfm")
+ChartMap.Add 11, Array(4,"" ,"I","L" ,"ffm",""    ,""     )
+ChartMap.Add 12, Array(6,"" ,"I",""  ,"I"  ,"T"   ,"ffmmf")
+ChartMap.Add 13, Array(5,"" ,"I",""  ,"L"  ,"ffmm",""     )
+ChartMap.Add 14, Array(6,"" ,"I",""  ,""   ,"L"   ,"ffmmm")
+ChartMap.Add 15, Array(2,"T","f",""  ,""   ,""    ,""     )
+ChartMap.Add 16, Array(6,"I","I",""  ,""   ,"T"   ,"fmfff")
+ChartMap.Add 17, Array(5,"I","I",""  ,"T"  , "fmff",""    )
+ChartMap.Add 18, Array(6,"I","I",""  ,"I"  ,"L"   ,"fmffm")
+ChartMap.Add 19, Array(4,"I","I","T" ,"fmf",""    ,""     )
+ChartMap.Add 20, Array(6,"I","I","I" ,"I"  ,"T"   ,"fmfmf")
+ChartMap.Add 21, Array(5,"I","I","I" ,"L"  ,"fmfm",""     )
+ChartMap.Add 22, Array(6,"I","I","I" ,""   ,"L"   ,"fmfmm")
+ChartMap.Add 23, Array(3,"I","L","fm",""   ,""    ,""     )
+ChartMap.Add 24, Array(6,"I","" ,"I" , ""  ,"T"   ,"fmmff")
+ChartMap.Add 25, Array(5,"I","" ,"I" ,"T"  ,"fmmf",""     )
+ChartMap.Add 26, Array(6,"I","" ,"I" ,"I"  ,"L"   ,"fmmfm")
+ChartMap.Add 27, Array(4,"I","" ,"L" ,"fmm",""    ,""     )
+ChartMap.Add 28, Array(6,"I","" ,""  ,"I"  ,"T"   ,"fmmmf")
+ChartMap.Add 29, Array(5,"I","" ,""  ,"L"  ,"fmmm",""     )
+ChartMap.Add 30, Array(6,"I","" ,""  ,""   ,"L"   ,"fmmmm")
+ChartMap.Add 31, Array(1,"i","" ,""  ,""   ,""    ,""     )
+ChartMap.Add 32, Array(6,"I","" ,""  ,""   ,"T"   ,"mffff")
+ChartMap.Add 33, Array(5,"I","" ,""  ,"T"  ,"mfff",""     )
+ChartMap.Add 34, Array(6,"I","" ,""  ,"I"  ,"L"   ,"mfffm")
+ChartMap.Add 35, Array(4,"I","" ,"T" ,"mff",""    ,""     )
+ChartMap.Add 36, Array(6,"I","" ,"I" ,"I"  ,"T"   ,"mffmf")
+ChartMap.Add 37, Array(5,"I","" ,"I" ,"L"  ,"mffm",""     )
+ChartMap.Add 38, Array(6,"I","" ,"I" ,""   ,"L"   ,"mffmm")
+ChartMap.Add 39, Array(3,"I","T","mf",""   ,""    ,""     )
+ChartMap.Add 40, Array(6,"I","I","I" ,""   ,"T"   ,"mfmff")
+ChartMap.Add 41, Array(5,"I","I","I" ,"T"  ,"mfmf",""     )
+ChartMap.Add 42, Array(6,"I","I","I" ,"I"  ,"L"   ,"mfmfm")
+ChartMap.Add 43, Array(4,"I","I","L" ,"mfm",""    ,""     )
+ChartMap.Add 44, Array(6,"I","I",""  ,"I"  ,"T"   ,"mfmmf")
+ChartMap.Add 45, Array(5,"I","I",""  ,"L"  ,"mfmm",""     )
+ChartMap.Add 46, Array(6,"I","I",""  ,""   ,"L"   ,"mfmmm")
+ChartMap.Add 47, Array(2,"L","m",""  ,""   ,""    ,""     )
+ChartMap.Add 48, Array(6,"" ,"I",""  ,""   ,"T"   ,"mmfff")
+ChartMap.Add 49, Array(5,"" ,"I",""  ,"T"  ,"mmff",""     )
+ChartMap.Add 50, Array(6,"" ,"I",""  ,"I"  ,"L"   ,"mmffm")
+ChartMap.Add 51, Array(4,"" ,"I","T" ,"mmf",""    ,""     )
+ChartMap.Add 52, Array(6,"" ,"I","I" ,"I"  ,"T"   ,"mmfmf")
+ChartMap.Add 53, Array(5,"" ,"I","I" ,"L"  ,"mmfm",""     )
+ChartMap.Add 54, Array(6,"" ,"I","I" ,""   ,"L"   ,"mmfmm")
+ChartMap.Add 55, Array(3,"" ,"L","mm",""   ,""    ,""     )
+ChartMap.Add 56, Array(6,"" ,"" ,"I" ,""   ,"T"   ,"mmmff")
+ChartMap.Add 57, Array(5,"" ,"" ,"I" ,"T"  ,"mmmf",""     )
+ChartMap.Add 58, Array(6,"" ,"" ,"I" ,"I"  ,"L"   ,"mmmfm")
+ChartMap.Add 59, Array(4,"" ,"" ,"L" ,"mmm",""    ,""     )
+ChartMap.Add 60, Array(6,"" ,"" ,""  ,"I"  ,"T"   ,"mmmmf")
+ChartMap.Add 61, Array(5,"" ,"" ,""  ,"L"  ,"mmmm",""     )
+ChartMap.Add 62, Array(6,"" ,"" ,""  ,""   ,"L"   ,"mmmmm")
+Session("ChartMap")=ChartMap
+
+
+' Finally, the method AbortPage does prevent the file Init.htm to be written
+' to the destination report.  The AbortPage method does not display
+' any error to the user.
+Report.AbortPage
+
+Sub DeleteParameters
+  Dim strValue, nResponse, nErr
+    On Error Resume Next
+    strValue = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & ReportGenerator.SkinName & "\")
+    If Hex(Err.Number) = "80070002" Then ' some XP systems fail on the above when key exists!
+       Err.Clear
+       strValue = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & ReportGenerator.SkinName & "\Updated")
+    End If
+    If Err.Number = 0 Then 
+       On Error Goto 0
+     oShell.RegDelete "HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\" & ReportGenerator.SkinName & "\"
+       nResponse = oShell.Popup(ConfigMessage("ParametersDefault"), 0, ReportGenerator.SkinName, 64 + &H40000)
+  ElseIf Hex(Err.Number) = "80070002" Then
+       nResponse = oShell.Popup("Warning: No saved Configuration Parameters found!", 0, ReportGenerator.SkinName, 64 + &H40000)
+  Else
+     strErr="0x" & Hex(Err.Number) & " '" & Err.Description & "'"
+     On Error Goto 0
+     nResponse = oShell.Popup("Warning: Error " & strErr & " when accessing saved Configuration Parameters", 0, ReportGenerator.SkinName, 64 + &H40000)
+  End If
+End Sub
+
+Function GetParameter(strParam)
+'    get configuration parameter.
+'    1st check Document Custom Tag
+'   if not check Registry value for this skin
+'    otherwise use default from Config.xml
+
+    Dim oNode, strValue,strType,strProfile
+    Set oNode = oXmlCfg.selectSingleNode("/Skin/ReportGenerator/ParameterDescriptions/*/" & strParam)
+    If Not oNode is Nothing Then strType = oNode.getAttribute("Type")
+    strValue = CustomTag(Null, strParam)
+    On Error Resume Next
+    If strValue = "" Then 
+        strProfile = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\NarrativeReport\CurrentProfile")
+        strValue = oShell.RegRead("HKCU\Software\DanMorin.com\GenoPro\SkinConfiguration\NarrativeReport\" & strProfile & "\" & strParam)
+    End If
+    On Error Goto 0
+    If strValue = "" Then If Not oNode is Nothing Then strValue = oNode.getAttribute("Default")
+	If strParam = "Svg" And Instr(strValue,"SVG") > -1 Then strValue = "Y" ' maintain backwards compatiblility
+    Select Case strType
+        Case "bool" GetParameter = (UCase(Left(strValue,1)) = "Y")
+        Case "int"  GetParameter = Util.IfElse(IsNumeric(strValue), CInt(strValue),0)
+        Case Else   GetParameter = strValue
+    End Select
+End Function
+
+
+Function StrFamilyName(f, fTranslate, strNameTag)
+    ' Fix family name problems in GenoPro
+    ' If one unmarried partner is unknown then the word 'Partner' is used with no Dictionary lookup according to gender or language.
+    ' If one married partner is unknown then the Dictionary entry for _Husband or _Wife is used. This is not always valid if a 'same sex' marriage/civil partnership is involved.
+    ' if one partner is missing then partner/huband/wife is still added
+    ' this code sorts this out.
+    Dim strSufix, strPrefix, strType, strNewType, strG0, strG1, oP0, oP1, strN0, strN1
+    Set oP0 = f.Parents(0)
+    Set oP1 = f.Parents(1)
+    If f.GotMarried Then
+        strPrefix = "_Spouse"
+    Else
+        strPrefix = "_Partner"
+        strType="Partner"
+    End If
+    If Not Util.IsNothing(oP0) And Not Util.IsNothing(oP1) Then
+        If oP0.Name = "" Then
+            strG0 = oP0.Gender.ID
+            strG1 = oP1.Gender.ID
+            strType = Util.IfElse(strG0="M", Dic("_Husband"), Dic("_Wife"))
+            strN0 = Util.StrFirstCharUCase(Dic.Lookup2(strPrefix & "_" & strG1 & "_" & strG0, strPrefix))
+            strN1 = Util.IfElse(fTranslate, oP1.Session("NameFull"), oP1.TagValue(strNameTag))
+        ElseIf oP1.Name = "" Then
+            strG0 = oP0.Gender.ID
+            strG1 = oP1.Gender.ID
+            strType = Util.IfElse(strG1="M", Dic("_Husband"), Dic("_Wife"))
+            strN1 = Dic.Lookup2(strPrefix & "_" & strG0 & "_" & strG1, strPrefix)
+            strN0 = Util.IfElse(fTranslate, oP0.Session("NameFull"), oP0.TagValue(strNameTag))
+        Else
+            strN0 = Util.IfElse(fTranslate, oP0.Session("NameFull"), oP0.TagValue(strNameTag))
+            strN1 = Util.IfElse(fTranslate, oP1.Session("NameFull"), oP1.TagValue(strNameTag))
+        End If
+        strFamilyName = Dic.FormatString("_FmtHusbandAndWife", strN0, strN1)
+        f.Session("Single") = False
+    Else
+        If Util.IsNothing(oP0) Then
+            strFamilyName = Util.IfElse(fTranslate, oP1.Session("NameFull"), oP1.TagValue(strNameTag))
+        Else
+            strFamilyName = Util.IfElse(fTranslate, oP0.Session("NameFull"), oP0.TagValue(strNameTag))
+        End If
+        f.Session("Single") = True
+    End If
+End Function
+
+Function StrLocativeProperNoun(p, oNameDic)
+    ' return 'locative' case of noun as: preposition[name]postposition    where 'preposition/postposition may be empty but must include spaces where required
+'        e.g. 'in [Hogwarts]'
+        Dim strName, strName1, strPrefix, strGender, fPlural, strAttribute, strPrefixID
+        strName = StrPlaceTranslate(p.Name)
+        If Not oNameDic Is Nothing Then 'first use NameDictionary Lookup for exceptions
+            strName1 = oNameDic.Lookup(strName)
+            If strName1 <> strName Then 'exception found
+                StrLocativeProperNoun = Util.IfElse(Instr(strName1,"[") > 0, strName1, "[" & strName1 & "]")
+                Exit Function
+            End If
+        End If
+        ' otherwise get standard prefix and then try replacement via regular expression in Dictionary 'LocativeProperNoun' entry
+        On Error Resume Next    
+        strGender = p.Name.Gender.ID
+        On Error Goto 0
+        If strGender = "" Then strGender = CustomTag(p,"Name.Gender")
+        fPlural = LCase(CustomTag(p, "Name.Plural")) = "y"
+        If fPlural Then
+            strAttribute = "P"
+        Else
+            strAttribute = "T"
+        End If
+        strPrefixID = p.Prefix.ID
+        If strPrefixID = "_" Then ' i.e. <blank> setting
+            strPrefix = ""
+        ElseIf strPrefixID <> "" Then
+            strPrefix = Util.FirstNonEmpty(StrDicPeekAttribute("PlacePrefix_" & strPrefixID & "_" & strGender, strAttribute), StrDicPeekAttribute("PlacePrefix_" & strPrefixID, strAttribute), p.Prefix)
+        Else ' i.e. 'automatic' setting
+            strPrefix = Util.FirstNonEmpty(StrDicPeekAttribute("PlacePrefix_" & p.Category.ID & "_" & strGender, strAttribute), StrDicPeekAttribute("PlacePrefix_" & p.Category.ID, strAttribute), StrDicLookup2Attribute("PlacePrefixDefault_" & strGender, "PlacePrefixDefault", strAttribute))
+        End If
+        ' use locative noun from custom tag if present, if no square brackets add usual preposition determined above
+        strName1 = CustomTag(p, "Name.Locative")
+        On Error Goto 0
+        If strName1 <> "" Then
+            If Instr(strName1,"[") > 0 Then
+                StrLocativeProperNoun = strName1
+            Else
+                StrLocativeProperNoun = Dic.FormatString("_FmtPlaceNarrative", strPrefix, "[" & strName1 & "]")    
+            End If
+        Else
+            strName=Dic.FormatString("_FmtPlaceNarrative", strPrefix, "[" & p.Session("NameShort") & "]")    
+            StrLocativeProperNoun = StrSubstitute(strName, Session("RegEx_LPN"))
+        End If
+End Function
+
+Function StrPossessiveProperNoun(strName, oNameDic)
+    Dim strName1
+    If Not oNameDic Is Nothing Then 'first use NameDictionary Lookup for exceptions
+        strName1 = oNameDic.Lookup(strName)
+        If strName1 <> strName Then 'exception found
+            StrPossessiveProperNoun = strName1
+            Exit Function
+        End If
+    End If
+    ' otherwise try replacement via regular expression in Dictionary 'PossessiveProperNoun' entry    
+    StrPossessiveProperNoun = StrSubstitute(strName, Session("RegEx_PPN")) 
+End Function
+
+Sub AddRelationship(obj, r, o)
+    If Not Util.IsNothing(obj.IndividualInternalHyperlink) Then
+        o.Add obj.IndividualInternalHyperlink.ID, r
+    Else
+        o.Add obj.ID, r
+    End If
+End Sub
+
+Sub XmlMerge(oNode1, oNode2, oParent1)
+' oNode 1 & oNode2 are the XML DOM element node objects to be merged. oParent1 is the optional parent of the 1st node.
+' Update English Config Xml messages Tag (oNode1) with update from required language Config file (oNode2)
+' if parent for 1st param is supplied as 3rd param then any new tags are also copied, otherwise a message is logged
+' could be used to merge Dictionary when 3rd param supplied (i.e. allow new tags to be added)
+
+    Dim idx, attr, oChild, oParent
+    If oNode1 Is Nothing Then ' clone missing tags if parent supplied (e.g. for Dictionary merge))
+       If Not oParent1 Is Nothing Then 
+          oParent1.appendChild(oNode2.cloneNode(True))
+       Else ' if no parent then warn of unsupported tag (e.g. for ConfigMsg merge)
+          Report.LogWarning "Config messages Tag " & oNode2.nodeName & " is not recognized"
+       End If
+    Else ' matching tags, so merge attributes across
+        For idx=0 To oNode2.attributes.length-1
+            Set attr = oNode2.attributes(idx)
+            If (Not oParent1 Is Nothing) Or (attr.name <> "Type") Then ' don't allow change of Type (Config Params only)
+                  oNode1.setAttribute attr.name, attr.text
+            End If
+        Next
+        ' recursively repeat the merge for each child tag
+        For idx=0 To oNode2.childNodes.length-1
+            Set oChild = oNode2.childNodes(idx)
+            ' Only merge type 1 nodes (=Element)
+            If oChild.nodeType = "1" Then
+               If oParent1 Is Nothing Then
+                  Set oParent = Nothing
+               Else
+                   Set oParent = oNode1
+               End If
+               XmlMerge oNode1.selectSingleNode(oChild.nodeName), oChild, oParent
+            End If
+        Next
+    End If
+End Sub
+
+]%>

@@ -1,0 +1,83 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+strTitle = Dic("TocIndexSources")
+
+
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleSource"), Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+@[GoogleAnalytics]@
+</head>
+<body class='gno-detail' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '@[Report.Write Util.JavaScriptEncode(strTitle)]@');">
+<div class='floatright'>
+<%[
+	Session("NotesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("Notes")
+	ichNotesEnd = Report.BufferLength
+
+	Session("ReferencesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("OtherDetails")
+	ichReferencesEnd = Report.BufferLength
+]%>
+</div>
+
+<h2>@[ Report.WriteText strTitle ]@</h2>
+<%[ ichPictureMessageStart = Report.BufferLength ]%>
+<p>@[Report.WriteTextDic "PictureMessage"]@</p>
+<%[ ichPictureMessageEnd = Report.BufferLength ]%>
+<%[
+
+Dim oDataSorter, collSources
+Set oDataSorter = Util.NewDataSorter()
+
+For Each s in SourcesAndCitations
+	' do not report source if no references
+	If s.Session("References") > 0 Then oDataSorter.Add s, s.Title
+Next
+
+oDataSorter.SortByKey
+Set collSources = oDataSorter.ToGenoCollection
+
+For Each s In collSources
+	' do not report source if no references
+	If s.Session("References") > 0 Then
+		Report.WriteLn "<div class='clear'>"
+	 	WriteHtmlSource s
+		Report.WriteLn "</div>"
+		Report.WriteLn "<div class='clear'><br/><hr/></div>" 
+	End If
+Next
+' remove any unecessary items (reverse order to avoid invalidating buffer pointers)
+If ichPictureMessageStart >= 0 Then
+	' We have no Pictures, so remove the 'click to enlarge' message
+	Report.BufferRemoveAt ichPictureMessageStart, ichPictureMessageEnd
+End If
+If Session("ReferencesStart") >= 0 Then
+	' We have no place references, so remove the "Show All References | Hide All References"
+	Report.BufferRemoveAt ichReferencesStart, ichReferencesEnd
+End If
+If (Session("NotesStart") >= 0) Then
+	' We have no annotations, so remove the "Show All Notes | Hide All Notes"
+	Report.BufferRemoveAt Session("NotesStart"), ichNotesEnd
+End If
+]%>
+<br />
+<div class='clear'></div>
+<%[ WriteHtmlFramesetSafeguard("Sources") ]%>
+</body>
+
+</html>

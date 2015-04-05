@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Pour toutes infos (en anglais) sur ce fichier, veuillez visiter: http://www.genopro.com/sdk/Report-Generator/Configuration/ -->
+<Skin
+           Language="FR"
+           Name="Rapport narratif français">
+  <Version>15.01.2011</Version>
+  <DateLastModified>14-Sep-2008</DateLastModified>
+  <DateCreation>Aoû-2004</DateCreation>
+  <Url
+           Download="http://www.genopro.com/"
+           Preview="http://familytrees.genopro.com" />
+  <Authors>
+    <!--
+                Bref historique sur chaque auteur ayant modifié ce fichier.
+                Le but de cette liste est de rendre hommage aux contributeurs et de fournir une méthode pour communiquer avec eux si nécessaire.
+                
+                Mes remerciements vont à Ron Prior qui est l'auteur de ce rapport.  Ron a conçu l'implantation visuelle, le SVG interactif, le 'slideshow/diaporama' des photos et la liste dynamique des noms toc_tree.htm.
+                Il est aussi l'auteur des narratifs de phrases, ce qui a amené au developpement d'un générateur interne de phrases pour simplifier les écritures des dites-phrases.
+                Dan Morin.
+                -->
+    <Author
+           Comment="Création. Première ébauche du rapport pour Béta 13"
+           Contact="http://www.genopro.com/"
+           DateFirstModified="Aoû-2004"
+           DateLastModified="Mai-2005"
+           Name="GenoPro" />
+    <Author
+            Comment="Génération mini-photos, GénoCartes PDF, ajout des paramètres de config et des messages erreurs"
+            DateLastModified="15-Sep-2008"
+            Name="Ron/JCG"
+            Version="14.09.2008" />
+    <Author
+           Comment="Update for GenoPro 2011"
+           DateLastModified="15-Jan-2011"
+           Name="Ron"
+           Version="2011.01.15" />
+  </Authors>
+<!-- Historique des modifications
+          Les modifications sont signalées par un attribut supplémentaire «V» pour les éléments XML ci-dessous, et d'attribuer un mannequin «V» dans les commentaires,
+          dans le format suivant:
+
+         V = "a.b.c.dx?"
+
+         où a.b.c.d est le numéro de version, x est facultative et subversion? est le type de changement comme suit:
+
+             + indique une insertion
+             x indique un deletetion - aussi les suppressions sont placés dans les commentaires et enlevé à une date ultérieure
+             ± indique une modification
+             ~ indique un repositionnement haut ou le bas
+    -->
+  <ReportGenerator
+           ScriptLanguage="VBScript">
+    <Parameters
+           _PathPictures="pictures/" />
+    <ParameterDescriptions
+           TextDirection="ltr">
+      <!-- Note aux traducteurs: Vous pouvez changer tout texte sauf les valeurs avant ':' dans les attributs 'option' O1, O2 etc. En conséquence, O1="Y:Oui" est OK mais pas O1="O:Oui" -->
+      <PresentationSettings
+           T="Présentation générale">
+        <fHideFamilyDetails
+           Default="Y"
+           Desc="Affiche, ou non, les détails de famille sur les pages des 'individuels'. Si le paramètre = 'oui', un hyperlien ouvrira la page dédicacée de la famille."
+           O1="Y:oui"
+           O2="N:non"
+           T="Cacher les détails de famille sur les pages d'individuel?"
+           Type="bool" />
+        <fHideNameTreeIndex
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Cacher la liste alphabétique des noms sur la page d'accueil du site?"
+           Type="bool" />
+        <fJoinPlaceNames
+           Default="N"
+           Desc="Affiche, ou non, le nom des lieux sous forme de listes, séparées par des virgules, contenant les détails des lieux hiérarchiques. Ce paramètre est utile si vous avez saisi vos lieux en un seul élément, tel qu'une 'ville', au lieu de 'ville, province, pays'."
+           O1="Y:oui"
+           O2="N:non"
+           T="Lier les noms des lieux hiérarchiques?"
+           Type="bool" />
+        <fJoinSourceCitationNames
+           Default="N"
+           Desc="Affiche, ou non, le nom des sources et citations sous forme de listes, séparées par '@', contenant les détails des sources/citations hiérarchiques. Ce paramètre est utile si vous avez saisi vos sources/citations en un seul élément, tel qu'un 'livre', au lieu de 'un livre, sur telle étagére, dans telle bibliothèque'. À noter qu'une action spéciale est prise si le titre de la source est le même que le titre du parent, c'est-a-dire 'hérité'. Si le tag 'WhereInSource' (ou 'référence') est présent, il est considéré que c'est une citation dans la source au lieu de la source elle-même. Dans ce cas, le tag 'WhereInSource' prend la place du titre. En conséquence, le nom concaténé devient 'WhereInSource @ source title'."
+           O1="Y:oui"
+           O2="N:non"
+           T="Lier les noms des sources hiérarchiques?"
+           Type="bool" />
+        <fCollapseNotes
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Cacher les notes dans listes 'fermées'?"
+           Type="bool" />
+        <fCollapseReferences
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Cacher les sous-sections et références dans listes 'fermées'?"
+           Type="bool" />
+        <cTocExpand
+           Default="1000"
+           Desc="Détermine si les listes sont initialement affichées 'ouvertes' ou 'fermées'. Une valeur de -1 = 'ouvertes', 0 = 'fermées'."
+           Size="6"
+           T="Nombre d'items avant que les listes soient présentées 'fermées'" />
+					
+        <StyleSheet
+           Default=""
+           Desc="À employer pour remplacer le fichier des styles de défaut"
+           T="Fichier contenant les styles/formats HTML CSS (facultatif)"
+           Type="file" />
+        <PedigreeCharts
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher le graphe des liens de parenté?"
+           Type="bool" />
+        <Calendar
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les anniversaires de naissance et de mariage sur le calendrier?"
+           Type="bool" />
+        <ContactTitle
+           Default="TSOCI"
+                      Desc = "T = titre, S = Sommaire (Tel, Fax, Email, Mob, Web), O = occupation Place, C = 1ère ligne de commentaire, I = ID"
+                      T = "ordre de priorité sur le terrain pour contacter titre"
+           V="2009.11.15" />
+      </PresentationSettings>
+      <PictureSettings
+           T="Configuration des photos">
+        <fShowPictureDetails
+           Default="N"
+           Desc="Affiche, ou non, la phrase détaillant la photo et toute notes/description de la photo, sur les pages html des Individuels et des Familles. Cette information est toujours affichée sur les pages 'picture-&lt;pictureid&gt;.htm' et 'pictures.htm'."
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher toutes infos sur les pages d'individuel et de famille?"
+           Type="bool" />
+        <fHidePictureName
+           Default="N"
+           Desc="Affiche, ou non, le nom des photos (le nom du fichier de la photo en général) sous les photos."
+           O1="Y:oui"
+           O2="N:non"
+           T="Cacher le nom des photos sous les photos?"
+           Type="bool" />
+        <fUsePictureThumbnails
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser les photos 'thumbnail' préparées?"
+           Type="bool"
+           V="2.0.1.6.2±" />
+        <fUsePictureId
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les no. de référence photo à la place des noms de photo?"
+           Type="bool" />
+        <PictureSizeLarge
+           Default="250x250"
+           Size="9"
+           T="Photos grandes dimensions - Largeur x Hauteur (pixels)" />
+        <PictureSizeSmall
+           Default="100x100"
+           Size="9"
+           T="Photos petites dimensions - Largeur x Hauteur (pixels)" />
+        <PicturePadding
+           Default="15"
+           Size="2"
+           T="Marge des photos (pixels)" />
+           Type="int" />
+        <PictureInterval
+           Default="4000"
+           Size="5"
+           T="Intervalle d'affichage du diaporama, plage 1000 - 10000 (millisecondes)" />
+           Type="int" />
+      </PictureSettings>
+      <ThumbnailSettings
+           T="Configuration des photos 'thumbnails'">
+        <ThumbnailCreate
+           Default="Y"
+           Desc="Si 'oui', IrfanView créera des photos redimensionnées dans le dossier 'thumbnails' du répertoire des rapports. Les dimensions seront les mêmes que les valeurs du paramètre 'PictureSizeLarge': défaut 250x250. Une résolution dpi de 72 est suggérée. Des photos thumbnails seront aussi produites pour toutes photos affichées sur les GénoCartes SVG ou PDF, définies via l'objet 'entité sociale'. L'emploi de ce paramètre et des photos thumbnails améliorera la vitesse de téléchargement."
+           O1="Y:oui"
+           O2="N:non"
+           T=" Création de photos thumbnails?" 
+           Type="bool"
+           V="2.0.1.6.2±" />
+        <ThumbnailDpi
+           Default="72"
+           Size="3"
+           T="Résolution - points par pouce (dpi)" />
+           Type="int" />
+        <ThumbnailQuality
+           Default="70"
+           Size="3"
+           T="Qualité JPEG (1-100)" />
+           Type="int" />
+        <IrfanViewPath
+           Default="?:\Program Files\IrfanView\i_view32.exe"
+           T="Chemin d'IrfanView, employé pour créer les photos thumbnails&#10;(Défaut {0})"
+           Type="file" />
+      </ThumbnailSettings>
+      <MapSettings
+           T="Configuration des cartes 'Google'">
+        <GoogleMaps
+           Default="Y"
+           Desc="Les 4 paramètres ci-dessous peuvent être changés/supplantés, pour certains lieux particuliers, en créant des champs personnalisés. Employer le menu GenoPro 'Outils'-&gt;'Éditer les champs personnalisés' pour créer un nouveau 'dialogue de champs' pour les lieux, appelé 'Mapping' et nommer la description '_Mapping' (N.B. Le caractère '_' est important car il évite à ces champs perso d'être affichés comme 'Information additionnelle sur lieu'. Sous ce 'dialogue de champs', créer 4 champs perso: Map.Google.Zoom, Map.Google.Type, Map.Google.Width &amp; Map.Google.Height. Vous pouvez ensuite employer le tab '_Mapping', dans le panneau de la propriété des lieux, pour personnaliser ces valeurs pour chaque lieu."
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les cartes des lieux?"
+           Type="bool" />
+        <GoogleMapsType
+           Default="1"
+           O1="1:plan"
+           O2="2:vue satellite"
+           O3="3:hybride"
+           T="Type d'affichage des cartes" />
+        <GoogleMapsSmall
+           Default="400x250"
+           Size="9"
+           T="Dimensions des cartes lorsqu'une photo est présente sur une page - l x H (pixels)" />
+        <GoogleMapsLarge
+           Default="650x250"
+           Size="9"
+           T="Dimensions des cartes lorsqu'il n'y a pas de photo sur une page - l x H (pixels)" />
+        <GoogleMapsZoom
+           Default="7"
+           Size="2"
+           T="Niveau, par défaut, du zoom initial (1-13)" />
+           Type="int" />
+        <fGoogleMapsLink
+           Default="Y"
+           Desc="Si 'non', la carte est affichée en une ligne expandable/retractable dans le cadre de la page de la carte."
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les cartes dans leur propre cadre à l'aide d'un hyperlien?"
+           Type="bool" />
+        <fGoogleMapsOverview
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Prévoir, sur la page d'accueil du site, un hyperlien vers la carte des lieux géocodés?"
+           Type="bool" />
+        <GoogleMapsApiKey
+           Default="ABQIAAAASJ0G4SOiaQ8eyk3nzNi7YhS8Sug1lBz5d9mEGdwPgwjMebPy9xQoQLPIM-CcpjAnaGoBwGuJrnArCQ"
+           T="Code/clé API pour 'Google Maps' (à changer si le serveur de votre site web n'est pas familytrees.genopro.com)" />
+      </MapSettings>
+      <TimelineSettings
+           T="Configuration des chronologies">
+        <Timelines
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les chronos 'MIT Simile' pour les individuels, familles et génocartes?"
+           Type="bool" />
+        <TimelineShowDuration
+           Default="Y"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher la durée des évènements avec barres de couleur?"
+           Type="bool" />
+        <TimelineContemporary
+           Default="Y"
+           Desc="Les barres de durée peuvent être étendues jusqu'à la date du rapport pour les évènements non terminés, ex. individuels en vie"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les durées jusqu'au jour du rapport pour les évènements non terminés?"
+           Type="bool" />
+        <TimelineWrapEvents
+           Default="Y"
+           Desc="Permet l'affichage de plusieurs évènements sur une même ligne"
+           O1="Y:oui"
+           O2="N:non"
+           T="Réutiliser la même ligne pour plusieurs évènements?"
+           Type="bool" />
+        <TimelineMinEventsIndividual
+           Default="2"
+           Size="2"
+           T="Nombre mini. d'évènements afin de générer les chronologies d'individuel" />
+        <TimelineMinEventsFamily
+           Default="2"
+           Size="2"
+           T="Nombre mini. d'évènements afin de générer les chronologies de famille" />
+           Type="int" />
+      </TimelineSettings>
+      <LanguageSettings
+           T="Configuration du langage">
+        <LangPossessiveLookup
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser 'NameDictionary' pour obtenir les exceptions de la forme possessive des noms?"
+           Type="bool" />
+        <LangLocativeLookup
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser 'NameDictionary' pour obtenir les exceptions de la forme locative des noms?"
+           Type="bool" />
+        <LangBaseNameLookup
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser 'NameDictionary' pour obtenir le format basique/racine des noms?"
+           Type="bool" />
+        <LangNames
+           Default=""
+           Size="3"
+           T="Langage utilisé pour la saisie des noms dans le fichier .gno" />
+        <LangPlace
+           Default=""
+           Size="3"
+           T="Langage utilisé pour la saisie des lieux dans le fichier .gno" />
+        <LangOccupation
+           Default=""
+           Size="3"
+           T="Langage utilisé pour la saisie des emplois dans le fichier .gno" />
+        <LangAlternative
+           Default=""
+           Size="3"
+           T="Code de la langue à utiliser pour traduire les noms 'alternatifs', via NameDictionary" />
+        <LangHtmlCulture
+           Default=""
+           Size="2"
+           T="Sous-type/dialecte linguistique, pour le 'Content-Language' HTML, ex. 'us' pour indiquer 'en-us'" />
+        <LangNameDictionary
+           Default="NameDictionary.xml"
+           T="Nom du dictionnaire à utiliser pour les traductions et cas de noms exceptionnels&#10;(Défaut {0})"
+           Type="file" />
+        <LangShowOthers
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Afficher les autres langues dans les champs multilinguistiques"
+           Type="bool" />
+        <LangShowDefault
+           Default="FR"
+           Size="3"
+           T="Langage de défaut des champs multilinguistiques lorsque la langue du rapport n'existe pas dans les champs" />
+        <TextDirection
+           Default=""
+           O1=":non-remplacement"
+           O2="rtl:droite gauche"
+           O3="ltr:gauche droite"
+           T="Définition de la direction des textes, remplaçant toute valeur déjà déclarée" />
+        <OriginalNamesCharts
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser les noms originaux et non-traduits dans les graphes des liens de parenté"
+           Type="bool" />
+        <OriginalNamesTimelines
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser les noms originaux et non-traduits dans les chronologies"
+           Type="bool" />
+        <OriginalNamesGoogleMaps
+           Default="N"
+           O1="Y:oui"
+           O2="N:non"
+           T="Utiliser les noms originaux et non-traduits des lieux pour recherche des cartes Google"
+           Type="bool" />
+      </LanguageSettings>
+      <NameSettings
+           T="Configuration des noms">
+        <TagNameFull
+           Default="Name"
+           T="Descripteur d'un Individuel à employer comme Nom Complet (employé dans listes et en-têtes)" />
+        <TagNameFormal
+           Default="Name.First"
+           T="Descripteur d'un Individuel à employer comme Nom Propre (employé dans la première ligne des narratifs)" />
+        <TagNameKnownAs
+           Default="Name.Nick"
+           T="Descripteur d'un Individuel à employer comme Surnom (employé dans la première ligne des narratifs)" />
+        <TagNameShort
+           Default="Name.Short"
+           T="Descripteur d'un Individuel à employer comme Nom 'Commun/Classique' (employé ailleurs dans le rapport)" />
+        <TagNameAlternative
+           Default="Name.Alternative"
+           T="Descripteur d'un Individuel à employer comme Nom 'alternatif'" />
+        <PhraseNameAlternative
+           Default="{0}[{?!2}[ ({1})]]"
+           Desc="N.B. 0=Fullname, 1=Alternative, 2=Fullname inclu alternative?"
+           T="Template pour phrase 'nom avec alternatif'" />
+        <!--    <IndexAlternativeNames  T="Afficher les noms 'alternatifs' dans une liste séparée"                      Default="N"     O2="Y:oui" O1="N:non"   Type="bool" /> -->
+        <ShowBaseNameOnly
+           Default="N"
+           O1="N:non"
+           O2="Y:oui"
+           T="Ne pas afficher les variations de noms dans les entrées de liste"
+           Type="bool" />
+      </NameSettings>
+      <SVGSettings
+           T="Configuration des GénoCartes SVG/PDF">
+        <SvgPdf
+           Default="SVGPDF"
+           Desc="Si vous incluez PDF, vous aurez besoin d'InkScape pour convertir les fichiers SVG en PDF afin que le rapport soit correctement accessible"
+           O1="SVG:SVG seulement"
+           O2="PDF:PDF seulement"
+           O3="SVGPDF:Les deux avec SVG en défaut"
+           O4="PDFSVG:Les deux avec PDF en défaut"
+           O5=":Aucun"
+           T="Inclure les GénoCartes SVG et/ou PDF dans le rapport" />
+        <fSvgZoomExtent
+           Default="N"
+           O1="N:non"
+           O2="Y:oui"
+           T="Afficher les GénoCartes SVG complètes à l'ouverture"
+           Type="bool" />
+        <fSvgExpandFrame
+           Default="N"
+           O1="N:non"
+           O2="Y:oui"
+           T="Maximiser la fenêtre 'popup' SVG lors de l'ouverture"
+           Type="bool" />
+        <fSvgCompress
+           Default="Y"
+           O1="N:non"
+           O2="Y:oui"
+           T="Compresser les fichiers SVG pour optimiser les téléchargements"
+           Type="bool" />
+        <ShowAllAges
+           Default="N"
+           O1="N:non"
+           O2="Y:oui"
+           T="Voir l'âge de symbole entre les sexes, même si la personne est encore en vie?"
+           Type="bool"
+           V="2.0.1.6.1+" />
+        <PdfToolbar
+           Default="Y"
+           O1="N:non"
+           O2="Y:oui"
+           T="Afficher, par défaut, la barre d'outils du lecteur PDF d'Adobe (Acrobat)?"
+           Type="bool" />
+        <InkscapePath
+           Default="?:\Program Files\Inkscape\inkscape.exe"
+           T="Chemin d'Inkscape, employé pour la convertion des SVG en PDF&#10;(Défaut {0})"
+           Type="file" />
+      </SVGSettings>
+    </ParameterDescriptions>
+    <GenerationMessages>
+      <Cancel
+           T="Annuler" />
+      <CommentSkinVersion
+           T="Version de base de la peau Config.xml:"
+           V="2011.01.15" />
+      <ErrorCantLoadNameDictionary
+           T="Erreur: Impossibilité de charger le contenu de 'NameDictionary'" />
+      <ErrorConfigMessageNotFound
+           T="Messages de Generation Config: Ne trouve pas" />
+      <!-- 0=Nom champ perso, 1=Nom nouveau champ, Test={0}=Custom_tag|, {1}=New_Custom_tag| -->
+      <ErrorCustomDateTag
+           T="Erreur Champ Perso '{0}' est invalide car sujet à un champ de date GenoPro; Dates peuvent être montrées incorrectement.&#10;" />
+      <ErrorCustomTag
+           T="Erreur Invalide Champ Perso '{0}' : noms des descripteurs doivent commencer par une lettre ou par le caractère souligné.&#10;" />
+      <ErrorCustomTagRename
+           T="Le descripteur devrait être renommé en employant l'éditeur ex. '{0}' renommé '{1}' ou descripteur à supprimer si pas requis." />
+      <ErrorDeleteFile
+           T="Ne peut pas effacer le fichier existant" />
+      <ErrorFetchHeader
+           T="Erreur: Incapable de lire 'date last modified' dans le header HTTP pour {0}" />
+      <ErrorGenoMapBounds
+           T="Erreur: GenoMap {0} 'n'a pas de valeurs limites fixés. Ouvrez ce GenoMap pour corriger cela."
+           V="2011.01.15" />
+      <ErrorInkscapeNotFound
+           T="N.B. Les images PDF des GénoCartes ne seront pas générées car Inkscape n'existe pas sur le chemin specifié (ou défaut) dans le paramètre 'InkscapePath' de Config.xml" />
+      <ErrorInkscapeRun
+           T="Erreur avec inkscape.exe" />
+      <ErrorIrfanviewNotFound
+           T="N.B. Les photos thumbnails et les photos des GénoCartes ne seront pas générées car IrfanView n'existe pas sur le chemin specifié (ou défaut) dans le paramètre 'IrfanViewPath' de Config.xml" />
+      <!-- 0=Language Markup, Test={0}={?E:test}| -->
+      <ErrorLangMarkup
+           T="Code de langage invalide: {0}" />
+      <ErrorLatLang
+           T="Erreur: Inconnue format de Latitude/Longitude format:"
+           V="2011.01.06" />
+      <ErrorNoCachedSize
+           T="Erreur: No cached size information for {}" />
+      <ErrorNoCustomSkin
+           T="Erreur: En ce moment, ce rapport ne peut être généré qu'à partir d'une skin personnalisée. SVP utilisez le bouton 'Nouvelle Skin' ci-dessus pour créer une version personnalisée de cette skin et générez de nouveau le rapport avec cette skin." />
+      <!-- 0=No. erreur, 1=description erreur -->
+      <ErrorNoNameDictionary
+           T="Erreur: Le fichier 'NameDictionary.xml', requis dans l'option Langage, n'existe pas" />
+      <ErrorPdfUpload
+           T="Erreur: Ne peut pas écrire les PDF dans le dossier de rapport :" />
+      <ErrorPicLabelDeprecated
+           T="Le texte 'picture=&quot;picnnnnn&quot;' pour les photos dans les étiquettes est maintenant abandonné. A la place, veuillez ajouter directement vos photos dans les panneaux de saisie des Étiquettes et Entités Sociales et créez les tags perso 'Picture.Style', 'Picture.FixRatio' et 'Picture.FitLabel'" />
+      <ErrorPictureConvert
+           T="Erreur {} en convertissant la photo {} en thumbnail {}" />
+      <ErrorRegExpBroken
+           T="Erreur: ({0}: {1}) - VBScript n'est pas correctement installé dans votre système. Il est recommandé de télécharger et d'installer Windows Scripting 5.6 ou 5.7 à partir du site http://www.microsoft.com/downloads" />
+      <ErrorScriptingVersion
+           T="Erreur: Cette version de rapport a besoin du Script version 5.5 (ou au-dessus) de Windows -&#10;SVP veuillez installer la dernière version depuis le centre de téléchargement de Microsoft." />
+      <ErrorSliderRange
+           T="Le paramètre 'PictureInterval' dans Config.xml doit être compris entre les valeurs 1000 - 10000 (millisecondes)" />
+      <!-- 0=objet 1=texte de l'erreur, Test={0}=Individuel, {1}=<?html>| -->
+      <ErrorTextFormat
+           T="{0}: Texte formatage d'instruction invalide: {1}" />
+      <ErrorTextSyntax
+           T="{0}: Syntaxe d'argument invalide pour le texte formatage d'instruction: {1}" />
+      <ErrorTextToken
+           T="{0}: Texte formatage du Token invalide: {1}" />
+      <ErrorThumbnailCheck
+           T="Erreur: Incapable de vérifier si une mise à jour des fichiers thumbnails est requise." />
+      <ErrorXMLEntities
+           T="Erreur: Les champs suivants contiennent des entités XML invalides i.e. plage &amp;#0; - &amp;#31; mais exclus les entités valides &amp;#9;,&amp;#10; and &amp;#13;&#10;Data du Champ Perso inclus les paramètres de configuration des descripteurs Document ne seront pas pris en compte" />
+      <!-- 0=raison erreur 1=No. ligne du script 2=texte du script
+           Test={0}=Entité invalide, {1}=220, {2}=script stuff,, -->
+      <ErrorXMLLoad
+           T="Erreur en tentant de lire/parser le data XML de GenoPro: {0} à la ligne {1}:&#10;&#09;{2}&#10;Data du Champ Perso inclus les paramètres de configuration des descripteurs Document ne seront pas pris en compte" />
+      <!-- 0=No. erreur, 1=description erreur, 2=Extra info
+           Test={0}=123456, {1}=Argument invalide -->
+      <ErrorHttpGet
+           T="Erreur {}: {} (Ne peut pas lire la photo {})" />
+      <ErrorXMLParser
+           T="Erreur: Incapacité de charger en mémoire un ActiveX control pour le parseur XML de MS. {0}:{1}" />
+      <ErrorVB
+           T="Erreur {}: {} ({})" />
+      <FmtInvalidPictureID
+           T="ID de la photo {} dans l'étiquette {} de la GénoCarte {} est invalide." />
+      <FmtNoDrawingObjects
+           T="Pas d'objects 'Drawing' pour {}" />
+      <FmtPdfUpToDate
+           T="Le PDF de la GénoCarte {} est déjà à jour." />
+      <FmtThumbnailCreate
+           T="Mise à jour du thumbnail de {0}" />
+      <FmtThumbnailUpToDate
+           T="Le thumbnail de {0} est déjà à jour." />
+      <HeaderConfigParameters
+           T="N.B. Cliquez sur les titres des sections ci-dessous pour les ouvrir ou les fermer. Faites tous changements requis des paramètres de configuration et cliquez sur 'Valider'. Naviguez au-dessus des textes marqués {0} pour de plus amples informations." />
+      <Marker
+           T="*" />
+      <Ok
+           T="Valider" />
+      <ParametersAbandoned
+           T="Changement des paramètres de configuration annulé par l'utilisateur" />
+      <ParametersClearOption
+           T="Pour afficher/changer les paramètres de configuration, décochez la case dans l'onglet 'Options' de ce panneau." />
+      <ParametersOverride
+           T="N.B. L'affichage (ou non) des paramètres de configuration ne sera pas pris en compte si le champ personnalisé 'ChangeParameters' a été changé. Retirez la saisie de ce tag de façon à ce que la case de l'onglet 'Options' de ce panneau soit prise en compte." />
+      <ParametersSetOption
+           T="Pour supprimer l'affichage des paramètres de configuration, cochez la case dans l'onglet 'Options' de ce panneau." />
+      <ParametersFormLoad
+           T="Attendez SVP le temps que la forme IE initialise" />
+      <!-- 0=Nom attribut, Test={0}=Param -->
+      <WarningAttributeKeyMissing T="Attention: StrDicAttribute. Erreur du Lookup de '{0}'." />
+      <!-- 0=Nom champ perso, 1=Nom Layout champ perso Test={0}=Custom_tag, {1}=My_Tag_Layout -->
+      <WarningCustomTLayoutExcluded
+           T="Le layout Custom tag '{0}' est marqué comme 'système' ou privé et a été exclu" />
+      <WarningCustomTagExcluded
+           T="le Custom tag '{0}' dans le layout '{1}' est marqué comme 'système' ou privé et a été exclu" />
+      <WarningEmptyNameDictionary
+           T="Attention: L'option du langage a été sélectionnée mais il n'y a aucune entrée dans le NameDictionary." />
+      <WarningTagChange
+           T="Attention: tag {0} a présenté à la version {2} est absent de Config.xml alors par défaut à: {1}"
+           V="2.0.1.6 (rev.2009.10.01)+" />
+      <WarningTitleMissing
+           T="Titre manquant! Cliquer sur l'onglet &quot;Document&quot; pour ajouter un titre à votre rapport généalogique." />
+    </GenerationMessages>
+  </ReportGenerator>
+</Skin>

@@ -1,0 +1,49 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[
+If Not Session("Book") Then Report.AbortPage
+strTitle = Session("Title")
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script>
+function htmlEncode(str) {
+    var buf='';
+    for (var i=0; i<str.length; ++i) {
+        buf = buf + (/[ a-zA-Z0-9]/.test(str[i]) ? str[i] : '&#' + str[i].charCodeAt() + ';')
+    }
+    return buf;
+}
+function subst() {
+    var vars={};
+    var x=document.location.search.substring(1).split('&');
+    for (var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+    var x=['page','subsection'];
+    for (var i in x) {
+        var y = document.getElementsByClassName(x[i]);
+        for (var j=0; j<y.length; ++j) y[j].innerHTML = htmlEncode(vars[x[i]]);
+    }
+    /* if this is the first page, just remove the header element from the Document */
+    if(vars['page'] == 1){
+        var elt = document.getElementById("header");
+        elt.parentNode.removeChild(elt);
+    }
+
+}
+</script>
+</head>
+<body style="border:0; margin: 0; width:1000px;" onload="subst()">
+<div style='float:right;'>
+      <span class="subsection"></span>
+</div>
+<div style="text-align:left">
+        @[Report.Write strTitle]@
+</div>
+<hr/>
+<br/>
+</body></html>

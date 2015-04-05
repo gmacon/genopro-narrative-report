@@ -1,0 +1,113 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/TimelineInfo.vbs" ]%>
+<%[
+If Session("Book") Or Not Session("Timelines") Then Report.AbortPage
+
+' Create an timeline page for each GenoMap.
+
+Dim strSep, cchBegin, g_Delim, strLocale, oLinks, oObjRep, strWrapEvents
+
+Set oTLInfos = Util.NewObjectRepertory()
+Session("oTLInfos") = oTLInfos
+
+strWrapEvents = Util.IfElse(Session("TimelineWrapEvents"), "true", "false")
+Set oLinks = Util.NewStringDictionary()
+
+strLocale = GetLocale
+' force Locale to be English so that dates are in english. 
+SetLocale("en-gb")
+
+For Each g In GenoMaps
+	Set collDrawingObjects = g.DrawingObjects.ToGenoCollection	' Get the collection of drawing objects for the GenoMap
+	If (collDrawingObjects.Count > 0) Then
+		
+		Set o = Nothing
+		cchBegin=Report.BufferLength
+
+		Set oTLInfo = New TimelineInfo
+		oTLInfo.AddHeader g.Name, False
+
+		For Each o In collDrawingObjects
+		On Error Resume Next
+		On Error Goto 0
+			Select Case o.Class
+				Case "Individual"	: If Not o.IsLabel Then WriteIndividualEvents	oTLInfo, o, Util.IfElse(Not Session("OriginalNamesTimelines"), o.Session("NameFull"), o.Session("NameOriginal")), True
+				Case "Family"		: If Not o.IsLabel Then WriteFamilyEvents	oTLInfo, o, Util.IfElse(Not Session("OriginalNamesTimelines"), o.Session("Name"), o.Session("NameOriginal")), True, False
+				Case "SocialEntity"	: WriteOccupancyEvents	oTLInfo, o, o.Session("Name"), True
+			End Select
+			If Report.BufferLength <> cchBegin Then strSep = "," & vbNewline
+		Next
+
+		oTLInfo.AddTrailer False, Util.IfElse(GenoMaps.Count > 1, Dic("HeaderTimeline"), Dic.PlurialCardinal("HeaderTimeline",1)) & g.Name
+
+		If oTLInfo.Nodes > 1 Then
+			strBuffer = Replace(Report.Buffer,"&nbsp;","")
+			Report.BufferLength = 0
+]%>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="style.css" type="text/css"/>
+		<script type='text/javascript'>
+			Timeline_ajax_url='timeline/ajax/simile-ajax-api.js';
+			Timeline_urlPrefix='timeline/';
+			Timeline_parameters='bundle=true';
+		</script>
+		<script src="timeline/timeline-api.js" type="text/javascript"></script>
+		<script type='text/javascript' src="scripts/jquery.min.js"></script>
+		<script src="scripts/script.js" type="text/javascript"></script>
+		<script  type="text/javascript">
+            SimileAjax.History.enabled = false; // prevent spurious alerts for __History__.html with timelines
+			var tl, json =
+<%[
+			Report.Write strBuffer
+]%>  
+			;
+			var tlParam = {
+				data : true,
+				duration : @[Report.WriteText Util.IfElse(Session("TimelineShowDuration"), "true", "false")]@, 
+				wrapEvents : @[Report.WriteText Util.IfElse(Session("TimelineWrapEvents"), "true", "false")]@
+			};
+			$(function () {
+				timeLineOnLoad(tlParam);
+				window.onresize=timeLineOnResize(tlParam);
+			});
+		</script>
+	<base target="detail"/>
+  @[GoogleAnalytics]@
+	</head>
+	<body class='gno-popup'>
+	<%[if session("fUseCurvyBoxes") then CurvyBoxOpen()]%>
+		<h4 id='subtitle'> </h4>
+		<div class='clear' id='constrainer' style='overflow: auto;'  >
+				<div id="timeline0" style="height: 100%;border: 1px solid #aaa;">
+				</div>
+		</div>
+		<%[if session("fUseCurvyBoxes") then CurvyBoxClose()]%>
+	</body>
+</html>
+<%[
+			Report.BufferWriteToFile Util.FormatString("timeline{}.htm", g.Index)	' Write the content of the buffer to a file
+
+			g.Session("TLData") = Util.FormatString("unit={},pixels={},wrapEvents={}", oTLInfo.Unit, oTLInfo.Pixels,  Util.IfElse(Session("TimelineWrapEventsMap"), "true", "false"))
+		Else
+			g.Session("TLData") = ""
+		End If
+		Report.BufferLength = 0		' Flush the buffer for the next XML document
+
+		Set oTLInfo = Nothing
+	Else
+		g.Session("TLData") = ""
+	End If
+
+	oLinks.Clear()
+Next
+
+setLocale(strLocale)
+
+Report.AbortPage	' Prevent the template file "timeline.xml" to be written to the output report
+
+]%>

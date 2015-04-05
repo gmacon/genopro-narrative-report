@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	The purpose of this file is to translate names into alternate case forms or their equivalent in a foreign language.
+	The rationale is to use a dictionary of names and perform a name lookup as the report is being generated.  
+
+	The 'N' XML element has the syntax:
+
+		<N lang="value" lang_B="value" lang_P="value" lang_L="value" />
+
+	where 'lang' is a language code e.g. EN, FR, JA, DE, ES etc.,
+		the language code may be prefixed with a noun type followed by a full stop to indicate a Place (P.) or Occupation (O.) 
+		if no prefix is present then the noun is assumed to be an individual's name i.e. first name, last name etc.
+
+	All attributes are optional and can occur once for each 'lang' value but at least one 'lang' attribute should be present
+
+	Attribute 'lang' gives the Proper Noun in the language indicated by the code.
+
+	Attribute lang_P gives possessive form (Individual Names only), lang_L gives 'locative' form (Places only).
+	if locative form includes a preposition/prefix or postposition/suffix then the noun must be enclosed in square brackets []
+	and the bracketed text will appear as the hyperlink (see FR_L & EN_L in sample elements below
+	The noun 'possessive' and/or 'locative' case forms are ONLY required for EXCEPTIONAL cases where these forms cannot be
+	obtained via the standard Report Generator handling i.e. conversion using 'regular expressions' in Dictionary.xml or in the
+	case of the 'locative' form, Place Prefix properties and their translation via Dictionary.xml
+
+	lang_B gives the base or root of the Noun (Individual Names only). This can be used to group and index the various forms of similar surnames.
+
+	N.B. At GenoPro version 2.0.0.5 foreign language translation and base/root forms are not used in the Narrative Report.
+
+	Usage:
+		Set oNameDictionary = Util.NewNameDictionary
+		oNameDictionary.BuildLookupTable "NameDictionary.xml", "EN", "JA"
+		strName = oNameDictionary("Daniel")	' Should return the Japanese name
+
+		Set oNameDicPossessive = Util.NewNameDictionary
+		oNameDicPossessive.BuildLookupTable "NameDictionary.xml", "EN", "EN_P"
+		strPossessiveName = oNameDicPossessive("Daniel")	' Should return Daniel's
+
+	Example content:
+
+	<NameDictionary>
+		<Names>
+			<N EN="Daniel" EN_P="Daniel's" CN="丹尼尔"  JA="ダニエル" />
+			<N EN="genealogy" FR="généalogie" NL="afstamming" DE="stammbaum" EL="γενεαλογία" IT="genealogia" PT="genealogia"
+				RU="генеалогия" ES="genealogía" SV="härstamning" AR="علم الأنساب‏" HE="שלשלת היוחסין" CN="系谱" ZH="系譜" JA="家系" />
+			<N P.EN="England" P.FR="Angleterre" P.FR_L="en [Angleterre]"/>
+			<N P.EN="Finland" P.FI="Suomi" P.FI_L="Suomessa"/>
+			<N P.EN="Hogwarts"  P.EN_L="at [Hogwarts] school"/>
+			<N O.EN="Engineer" O.FR="Ingénieur" />
+			<N EN="Pryor" EN_B="Prior" />
+			<N EN="Pryer" EN_B="Prior" />
+			<N EN="Preyer" EN_B="Prior" />
+			<N EN="Priar" EN_B="Prior" />
+		</Names>
+	</NameDictionary>
+
+End of Notes -->
+<NameDictionary>
+	<Names>
+		<!-- Place your own entries below here -->
+	</Names>
+</NameDictionary>

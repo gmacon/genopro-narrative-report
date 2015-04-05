@@ -1,0 +1,134 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/TimelineInfo.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+' The following prevents the page to be generated if the family name is empty or the family is excluded from the report.
+' This is achieved simply by checking if the Href is empty
+If (f.Href = "") Then
+	Report.AbortPage
+End If
+
+Report.TagBr = "<br />" & vbCRLF    ' For debugging, but it does not harm to re-define the <br /> tag
+
+
+
+strName = f.Session("Name")
+
+strTitle = Util.JavaScriptEncode(strName)
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+<title>@[Report.WriteFormatted Dic("FmtTitleFamily"), strName]@</title>
+<meta name="description" content="@[WriteMetaDescription(f)]@" />
+<meta name="keywords" content="@[WriteMetaKeywords(f)]@" />
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<%[
+	' create timeline data in JSON format.
+
+	Dim nEvents, strLocale, strBuffer, collEvents, oEvent, strEvent, fTimeline, cchStart, oLinks, oTLInfo
+
+	fTimeline = False
+	If Session("Timelines") Then
+		strLocale = GetLocale
+		' force Locale to be English so that dates are in english. 
+		SetLocale("en-gb")
+		nEvents  = 0
+		Set oLinks = Util.NewStringDictionary()
+
+		cchStart = Report.BufferLength
+        Report.WriteLn "<script type='text/javascript'>"
+        Report.WriteLn "Timeline_ajax_url='timeline/ajax/simile-ajax-api.js';"    
+        Report.WriteLn "Timeline_urlPrefix='timeline/';"    
+        Report.WriteLn "Timeline_parameters='bundle=true';"
+        Report.WriteLn "</script>"
+        Report.WriteLn "<script src=""timeline/timeline-api.js"" type=""text/javascript""></script>"
+        Report.WriteLn "<script type='text/javascript'>"
+        Report.WriteLn "var tl"
+ 		Set oTLInfo = New TimelineInfo
+
+		oTLInfo.AddHeader f.ID, True
+
+		WriteFamilyEvents oTLInfo, f, Replace(f.Session("Name"), Session("MarkerFirstName"),""), False, True
+
+		oTLInfo.AddTrailer True, ""
+        Report.WriteLn "</script>"
+
+		If oTLInfo.Nodes >= Session("TimelineMinEventsFamily") Then 
+			fTimeline = True
+		Else
+			Report.BufferLength = cchStart
+		End If
+
+		setLocale(strLocale)
+	End If
+	' style sheet after timeline so can override style if required
+	Report.WriteLn "<link rel=""stylesheet"" href=""style.css"" type=""text/css""/>"
+	GoogleAnalytics
+	Report.WriteLn "</head>"
+	Report.WriteFormattedLn "<body class='gno-detail' onload=""javascript:PageInit({}, '{}','');"">", Util.IfElse(Session("ForceFrames"), "true", "false"), strTitle
+	Report.Write "<div class='cage'><div class='floatright'> <!--cage stops the text on the family page getting too wide which causes a horizontal scrollbar to appear-->"
+	Session("NotesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("Notes")
+	ichNotesEnd = Report.BufferLength
+	Session("ReferencesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("OtherDetails")
+	ichReferencesEnd = Report.BufferLength
+	Report.Write "</div>"
+Report.WriteFormatted "<h2>{}{}{}{}{}{}</h2>", StrHtmlImgFamily(f), StrHtmlHighlightName(strName), StrHtmlImgFileGno(f), StrHtmlImgFileSvg(f), StrHtmlImgTimeline(f), StrHtmlImgMap(f)
+cchStart = Report.BufferLength
+WriteHtmlFamily f, -1, nothing
+If Report.BufferLength > cchStart Then Session("ReferencesStart") = -1
+if fTimeline Then
+]%>
+	<br /><div class='clearleft'><ul class='xT'>
+		<li class='xT3-o xT-h XT-clr clear' onclick='xTclk(event,"3")'>
+		<a name='TimeLine'></a><h4 class='xT-i inline'>@[Report.WriteTextDic "TimelineHeadingFamily"]@</h4><ul class='xT-h'><li>
+		<div class='floatright'>
+    <!--
+			<img src="images/toggleduration.gif" onclick="javascript:timeLineToggleDuration();" alt="@[Report.WriteTextDic "AltTimeLineToggleDuration"]@" title="@[Report.WriteTextDic "AltTimeLineToggleDuration"]@">
+			<img src="images/zoomin.gif" onclick="javascript:timeLineZoom(true);" alt="@[Report.WriteTextDic "AltTimeLineZoomIn"]@" title="@[Report.WriteTextDic "AltTimeLineZoomIn"]@">
+			<img src="images/zoomout.gif" onclick="javascript:timeLineZoom(false);" alt="@[Report.WriteTextDic "AltTimeLineZoomOut"]@" title="@[Report.WriteTextDic "AltTimeLineZoomOut"]@">
+   -->
+		</div>
+		<div id='tl_@[Report.Write f.ID]@' class="clear timeline" style="height: 50px; border: 1px solid #aaa" >
+		</div>
+		</li></ul></li></ul>
+	</div>
+<%[
+End If
+WriteHtmlAdditionalInformation(f)
+
+If (Session("ReferencesStart") >= 0) Then
+	' We have no other details, so remove the "Show All Other Details | Hide All Other Details"
+	Report.BufferRemoveAt Session("ReferencesStart"), ichReferencesEnd
+End If
+If (Session("NotesStart") >= 0) Then
+	' We have no annotations, so remove the "Show All Notes | Hide All Notes"
+	Report.BufferRemoveAt Session("NotesStart"), ichNotesEnd
+End If
+WriteHtmlAllFootnotes f.Sources, False
+WriteHtmlFramesetSafeguardK strName, "GenoProReportFamily", f
+
+
+'===========================================================
+' Subroutines to generate the page
+'===========================================================
+Sub WriteMetaDescription(f)
+	Report.WritePhraseDic "FmtMetaDescFamily", f
+End Sub
+
+Sub WriteMetaKeywords(f)
+	Report.WritePhraseDic "FmtMetaKeyWordsFamily", f
+End Sub
+
+]%><div class='clear'><br /></div></div> <!-- close cage-->
+</body>
+</html>

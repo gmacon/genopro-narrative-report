@@ -1,0 +1,9 @@
+# This file is NOT NEEDED or used for GenoPro version 2.5.3.7 or above
+#              ==========
+# It contains a list of images or files used in the theme
+# these will be copied to the report folder
+# each line must be terminated with normal dos/windows line ending (carriage return,line feed)
+#
+images\greenleaf.jpg
+images\greengradient.jpg
+images\a-z.gif

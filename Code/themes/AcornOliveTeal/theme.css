@@ -1,0 +1,86 @@
+/* Narrative Report Theme CSS file
+ the classes gno-heading, gno-index, gno-detail, anbd gno-popup defined below are applied to <body> tags of all pages thatare 
+ displayed in the heading, toc, detail and popup frames respectively.
+ 
+ all images must be loaded from the reports images folder. Any non default images must be present in the theme folder
+ (and referenced in the files.txt file if GenoPro 2.5.3.6 or below) and will be automatically copied to the report's images folder by the skin.
+
+*/
+
+/* the line below removes frame borders if Config Param 'FrameBorders' is set to 'Auto'. This cannot be done via CSS but the text below is 
+   detected in the skin and acted upon by setting border="0" frameborder="no" in the frameset tag in default.htm.
+
+            set frameborder=No
+            
+*/ 
+/*  This file can also contain any custom stylesheet file contents used in earlier releases of the skin
+*/
+/* AcornTeal by HarryCaper 2012.08.30 */
+
+
+body {background: #EEF1F2 none; font-size: 0.875em;}
+body.gno-heading {background-color: #83AEB8;}
+body.gno-index {margin: 0px;}
+body.gno-detail {margin-left:0px; padding-left:10px;}
+body.gno-popup {}
+frame {border: 40px;}
+img.button32,img.button24,img.control24,img.toggle24 {background:none;}
+
+table
+{
+font-size: 0.75em;background-color:#EEF1F2;
+}
+tr td
+{
+background-color:#EEF1F2;
+}
+th
+{
+background-color:#E2E8EA;
+}
+
+h2 { color: #13484D; font-size: 1.25em; }
+h3 { color: #13484D; font-size: 1.125em; } 
+h4 { color: #13484D; font-size: 1em; }
+
+a:link { color: #70761B; }
+a:visited { color: #70761B; }
+a:active { color: #70761B;  }
+a:hover { color: #13484D; }
+
+#menu {list-style:none;text-align:center;}
+#menu li {display:inline; margin:0px; }
+#menu li a {display:inline-block; height:30px; line-height:30px; padding:0px 10px; float:center; background:#13484D; color:#83AEB8; text-decoration:none; font-weight:normal;border-top: 3px solid #83AEB8;border-bottom: 1px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;}
+#menu li a:hover {background: #C1CCCF url(images/arrow.gif) no-repeat center bottom; color:#13484D;}
+#menu li a:active, a:focus { outline-style: none; -moz-outline-style:none; }
+
+.subhead {color: #13484D;}
+.citation {margin: 0px; padding: 0px; border:none; font-size: 0.750em; background: none;}
+.citationpic {margin: 0px 0px 0px 0px; padding: 0px; border:none; font-size: 0.750em; border-color:none; background: none;}
+.infoWindow {font-size: 0.750em;}
+.footnote {font-size: 0.750em;font-style: normal;}
+.langtoggle {font-size: 0.75em;}
+.std {font-size:1em;}
+.themed {background-color: #83AEB8; color:#13484D;}
+.timeline {font-size: 0.750em;}
+.tiny {font-size: 2px;}
+
+.curvycorners_box {
+   background: #e2e8ea url(images/roundedcornr_grad.gif) repeat-x top left;
+}
+.curvycorners_top div {
+   background: url(images/roundedcornr_tl.gif) no-repeat top left;
+}
+.curvycorners_top {
+   background: transparent url(images/roundedcornr_tr.gif) no-repeat top right;
+}
+.curvycorners_bottom div {
+   background: url(images/roundedcornr_bl.gif) no-repeat bottom left;
+}
+.curvycorners_bottom {
+   background: transparent url(images/roundedcornr_br.gif) no-repeat bottom right;
+}
+
+.curvyboxbackground{
+	background:#EEF1F2;
+	}

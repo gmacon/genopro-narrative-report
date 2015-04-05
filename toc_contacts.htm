@@ -1,0 +1,72 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+Dim fTreeOpen, sToggle, strHtmlSocialEntityContacts, strHtmlIndividualContacts
+
+
+
+If Session("cTocExpand") = -1 Or  Session("cTocExpand") >= Contacts.Count Then
+	fTreeOpen = true
+	strToggle="collapse"
+Else
+	fTreeOpen = false
+	strToggle = "expand"
+End If
+                               ' get Individual Contacts into a string variable
+WriteHtmlTocIndividuals fTreeOpen, false, true, false
+strHtmlIndividualContacts = Report.Buffer
+Report.BufferLength = 0
+
+				' repeat for Social Entities
+WriteHtmlTocEntities SocialEntities, False, True
+strHtmlSocialEntityContacts = Report.Buffer
+Report.BufferLength = 0
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleTocContacts"), Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<base target="detail"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script type='text/javascript' src="scripts/tocstart.js"></script>
+</head>
+<%[If Session("fUseTreeIndexes") Then]%>
+<body class='gno-index'>
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if ]%>
+@[WriteHtmlButtonToggle("Entries")]@
+<%[Else]%>
+<body class='gno-index' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);">
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if
+End If]%>
+<h3>@[ Report.WriteTextDic "TocIndexOccupancies" ]@</h3>
+<%[Report.Write Util.IfElse(Session("fUseCurvyBoxes"), "<div id='toc' class='noboxlower'>", "</div><div id='toc' class='boxlower'>")
+
+Report.WriteLn "<ul id='names' class='xT'>"
+
+WriteHtmlIndex "Individual", strHtmlIndividualContacts, "Contacts"
+WriteHtmlIndex "SocialEntity", strHtmlSocialEntityContacts, "Contacts"
+]%>
+</ul></div>
+<%[If Session("fUseCurvyBoxes") Then CurvyBoxClose()]%>
+<%[ WriteHtmlFramesetSafeguard(Contacts.Count) ]%>
+</body>
+
+</html>

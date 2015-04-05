@@ -1,0 +1,64 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+iCount = Session("IndividualsCount") + 0
+If Session("cTocExpand") = -1 Or  Session("cTocExpand") >= iCount Then
+	fTreeOpen = true
+	strToggle="collapse"
+Else
+	fTreeOpen = false
+	strToggle = "expand"
+End If
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleTocIndividuals"), Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<base target="detail"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script type='text/javascript' src="scripts/tocstart.js"></script>
+</head>
+<%[If Session("fUseTreeIndexes") Then]%>
+<body class='gno-index'>
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if ]%>
+@[WriteHtmlButtonToggle("Entries")]@
+<%[Else]%>
+<body class='gno-index' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);">
+<div class='buttontoc'><img src='images/toc_names.jpg' onclick="javascript:hidePopUpFrame();window.open('toc_names.htm','popup');showPopUpFrame('40%');" alt='@[Report.WriteTextDic "TocAlphabeticalIndex"]@' title='@[Report.WriteTextDic "TocAlphabeticalIndex"]@'/></div>
+
+<div class='nobr'>
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if
+End If]%>
+<h3>@[ Report.WriteTextDic "TocIndexIndividuals" ]@</h3>
+
+<%[Report.Write Util.IfElse(Session("fUseCurvyBoxes"), "<div id='toc' class='noboxlower'>", "</div><div id='toc' class='boxlower'>")
+Report.WriteLn "<ul id='names' class='xT'>"
+WriteHtmlTocIndividuals fTreeOpen, false, false, false
+
+]%>
+<%[If Session("fUseTreeIndexes") Then]%>
+</ul>
+<%[End If]%>
+</div>
+<%[If Session("fUseCurvyBoxes") Then CurvyBoxClose()]%>
+<%[ WriteHtmlFramesetSafeguardK Session("Title"), "GenoProReportIndividuals", nothing ]%>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--[if IE]> 
+  <xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/> 
+<![endif]-->
+<head>
+<title></title>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<style type="text/css">
+    html {overflow:hidden; height: 100%;}
+    body {height:100%; width:99%;}
+    v\:* {
+      behavior:url(#default#VML);
+    }
+</style>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script src="google-maps-utility/markerclusterer_packed.js" type="text/javascript"></script>
+<script src="google-maps-utility/keydragzoom_packed.js" type="text/javascript"></script>
+<script type='text/javascript' src="scripts/oms.min.js"></script>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script src="scripts/gmap_data.js" type="text/javascript"></script>
+<script src="scripts/gmap_places.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function () {
+           PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);
+		   hidePopUpFrame();
+           initGoogleMap();
+           makeGoogleMap();
+           window.onresize=initGoogleMap;
+        });
+</script>
+</head>
+<%[if session("fUseCurvyBoxes") then CurvyBoxOpen()]%>
+<body class='gno-popup'>
+<h4 id='subtitle'>@[Report.Write Dic("gMapPlaces")]@</h4>
+<div style='text-align: center;'><div class='googlemap' id='GoogleMap'></div></div>
+<%[if session("fUseCurvyBoxes") then CurvyBoxClose()]%>
+<%[ WriteHtmlFramesetSafeguard("") ]%>
+</body>
+</html>

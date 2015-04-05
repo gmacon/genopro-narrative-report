@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For documentation about this file, please visit http://www.genopro.com/sdk/Report-Generator/Configuration/ -->
+<Skin
+                        Language="EN"
+                        Name="Narrative Report">
+  <Version>2014.10.24</Version>
+  <Url
+                        Download="http://www.genopro.com/"
+                        Preview="http://familytrees.genopro.com" />
+  <Authors>
+    <!--
+        Brief history of each author having modified the skin.
+        The purpose of this list is to give credit to the contributor(s) and provide a method to communicate with them if necessary.
+        
+        My personal thanks to Ron who is the author of this report.  Ron designed the visual layout, the interactive SVG, the picture slideshow and the dynamic index of names toc_tree.htm.
+        He is also the author of narrative phrases which steered the development to create a built-in phrase generator to further simplify the process of writing narrative phrases.
+        Dan Morin.
+        -->
+    <Author
+                        Comment="Creation. First draft report for Beta 13"
+                        Contact="http://www.genopro.com/"
+                        DateFirstModified="Aug-2004"
+                        DateLastModified="May-2005"
+                        Name="GenoPro" />
+    <Author
+                        DateFirstModified="2005"
+                        DateLastModified="ongoing"
+                        Name="Ron" />
+    <Author
+                        DateFirstModified="2011"
+                        DateLastModified="26-August-2012"
+                        Name="HarryCaper" />
+    <!-- Many thanks to HarryCaper who has provided a number of themes 
+                 for the GenoPro Report and tweaked it here and there to improve
+                 the look and feel.
+                 Ron (a.k.a Genome).
+            -->
+  </Authors>
+  <!-- CHANGE HISTORY
+         Changes are indicated by an additional 'V' attribute for XML elements below, and a dummy 'V' attribute in comments,
+         in the following format:
+
+                        V="a.b.c.dx?"
+
+        where a.b.c.d is version number, x is optional subversion and ? is the type of change as follows:
+
+            + indicates an insertion
+            x indicates a deletetion - also deletions are placed in comments and removed at a later date
+            ± indicates an amendment   
+            ~ indicates a reposition up or down 
+    -->
+  <ReportGenerator
+                        ScriptLanguage="VBScript">
+    <Parameters
+                        _PathPictures="media/" />
+    <ParameterDescriptions>
+    </ParameterDescriptions>
+    <GenerationMessages>
+    </GenerationMessages>
+    <Report
+                        Template="init.htm" />
+    <Report
+                        Template="style.css" />
+    <Report
+                        Template="header.htm" />
+    <Report
+                        Template="footer.htm" />
+    <Report
+                        Template="cover.htm" />
+    <Report
+                        Template="introduction.htm" />
+    <Report
+                        Template="toc.xsl" />
+    <Report
+                        Template="index.html" />
+    <Report
+                        Template="default.htm" />
+    <Report
+                        Template="toc_individuals.htm" />
+    <Report
+                        Template="toc_families.htm" />
+    <Report
+                        Template="toc_charts.htm" />
+    <Report
+                        Template="toc_contacts.htm" />
+    <Report
+                        Template="toc_places.htm" />
+    <Report
+                        Template="toc_sources.htm" />
+    <Report
+                        Template="toc_names.htm" />
+    <Report
+                        Template="genomap.svg" />
+    <Report
+                        Template="genomap.htm" />
+    <Report
+                        Template="toc_genomaps.htm" />
+    <Report
+                        Template="home.htm" />
+    <Report
+                        Template="heading.htm" />
+    <Report
+                        Template="calendar.htm" />
+    <Report
+                        Template="scripts\calendarevents.js" />
+    <Report
+                        Template="timeline.htm" />
+    <Report
+                        Template="toc_timelines.htm" />
+    <Report
+                        Template="toc_entities.htm" />
+    <Report
+                        Template="gmap.htm" />
+    <Report
+                        Template="individual_map.htm" />
+    <Report
+                        Template="family_map.htm" />
+    <Report
+                        Template="scripts\tocstart.js" />
+    <Report
+                        For="Individuals"
+                        LoopItemName="i"
+                        OutputFile="{Name.LastOrLast2:25}-{Name.FirstAndMiddle:35}-{id}.htm"
+                        Template="individual.htm" />
+    <Report
+                        For="Families"
+                        LoopItemName="f"
+                        OutputFile="family-{Name:70}-{id}.htm"
+                        Template="family.htm" />
+    <Report
+                        For="Places"
+                        LoopItemName="p"
+                        OutputFile="place-{id}.htm"
+                        Template="place.htm" />
+    <Report
+                        For="SourcesAndCitations"
+                        LoopItemName="s"
+                        OutputFile="source-{id}.htm"
+                        Template="source.htm" />
+    <Report
+                        For="Pictures"
+                        LoopItemName="p"
+                        OutputFile="picture-{id}.htm"
+                        Template="picture.htm" />
+    <Report
+                        For="SocialEntities"
+                        LoopItemName="s"
+                        OutputFile="entity-{id}.htm"
+                        Template="entity.htm" />
+    <Report
+                        Template="contacts.htm" />
+    <Report
+                        Template="places.htm" />
+    <Report
+                        Template="pictures.htm" />
+    <Report
+                        Template="toc_pictures.htm" V="2014.05.24~"/>
+    <Report
+                        Template="popup.htm" />
+    <Report
+                        Template="sources.htm" />
+    <Report
+                        Template="entities.htm" />
+    <Report
+                        Template="gmap_place.htm" />
+    <Report
+                        Template="gmap_places.htm" />
+    <Report
+                        Template="help.htm" />
+    <Report
+                        Template="help.svg" V="2011.11.04+"/>
+    <Report
+                        Template="scripts\gmap_data.js" />
+    <Report
+                        Template="scripts\gmap_places.js" />
+    <Report
+                        Template="individuals.htm" />
+    <ExtraFiles
+                FamilyTree.ged="FamilyTree.ged"
+                FamilyTree.gno="FamilyTree.gno"
+                FamilyTree.xml="FamilyTree.xml" />
+  </ReportGenerator>
+</Skin>

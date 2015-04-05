@@ -1,0 +1,43 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[
+
+If Not (Session("Book") And  Session("PDFCover")) Then Report.AbortTemplate
+
+Dim strTitle
+    strTitle = Session("Title")
+
+If Session("Volume") <> "!All!" Then
+    strTitle = strTitle & vbCrLf & vbCrLf & Session("Volume")
+End If
+
+If Session("TitleWrap") Then strTitle = Replace(strTitle," ", vbCrLf)
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+<br/>
+<br/>
+<div class="cover @[Report.Write Session("PDFOrientation")]@"><table><tr>
+<%[
+    If Session("CoverImage") <> "" Then
+        If Session("PDFOrientation") = "Portrait" Then
+            Report.WriteFormattedLn "<td><img src='{}'></td>", "cover.jpg"
+            Report.WriteFormattedLn "</tr><tr><td class='title'><h1>{&t}</h1></td>", strTitle
+        Else
+            Report.WriteFormattedLn "<td><img src='{}'></td>", "cover.jpg"
+            Report.WriteFormattedLn "<td  class='title'><h1 class='inline'>{&t}</h1></td>", strTitle
+        End If
+    Else
+        Report.WriteFormattedLn "<td class='title'><h1>{&t}</h1></td>", strTitle
+    End If
+]%>
+</tr></table></div>
+</body>
+</html>

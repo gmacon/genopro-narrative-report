@@ -1,0 +1,40 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[
+If Not Session("Book") Then Report.AbortPage
+strTitle = Session("Title")
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script>
+function subst() {
+    var vars={};
+    var x=document.location.search.substring(1).split('&');
+    for (var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+    var x=['topage','page','date'];
+    for (var i in x) {
+        var y = document.getElementsByClassName(x[i]);
+        for (var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+    }
+    /* if this is the first page, just remove the header element from the Document */
+    if(vars['page'] == 1){
+        var elt = document.getElementById("footer");
+        elt.parentNode.removeChild(elt);
+    }
+
+}
+</script></head><body style="border:0; margin: 0; width:100%;" onload="subst()">
+<hr/>
+<br/>
+<div class='floatright'>
+      <span class='page'></span> / <span class='topage'></span>
+</div>
+<div style='text-align:left;'>
+    <span class="date"></span>
+</div>
+</body></html>

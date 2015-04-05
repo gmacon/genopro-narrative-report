@@ -1,0 +1,195 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+Set doc = ReportGenerator.document
+strTitle = Session("Title")
+
+' Provide a mechanism for the viewer to contact the author of the report.  This contact mechanism is only available if
+' the report is published to http://familytrees.genopro.com/
+fContactAuthor = (Left(ReportGenerator.PathOutputHttp, 31) = "http://familytrees.genopro.com/")
+
+
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleHeading"), strTitle ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@"/>
+<meta name="keywords" content="@[Report.WriteText strTitle ]@, GenoPro, ReportHeaderGeneratedByGenoPro, @[ Report.Write ReportGenerator.SoftwareVersion ]@" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<base target="toc"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+</head>
+<body class='gno-heading' title='@[Report.Write Util.IfElse(Session("TitlePosition")="H", strTitle,"")]@' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '');">
+	<div class='clear title banner title_top'>
+		<div>
+			<span class="themed title_heading">@[Report.WriteText Session("Title")]@</span>
+		</div>
+	</div>
+	<div class='menuarea'>
+		<div class='floatright' style="display:inline">
+			<a target="_blank" href="http://www.genopro.com/">
+				<img src="images/genopro.logo.gif" title="@[Report.Write Dic("AltGenoProLogo")]@" alt="@[Report.Write Dic("AltGenoProLogo")]@" width="36" height="36" border="0"/>
+			</a>
+		</div>
+		<%[if (session("fUseIconMenu")) then]%>
+			<div class='floatleft' style="display:inline">
+				<a href="default.htm" target="_parent"><img class="button32" src="images/home32.gif" alt='@[Report.WriteTextDic "AltHome"]@' title='@[Report.WriteTextDic "AltHome"]@'/></a>
+				<a href="toc_individuals.htm" onclick="javascript:tocShow();"><img class="button32" src="images/individuals32.gif" alt='@[Report.WriteTextDic "AltIndividuals"]@' title='@[Report.WriteTextDic "AltIndividuals"]@'/></a>
+				<a href="toc_families.htm" onclick="javascript:tocShow();"><img class="button32" src="images/families32.gif" alt='@[Report.WriteTextDic "AltFamilies"]@' title='@[Report.WriteTextDic "AltFamilies"]@'/></a>
+			
+				<%[ If (Session("Svg")) And Not Util.IsNothing(Session("toc_genomaps")) Then ]%>
+					<a href="toc_genomaps.htm" onclick="javascript:tocShow();"><img class="button32" src="images/trees32.gif" alt='@[Report.WriteTextDic "AltSvg"]@' title='@[Report.WriteTextDic "AltSvg"]@'/></a>
+				<%[
+				End If
+				If (Session("ShowDescendantTreeIcon") And Session("DescendantTreeCharts") > 0) Then
+				]%>
+					<a href="toc_charts.htm" onclick="javascript:tocShow();"><img class="button32" src="images/charts32.gif" alt='@[Report.WriteTextDic "AltChart"]@' title='@[Report.WriteTextDic "AltChart"]@'/></a>
+				<%[
+				End If
+				If (Pictures.Count > 0) And Session("ShowGallery") Then
+				]%>
+					<a href="toc_pictures.htm" onclick="javascript:tocShow();"><img class="button32" src="images/pictures32.gif" alt='@[Report.WriteTextDic "AltPictures"]@' title='@[Report.WriteTextDic "AltPictures"]@'/></a>
+				<%[
+				End If
+				If (Contacts.Count > 0) Then
+				]%>
+					<a href="toc_contacts.htm" onclick="javascript:tocShow();"><img class="button32" src="images/occupancy32.gif" alt='@[Report.WriteTextDic "AltContacts"]@' title='@[Report.WriteTextDic "AltContacts"]@'/></a>
+				<%[
+				End If
+				
+				If (Places.Count > 0) Then
+				]%>
+					<a href="toc_places.htm" onclick="javascript:tocShow();"><img class="button32" src="images/places32.gif" alt='@[Report.WriteTextDic "AltPlaces"]@' title='@[Report.WriteTextDic "AltPlaces"]@'/></a>
+				<%[
+				End If
+				If (SourcesAndCitations.Count > 0) Then
+				]%>
+					<a href="toc_sources.htm" onclick="javascript:tocShow();"><img class="button32" src="images/sources32.gif" alt='@[Report.WriteTextDic "AltSources"]@' title='@[Report.WriteTextDic "AltSources"]@'/></a>
+				<%[
+				End If
+				If (SocialEntities.Count > 0) Then
+				]%>
+					<a href="toc_entities.htm" onclick="javascript:tocShow();"><img class="button32" src="images/entities32.gif" alt='@[Report.WriteText StrDicExt("AltEntities","","Display all groups and organizations (social entities)","","")]@' title='@[Report.WriteText StrDicExt("AltEntities","","Display all groups and organizations (social entities)","","")]@'/></a>
+				<%[
+				End If
+				If (Session("Timelines")) Then
+				]%>
+					<a href="toc_timelines.htm" onclick="javascript:tocShow();"><img class="button32" src="images/timelines32.gif" alt='@[Report.WriteTextDic "AltTimeLine"]@' title='@[Report.WriteTextDic "AltTimeLine"]@'/></a>
+				<%[
+				End If
+				if Session("fGoogleMapsOverview") And Session("GeoTagging") Then
+				]%>
+					<a href='gmap_places.htm' target='detail'><img class="button32" src='images/map_pin32.gif' alt='@[Report.WriteTextDic "gMapPlaces"]@' title='@[Report.WriteTextDic "gMapPlaces"]@'/></a>
+				<%[
+				End If
+				If (Session("Calendar")) Then
+				]%>
+					<a href="calendar.htm" target='detail'><img class="button32" src="images/calendar32.gif" alt='@[Report.WriteText StrDicExt("AltCalendar","","Event Calendar","","")]@' title='@[Report.WriteText StrDicExt("AltCalendar","","Event Calendar","","")]@'/></a>
+				<%[
+				End If
+				]%>
+				<a href='help.htm' target='detail'><img class="button32" src='images/help32.gif' alt='@[Report.WriteText StrDicExt("AltHelpPage","","Using this website","","2010.12.10")]@' title='@[Report.WriteText StrDicExt("AltHelpPage","","Using this website","","2010.12.10")]@'/></a>
+			</div>
+		<%[Else]%>
+			<ul id="menu">
+				<li>
+					<a href="default.htm" target="_parent" title='@[Report.WriteTextDic "AltHome"]@'>@[Report.WriteText StrDicExt("MenuHome","","home","","2011.06.15")]@</a>
+				</li>
+				<li>
+					<a href="toc_individuals.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltIndividuals"]@'>@[Report.WriteText StrDicExt("MenuIndividuals","","individuals","","2011.06.15")]@</a>
+				</li>
+				<li>
+					<a href="toc_families.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltFamilies"]@'>@[Report.WriteText StrDicExt("MenuFamilies","","family","","2011.06.15")]@</a>
+				</li>
+				<%[ If Session("Svg") And Not Util.IsNothing(Session("toc_genomaps")) Then ]%>
+					<li>
+						<a href="toc_genomaps.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltSvg"]@'>@[Report.WriteText StrDicExt("MenuSvg","","trees","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				If (Session("ShowDescendantTreeIcon") And Session("DescendantTreeCharts") > 0) Then
+				]%>
+                <li>
+					<a href="toc_charts.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltChart"]@'>@[Report.WriteText StrDicExt("MenuCharts","","charts","","2014.04.03")]@</a>
+                </li>
+				<%[
+				End If
+				If (Pictures.Count > 0) Then
+				]%>
+					<li>
+						<a href="toc_pictures.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltPictures"]@'>@[Report.WriteText StrDicExt("MenuPictures","","pictures","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				If (Contacts.Count > 0) Then
+				]%>
+					<li>
+						<a href="toc_contacts.htm" onclick="javascript:tocShow();"title='@[Report.WriteTextDic "AltContacts"]@'>@[Report.WriteText StrDicExt("MenuContacts","","occupancies","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				
+				If (Places.Count > 0) Then
+				]%>
+					<li>
+						<a href="toc_places.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltPlaces"]@'>@[Report.WriteText StrDicExt("MenuPlaces","","places","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				If (SourcesAndCitations.Count > 0) Then
+				]%>
+					<li>
+						<a href="toc_sources.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltSources"]@'>@[Report.WriteText StrDicExt("MenuSources","","sources","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				If (SocialEntities.Count > 0) Then
+				]%>
+					<li>
+						<a href="toc_entities.htm" onclick="javascript:tocShow();" title='@[Report.WriteText  StrDicExt("AltEntities","","Display all groups and organizations (social entities)","","")]@'>@[Report.WriteText StrDicExt("MenuEntities","","social entities","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				If (Session("Timelines")) Then
+				]%>
+					<li>
+						<a href="toc_timelines.htm" onclick="javascript:tocShow();" title='@[Report.WriteTextDic "AltTimeLine"]@'>@[Report.WriteText StrDicExt("MenuTimeLine","","timeline","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				if Session("fGoogleMapsOverview") And Session("GeoTagging") Then
+				]%>
+					<li>
+						<a href='gmap_places.htm' target='detail' title='@[Report.WriteTextDic "gMapPlaces"]@'>@[Report.WriteText StrDicExt("MenugMapPlaces","","map","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				If (Session("Calendar")) Then
+				]%>
+					<li>
+						<a href="calendar.htm" target="popup" onclick="javascript:showPopUpFrame('');" title='@[Report.WriteText StrDicExt("AltCalendar","","Event Calendar","","")]@'>@[Report.WriteText StrDicExt("MenuCalendar","","events","","2011.06.15")]@</a>
+					</li>
+				<%[
+				End If
+				]%>
+					<li>
+						<a href='help.htm' target='detail' title='@[Report.WriteText StrDicExt("AltHelpPage","","Using this website","","2010.12.10")]@'>@[Report.WriteText StrDicExt("MenuHelpPage","","Using this website","","2010.12.10")]@</a>
+					</li>
+			</ul>
+		<%[End If]%>
+	</div>
+	<div class='clear title banner title_bottom'>
+		<div>
+			<span class="themed title_heading">@[Report.WriteText Session("Title")]@</span>
+		</div>
+	</div>
+</body>
+</html>

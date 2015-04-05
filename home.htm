@@ -1,0 +1,152 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[
+If Session("Book") Then Report.AbortTemplate
+Set doc = ReportGenerator.document
+Set oStringDictionaryNames = Session("oStringDictionaryNames")
+strTitle = Session("Title")
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleHome"), strTitle ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+@[GoogleAnalytics]@
+</head>
+<body class="gno-index" onload="PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '@[Report.Write Util.JavaScriptEncode(strTitle)]@');">
+<div class='floatright inset'>
+<%[
+If (Left(ReportGenerator.PathOutputHttp, 31) = "http://familytrees.genopro.com/") Then
+    ' Provide a mechanism for the viewer to contact the author of the report.  This contact mechanism is only available if
+    ' the report is published to http://familytrees.genopro.com/
+]%>
+    <a href="http://familytrees.genopro.com/Contact-Author.aspx" onclick="JavaScript:return ContactAuthor();" target="_blank"><img border="0" src="images/contact.author.gif" width="13" height="11" align="top" title='@[Report.WriteTextDic "AltContactAuthor"]@' alt='@[Report.WriteTextDic "AltContactAuthor"]@'/>&#160;</a>
+<%[
+End If
+	Session("NotesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("Notes")
+	ichNotesEnd = Report.BufferLength
+
+	Session("ReferencesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("OtherDetails")
+	ichReferencesEnd = Report.BufferLength
+
+]%>
+</div>
+<div class="title title_home">
+			<h2 class="heading">@[Report.WriteText Session("Title")]@</h2>
+</div>
+<div class='clear inset'>
+<%[
+Report.WriteFormattedLn Dic("FmtHtmlHomeIntro"), strTitle, Individuals.Count, Families.Count
+Report.WriteBr StrDicExt("FmtHtmlHelp","", "<a href='home.htm' target='detail'>Click here for help on accessing this website</a>", "", "2010.12.10")
+strFamilyTreeGno = ReportGenerator.ExtraFiles("FamilyTree.gno")
+If (strFamilyTreeGno <> "") Then
+	Report.WriteFormattedLn Dic("FmtHtmlHomeBrowser"), strFamilyTreeGno, Dic.FormatString("FmtAltViewGnoFile", Util.HtmlEncode(strTitle))
+End If
+strFamilyTreeGed = ReportGenerator.ExtraFiles("FamilyTree.ged")
+If (strFamilyTreeGed <> "") Then
+	Report.WriteFormattedLn Dic("FmtHtmlHomeDownloadGed"), Util.IfElse(strFamilyTreeGno <> "", Dic("Also") & " ",""), strFamilyTreeGed
+End If
+Report.WriteBr
+]%>
+@[ Report.Write StrFormatText(Null, doc.Description) ]@
+<br/>
+<%[
+iNameLast = oStringDictionaryNames.Count - 1
+If (iNameLast > 19) Then
+	iNameLast = 19		' Keep only the first 20 families
+End If
+strFmtTemplate = "<a href='toc_individuals.htm#{0&t}' target='toc'>{0&t}</a>&nbsp;" & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16")
+If Session("fUseTreeIndexes") Then strFmtTemplate = "<a href='toc_individuals.htm?open={0&j}#{0&t}' onclick='tocShow();' target='toc'>{0&t}</a>&nbsp;" & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16")
+cPlaces = Places.Count
+]%>
+<a name='MostPopular'></a>
+<hr/>
+<table class='table1'><tr><td@[Report.Write Util.IfElse(cPlaces > 0," width='49%'","")]@>
+<h3>@[ Report.WriteTextDic "HomeMostPopularFamilyNames" ]@</h3>
+<%[
+strSep=""
+For iName = 0 To iNameLast
+	Report.WriteFormatted strSep & strFmtTemplate, Replace(oStringDictionaryNames.Key(iName) & OStringDictionaryNames.KeyValue(iName)," ", "_"), oStringDictionaryNames.KeyCounter(iName)
+	strSep = ", "
+Next
+
+If cPlaces > 0 Then
+	Report.WriteFormattedLn "</td><td width='2%'></td><td><h3>{}</h3>", Dic("TocIndexPlacesPopular")
+	' Places.SortBy("-References.Count") ' Sort by most popular place
+	Dim oDataSorter, rCnt, collPlaces
+	Set oDataSorter = Util.NewDataSorter()
+	For each p in Places
+		rCnt = p.Session("References")
+		' ignore places with no references
+		If rCnt > 0 Then oDataSorter.Add p, rCnt+10000000
+	Next
+	oDataSorter.SortByKey
+	oDataSorter.Reverse
+	Set collPlaces = oDataSorter.ToGenoCollection
+	iLast = collPlaces.Count - 1
+	If iLast > 19 Then iLast = 19
+
+	strSep=""
+	For i = 0 to iLast
+			Set p = collPlaces(i)
+			Report.WriteFormatted strSep & "<a href='place-{0}.htm' onclick='javascript:showPopUpFrame("""");' title='{1&t}' target='popup'>{2&t}</a>&nbsp;<small>&nbsp;({3})</small>", p.ID, p.Category, p.Session("NameFull"), p.Session("References")
+			strSep = ", "
+	Next
+End If
+
+Report.WriteLn "</td></tr><tr><td>"
+
+If Session("fUseTreeIndexes") Then
+	Report.WriteFormattedLn "<a href='toc_names.htm' target='popup' onclick='javascript:showPopUpFrame(""40%"");'><img class='button24' src='images/a-z.gif' align='bottom' alt=''/>&nbsp;{}</a>", Dic("TocAZSurnameIndex")
+End If
+Report.WriteLn "</td><td></td><td>"
+if Session("fGoogleMapsOverview") And cPlaces > 0 Then 
+	Report.WriteFormattedLn "<a href='gmap_places.htm' target='detail'><img class='button24' src='images/places32.gif' width='24px' height='24px' align='bottom' alt=''/>&nbsp;{}</a>", Dic("gMapPlaces")
+End If
+]%>
+
+</td></tr></table>
+<%[
+' remove any unecessary items (reverse order to avoid invalidating buffer pointers)
+If Session("ReferencesStart") >= 0 Then
+	' We have no place references, so remove the "Show All References | Hide All References"
+	Report.BufferRemoveAt Session("ReferencesStart"), ichReferencesEnd
+End If
+If (Session("NotesStart") >= 0) Then
+	' We have no annotations, so remove the "Show All Notes | Hide All Notes"
+	Report.BufferRemoveAt Session("NotesStart"), ichNotesEnd
+End If
+]%>
+<br/>
+<div id="divEnableScripting" style="display:none;"><hr/>
+	<table width="80%" cellpadding="10">
+		<tr>
+			<td bgcolor="#FFFF00">@[Report.Write Dic("FmtHtmlHomeScripts")]@</td>
+		</tr>
+	</table><br/></div><hr/>
+<p align="center"><small>@[Report.WriteFormatted Dic("FmtHtmlHomeSkin"), ReportGenerator.SoftwareVersion, Year(Date()), Month(Date()), Day(Date()), 
+Util.IfElse(Session("SkinModified"),Dic("Custom") & " ", ""), ReportGenerator.SkinName, Session("SkinVersion")]@@[Report.WritePhrase Dic("FmtHtmlHomeSkin2"),Session("SkinFolder"), Session("SavedProfile")]@.<br/><br/>
+
+</small></p>
+<!--
+<div class="floatleft">
+    <a href="http://validator.w3.org/about.html "target="_blank"><img
+        src="images/valid-xhtml10.png"
+        alt="Valid XHTML 1.0 Transitional" title="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+</div>
+-->
+<p align="center"><a target="_blank" href="http://www.genopro.com/"><img src="images/genopro.logo.gif" alt="@[Report.Write Dic("AltGenoProLogo")]@" title="@[Report.Write Dic("AltGenoProLogo")]@" border="0" width="36" height="36"/></a></p>
+</div>
+<%[WriteHtmlFramesetSafeguard(oStringDictionaryNames.Count)]%>
+</body>
+</html>

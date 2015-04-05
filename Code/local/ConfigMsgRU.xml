@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin
+                        Language="RU"
+                        Name="Narrative Report">
+   <Version>2013.07.30</Version>
+  <!-- CHANGE HISTORY
+         Changes are indicated by an additional 'V' attribute for XML elements below, and a dummy 'V' attribute in comments,
+         in the following format:
+
+                        V="a.b.c.dx?"
+
+        where a.b.c.d is version number, x is optional subversion and ? is the type of change as follows:
+
+            + indicates an insertion
+            x indicates a deletion - also deletions are placed in comments and removed at a later date
+            ± indicates an amendment   
+            ~ indicates a reposition up or down 
+    -->
+  <ReportGenerator
+                        ScriptLanguage="VBScript">
+    <ParameterDescriptions
+                        TextDirection="ltr">
+      <!-- Note to translators: You may change all text in these tags except for the values before the ':' in 'option' attributes O1, O2 etc. so O1="Y:Oui"is OK but not O1="O:Oui" -->
+      <Description Label="Важно" T="Описание">
+          <Comments               T="С помощью этой оболочки создаётся многостраничный индексированный HTML отчёт в повествовательном стиле с необходимыми ссылками. Отчёт предназначен для показа всех данных, внесённых в файл GenoPro. &#10;
+                                    Отчёт включает неограниченное количество страниц для каждой персоны и семьи, изображения, семейные деревья, хронологии, генограммы в форматах SVG и PDF, карты мест Google, диаграммы предков и потомков. &#10;
+                                    &lt;span class='bold'&gt;** Важно&lt;/span&gt;: предполагается размещать Отчёт на web-сервере (например, familytrees.genopro.com) по протоколам HTTP.
+                                    Если Отчёт создаётся и просматривается на локальном компьютере, то &lt;span class='bold'&gt;не всё содержимое может быть доступно&lt;/span&gt; при использовании некоторых браузеров. &#10;   
+                                    Выберите предпочтительные настройки Отчёта. Настройки Отчёта (профиль) могут быть сохранены, изменены или удалены."
+                                  Type="about" V="2013.07.30+"/>
+      </Description>
+      <ThemeSettings	Label="Темы"
+                        T="Выбор темы">
+      <StyleSheet
+                        Default="Default_2"
+                        O1="Default_2:'По умолчанию' - с иконным меню"
+                        O2="Default_3:'По умолчанию' - с текстовым меню"
+                        O3="AcornOliveTeal_2:'AcornOliveTeal' - с иконным меню"
+                        O4="AcornOliveTeal_3:'AcornOliveTeal' - с текстовым меню"
+                        O5="Blood_3:'Blood' - с текстовым меню"
+                        O6="BlueDNA_3:'BlueDNA' - с текстовым меню"
+                        O7="GreenLeaf_2:'GreenLeaf' - с иконным меню"
+                        O8="GreenLeaf_3:'GreenLeaf' - с текстовым меню"
+                        O9="OliveBranch_2:'OliveBranch' - с иконным меню"
+                        O10="OliveBranch_3:'OliveBranch' - с текстовым меню"
+                        O11="RoseTint_3:'RoseTint' - с текстовым меню"
+                        T="Выбор темы оформления Отчёта. Название и описание темы отображаются при расположении курсора над изображением."
+                        Type="theme" />
+      </ThemeSettings>
+      <ContentSettings Label="Содержание" T="Содержание" V="2013.07.30+">
+      <Notes
+                        Default="Y"
+                        T="Показывать все комментарии"
+                        Type="bool"
+                        V="2013.09.22" />
+      <ShowFlags
+                        Default="AEOPRSTW"
+                        Desc="A-Атрибуты и события, E-Образование, O-Работа, P-Поколенная роспись, R-Родственные связи, S-Источники/Ссылки, T-Вкладки пользователя, W-Wherabouts"
+                        T="Individual and Family content flags"
+                        Type="Text"
+                        V="2013.09.22" />
+      <fHideFamilyDetails
+                        Default="Y"
+                        Desc="Данные о семье могут показываться на персональных страницах. Если выбрано, на персональных страницах появятся ссылки на соответствующие семейные страницы."
+                        T="Сворачивать данные о семье на персональных страницах"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <Calendar
+                        Default="Y"
+                        T="Показывать даты дней рождений и годовщин свадеб"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <ShowDescendantTreeIcon
+                        Default="Y"
+                        T="Показывать ссылки на 'Поколенные росписи' как иконки после имени персоны"
+                        Type="bool"
+                        Desc="Ссылки появятся, если создана вкладка пользователя. 'Поколенне росписи' на страницах создаются отдельно с помощью оболочки 'Descendant Tree Chart'."
+                        V="2013.07.30+" />
+      <OptimizeUpload
+                        Default="Y"
+                        T="Only re-upload support files on version change"
+                        Desc="Theme files, Timeline and Google scripts not uploaded again if destination already has a report of the same version"
+                        Type="bool"
+                        V="2013.08.22+" />
+      </ContentSettings>
+      <PDFSettings      Label="PDF"
+                        T="Настройки отчёта в формате PDF">
+        <Book           Default="N"
+                        T="Создать PDF-отчёт вместо HTML-отчёта"
+                        Type="bool"
+                        V="2013.09.08" />
+        <PDFOrientation Default="Portrait"
+                        T="Ориентация страниц"
+                        O1="Portrait:Книжная"
+                        O2="Landscape:Альбомная"
+                        V="2013.09.17"
+                        />
+        <PDFPageSize    Default="A4"
+                        T="Размер страниц"
+                        O1="A4:A4"
+                        O2="Letter:Letter"
+                        V="2013.09.17"
+                        />
+        <PDFPageBreak   Default="LastName"
+                        T="Создать разделители страниц"
+                        O1="LastName:при каждой смене фамилии"
+                        O2="FirstCharacter:при смене первой буквы фамилий по алфавиту"
+                        V="2013.09.15"
+                        />
+        <PDFCover       Default="Y"
+                        T="Создать заглавную страницу"
+                        Type="bool"
+                        V="2013.09.22" />
+         <CoverImage    Default=""
+                        T="Путь для изображения, используемого на заглавной странице (при необходимости)"
+                        Type="file"
+                        V="2013.09.22" />
+        <PDFTOC         Default="N"
+                        T="Создать оглавление"
+                        Type="bool"
+                        V="2013.09.08" />
+        <PDFIntro       Default="N"
+                        Desc="text is taken from the Description field under Generate Report 'Docment' tab"
+                        T="Создать 'Введение'"
+                        Type="bool"
+                        V="2013.09.22" />
+     </PDFSettings>
+      <PresentationSettings Label="Настройки"
+                        T="Другие настройки">
+        <TitlePosition 
+                        Default="B"
+                        O1="B:внизу панели инструментов"
+                        O2="T:вверху панели инструментов"
+                        O3="H:на главной странице"
+                        O4="C:на одной линии с иконками меню"
+                        T="Расположение названия Отчёта"
+                        V="2013.02.17"
+                        />
+      <FontFamily       Default="Arial, Helvetica"
+                        T="Шрифт"
+                        Size="30"
+                        Type="text"
+                        V="2013.02.17"
+                        />
+      <fAutoHideTOC
+                        Default="Y"
+                        Desc="Скрывать фреймы перечней при начальной загрузке и после каждого выбора объекта в перечне"
+                        T="Автоматически скрывать фреймы перечней"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fJoinPlaceNames
+                        Default="N"
+                        Desc="Показывать перечень названий мест перечислением всех мест по подчинённости (каскадом). Это будет выполняться, если имеются простые названия мест (например: 'город', а не 'город, область, страна')"
+                        T="Показывать названия мест по подчинённости мест (каскадом)"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fJoinSourceCitationNames
+                        Default="N"
+                        Desc="Показывать перечень названий источников и ссылок перечислением всех источников и ссылок по подчинённости (каскадом). Это будет выполняться, если имеются простые названия (например: 'книга', а не  'страница, книга, библиотека')"
+                        T="Показывать названия источников и ссылок в подчинённом виде (каскадом)"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fIndexChildPlacesAndSources
+                        Default="Y"
+                        T="Показывать в перечнях мест и источников полную принадлежность мест и источников с учётом подчинённости"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseNotes
+                        Default="Y"
+                        T="Показывать примечания в свёрнутом виде"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseReferences
+                        Default="Y"
+                        T="Показывать подразделы и ссылки в свёрнутом виде"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <NestSourceRefs
+                        Default="N"
+                        T="Показывать источники и ссылки в свёрнутом виде"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <cTocExpand
+                        Default="1000"
+                        Desc="Определяет вид перечней. Значение '-1' - всегда развёрнуты, '0' - свёрнуты."
+                        Size="6"
+                        T="Показывать перечни в свёрнутом виде, если число объектов в них больше"
+                        Type="int" />
+      <ContactTitle
+                        Default="TSOCI"
+                        Desc="где T - название, S - суммарно (тлф., факс, E-mail, моб., Web), O - место проживания, C - 1-я строка комментария, I - ID контакта"
+                        T="Порядок показа полей для контактной информации"
+                        V="2009.11.15" />
+      <FrameBorder
+                        Default="Auto"
+                        Desc="Если границы не показывать, размер фрейма не может быть изменён вручную"
+                        O1="Auto:как в используемой теме"
+                        O2="Yes:показывать"
+                        O3="No:не показывать"
+                        T="Показывать границы фреймов на страницах" />
+      <ForceFrames
+                        Default="Y"
+                        Desc="Не выбирать, если для создания страниц в формате PDF используется Acrobat Pro"
+                        T="Принудительно показывать страницы в пределах фреймов"
+                        Type="bool"
+                        V="2013.04.05±" /> 
+      <PrintWidth
+                        Default="184mm"
+                        Desc="По умолчанию ширина должна быть как для листа формата А4"
+                        Size="6"
+                        T="Ширина страниц при печати (совет: сверните перечень перед печатью)"
+                        Type="text" />
+      </PresentationSettings>
+      <PictureSettings  Label="Изображения"
+                        T="Настройки изображений">
+      <ShowPictures
+                        Default="Y"
+                        T="Показать изображения в отчёте"
+                        Type="bool"
+                        V="2013.09.22+" /> 
+        <fAddGenericImage
+                        Default="N"
+                        Desc="Поместить силуэты на страницах при отсутствии изображений персон"
+                        T="Показывать силуэт при отсутствии изображения персоны"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowPictureDetails
+                        Default="N"
+                        Desc="Показывать сведения об изображениях и примечания к ним на персональных страницах. Эти сведения всегда показываются на страницах 'Изображения'"
+                        T="Показывать всю информацию об изображениях на страницах"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fHidePictureName
+                        Default="N"
+                        Desc="Скрывать названия файлов изображений, которые по умолчанию программа показывает под изображением"
+                        T="Скрывать названия изображения"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fUsePictureThumbnails
+                        Default="Y"
+                        T="Использовать миниатюры изображений"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <fUsePictureId
+                        Default="N"
+                        T="Использовать ID изображения вместо названия"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowTechnicalData
+                        Default="Y"
+                        T="Показывать технические данные изображений"
+                        Type="bool"
+						V="2012.07.XX+" />
+        <PictureSizeLarge
+                        Default="250x250"
+                        Size="9"
+                        T="Наибольший размер изображений - ширина x высота (пикселей)" />
+        <PictureSizeSmall
+                        Default="100x100"
+                        Size="9"
+                        T="Наименьший размер изображений - ширина x высота (пикселей)" />
+        <PicturePadding
+                        Default="15"
+                        Size="2"
+                        T="Рамки изображений (пикселей)"
+                        Type="int" />
+        <PictureInterval
+                        Default="4000"
+                        Size="5"
+                        T="Интервал для слайдшоу в диапазоне 1000 - 10000 (миллисекунд)"
+                        Type="int" />
+      </PictureSettings>
+      <ThumbnailSettings Label="Миниатюры"
+                        T="Настройки миниатюр">
+        <ThumbnailCreate
+                        Default="Y"
+                        Desc="Выбрать для создания программой IrfanView уменьшенных изображений (миниатюр) в папке Отчёта 'thumbnails'. Размер миниатюр будет равен выбранному значению 'Наибольший размер изображений' (по умолчанию 250x250), разрешение 72 точки на дюйм. Если не выбрано, то необходимо так же отменить выбор для параметра 'Использовать миниатюры' в разделе 'Настройки изображений'."
+                        T=" Создавать миниатюры изображений"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <ThumbnailDpi
+                        Default="72"
+                        Size="3"
+                        T="Число точек на дюйм (dpi)"
+                        Type="int" />
+        <ThumbnailQuality
+                        Default="70"
+                        Size="3"
+                        T="Качество изображений в формате JPEG (1-100)"
+                        Type="int" />
+        <IrfanViewPath
+                        Default="%ProgramFiles%\IrfanView\i_view32.exe"
+                        T="Путь к программе IrfanView (по умолчанию {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      <ShowGallery
+                        Default="N"
+                        Desc="N.B. The gallery can take a long time to load. Thumbnails must be enabled if this is to be enabled."
+                        T="Создать галерею изображений в отчёте"
+                        Type="bool"
+                        V="2013.09.22+" /> 
+      </ThumbnailSettings>
+      <MapSettings		Label="GMaps"
+                        T="Настройки карт Google Map">
+        <GoogleMaps
+                        Default="Y"
+                        Desc="Тип карт, масштаб и координаты мест для карт могут быть внесены с помощью вкладок пользователя. Используйте в программе GenoPro Инструменты/Редактор вкладок для создания нового диалога для географических названий мест. Введите название вида '_ххххх' (символ _ обязателен). В этом диалоге создайте 3 вкладки пользователя: Map.Google.Zoom, Map.Google.Type, Map.Google.Width &amp; Map.Google.Height. Используйте эти вкладки в окне Свойства программы для внесения конкретных значений параметров для каждого места."
+                        T="Показывать карты Google"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <GoogleMapsType
+                        Default="1"
+                        O1="1:карта"
+                        O2="2:спутник"
+                        O3="3:гибрид"
+                        O4="4:рельеф"
+                        T="Тип карт" />
+        <GoogleMapsSmall
+                        Default="400x250"
+                        Size="9"
+                        T="Размеры карт, когда с местом связано изображение - ширина x высота (пикселей)" />
+        <GoogleMapsLarge
+                        Default="650x250"
+                        Size="9"
+                        T="Размеры карт, когда с местом не связано изображение - ширина x высота (пикселей)" />
+        <GoogleMapsZoom
+                        Default="7"
+                        Size="2"
+                        T="Масштаб карт по умолчанию (1-13)"
+                        Type="int" />
+        <fGoogleMapsLink
+                        Default="Y"
+                        Desc="В противном случае будет показано как свёрнутое/развёрнутое описание места на появляющейся странице"
+                        T="Показывать место на'Google Map' в появляющемся по гиперссылке фрейме"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fGoogleMapsOverview
+                        Default="Y"
+                        T="Показывать на главной странице ссылку на карту со всеми географическими местами"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </MapSettings>
+      <TimelineSettings Label="Хроно"
+                        T="Настройки Хронологий">
+        <Timelines
+                        Default="Y"
+                        T="Показывать Хронологии"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineShowDuration
+                        Default="Y"
+                        T="Показывать длительность событий цветной линией"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineContemporary
+                        Default="Y"
+                        Desc="Показывать, что событие продолжается (для ныне живущих персон)"
+                        T="Показывать продолжающие ныне события"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEvents
+                        Default="N"
+                        Desc="Если не выбрано, каждая линия используется только для одного события. Более поздние события располагаются в нижней части Хронологии."
+                        T="Не перекрывающиеся во времени события показывать на одной линии на персональных и семейных страницах"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEventsMap
+                        Default="Y"
+                        Desc="Если не выбрано, каждая линия используется только для одного события. Более поздние события располагаются в нижней части Хронологии."
+                        T="Не перекрывающиеся во времени события показывать на одной линии в Хронологиях для генограмм"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineMinEventsIndividual
+                        Default="2"
+                        Size="2"
+                        T="Минимальное число событий для показа Хронологии на персональных страницах"
+                        Type="int" />
+        <TimelineMinEventsFamily
+                        Default="2"
+                        Size="2"
+                        T="Минимальное число событий для показа Хронологии на семейных страницах"
+                        Type="int" />
+      </TimelineSettings>
+      <ServicesSettings Label="GAnalytics"
+                        T="Настройки WEB-сервисов">
+        <GoogleAnalyticsAccount
+                        Default=""
+                        Desc="Укажите код Google Analytics, если используете собственный сайт (НЕ ДЛЯ familytrees.genopro.com)"
+                        T="Ваша учётная запись и номер в Google Analytics (UA-XXXXXXXX-Y)" />
+        <GoogleAnalyticsDomain
+                        Default=""
+                        T="Ваша доменная зона (если используется домен из нескольких уровней)" />
+      </ServicesSettings>
+      <LanguageSettings Label="Язык"
+                        T="Языковые настройки">
+        <LangPossessiveLookup
+                        Default="N"
+                        T="Использовать словарь для создания притяжательных форм имён собственных"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangLocativeLookup
+                        Default="N"
+                        T="Использовать словарь имён для создания 'местных' форм имён собственных"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangBaseNameLookup
+                        Default="N"
+                        T="Использовать словарь имён для создания 'базовых' или 'коренных' форм имён собственных"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangNames
+                        Default=""
+                        Size="3"
+                        T="При использовании словаря для перевода имён в отчёте на другой язык, установите код языка (RU, FR и т.д.)" />
+        <LangPlace
+                        Default=""
+                        Size="3"
+                        T="При использовании словаря имён для перевода названий мест на язык отчёта, установите код языка, с которого делается перевод" />
+        <LangOccupation
+                        Default=""
+                        Size="3"
+                        T="При использовании словаря имён для перевода названий видов занятости на язык отчёта, установите код языка, с которого делается перевод" />
+        <LangAlternative
+                        Default=""
+                        Size="3"
+                        T="Код языка, на который будут переводиться альтернативные имена с помощью словаря имён" />
+        <LangHtmlCulture
+                        Default=""
+                        Size="2"
+                        T="HTML подтип 'Content-Language' или 'диалект', например 'us' обозначать 'en-us'" />
+        <LangNameDictionary
+                        Default="NameDictionary.xml"
+                        T="Файл словаря имён, используемый при переводе и создании исключительных форм имён собственных (по умолчанию {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+        <LangShowOthers
+                        Default="N"
+                        T="Показывать другие языки в многоязычных полях"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangShowDefault
+                        Default="EN"
+                        Size="3"
+                        T="Основной язык для многоязычных полей, если язык не определён в оболочке" />
+        <TextDirection
+                        Default=""
+                        O1=":не изменять"
+                        O2="rtl:справа налево"
+                        O3="ltr:слева направо"
+                        T="Изменить направления текста, установленное ранее" />
+        <OriginalNamesCharts
+                        Default="N"
+                        T="Использовать оригинальные, непереведённые имена в древах предков"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesTimelines
+                        Default="N"
+                        T="Использовать оригинальные, непереведённые имена в хронологиях"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesGoogleMaps
+                        Default="N"
+                        T="Использовать оригинальные, непереведённые названия на картах"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </LanguageSettings>
+      <NameSettings		Label="Имена"
+                        T="Настройки отображения имён">
+        <TagNameFull
+                        Default="Name"
+                        T="Признак показа полного имени персоны (фамилия, имя, отчество; используется в перечнях и заголовках)" />
+        <TagNameFormal
+                        Default="Name.First"
+                        T="Признак показа только имени персоны (используется в первой строке повествования)" />
+        <TagNameKnownAs
+                        Default="Name.Nick"
+                        T="Признак показа прозвища после слов 'известен как' (отображается в первой строке повествования )" />
+        <TagNameShort
+                        Default="Name.Short"
+                        T="Признак показа 'общего' имени персоны (используется в тексте повествования)" />
+        <TagNameAlternative
+                        Default="Name.Alternative"
+                        T="Признак показа 'альтернативного' имени персоны" />
+        <PhraseNameAlternative
+                        Default="{0}[{?!2}[ ({1})]]"
+                        Desc="где 0 - полное имя, 1 - альтернативное имя, 2 - полное имя, включая альтернативное"
+                        T="Шаблон для фразы с 'альтернативным' именем" />
+        <ShowBaseNameOnly
+                        Default="N"
+                        T="Показывать вариации имён в перечнях"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </NameSettings>
+      <SVGSettings      Label="Генограммы"
+                        T="Настройки форматов SVG и PDF для генограмм">
+        <SvgPdf
+                        Default="SVGPDF"
+                        Desc="Если выбран формат PDF, то необходима программа InkScape для конвертации формата SVG в PDF"
+                        O1="SVG:только SVG"
+                        O2="PDF:только PDF"
+                        O3="SVGPDF:SVG и PDF, SVG по умолчанию"
+                        O4="PDFSVG:SVG и PDF, PDF по умолчанию"
+                        O5="None:не показывать генограммы"
+                        T="Использовать в отчёте форматы изображений генограмм"
+                        V="2.0.1.6±" />
+        <fSvgZoomExtent
+                        Default="N"
+                        T="Показывать генограммы формата SVG в полном виде"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgExpandFrame
+                        Default="N"
+                        T="Открывать генограммы формата SVG в полном экране"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgCompress
+                        Default="Y"
+                        T="Сжимать SVG файлы для ускоренной загрузки и выгрузки"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <ShowAllAges
+                        Default="N"
+                        T="Показывать возраст в символе пола у ныне живущих персон"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <PdfToolbar
+                        Default="Y"
+                        T="Показывать панель управления Adobe PDF Reader?(только для Adobe PDF Reader)"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <PdfZoom
+                        Default="100"
+                        Size="2"
+                        T="Масштаб генограмм в формате PDF (только для Adobe PDF Reader), %"
+                        Type="int"
+                        V="2013.02.17+" />
+        <InkscapePath
+                        Default="%ProgramFiles%\Inkscape\inkscape.exe"
+                        T="Путь к программе Inkscape (по умолчанию {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      </SVGSettings>
+      </ParameterDescriptions>
+    <GenerationMessages>
+      <ButtonNext
+	  				    T="следующая" />
+      <ButtonPrevious
+	  				    T="предыдущая" />
+      <Cancel
+                        T="Отмена" />
+      <CommentApplyTheme
+                        T="Выбрана тема '{0}'" />
+      <CommentDefaultTheme
+                        T="Копирование файлов для темы по умолчанию" />
+      <CommentDictionary
+                        T="Код языка отчёта '{0}', версия файла Dictionary '{1}'" />
+      <CommentMerge
+                        T="Объединение {0}[ версии от {1}] с {2}[ версии от {3}]" />
+      <CommentVersion
+                        T="Версия оболочки {0} [{?1} **** с изменениями **** ]"
+                        V="2013.07.30±" />
+      <CommentSelectedTheme
+                        T="Копируются файлы выбранной темы" />
+      <ErrorCantLoadNameDictionary
+                        T="Ошибка: невозможно загрузить содержимое словаря Name Dictionary" />
+      <ErrorConfigMessageNotFound
+                        T="Сообщение Config Generation: Невозможно найти" />
+      <!-- 0=Custom Tag Name, 1=New Tag Name, Test={0}=Custom_tag|, {1}=New_Custom_tag| -->
+      <ErrorCustomDateTag
+                        T="Ошибка: Вкладка пользователя '{0}' - это находится в зависимости с GenoPro Date field, даты могут отражаться некорректно" />
+      <ErrorCustomTag
+                        T="Ошибка: Вкладка пользователя '{0}' - имя признака должно начинаться буквой или символом подчёркивания" />
+      <ErrorCustomTagRename
+                        T="Признак должен быть переименован в редакторе вкладок, т.е. '{0}' необходимо переименовать в '{1}'" />
+      <ErrorDeleteFile
+                        T="Невозможно удалить файл" />
+      <ErrorFetchHeader
+                        T="Ошибка: Невозможно извлечь дату последнего изменения из HTTP header для {0}"
+                        V="2.0.1.6+" />
+      <ErrorGenoMapBounds
+                        T="Ошибка: Генограмма '{0}' не имеет установленных значений границ. Откройте эту генограмму для корректировки"
+                        V="2.0.1.7RC8" />
+      <ErrorHelpSvgNames1 T="Ошибка: 'FmtHtmlHelpSvg', ConfigMsg содержит некорректный номер пар (21)"
+                          V="2011.11.04+" />
+      <ErrorHelpSvgNames2 T="Ошибка: 'FmtHtmlHelpSvg', ConfigMsg содержит некорректный номер paired entries (21 x 2)"
+                          V="2011.11.04+" />
+      <ErrorInkscapeNotFound
+                        T="Изображения в формате PDF для генограмм не будут созданы, т.к. программа Inkscape не найдена по адресу, указанному в файле настроек"
+                        V="2.0.1.6+" />
+      <ErrorInkscapeRun
+                        T="Ошибка запуска программы inkscape.exe" />
+      <ErrorIrfanviewNotFound
+                        T="Миниатюры для изображений не созданы, т.к. программа IrfanView не найдена по адресу, указанному в файле настроек"
+                        V="2.0.1.6+" />
+      <!-- 1=Language Markup, Test={1}={?E:test}| -->
+      <ErrorLangMarkup
+                        T="Не верна языковая метка: {0}" />
+      <ErrorLatLang
+                        T="Ошибка: неизвестный формат широты/долготы:"
+                        V="2011.01.06" />
+      <ErrorNoCachedSize
+                        T="Ошибка: Не кэширована информация о размере для {}"
+                        V="2.0.1.6+" />
+      <ErrorNoCustomSkin
+                        T="Ошибка: Отчёт может быть создан только с использованием пользовательской оболочки. Используйте кнопку 'Новая оболочка' для создания пользовательской версии этой оболочки и создайте отчёт ещё раз" />
+      <!-- 0=error number, 1=error description -->
+      <ErrorNoNameDictionary
+                        T="Ошибка: Не найден файл NameDictionary.xml для выбранного языка" />
+      <ErrorPdfUpload
+                        T="Ошибка: Не удаётся записать PDF файл в папку отчёта:"
+                        V="2.0.1.6+" />
+      <ErrorPicLabelDeprecated
+                        T="Используемая текстовая этикетка 'picture=&quot;picnnnnn&quot;' для изображения в этикетке заменена. Используйте Label/SocialEntity Primary Picture и Custom Tags 'Picture.Style', 'Picture.FixRatio' и 'Picture.FitLabel' вместо текста в Label/Social Entity"
+                        V="2.0.1.6+" />
+      <ErrorPictureConvert
+                        T="Ошибка {} конвертирования изображения {} в миниатюру {}"
+                        V="2.0.1.6+" />
+      <ErrorRegExpBroken
+                        T="Ошибка: ({0}: {1}) - VBScript установлен не корректно в Вашей системе. Рекомендуем загрузить и установить Windows Scripting 5.6 или 5.7 с сайта http://www.microsoft.com/downloads" />
+      <ErrorScriptingVersion
+                        T="Ошибка: для этой оболочка отчёта требуется Windows Script версии 5.5 или новее - установите последнюю версию с сайта Microsoft Download Center" />
+      <ErrorSliderRange
+                        T="Параметр должен быть в диапазоне 1000 - 10000 (миллисекунд)" />
+      <!-- 0=object, 1=string in error, Test={0}=Individual, {1}=<?html>| -->
+      <ErrorTextFormat
+                        T="{0}: Неправильный формат текстовой инструкции: {1}" />
+      <ErrorTextSyntax
+                        T="{0}: Неправильный синтаксис аргумента инструкции текстового формата: {1}" />
+      <ErrorTextToken
+                        T="{0}: Неправильный признак текстового формата: {1}" />
+      <ErrorThumbnailCheck
+                        T="Ошибка: Невозможно определить обновление миниатюры" />
+      <ErrorXMLEntities
+                        T="Ошибка: Следующее поле содержит неверные XML данные i.e. in range &amp;#0; - &amp;#31; but excluding valid entities &amp;#9;,&amp;#10; and &amp;#13; Custom Tag data including Config Parameters in Document Tags will not be processed" />
+      <!-- 0=Error reason, 1=script line number, 2=script text, 3=File details
+                        Test={0}=Invalid Entity, {1}=220, {2}=script stuff,, -->
+      <ErrorXMLLoad
+                        T="Ошибка attempting to parse {3} data: {0} в строке {1}: {2}"
+                        V="2012.07.XX±" />
+      <!--V="2.0.1.6x"         0=Error reason, 1=script line number, 2=script text -->
+      <!--<ErrorXMLLoadDic
+                        T="Предупреждение: невозможно обработать файл Dictionary: {0} в строке {1}:&#10;&#09;{2}&#10;Некоторые элементы и атрибуты Dictionary не доступны"  V="2.0.1.6x"/>-->
+      <!--<ErrorXMLLoadCfg
+                        T="Предупреждение: невозможно обработать файл Config.xml: {0} в строке {1}:&#10;&#09;{2}&#10;"  V="2.0.1.6x"/>-->
+      <!-- 0=Error number, 1=Error description, 2=additional info
+                        Test={0}=123456, {1}=Invalid Argument -->
+      <ErrorHttpGet
+                        T="Ошибка {}: {} (не удаётся получить изображение {})"
+                        V="2.0.1.6+" />
+      <ErrorXMLParser
+                        T="Ошибка: невозможно загрузить ActiveX control для MS XML Parser. {0}:{1}" />
+      <ErrorVB
+                        T="Ошибка {}: {} ({})"
+                        V="2.0.1.6+" />
+      <FmtInvalidPictureID
+                        T="ID изображения {} для метки {} на генограмме {} не верен"
+                        V="2.0.1.6+" />
+      <!--<FmtNoDrawingObjects
+                        T="Нет рисунка объектов для {}"  V="2.0.1.7RC1x"/>-->
+      <FmtPdfUpToDate
+                        T="PDF изображение генограммы {} обновлено"
+                        V="2.0.1.6+" />
+      <FmtThumbnailCreate
+                        T="Обновление миниатюры {0}"
+                        V="2.0.1.6+" />
+      <FmtThumbnailUpToDate
+                        T="Миниатюра {0} обновлена"
+                        V="2.0.1.6+" />
+      <HeaderConfigParameters
+                        T="Выберите раздел для настроек, сделайте необходимые изменения и затем выберите 'Сохранить'"
+                        V="2011.11.04±" />
+      <Marker
+                        T="?"
+                        V="2.0.1.6+" />
+      <Ok
+                        T="OK" />
+      <Parameters
+                        T="настройки" />
+      <ParametersCancelHint
+                        T="Выход из этого диалога с отменой создания Отчёта" />
+      <ParametersOkHint
+                        T="Выход из этого диалога с продолжением создания Отчёта" />
+      <ParametersAbandoned
+                        T="Создание Отчёта отменено пользователем" />
+      <ParametersClearOption
+                        T="Для включения диалога настройки параметров Отчёта в окне 'Свойства генератора отчёта' отмените выбор 'Не показывать диалог изменения параметров Отчёта'" />
+      <ParametersProfile
+                        T="Профиль" />
+      <ParametersDefault
+                        T="- по умолчанию  -" />
+      <ParametersLastUsed
+                        T="- последнее использование -" />
+      <ParametersNew
+                        T="- новый профиль -" />
+      <ParametersLoad
+                        T="Загрузить" />
+      <ParametersLoadHint
+                        T="Загрузить сохранённые параметры для выбранного профиля" />
+      <ParametersDelete
+                        T="Удалить"/>
+      <ParametersDeleteHint
+                        T="Удалить настройки выбранного профиля"/>
+      <ParametersSave
+                        T="Сохранить"/>
+      <ParametersSaveHint
+                        T="Сохранить изменения настроек в реестре для выбранного профиля"/>
+      <ParametersOverride
+                        T="N.B. Display of Parameter Configuration Settings overridden by the 'ChangeParameters' Custom Tag. Clear this tag in order to use the setting from the 'Options' tab of this dialog." />
+      <ParametersSetOption
+                        T="Для отключения диалога настройки параметров Отчёта в окне 'Свойства генератора Отчёта' выберите 'Не показывать диалог изменения параметров Отчёта'" />
+      <ProfileExisting
+                        T="Выберите имеющийся профиль"/>
+      <ProfileNew
+                        T="Введите имя нового профиля:"/>
+      <ProfileValidNew
+                        T="Выберите существующий профиль или новый"/>
+      <SameTheme
+                        T="Optimized Upload - Same Theme - Copying of theme files and images suppressed.  See Config Params to override"
+                        V="2013.09.22+" />
+      <SameVersion
+                        T="Optimized Upload - Same Skin Version - Copying of Google Maps and Timeline support routines suppressed.  See Config Params to override"
+                        V="2013.09.22+" />
+      <Wait             T="Ждите...  Executing command : "
+                        V="2013.09.22+" />
+      <!-- 0=Attribute name, Test={0}=Param -->
+      <WarningAttributeKeyMissing
+                        T="Внимание: StrDicAttribute. Не найден '{0}'" />
+      <!-- 0=Custom Tag Name, 1=Custom Tag Layout Name Test={0}=Custom_tag, {1}=My_Tag_Layout -->
+      <WarningCustomTLayoutExcluded
+                        T="Таблица '{0}' вкладки пользователя обозначена как системная или частная и исключена" />
+      <WarningCustomTagExcluded
+                        T="Вкладка пользователя '{0}' в таблице '{1}' обозначена как системная или частная и исключена" />
+      <WarningEmptyNameDictionary
+                        T="Внимание: Настройки языка выбраны, но в словаре Name Dictionary нет данных" />
+      <!-- This tag overrides the tag FmtTagChange in Dictionary.xml, allowing translation on the report log -->
+      <WarningDicChange
+                        T="Внимание: [Dictionary Tag {1} has been replaced from version {!3} by ]Tag {0}[{?!1} [introduced at version {3} ]is missing from Dictionary and has been defaulted to '{2}]'"
+                        V="2011.9.23+" />
+      <WarningTagChange
+                        T="Внимание: tag {0} introduced at version {2} is missing from Config.xml so defaulted to: {1}"
+                        V="2.0.1.6 (rev.2009.10.01)+" />
+      <WarningTitleMissing
+                        T="Заголовок отсутствует! На вкладке &quot;Document&quot; введите название Вашего генеалогического Отчёта" />
+      <WarningUpgrade1
+                        T="Последняя версия GenoPro доступна" />
+      <WarningUpgrade2
+                        T="Обновите для уверенности в правильной работе с темами" />
+    </GenerationMessages>
+  </ReportGenerator>
+</Skin>

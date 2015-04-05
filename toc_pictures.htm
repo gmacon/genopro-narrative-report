@@ -1,0 +1,133 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+Dim strHtmlFamilyPictures, strHtmlSourcePictures, strHtmlPlacePictures, strHtmlEducationPictures
+Dim strHtmlOccupationPictures, strHtmlEmotionalRelationshipPictures, strHtmlSocialRelationshipPictures
+Dim strLabelPictures, strSocialEntityPictures,  strIndividualContactPictures, strSocialEntityContactPictures, strTreeOnload
+Dim strHtmlIndividualPictures
+
+
+If Session("cTocExpand") = -1 Or  Session("cTocExpand") >= Pictures.Count Then
+	fTreeOpen = true
+	strToggle="collapse"
+Else
+	fTreeOpen = false
+	strToggle = "expand"
+End If
+
+' The following lines of code writes all the family pictures
+' into the output buffer, and then get them back into a strHtmlFamilyPictures.
+' The rationale is there may be no family pictures, and therefore the page can be optimized
+
+WriteHtmlTocFamilies fTreeOpen, true
+strHtmlFamilyPictures = Report.Buffer	' Get the content of the entire buffer stream
+Report.BufferLength = 0			' Flush what was written and restart from scratch.  This line must be before the <html  xmlns='http://www.w3.org/1999/xhtml'> tag
+				' repeat for Individuals
+WriteHtmlTocIndividuals fTreeOpen, true, false, false
+strHtmlIndividualPictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Places
+WriteHtmlTocPlaces fTreeOpen, true
+strHtmlPlacePictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Sources
+WriteHtmlTocSources fTreeOpen, true
+strHtmlSourcePictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Educations
+WriteHtmlTocEducations fTreeOpen, true
+strHtmlEducationPictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Occupations
+WriteHtmlTocOccupations fTreeOpen, true
+strHtmlOccupationPictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Individual Contacts
+WriteHtmlTocIndividuals fTreeOpen, true, true, false
+strHtmlContactIndividualPictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Social Entity Contacts
+WriteHtmlTocEntities SocialEntities, True, True
+strHtmlSocialEntityPictures = Report.Buffer
+Report.BufferLength = 0
+
+				' repeat for Emotional Relationships
+WriteHtmlTocRelationships EmotionalRelationships, True
+strHtmlEmotionalRelationshipPictures = Report.Buffer
+Report.BufferLength = 0
+				' repeat for Social Relationships
+WriteHtmlTocRelationships SocialRelationships, True
+strHtmlSocialRelationshipPictures = Report.Buffer
+Report.BufferLength = 0
+
+				' repeat for Social Entities
+WriteHtmlTocEntities SocialEntities, True, False
+strHtmlSocialEntityPictures = Report.Buffer
+Report.BufferLength = 0
+
+				' repeat for Labels
+WriteHtmlTocLabels Labels, True
+strHtmlSocialLabelPictures = Report.Buffer
+Report.BufferLength = 0
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleTocPictures"), Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<base target="detail"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script type='text/javascript' src="scripts/tocstart.js"></script>
+</head>
+<%[If Session("fUseTreeIndexes") Then]%>
+<body class='gno-index'>
+<%[
+If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if]%>
+@[WriteHtmlButtonToggle("Entries")]@
+<%[Else]%>
+<body class='gno-index' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);">
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if
+End if ]%>
+<h3>@[Report.WriteFormattedLn Dic("TocIndexPictures")]@</h3>
+<%[Report.Write Util.IfElse(Session("fUseCurvyBoxes"), "<div id='toc' class='noboxlower'>", "</div><div id='toc' class='boxlower'>")
+Report.WriteLn "<ul id='names' class='xT'>"
+WriteHtmlIndex "Individual", strHtmlIndividualPictures, "Pictures"
+WriteHtmlIndex "Family", strHtmlFamilyPictures, "Pictures"
+WriteHtmlIndex "Place", strHtmlPlacePictures, "Pictures"
+WriteHtmlIndex "Source", strHtmlSourcePictures, "Pictures"
+WriteHtmlIndex "Education", strHtmlEducationPictures, "Pictures"
+WriteHtmlIndex "Occupation", strHtmlOccupationPictures, "Pictures"
+WriteHtmlIndex "IndividualContact", strHtmlContactIndividualPictures, "Pictures"
+WriteHtmlIndex "SocialEntityContact", strHtmlContactSocialEntityPictures, "Pictures"
+WriteHtmlIndex "EmotionalRelationship", strHtmlEmotionalRelationshipPictures, "Pictures"
+WriteHtmlIndex "SocialRelationship", strHtmlSocialRelationshipPictures, "Pictures"
+WriteHtmlIndex "SocialEntity", strHtmlSocialEntityPictures, "Pictures"
+WriteHtmlIndex "Label", strHtmlLabelPictures, "Pictures"
+If Session("ShowGallery") Then
+	Report.WriteFormattedLn "<li><a href='pictures.htm' target='detail'><h3 class='inline'>{}</h3></a></li>", Dic("PictureGallery")
+End If
+Report.WriteLn "</div>"
+If Session("fUseCurvyBoxes") Then CurvyBoxClose()
+WriteHtmlFramesetSafeguardK Pictures.Count, "GenoProReportPictures", nothing
+]%>
+</body>
+
+</html>

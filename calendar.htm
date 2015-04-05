@@ -1,0 +1,37 @@
+﻿<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>@[Report.WriteText StrDicExt("HeaderCalendar","","Birthdays & Anniversaries","","")]@</title>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script src="scripts/layercalendar.js" type="text/javascript"></script>
+<script src="scripts/calendarevents.js" type="text/javascript"></script>
+<base target="detail"/>
+</head>
+<body class='gno-detail' style='width:98%; height:100%;'  onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);">
+<%[if session("fUseCurvyBoxes") then CurvyBoxOpen()]%>
+<!--
+<div class='floatright'>
+	<img src="images/maximize.gif" class="control24" name="togglePopUp" onclick="javascript:togglePopUpFrame(this.name);" alt="@[Report.WriteTextDic "AltTogglePopupFrame"]@" title="@[Report.WriteTextDic "AltTogglePopupFrame"]@"/>
+	<img src="images/close.gif" class="control24" onclick="hidePopUpFrame(event);" alt="@[Report.WriteTextDic "AltHidePopUpFrame"]@" title="@[Report.WriteTextDic "AltHidePopUpFrame"]@"/>
+</div>
+-->
+<h4 id='subtitle'>@[Report.WriteText StrDicExt("HeaderCalendar","","Birthdays & Anniversaries","","")]@</h4>
+<div>
+<script type="text/javascript">
+// Insert calendar
+Calendar( );
+</script>
+</div>
+<%[if session("fUseCurvyBoxes") then CurvyBoxClose()]%>
+</body>
+</html>

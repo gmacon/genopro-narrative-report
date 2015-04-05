@@ -1,0 +1,96 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteText Session("Title") ]@ - Family Tree</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/script.js"></script>
+<base target="detail"/>
+<style type='text/css'>
+img {border-style:none;vertical-align:middle;}
+</style>
+</head>
+
+<body class='nobr' onload="JavaScript:if (self == parent) document.getElementById('divFrameset').style.display='block';">
+<div align='right'><small><a href='#' onclick='explorerTreeExpandAll("2");return false;'>@[Report.WriteTextDic "TocExpandAll"]@</a> | <a href='#' onclick='explorerTreeCollapseAll("2");return false;'>@[Report.WriteTextDic "TocCollapseAll"]@</a></small></div>
+<h2>@[ Report.WriteTextDic "TocIndexIndividuals" ]@</h2>
+
+<ul class="xT">
+
+<%[
+strNoName = Dic("_NoName")
+
+Set oRepertoryIndividuals = Session("oRepertoryIndividuals")
+If (Not Util.IsNothing(oRepertoryIndividuals)) Then
+	For Each o In oRepertoryIndividuals
+		strFirstChar = o.Key
+		Set oRepertoryFamilies = o.Object(0)
+		Report.WriteFormattedLn "<li class='xT2-c' onclick='xTclk(event,""2"");'> <b>{&t}</b> <small>{&t}</small><ul>", strFirstChar, o.Object(1)
+
+		For Each oFamily In oRepertoryFamilies 
+			strNameLast = oFamily.Key
+			Report.WriteFormatted "<li class='xT2-c' onclick='xTclk(event,""2"")'>&nbsp;<b><u>{&t}</u></b> <small> ({&t})</small><ul>", strNameLast, Dic.PlurialCount("Individual", oFamily.Count)
+			For Each i In oFamily
+'				AddIndividualNode(i)
+				Report.Write "<li class='xT-b'>" & StrHtmlImgGender(i)
+				WriteHtmlTocIndividual i
+				Report.WriteLn "</li>"
+			Next
+			Report.WriteLn "</ul></li>"
+		Next
+		Report.WriteLn "</ul></li>"
+	Next
+
+	Set oRepertoryNoLastName = Session("oRepertoryNoLastName")
+	Report.WriteFormatted "<li class='xT2-c' onclick='xTclk(event,""2"")'>&nbsp;<b>{&t}</b> " & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16") & "<ul>", strNoName, Dic.PlurialCount("Individual", oRepertoryNoLastName.Count)
+	For Each o In oRepertoryNoLastName
+'  		AddIndividualNode(o.Object(0))
+		Report.Write StrHtmlImgGender(o.Object(0))
+		WriteHtmlTocIndividual o.Object(0)
+		Report.WriteBr
+	Next
+	Report.WriteLn "</ul></li>"
+End If
+
+Sub AddIndividualNode(i)
+	Dim cchBuffer, strHtmlCollections, strHtmlIndividual
+	
+	cchBuffer = Report.BufferLength		' Remember the length of the output buffer
+	Report.Write StrHtmlImgGender(i)
+	WriteHtmlTocIndividual i
+	strHtmlIndividual = Report.Buffer(cchBuffer)	' Get the HTML text with the hyperlinks from the buffer
+	Report.BufferLength = cchBuffer 			' Restore the buffer to its original size for the collections
+	
+	WriteIndividualCollection i, i.Educations, "Education"
+	WriteIndividualCollection i, i.Occupations, "Occupation"
+	WriteIndividualCollection i, i.Children, "Family"
+	strHtmlCollections = Report.Buffer(cchBuffer)		' Get the collections from the buffer (this string contains HTML code)
+	Report.BufferLength = cchBuffer 					' Restore the buffer to its original size
+	If (strHtmlCollections <> "") Then
+		Report.WriteFormattedLn "<li class='xT2-c' onclick='xTclk(event,""2"")'>{}<ul>{}</ul></li>", strHtmlIndividual, strHtmlCollections
+	else
+		Report.WriteFormattedLn "<li class='xT-b'>{}</li>", strHtmlIndividual
+	End If
+End Sub
+
+Sub WriteIndividualCollection(i, coll, strCollectionName)
+	If (Not Util.IsNothing(coll)) Then
+		Report.WriteFormattedLn "<li class='xT-b'><a href='{&t}#{&t}'><img src='images/file.png' alt='extra detail'/>&nbsp;{&t}</a></li>", i.Href, strCollectionName, Dic("Toc" & strCollectionName)
+	End If
+End Sub
+
+]%>
+
+</ul>
+<%[ WriteHtmlFramesetSafeguard("Tree" & Individuals.Count) ]%>
+</body>
+</html>

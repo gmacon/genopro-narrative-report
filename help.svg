@@ -1,0 +1,471 @@
+﻿<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+Dim namelist, names, strMsg, c
+namelist=StrDicExt("FmtHtmlHelpSvg","","Paternal/Grandfather|Paternal/Grandmother|Maternal/Grandfather|Maternal/Grandmother|" &_
+                                    "Aunt's 2nd/Husband|Uncle/|Aunt/|Uncle's 2nd/Partner|Father/|Mother/|Father-/in-Law|Mother-/in-Law|" &_
+                                    "Cousin/|Brother-/in-Law|Older/Sister|Me/|Younger/Sister|Wife/|" &_
+                                    "twin/nieces|son/|daughter/","","2011.11.04+")
+names=Split(namelist,"|")
+If Ubound(names) <> 20 Then
+   Report.LogError ConfigMsg("ErrorHelpSvgNames1", "Error: 'FmtHtmlHelpSvg' ConfigMsg tag does not contain the correct number of pairs (21)", "2011.11.04")
+   Report.LogComment Ubound(names) & " " & namelist
+   For c=0 To Ubound(names)
+       strMsg = strMsg & c & " " & names(c) & "; "
+   Next
+   Report.LogWarning strMsg
+Else
+    names=Split(Replace(namelist,"/","|"),"|")
+    If Ubound(names) <> 41 Then
+       Report.LogError ConfigMsg("ErrorHelpSvgNames2", "Error: 'FmtHtmlHelpSvg' ConfigMsg tag does not contain the correct number of paired entries (21 x 2)", "2011.11.04")
+       Report.LogComment Ubound(names) & " " & Replace(namelist,"/","|")
+       For c=0 To Ubound(names)
+           strMsg = strMsg & c & " " & names(c) & "; "
+       Next
+       Report.LogWarning strMsg
+    End If
+End If
+On Error Resume Next
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg id="container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	font-family="Arial"
+	width="800px"
+	height="508px"
+	zoomAndPan="disable"
+	preserveAspectRatio="xMidYMid meet"  xml:space="preserve" 
+	style="background-color:white;fill:none;stroke: black;stroke-width:3px;font-weight:normal;font-size:10px;text-anchor:middle;stroke-linecap:round;stroke-linejoin:round;">
+<!--	<title>Family Subtree Diagram : GenoMap1</title> -->
+	  <script xlink:href='scripts/script.es' type='text/javascript'></script>
+	  <script xlink:href='scripts/SVGPan.js' type='text/javascript'></script>
+        <defs>
+<g id='readme' display='none'><text>
+PLEASE NOTE: If you do not see a GRAPHIC IMAGE of a family tree here but are seeing this text
+instead then it is most probably because the web server is not correctly configured to serve svg
+pages correctly. This problem effects Mozilla browsers using the built-in SVG engine.
+You will need to switch to using Microsoft Internet Explorer 6/7/8 with Adobe's SVG Viewer
+
+You can download the viewer here: http://www.adobe.com/svg/viewer/install/main.html
+see http://developer.mozilla.org/en/docs/SVG:Server_Configuration for information on how to
+correctly configure a web server for svg files.
+<!-- This comment serves as marker text added post version 2011.06.08 to force SVG/PDF generation once only 
+     to overcome missing picture bug-->
+</text></g>
+          <marker id="startarrowblack" markerWidth="6" markerHeight="6" viewBox="0 0 3 6" orient="auto" refX="0" refY="3" markerUnits="strokeWidth"> 
+		<g style="stroke-width:1px;">
+                    <line x1="3" y1="0" x2="0" y2="3"/> 
+                    <line x1="3" y1="6" x2="0" y2="3"/> 
+		</g>
+          </marker> 
+          <marker id="endarrowblack" markerWidth="6" markerHeight="6" viewBox="0 0 3 6" orient="auto" refX="3" refY="3" markerUnits="strokeWidth"> 
+		<g style="stroke-width:1px;">
+                    <line x2="3" y2="3" x1="0" y1="0"/> 
+                    <line x2="3" y2="3" x1="0" y1="6"/> 
+		</g>
+          </marker> 
+          <marker id="endarrowblue" markerWidth="6" markerHeight="6" viewBox="0 0 3 6" orient="auto" refX="3" refY="3" markerUnits="strokeWidth"> 
+		<g style="stroke:blue; stroke-width:1px;">
+                    <line x2="3" y2="3" x1="0" y1="0"/> 
+                    <line x2="3" y2="3" x1="0" y1="6"/> 
+		</g>
+          </marker> 
+          <marker id="endarrowred" markerWidth="6" markerHeight="6" viewBox="0 0 3 6" orient="auto" refX="3" refY="3" markerUnits="strokeWidth"> 
+		<g style="stroke:red; stroke-width:1px;">
+                    <line x2="3" y2="3" x1="0" y1="0"/> 
+                    <line x2="3" y2="3" x1="0" y1="6"/> 
+		</g>
+          </marker> 
+          <marker id="bar" viewBox="0 0 12 22" markerWidth="6" markerHeight="6" orient="auto" refX="6" refY="11" markerUnits="strokeWidth"> 
+		<g style="stroke:red; stroke-width:3px;">
+                    <line x1="1" y1="1" x2="1" y2="20"/> 
+                    <line x1="10" y1="0" x2="10" y2="20"/> 
+		</g>
+          </marker> 
+          <marker id="barcircle" viewBox="0 0 14 24" markerWidth="7" markerHeight="7" orient="auto" refX="7" refY="12" markerUnits="strokeWidth"> 
+		<g style="stroke:green; stroke-width:3px;">
+                    <line x1="1" y1="1" x2="1" y2="20"/> 
+                    <line x1="15" y1="0" x2="15" y2="20"/> 
+                    <circle cx="7.5" cy="10" r="5"/> 
+		</g>
+          </marker> 
+          <marker id="circlegreen"  viewBox="1 1 12 12" markerWidth="6" markerHeight="6" orient="auto" refX="6" refY="6" markerUnits="strokeWidth"> 
+		<g style="stroke:green; stroke-width:2px; fill:white;">
+                    <circle cx="6" cy="6" r="5"/> 
+		</g>
+          </marker> 
+          <marker id="circleblack"  viewBox="1 1 12 12" markerWidth="6" markerHeight="6" orient="auto" refX="6" refY="6" markerUnits="strokeWidth"> 
+		<g style="stroke:black; stroke-width:2px; fill:white;">
+                    <circle cx="6" cy="6" r="5"/> 
+		</g>
+          </marker> 
+          <marker id="linkgreen"  viewBox="0 0 18 12" markerWidth="9" markerHeight="9" orient="auto" refX="6" refY="6" markerUnits="strokeWidth"> 
+		<g style="stroke:green; stroke-width:2px; fill:none;">
+                    <circle cx="6" cy="6" r="5" style="stroke:none;fill:white;"/> 
+                    <circle cx="12" cy="6" r="5" style="stroke:none;fill:white;"/> 
+                    <circle cx="6" cy="6" r="5"/> 
+                    <circle cx="12" cy="6" r="5"/> 
+		</g>
+          </marker> 
+          <marker id="linkblack"  viewBox="0 0 18 12" markerWidth="9" markerHeight="9" orient="auto" refX="9" refY="6" markerUnits="strokeWidth"> 
+		<g style="stroke:black; stroke-width:2px; fill:none;">
+                    <circle cx="6" cy="6" r="5" style="stroke:none;fill:white;"/> 
+                    <circle cx="12" cy="6" r="5" style="stroke:none;fill:white;"/> 
+                    <circle cx="6" cy="6" r="5"/> 
+                    <circle cx="12" cy="6" r="5"/> 
+		</g>
+          </marker> 
+          <marker id="cross"  viewBox="0 0 10 10" markerWidth="6" markerHeight="6" orient="auto" refX="5" refY="5"> 
+		<g style="stroke:red; stroke-width:2px;">
+                    <line x1="0" y1="0" x2="10" y2="10"/> 
+                    <line x1="10" y1="0" x2="0" y2="10"/> 
+		</g>
+          </marker> 
+          <marker id="crossboxred"  viewBox="0 0 10 10" markerWidth="6" markerHeight="6" orient="auto" refX="5" refY="5" markerUnits="strokeWidth"> 
+		<g style="stroke:red; stroke-width:2px;">
+                    <rect x1="0" y1="0" width="10" height="10" style="fill:white;stroke:none;"/> 
+                    <line x1="0" y1="0" x2="10" y2="10"/> 
+                    <line x1="10" y1="0" x2="0" y2="10"/> 
+		    <polyline points="0,0,10,0,10,10,0,10,0,0"/>
+		</g>
+          </marker> 
+          <marker id="crossboxblack"  viewBox="0 0 10 10" markerWidth="6" markerHeight="6" orient="auto" refX="5" refY="5" markerUnits="strokeWidth"> 
+		<g style="stroke:black; stroke-width:2px;">
+                    <rect x1="0" y1="0" width="10" height="10" style="fill:white;stroke:none;"/> 
+                    <line x1="0" y1="0" x2="10" y2="10"/> 
+                    <line x1="10" y1="0" x2="0" y2="10"/> 
+		    <polyline points="0,0,10,0,10,10,0,10,0,0"/>
+		</g>
+          </marker> 
+          <marker id="box"  viewBox="0 0 10 10" markerWidth="6" markerHeight="6" orient="auto" refX="5" refY="5" markerUnits="strokeWidth"> 
+		<g style="stroke:black; stroke-width:2px;">
+                    <rect x1="0" y1="0" width="10" height="10" style="fill:white;stroke:none;"/> 
+                    <text x="5" y="8" style="fill:black;stroke:none;font-size:8px;">?</text>
+		    <polyline points="0,0,10,0,10,10,0,10,0,0"/>
+		</g>
+          </marker> 
+          <marker id="diamondred"  viewBox="0 0 10 10" markerWidth="6" markerHeight="6" orient="auto" refX="5" refY="5"> 
+		<g style="stroke:red; stroke-width:2px; fill:white;">
+                    <path d="M0,5 L5,10 L10,5 L5,0 L0,5"/> 
+		</g>
+          </marker> 
+         <marker id="query"  viewBox="0 0 10 10" markerWidth="6" markerHeight="6" refX="5" refY="5" markerUnits="strokeWidth"> 
+		<g style="stroke:black; stroke-width:2px;">
+		</g>
+          </marker> 
+	  <g id='slash'>
+		<path d='m5, -5 l-10,10'/>
+	  </g>
+	  <g id='backslash'>
+		<path d='m-5,-5 l10,10'/>
+	  </g>
+	  <g id='crossed'>
+		<path d='m-5,-5 l10,10 m0,-10 l-10,10'/>
+	  </g>
+	  <g id='square'>
+	  <path d='m0,0 l-9,0 l0,-9 l9,0 l0,9 z'/>
+	  </g>
+	  <g id='triangle'>
+	  <path d='m0,0 l-9,0 l9,-9 l0,9 z'/>
+	  </g>
+	  <g id='segment'>
+	  <path d='m0,0 l-9,0 a 9,9 0 0,1 9,-9 l0,9 z'/>
+	  </g>
+	  <g id='houseM'>
+	  <path d='m-6,6 l0,-8 l6,-4 l6,4 l0,8 l-12,0 z'/>
+	  </g>
+	  <g id='houseX'>
+	  <path d='m-9,9 l0,-12 l9,-6 l9,6 l0,12 l-18,0 z'/>
+	  </g>
+	  <g id='houseL'>
+	  <path d='m-7.5,7.5 l0,-10 l7.5,-5 l7.5,5 l0,10 l-15,0 z'/>
+	  </g>
+	  <g id='houseS'>
+	  <path d='m-5.5,5.5 l0,-7 l6,-3.75 l5.5,3.75 l0,7 l-11,0 z'/>
+	  </g>
+	  <g id='houseT'>
+	  <path d='m-5,5 l0,-6.5 l5,-3.75 l5,3.75 l0,6.5 l-10,0 z'/>
+	  </g>
+		<path id="dir_arrow" style="stroke: lightgrey;fill:url(#rad1);stroke-width:1px;" d="m8,0 l-8,-8 l-8 8 h4 v8 h8 v-8 z"/>
+		<g id="arrowN" viewBox="-40,-40,40,40">
+			<use xlink:href="#dir_arrow"/>
+		</g>
+		<g id="arrowE">
+			<use xlink:href="#dir_arrow" transform="rotate(90)" viewBox="-40,-40,40,40"/>
+		</g>
+		<g id="arrowS">
+			<use xlink:href="#dir_arrow" transform="rotate(180)" viewBox="-40,-40,40,40"/>
+		</g>
+		<g id="arrowW">
+			<use xlink:href="#dir_arrow" transform="rotate(270)" viewBox="-40,-40,40,40"/>
+		</g>
+		<g id="arrowNE">
+			<use xlink:href="#dir_arrow" transform="rotate(45)" viewBox="-40,-40,40,40"/>
+		</g>
+		<g id="arrowSE">
+			<use xlink:href="#dir_arrow" transform="rotate(135)" viewBox="-40,-40,40,40"/>
+		</g>
+		<g id="arrowSW">
+			<use xlink:href="#dir_arrow" transform="rotate(225)" viewBox="-40,-40,40,40"/>
+		</g>
+		<g id="arrowNW">
+			<use xlink:href="#dir_arrow" transform="rotate(-45)" viewBox="-40,-40,40,40"/>
+		</g>
+		<radialGradient id = "rad1" cx = "50%" cy = "50%" r = "50%" fx="30%" fy="30%">
+			<stop stop-color = "limegreen" offset = "20%"/>
+			<stop stop-color = "greenyellow" offset = "100%"/>
+		</radialGradient>	
+
+	</defs>
+	<g id="genomap">
+	   <rect x="0" y="0" width="800" height="505" style="fill:white; opacity:0"/>
+<path d="M437 230  L437 166" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M539 230  L539 165" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M469 260  L469 321" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M499 90  L499 26" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M590 90  L590 26" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M539 90  L539 165" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M229 93  L229 29" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M345 93  L345 29" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M437 120  L437 166" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M119 120  L119 171" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M119 230  L119 171" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M210 230  L210 166" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M158 230  L158 278" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M119 230  L119 171" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M313 230  L313 166" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M469 380  L469 321" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M712 380  L712 316" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M654 230  L654 170" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M774 230  L774 170" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M712 230  L712 316" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M519 410  L519 458" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M591 410  L591 458" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M344 260  L344 310" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M569 260  L569 305" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M344 375  L344 310" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M244 375  L244 310" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M307 375  L279 425" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M307 375  L334 425" style="fill:none;stroke:black;stroke-width:3px;"/>
+<path d="M33 230  L33 171" style="fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M210 230  L210 166" style="fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="344" y1="260" x2="569" y2="260" style="cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M469,230  V260" style="fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="439" y1="230" x2="539" y2="230" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="499" y1="90" x2="590" y2="90" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="119" y1="120" x2="437" y2="120" style="cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M284,93  V120" style="fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="229" y1="93" x2="345" y2="93" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="119" y1="230" x2="210" y2="230" style=" cursor:pointer;fill:none;stroke: maroon;stroke-width:3px;"/>
+<line x1="214" y1="230" x2="313" y2="230" style=" cursor:pointer;fill:none;stroke: blue;stroke-dasharray:2,4,6,4;stroke-width:3px;"/>
+<use x="263.5" y="230" xlink:href="#houseM" style="fill:white; stroke: blue;stroke-width:3px;"/>
+<line x1="519" y1="410" x2="591" y2="410" style="cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M549,380  V410" style="fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="469" y1="380" x2="712" y2="380" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="654" y1="230" x2="774" y2="230" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="244" y1="375" x2="344" y2="375" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<line x1="33" y1="230" x2="119" y2="230" style=" cursor:pointer;fill:none;stroke: black;stroke-width:3px;"/>
+<path d="M279,425 L334,425" style="fill:none; stroke: none;stroke-width:3px;stroke-dasharray:6,4,2,4;"/>
+<rect x="459" y="333" height="28px" width="20px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="469" y="331">
+<tspan x="470.666666666667" y="345" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(30)]@</tspan>
+<tspan x="470.666666666667" y="359" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(31)]@</tspan>
+</text>
+<rect x="460" y="312" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="460" y="312" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="421.5" y="178" height="28px" width="31px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="437" y="176">
+<tspan x="438.666666666667" y="190" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(16)]@</tspan>
+<tspan x="438.666666666667" y="204" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(17)]@</tspan>
+</text>
+<rect x="428" y="157" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="428" y="157" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="521.5" y="177" height="28px" width="35px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="539" y="175">
+<tspan x="540.666666666667" y="189" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(18)]@</tspan>
+<tspan x="540.666666666667" y="203" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(19)]@</tspan>
+</text>
+<circle cx="539" cy="165" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="539" cy="165" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="469.5" y="38" height="28px" width="59px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="499" y="36">
+<tspan x="500.666666666667" y="50" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(4)]@</tspan>
+<tspan x="500.666666666667" y="64" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(5)]@</tspan>
+</text>
+<rect x="490" y="17" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="490" y="17" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="558.5" y="38" height="28px" width="63px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="590" y="36">
+<tspan x="591.666666666667" y="50" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(6)]@</tspan>
+<tspan x="591.666666666667" y="64" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(7)]@</tspan>
+</text>
+<circle cx="590" cy="26" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="590" cy="26" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="199.5" y="41" height="28px" width="59px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="229" y="39">
+<tspan x="230.666666666667" y="53" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(0)]@</tspan>
+<tspan x="230.666666666667" y="67" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(1)]@</tspan>
+</text>
+<rect x="220" y="20" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="220" y="20" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<path d="M220 20 l4.5 4.5 m9 9 l4.5 4.5 m-18 0 l4.5 -4.5 m9 -9 l4.5 -4.5" style="stroke: #000000;stroke-width:1px;"/>
+<text style="stroke:#FFFFFF;stroke-width:1px;fill:none;font-size:8px;text-anchor:middle;" x="229" y="32">73</text>
+<text style="stroke:none;stroke-width:1px;fill:#000000;font-size:8px;text-anchor:middle;" x="229" y="32">73</text>
+<rect x="313.5" y="41" height="28px" width="63px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="345" y="39">
+<tspan x="346.666666666667" y="53" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(2)]@</tspan>
+<tspan x="346.666666666667" y="67" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(3)]@</tspan>
+</text>
+<circle cx="345" cy="29" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="345" cy="29" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<path d="M336 20 l4.5 4.5 m9 9 l4.5 4.5 m-18 0 l4.5 -4.5 m9 -9 l4.5 -4.5" style="stroke: #000000;stroke-width:1px;"/>
+<text style="stroke:#FFFFFF;stroke-width:1px;fill:none;font-size:8px;text-anchor:middle;" x="345" y="32">91</text>
+<text style="stroke:none;stroke-width:1px;fill:#000000;font-size:8px;text-anchor:middle;" x="345" y="32">91</text>
+<rect x="105" y="183" height="28px" width="28px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="119" y="181">
+<tspan x="120.666666666667" y="195" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(10)]@</tspan>
+<tspan x="120.666666666667" y="209" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(11)]@</tspan>
+</text>
+<rect x="110" y="162" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="110" y="162" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="198.5" y="178" height="28px" width="23px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="210" y="176">
+<tspan x="211.666666666667" y="190" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(12)]@</tspan>
+<tspan x="211.666666666667" y="204" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(13)]@</tspan>
+</text>
+<circle cx="210" cy="166" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="210" cy="166" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="141" y="290" height="28px" width="34px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="158" y="288">
+<tspan x="159.666666666667" y="302" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(24)]@</tspan>
+<tspan x="159.666666666667" y="316" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(25)]@</tspan>
+</text>
+<circle cx="158" cy="278" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="158" cy="278" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="7" y="183" height="28px" width="52px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="33" y="181">
+<tspan x="34.6666666666667" y="195" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(8)]@</tspan>
+<tspan x="34.6666666666667" y="209" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(9)]@</tspan>
+</text>
+<rect x="24" y="162" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="24" y="162" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="284.5" y="178" height="28px" width="57px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="313" y="176">
+<tspan x="314.666666666667" y="190" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(14)]@</tspan>
+<tspan x="314.666666666667" y="204" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(15)]@</tspan>
+</text>
+<circle cx="313" cy="166" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="313" cy="166" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="700" y="328" height="28px" width="24px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="712" y="326">
+<tspan x="713.666666666667" y="340" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(34)]@</tspan>
+<tspan x="713.666666666667" y="354" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(35)]@</tspan>
+</text>
+<circle cx="712" cy="316" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="712" cy="316" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="636.5" y="182" height="28px" width="35px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="654" y="180">
+<tspan x="655.666666666667" y="194" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(20)]@</tspan>
+<tspan x="655.666666666667" y="208" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(21)]@</tspan>
+</text>
+<rect x="645" y="161" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="645" y="161" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="754.5" y="182" height="28px" width="39px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="774" y="180">
+<tspan x="775.666666666667" y="194" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(22)]@</tspan>
+<tspan x="775.666666666667" y="208" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(23)]@</tspan>
+</text>
+<circle cx="774" cy="170" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="774" cy="170" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="509" y="470" height="28px" width="20px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="519" y="468">
+<tspan x="520.666666666667" y="482" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(38)]@</tspan>
+<tspan x="520.666666666667" y="496" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(39)]@</tspan>
+</text>
+<rect x="510" y="449" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="510" y="449" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<rect x="568.5" y="470" height="28px" width="45px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="591" y="468">
+<tspan x="592.666666666667" y="482" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(40)]@</tspan>
+<tspan x="592.666666666667" y="496" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(41)]@</tspan>
+</text>
+<circle cx="591" cy="458" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="591" cy="458" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="329.5" y="322" height="28px" width="29px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="344" y="320">
+<tspan x="345.666666666667" y="334" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(28)]@</tspan>
+<tspan x="345.666666666667" y="348" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(29)]@</tspan>
+</text>
+<circle cx="344" cy="310" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="344" cy="310" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<rect x="548" y="317" height="28px" width="42px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="569" y="315">
+<tspan x="570.666666666667" y="329" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(32)]@</tspan>
+<tspan x="570.666666666667" y="343" style="stroke:none;fill: black;text-anchor:middle;">@[Report.Write names(33)]@</tspan>
+</text>
+<circle cx="569" cy="305" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="569" cy="305" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<a xlink:href='#'>
+<rect x="223.5" y="322" height="28px" width="41px" style="stroke:none;fill:#FFFFFF;"/>
+<text style="font-size:10px;" x="244" y="320">
+<tspan x="245.666666666667" y="334" style="stroke:none;fill:blue;text-anchor:middle;">@[Report.Write names(26)]@</tspan>
+<tspan x="245.666666666667" y="348" style="stroke:none;fill:blue;text-anchor:middle;">@[Report.Write names(27)]@</tspan>
+</text>
+</a>
+<rect x="235" y="301" width="18px" height="18px" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<rect x="235" y="301" width="18px" height="18px" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="cyan" begin="mouseover" end="mouseout"/>
+</rect>
+<circle cx="279" cy="425" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="279" cy="425" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<circle cx="334" cy="425" r="9" style="cursor:pointer;stroke: white;fill:#FFFFFF;stroke-width:3px;"/>
+<circle cx="334" cy="425" r="9" style="cursor:pointer;stroke: #000000;fill:none;stroke-width:3px;">
+<set attributeName="fill" attributeType="CSS" to="pink" begin="mouseover" end="mouseout"/>
+</circle>
+<text x="309" y="437" style="text-anchor:middle;fill:#000000;stroke: #FFFFFF;font-size:10px;pointer-events:none;">
+<tspan x="309" y="451" style="stroke:none;">@[Report.Write names(36)]@</tspan>
+<tspan x="309" y="465" style="stroke:none;">@[Report.Write names(37)]@</tspan>
+</text>
+</g>
+</svg>

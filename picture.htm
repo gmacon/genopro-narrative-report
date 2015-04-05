@@ -1,0 +1,101 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+
+
+
+If p.References.Count = 0 Or p.Session("IsExcluded") Then Report.AbortPage
+
+strTitle = Dic("Picture") &" " & Util.IfElse(Session("fUsePictureId") = True,p.ID,StrFormatText(p, StrParseText(Trim(p.Name), True)))
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteText Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<base target="detail"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript'>
+	$(function () {
+		PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '@[Report.Write Util.JavaScriptEncode(strTitle)]@');
+		$('div.queue a.gallery').fancybox({'cyclic':true});
+	});
+</script>
+@[GoogleAnalytics]@
+</head>
+<body class="gno-detail">
+<%[if session("fUseCurvyBoxes") then CurvyBoxOpen()]%>
+<div class='floatright'>
+<%[
+	Session("NotesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("Notes")
+	ichNotesEnd = Report.BufferLength
+
+	Session("ReferencesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("OtherDetails")
+	ichReferencesEnd = Report.BufferLength
+
+	WriteHtmlButtonToggle("HidePopUp")
+]%>
+</div>
+<h2>@[ Report.Write strTitle ]@</h2>
+
+<%[
+Dim strDimension, c, strName, strMap
+	strMap = p.Session("AreaMap")
+	If strMap = "" Then
+		Report.WriteLn "<div class='floatright queue'>"
+		strDimension = p.PictureDimension(Session("cxPictureSizeLarge") & "x" & Session("cyPictureSizeLarge"))
+		WriteHtmlPicture p, p, Util.GetWidth(strDimension), Util.GetHeight(strDimension), Session("cxyPicturePadding"), "right", Session("cxPictureSizeLarge"), Session("cyPictureSizeLarge")
+		Report.WriteLn "</div>"
+	End If
+	strName = Util.IfElse(g_fUse_PictureId,Trim(p.Name),"")
+	If strMap <> "" Then
+		Report.Write "<div width='95%' style='text-align:center; overflow:auto;'>"
+		Report.WriteFormattedLn "<img src='{}' class='pic' usemap='#map'/>", p.Path.report
+		Report.WriteFormattedLn "<map name='map'>{}</map>", strMap
+		Report.WriteFormattedLn "<div class='note'>{}</div>", Dic("PictureMapHint")
+		Report.WriteLn "</div>"
+	End If
+	Report.WritePhraseDic "PhPictureDetails", Util.IfElse(Session("fHidePictureName"), "", strName), p.Date.ToStringNarrative, StrHtmlHyperlink(p.Place), ""
+	WriteHtmlFootnoteRef p.Source
+	If Not Util.IsNothing(p.Source) Then g_collFootnotes.AddUnique(p.Source)
+	
+	WriteHtmlExtraNarrative p
+
+	WriteHtmlAdditionalInformation p
+	WriteHtmlAnnotation p, Dic("AnnotationPicture"), p.Comment
+	Set c = p.Cache
+	If Session("fShowTechnicalData") Then WriteHtmlAnnotation p, Dic("AnnotationPictureTechnical"), Util.FormatPhrase(Dic("PhPictureTechnical"), c.Dimension, c.Megapixels, c.FileSizeKB, c.Dpi, c.Bpp, p.Path.relative)
+	WriteHtmlAllFootnotes p.Sources, True
+	WriteHtmlReferences p, False
+	Report.Writeln "<div class='clear'></div>"
+
+' remove any unecessary items (reverse order to avoid invalidating buffer pointers)
+If Session("ReferencesStart") >= 0 Then
+	' We have no place references, so remove the "Show All References | Hide All References"
+	Report.BufferRemoveAt Session("ReferencesStart"), ichReferencesEnd
+End If
+If (Session("NotesStart") >= 0) Then
+	' We have no annotations, so remove the "Show All Notes | Hide All Notes"
+	Report.BufferRemoveAt Session("NotesStart"), ichNotesEnd
+End If
+]%>
+<div class='clear'></div>
+<%[ WriteHtmlFramesetSafeguard("Places") ]%>
+<%[if session("fUseCurvyBoxes") then CurvyBoxClose()]%>
+</body>
+
+</html>

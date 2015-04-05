@@ -1,0 +1,265 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+Set doc = ReportGenerator.document
+Set oStringDictionaryNames = Session("oStringDictionaryNames")
+strTitle = Session("Title")
+]%><!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteText strTitle ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script type='text/javascript' src="scripts/script.js"></script>
+<script type="text/javascript">
+
+var basepath, setRhs = "*,65%", minRhs="0,*", setLower="30%,*", saveLower, minLower="0,*", setPopup,
+	frameLower, frameRhs, maxPopups=@[ Report.WriteText Util.IfElse(Session("MaxPopup"), "true", "false")]@;
+
+
+$.cookie('origin', window.location.href);
+
+basepath = window.location.pathname;
+$.cookie('basepath', basepath.substr(0, basepath.lastIndexOf('/')));
+
+if (!maxPopups) {
+	if (window.location.search.substring(1) == 'reloaded') {
+		maxPopups = $.cookie('maxPopups') == 'true';
+	} else if (SmartPhone.isAny() || smallScreen()) {
+		maxPopups = confirm('@[ Report.WriteText StrDicExt("SmallScreen", "", "Optimize presentation for smaller screen?", "", "2014.08.17")]@');
+		$.cookie('maxPopups', maxPopups ? 'true' : 'false', 1);
+	}
+}	
+if (maxPopups ) {
+	setPopup = '100%';
+	saveLower=saveLower2="100%,0";
+} else {
+	setPopup ='65%';
+	saveLower=saveLower2="30%,*";
+}
+
+$.cookie('popupToggleState',"images/maximize.gif");
+$.cookie('tocStateToggle', (@[Report.Write Session("AutoHideTOCjs")]@ ? 'Close' : 'Open'));
+/*
+$.cookie('tocOpensrc', "images/toc_open.gif");
+$.cookie('tocOpentitle', "@[Report.Write StrDicExt("AltTOCToggleOpen", "", "This frame will stay open after an entry is selected. Click to change","", "2011.02.04")]@");
+$.cookie('tocOpenalt', $.cookie('tocOpentitle'));
+$.cookie('tocClosesrc', "images/toc_close.gif");
+$.cookie('tocClosetitle', "@[Report.Write StrDicExt("AltTOCToggleClose", "", "This frame will close after an entry is selected. Click to change","", "2011.02.04")]@");
+$.cookie('tocClosealt', $.cookie('tocClosetitle'));
+$.cookie('tocAutoHide', @[Report.Write Session("AutoHideTOCjs")]@);
+$.cookie('popupTitle', '');
+$.cookie('popupHTML', '');
+*/
+	var frameBorders = @[Report.Write Util.IfElse(Session("FrameBorders"),"true","false")]@;
+	var iconMenu = @[Report.Write Util.IfElse(Session("fUseIconMenu"),"true","false")]@;
+
+var actions = {
+	title : 		function(msg) {
+						window.document.title = msg;
+					},
+	hidePopup : 	function(msg) {
+						document.getElementById('rhs').rows="*,0";
+						$.cookie('popupToggleState', "images/maximize.gif");
+						$.cookie('popupTitle', '');
+						$.cookie('popupHTML', '');
+						window.frames["popup"].location.href = (msg ? msg :'popup.htm');
+					},
+	maxPopup : 		function() {
+						if (frameLower.cols != "0,*") saveLower = frameLower.cols;
+						frameLower.cols = "0,*";
+						frameRhs.rows = "0,*";
+						$.cookie('popupToggleState', "images/restore.gif");
+					},
+	restorePopup : 	function() {
+						if ($.cookie('popupToggleState') == "images/restore.gif") {
+							frameRhs.rows = setRhs;
+							$.cookie('popupToggleState', "images/maximize.gif");
+						}
+					},
+	openPopup : 	function(popup) {
+						window.frames["popup"].location.href = popup;
+						actions.showPopup();
+					},
+	showPopup : 	function(msg) {
+						if ($.cookie('popupToggleState') == "images/restore.gif") {  // if popup previously maximised, reset it to normal size.
+							document.getElementById('rhs').rows = setRhs;
+						}
+						var pc=(msg ? msg : setPopup);
+						if(maxPopups || document.getElementById('rhs').rows=="*,0" || pc != "")      // don't change if already changed by user
+						{	
+							document.getElementById('rhs').rows="*,"+pc;
+							$.cookie('popupToggleState', (pc == '100%' ?  "images/restore.gif" : "images/maximize.gif"));
+						}
+					},
+	hideMap	  : 	function() {
+						actions.hidePopup('popup.htm');
+					},
+	hideTOC :		function(popup) {
+						if (frameLower.cols && frameLower.cols != minLower) saveLower = frameLower.cols;
+						frameLower.cols = minLower;
+						if (popup) action.showPopup(popup);
+					},
+	showTOC :		function() {
+						document.getElementById('lower').cols = saveLower;
+					}
+	}
+
+$.receiveMessage(function(e){
+	// console.log('receiveMessage', e.data); //debug
+
+	var parts =e.data.split('=');
+	var msg = (parts.length > 1 ? e.data.substr(parts[0].length+1) : null);
+	if (parts[0] in actions) {
+		actions[parts[0]](msg);
+	} else {
+		alert('missing action for '+parts[0]);
+	}
+/*
+	switch (parts[0]) {
+		case 'title' :
+			window.document.title = msg;
+			break;
+			
+		case 'showPopup' :
+			break;
+		case 'tocPopupShow':
+			console.log('tocPopupShow1');
+			if (msg.substr(0,1) == 'Y') {
+			console.log('tocPopupShow2');
+				var lowerFrame = document.getElementById('lower');
+				if (lowerFrame.cols && lowerFrame.cols != minLower) saveLower = lowerFrame.cols;
+				lowerFrame.cols = minLower;
+			}
+			console.log($.cookie('popupToggleState'),saveLower2, saveRhs2);
+			//if ($.cookie('popupToggleState') != "images/maximize.gif") {
+				document.getElementById('lower').cols = saveLower2;
+				document.getElementById('rhs').rows = saveRhs2;
+				$.cookie('popupToggleState', "images/maximize.gif");
+			//}
+			window.frames["popup"].location.href = msg.substr(1);
+			break;
+		case 'tocPopupHide':
+		case 'hidePopup':
+			break;
+		case 'setpopup':
+			window.frames["popup"].location.href = (msg ? msg :'popup.htm');
+			break;
+		case 'togglePopup':
+			break;
+		case 'restorePopup':
+			break;
+		case 'hideMap':
+			break;
+		case 'tocHide':
+			var lowerFrame = document.getElementById('lower');
+			if (lowerFrame.cols && lowerFrame.cols != minLower) saveLower = lowerFrame.cols;
+			lowerFrame.cols = minLower;
+			break;
+		case 'tocShow':
+			break;
+		default:
+			alert('missing action for '+parts[0]);
+		}
+*/
+});
+
+// Open an individual page if specified in the querystring or referrer
+function HomePageInit() {
+  //	HISTORY
+  //	12-Oct-2006	GenoPro			Creation
+
+	// check if a url is specify in the querystring
+	var indexPageToLoad = location.search.indexOf("page=");
+	if (indexPageToLoad != -1) {
+		var pageToLoad = location.search.substring(indexPageToLoad + 5); // page= is 5 characters width
+		self.frames['detail'].location = pageToLoad;
+	}
+}
+function fixFrameSet(framesetObj, topFrame) {
+         var rows = framesetObj.getAttribute("rows"), cols = framesetObj.getAttribute("cols"); 
+         if (frameBorders) {
+            framesetObj.setAttribute("border","2");
+            framesetObj.setAttribute("framespacing","1");
+         }else{
+            framesetObj.setAttribute("framespacing","0");
+            framesetObj.setAttribute("border","0");
+         };
+         if (rows) framesetObj.setAttribute("rows", rows);
+         if (cols) framesetObj.setAttribute("cols", cols);
+         if (topFrame) {
+            fixFrameSet(document.getElementById("lower"), false);
+            fixFrameSet(document.getElementById("rhs"), false);
+         }
+}
+$(function () {
+		fixFrameSet(document.body, true);
+		document.getElementById("rhs").rows="*,1";
+		document.getElementById("rhs").rows="*,0";
+		frameLower = document.getElementById('lower');
+		frameRhs = document.getElementById('rhs');
+}
+);
+</script>
+</head>
+<frameset @[Report.Write Util.IfElse(Session("TitlePosition")="C","id=""outer"" rows=""45,*""","id=""outer"" rows=""80,*""")]@ onload="javascript:HomePageInit();">
+    <frame name="heading" src="heading.htm" scrolling="no"@[Report.Write FrameBorder()]@/>
+    <frameset id="lower" cols="@[Report.Write Util.IfElse(Session("fAutoHideTOC"),"0,*"," 30%,*")]@">
+        <frame@[Report.Write FrameBorder()]@ name="toc" src="toc_individuals.htm" marginwidth='10' marginheight='15'/>
+    		<frameset id="rhs" rows="*,0">
+    			<frame@[Report.Write FrameBorder()]@ name="detail" id="detail" src="home.htm" scrolling="auto" marginwidth='5' marginheight='15'/> 
+    			<frame@[Report.Write FrameBorder()]@ name="popup" id="popup" src="popup.htm" scrolling="auto" marginwidth='5' marginheight='5'/>
+    		</frameset>
+	  </frameset>
+    <noframes>
+      <body>    
+         <p id="noframes">
+<%[          NoFrames]%>
+         </p>
+      </body>
+    </noframes>
+</frameset>
+</html><%[
+Function FrameBorder()
+    FrameBorder=Util.IfElse(Not Session("FrameBorders")," frameborder=""0"""," style=""margin-width:2px;border-color:silver;""")
+End Function
+Sub NoFrames
+      Report.WriteFormatted Dic("FmtHtmlDefault1"), strTitle
+      Report.WritePhraseDic "FmtHtmlDefault2", Individuals.Count, Families.Count, Dic.PlurialCount("Picture", Pictures.Count), doc.Description
+      Set oStringDictionaryNames = Session("oStringDictionaryNames")
+      If (Not Util.IsNothing(oStringDictionaryNames)) Then
+      	Report.WriteLn "</p><ul>"
+      	WriteFamily 0
+      	WriteFamily 1
+      	WriteFamily 2
+      	WriteFamily 3
+      	Report.WriteLn "</ul><p>"
+      	Report.WriteLn Dic("FmtHtmlDefault3")
+      	
+      	strSep = ""
+      	iNameLast = oStringDictionaryNames.Count - 1
+      	For iName = 4 To iNameLast
+      		Report.WriteFormatted "{0}<a href='toc_individuals.htm#{1&t}'>{1&t}</a>", strSep, oStringDictionaryNames.Key(iName)
+      		strSep = ", "
+      	Next
+      	Report.WriteBr "."
+      End If
+      Report.WriteBr
+      Report.WriteFormatted Dic("FmtCopyright"), "© 1998-2011 GenoPro Inc."
+      Report.WriteFormatted Dic("FmtHtmlDefault6"), "<a href='http://www.genopro.com/'>http://www.genopro.com/</a>"
+End Sub   
+Sub WriteFamily(iFamily)
+	Dim strName
+	If (iFamily < oStringDictionaryNames.Count) Then
+		strName = oStringDictionaryNames.Key(iFamily)
+		Report.WriteFormattedLn "<li><a href='toc_individuals.htm#{0&t}'>{1}</a>.</li>", strName, Util.FormatPhrase(Dic("FmtHtmlDefault4"), strName, oStringDictionaryNames.KeyCounter(iFamily), (iFamily Mod 2) = 0, (iFamily Mod 3) <> 0, iFamily = 0)
+	End If
+End Sub
+]%>

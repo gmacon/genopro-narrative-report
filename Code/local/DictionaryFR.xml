@@ -1,0 +1,3422 @@
+<Dictionary
+         Language="FR">
+  <Authors>
+    <!--
+        Bref historique sur chaque auteur ayant modifié ce fichier 'Dic'.
+        Le but de cette liste est de rendre hommage aux contributeurs et de présenter une méthode pour communiquer avec eux, si nécessaire.
+        
+        Mes remerciements personnels vont à Ron Prior, d'Angleterre, qui a conçu les rapports narratifs.  Sans Ron, ni les phrases narratives ni les méthodes 'FormatPhrase' et 'WritePhrase' n'existeraient.
+        Dan Morin.
+        -->
+    <Author
+         Comment="Création"
+         Contact="http://www.genopro.com/"
+         DateFirstModified="2005"
+         Name="GenoPro" />
+    <Author
+         Comment="Changements faits par Ron Prior"
+         DateLastModified="12-Déc-2006"
+         Name="GenoPro" />
+    <Author
+         Comment="Changer quelques hyperliens pour pointer vers les nouvelles pages HTML du nouveau site web de GenoPro 2007"
+         DateLastModified="20-Déc-2006"
+         Name="GenoPro" />
+    <Author
+         Comment="Certaines phrases par sexe et les définitions de descripteurs"
+         DateLastModified="Avr-2007"
+         Name="GenoPro" />
+    <Author
+         Comment="Addition de phrases dans 'Dic' et création de 'NameDictionary' pour aider aux traductions"
+         DateLastModified="Jun-2007"
+         Name="GenoPro" />
+    <Author
+         Comment="Ajustage des textes du Dic"
+         DateLastModified="Déc-2007"
+         Name="GenoPro" />
+    <Author
+         Comment="Remise à jour avec version 2.0.1.6"
+         DateLastModified="15-Sep-2008"
+         Name="JC Guasp" />
+  </Authors>
+  <!-- Historique des modifications
+          Les modifications sont signalées par un attribut supplémentaire «V» pour les éléments XML ci-dessous, et d'attribuer un mannequin «V» dans les commentaires,
+          dans le format suivant:
+
+         V = "a.b.c.dx?"
+
+         où a.b.c.d est le numéro de version, x est facultative et subversion? est le type de changement comme suit:
+
+             + indique une insertion
+             x indique un deletetion - aussi les suppressions sont placés dans les commentaires et enlevé à une date ultérieure
+             ± indique une modification
+             ~ indique un repositionnement haut ou le bas
+    -->
+  <Enumerations>
+    <!-- 
+        Chaque énumération peut être automatiquement générée par GenoPro à partir du dialogue des définitions de tags (Menu Outils -> Afficher les descripteurs).
+        Simplement, cliquer double sur une énumération, et coller le contenu du presse-papier dans ce fichier.
+        -->
+    <BloodType>
+      <O
+         T="O" />
+      <OPlus
+         T="O+" />
+      <OMinus
+         T="O-" />
+      <A
+         T="A" />
+      <APlus
+         T="A+" />
+      <AMinus
+         T="A-" />
+      <B
+         T="B" />
+      <BPlus
+         T="B+" />
+      <BMinus
+         T="B-" />
+      <AB
+         T="AB" />
+      <ABPlus
+         T="AB+" />
+      <ABMinus
+         T="AB-" />
+      <Unknown
+         T="Inconnu" />
+    </BloodType>
+    <BodyDisposition>
+      <burial
+         T="son corps a été inhumé" />
+      <cremation
+         T="son corps a été incinéré" />
+      <entombment
+         T="son corps a été mis au tombeau" />
+      <bodydonation
+         T="son corps a été légué à la recherche médicale" />
+      <bodyneverfound
+         T="son corps n'a jamais été retrouvé" />
+      <Unknown
+         T="la disposition de son corps est inconnue" />
+      <Other
+         T="la disposition de son corps s'est faite par d'autre moyen" />
+    </BodyDisposition>
+    <CauseOfDeath>
+      <Natural
+         T="suite à une cause naturelle ou âge avancé" />
+      <Stroke
+         T="suite à un infarctus" />
+      <HeartAttack
+         T="suite à une attaque cardiaque" />
+      <CardiacArrest
+         T="suite à un arrêt du cœur" />
+      <HeartDisease
+         T="suite à une maladie cardiaque" />
+      <Cancer
+         T="suite à un cancer" />
+      <Diabetes
+         T="des suites du diabète" />
+      <Alzheimer
+         T="suite à la maladie d'Alzheimer" />
+      <Nephritis
+         T="suite à un problème rénal" />
+      <RespiratoryOrPneumonia
+         T="suite à un problème respiratoire et/ou à une pneumonie" />
+      <AIDS
+         T="des suites du virus du Sida" />
+      <Medical
+         T="suite à un problème médical" />
+      <Accident
+         T="suite à un accident ou des suites d'une blessure" />
+      <Murder
+         T="suite à un meurtre / assassinat" />
+      <War
+         T="suite à une blessure de guerre" />
+      <Execution
+         T="suite à une exécution" />
+      <Holocaust
+         T="dans un holocauste" />
+      <Terrorist
+         T="suite à une attaque terroriste" />
+      <Suicide
+         T="suite à un suicide" />
+      <GivingBirth
+         T="suite à un accouchement" />
+      <Abortion
+         T="suite à un avortement" />
+      <Miscarriage
+         T="suite à une fausse-couche" />
+      <Stillbirth
+         T="mort-né(e)" />
+      <Infant
+         T="à un âge infantile" />
+      <ChildhoodDisease
+         T="suite à une maladie infantile" />
+      <NaturalHazards
+         T="des suites d'un désastre naturel (tremblement de terre, éruption volcanique, feu, inondation ou tsunami)" />
+      <Unknown
+         T="d'une cause inconnue" />
+      <Other
+         T="" />
+    </CauseOfDeath>
+    <CeremonyType>
+      <Baptism
+         T="son baptême" />
+      <Circumcision
+         T="sa circoncision (brit milah)" />
+      <Christening
+         T="son entrée au christianisme" />
+      <Confirmation
+         T="sa confirmation" />
+      <None
+         T="" />
+      <Other
+         T="" />
+      <Unknown
+         T="'sa cérémonie religieuse inconnue'" />
+    </CeremonyType>
+    <ConfidenceLevel>
+      <Unreliable
+         T="évidence non-fondée ou info estimée" />
+      <Questionable
+         T="évidence discutable (interviews, recensement, généalogies orales, déduction potentielle, autobiographie)" />
+      <Secondary
+         T="évidence secondaire, info officiellement transcrite quelque temps après l'évènement" />
+      <Primary
+         T="évidence directe, formelle et non-discutable" />
+    </ConfidenceLevel>
+    <EducationLevel>
+      <Illiterate
+         T="un programme pour analphabète" />
+      <Elementary
+         T="un cours élémentaire" />
+      <Junior
+         T="un cours secondaire" />
+      <High
+         T="un cours supérieur" />
+      <Professional
+         T="un cours professionnel" />
+      <College
+         T="un cours au collège" />
+      <Undergraduate
+         T="un cours supérieur" />
+      <MBA
+         T="une licence" />
+      <Masters
+         T="un master" />
+      <Doctorate
+         T="un doctorat" />
+      <PhD
+         T="un PhD" />
+      <PostDoctorate
+         T="un doctorat supérieur" />
+    </EducationLevel>
+    <EducationTermination>
+      <StillAttending
+         T="" />
+      <Completion
+         T="a complété le programme" />
+      <Graduation
+         T="a passé ses examens" />
+      <DropOut
+         T="a quitté" />
+      <Expulsion
+         T="a été expulsé(e)" />
+      <Transfer
+         T="a été transféré(e)" />
+      <Other
+         T="" />
+      <Unknown
+         T="a quitté, la raison étant inconnue," />
+    </EducationTermination>
+    <EmotionalLink>
+    <Plain
+         T="Plein / Normal" />
+    <Indifferent
+         T="Indifférent / Froid" />
+    <Distant
+         T="Distant / Pauvre" />
+    <Cutoff
+         T="Rompu / Séparé" />
+    <CutoffRepaired
+         T="Rompu réparé" V="2011.01.15FR+"/>
+    <Discord
+         T="Discorde / Conflit" />
+    <Hate
+         T="Haine" />
+    <Harmony
+         T="Harmonie" />
+    <Friendship
+         T="Amitié / Proche" />
+    <Intimacy
+         T="Meilleur(e)s ami(e)s / Très proche" />
+    <Love
+         T="Amour" />
+    <InLove
+         T="Amoureux" />
+    <Psyritual
+         T="Lien affectif ou relation spirituelle" />V="2011.01.15FR+" 
+    <Fused
+         T="Inséparable" />
+    <Distrust
+         T="Méfiance" />
+    <Hostile
+         T="Hostilité" />
+    <HostileDistant
+         T="Distant-Hostile" />
+    <HostileClose
+         T="Proche-Hostile" />
+    <HostileFused
+         T="Inséparable-Hostile" />
+    <Violence
+         T="Violence" />
+    <ViolenceDistant
+         T="Distant-Violence" />
+    <ViolenceClose
+         T="Proche-Violence" />
+    <ViolenceFused
+         T="Inséparable-Violence" />
+    <Abuse
+         T="Abus" />
+    <AbusePhysical
+         T="Abus physique" />
+    <AbuseEmotional
+         T="Abus émotionnel" />
+    <AbuseSexual
+         T="Abus sexuel" />
+    <AbuseNeglect
+         T="Négligence (abus)" />
+    <Manipulative
+         T="Manipulation" />
+    <Controlling
+         T="Autoritaire" />
+    <Jealous
+         T="Jalousie" />
+    <FocusedOn
+         T="Concentration" />
+    <Fan
+         T="Fan / Admirateur" />
+    <Limerence
+         T="Entiché de" />
+    <NeverMet
+         T="Ne se sont jamais rencontrés" />
+    <Other
+         T="Autre relation émotive" />
+	</EmotionalLink>
+    <FamilyLine>
+      <NoMoreChildren
+         T="pas d'autre enfant" />
+      <PossiblyMoreChildren
+         T="Peut-être d'autre(s) enfant(s)" />
+      <ToBeCompleted
+         T="Lignée à compléter" />
+    </FamilyLine>
+    <FamilyRelation>
+      <Marriage
+         T="Mariage" />
+      <Separation
+         T="Séparation" />
+      <SeparationLegal
+         T="Séparation légale" />
+      <Divorce
+         T="Divorce" />
+      <Nullity
+         T="Annulation" />
+      <Widowed
+         T="Veuvage" />
+      <Engagement
+         T="Fiançailles" />
+      <EngagementAndCohabitation
+         T="Fiançailles et cohabitation" />
+      <EngagementAndSeparation
+         T="Fiançailles et séparation" />
+      <EngagementAndDecease
+         T="" />
+      <LegalCohabitation
+         T="Cohabitation légale" />
+      <LegalCohabitationAndSeparation
+         T="Cohabitation légale et séparation" />
+      <LegalCohabitationAndLegalSeparation
+         T="Cohabitation légale et séparation officielle légale" />
+      <LegalCohabitationAndDecease
+         T="" />
+      <Cohabitation
+         T="Cohabitation" />
+      <CohabitationAndSeparation
+         T="Cohabitation et séparation" />
+      <CohabitationAndDecease
+         T="" />
+      <NonSentimentalCohabitation
+         T="Cohabitation non-sentimentale" />
+      <NonSentimentalCohabitationAndSeparation
+         T="Cohabitation non-sentimentale et séparation" />
+      <NonSentimentalCohabitationAndDecease
+         T="" />
+      <CommittedRelationship
+         T="Relation sérieuse à long terme" />
+      <CommittedRelationshipAndSeparation
+         T="Relation sérieuse et séparation" />
+      <CasualRelationship
+         T="Relation volage ou à court terme" />
+      <CasualRelationshipAndSeparation
+         T="Relation volage et séparation" />
+      <CasualRelationshipAndDecease
+         T="" />
+      <TemporaryRelation
+         T="Relation temporaire / Aventure d'un soir" />
+      <LoveAffair
+         T="Histoire d'amour" />
+      <LoveAffairAndSeparation
+         T="Histoire d'amour et séparation" />
+      <Rape
+         T="Viol / Relation forcée" />
+      <Other
+         T="Autre ou inconnue" />
+    </FamilyRelation>
+    <Gender
+         _Blank="(Sexe inconnu)">
+      <M
+         T="Homme" />
+      <F
+         T="Femme" />
+      <P
+         T="Animal domestique" />
+    </Gender>
+    <MarriageType>
+      <Religious
+         T="une cérémonie religieuse" />
+      <ReligiousCivil
+         T="une cérémonie civile et religieuse" />
+      <Civil
+         T="une cérémonie civile" />
+      <CommitmentCeremony
+         T="une cérémonie de fiançailles" />
+      <Other
+         T="une cérémonie inconnue" />
+    </MarriageType>
+    <HusbandOrWife>
+      <husband
+         T="sur demande de l'époux" />
+      <wife
+         T="sur demande de l'épouse" />
+      <both
+         T="par agrément mutuel" />
+      <unknown
+         T="" />
+    </HusbandOrWife>
+    <IndustrySector>
+      <FoodServices
+         T="logement et restauration" />
+      <Agriculture
+         T="agriculture" />
+      <Tourism
+         T="tourisme et loisirs" />
+      <Construction
+         T="construction" />
+      <Education
+         T="éducation" />
+      <Finance
+         T="finance" />
+      <Health
+         T="santé" />
+      <Manufacturing
+         T="manufacture" />
+      <Media
+         T="média" />
+      <Energy
+         T="mines / énergie" />
+      <OtherServices
+         T="services" />
+      <Professional
+         T="service technique" />
+      <PublicAdministration
+         T="administration publique" />
+      <RealEstate
+         T="immobilier" />
+      <Sales
+         T="vente" />
+      <Transportation
+         T="transport" />
+    </IndustrySector>
+    <OccupancyType>
+      <PrimaryResidence
+         T="résidence principale" />
+      <TemporaryResidence
+         T="résidence temporaire/secondaire" />
+      <Accommodation
+         T="séjour/voyage (hôtel, camping, excursion, vacances, visite à un ami)" />
+      <WorkPlace
+         T="lieu de travail" />
+      <WorkPlaceAndPrimaryResidence
+         T="lieu de travail et résidence principale (ex.: ferme, travail à domicile)" />
+      <Other
+         T="Autre résidence" />
+    </OccupancyType>
+    <OccupationTermination>
+      <StillWorking
+         T="Travail en cours" />
+      <EndOfContract
+         T="Fin de contrat" />
+      <Promotion
+         T="Promotion" />
+      <Redundancy
+         T="Excédent de personnel / Réduction d'effectif" />
+      <EmployerClosed
+         T="Fermeture de l'employeur" />
+      <EmployerBankruptcy
+         T="Faillite de l'employeur" />
+      <Quit
+         T="Départ volontaire" />
+      <Resigned
+         T="Démission" />
+      <Fired
+         T="Mise à pied" />
+      <Retirement
+         T="Retraite" />
+      <Death
+         T="Mort" />
+      <Other
+         T="" />
+    </OccupationTermination>
+    <Officiator>
+      <!-- Deux formes peuvent être spécifiées, séparées par une barre verticale. Le premier sera utilisé par défaut. 
+                                Le formulaire de 2e si actuel sera utilisé quand aucun nom Officator est presnt. 
+                                par exemple, »Le révérend John Smith» ou simplement «le révérend» («de l'église" est implicite)-->
+      <Attorney
+         T="l'avocat" />
+      <Bishop
+         T="l'évêque" />
+      <Canon
+         T="le canon" />
+      <Curate
+         T="le curé" />
+      <Dean
+         T="le doyen" />
+      <Doctor
+         T="le docteur" />
+      <Father
+         T="le père" />
+      <Midwife
+         T="la sage-femme" />
+      <Minister
+         T="le maire" />
+      <Mohel
+         T="le mohel" />
+      <Notary
+         T="le notaire" />
+      <Pastor
+         T="le pasteur" />
+      <Rabbi
+         T="le rabbin" />
+      <Reverend
+         T="le révérend" />
+      <Priest
+         T="le prêtre" />
+      <Vicar
+         T="le vicaire" />
+    </Officiator>
+    <PedigreeLink>
+      <Parent
+         T="Parent" />
+      <Biological
+         T="Enfant naturel" />
+      <Adopted
+         T="Enfant adopté" />
+      <Foster
+         T="Enfant en famille d'accueil" />
+    </PedigreeLink>
+    <PlaceCategory>
+      <AdministrativeFacility
+         T="un centre administratif" />
+      <Canton
+         T="un canton" />
+      <CelebrationHall
+         T="une salle de réception" />
+      <Cemetery
+         T="un cimetière" />
+      <Church
+         T="une église" />
+      <City
+         T="une ville" />
+      <College
+         T="un collège" />
+      <ConcentrationCamp
+         T="un camp de concentration" />
+      <County
+         T="un comté" />
+      <Country
+         T="un pays" />
+      <Court
+         T="un tribunal" />
+      <Department
+         T="un département" />
+      <Domicile
+         T="un domicile" />
+      <EducationalInstitute
+         T="un établissement scolaire" />
+      <Factory
+         T="une usine" />
+      <Farm
+         T="une ferme" />
+      <GovernmentOffice
+         T="un bureau gouvernemental" />
+      <HealthFacility
+         T="un centre médical" />
+      <Hospital
+         T="un hôpital" />
+      <House
+         T="une maison" />
+      <Jail
+         T="une prison" />
+      <Landscape
+         T="un espace naturel (île, montagne, désert, vallée, etc.)" />
+      <MilitaryBase
+         T="une base militaire" />
+      <Municipality
+         T="une municipalité" />
+      <Province
+         T="une province" />
+      <Region
+         T="une région" />
+      <ReligiousFacility
+         T="un centre religieux" />
+      <Road
+         T="une route (intersection, carrefour, échangeur, etc.)" />
+      <School
+         T="une école" />
+      <State
+         T="un état" />
+      <Synagogue
+         T="une synagogue" />
+      <Town
+         T="une commune" />
+      <Temple
+         T="un temple" />
+      <TransportationFacility
+         T="un moyen de transport (train, bus, car, auto, bateau, avion, cheval, calèche, vélo, etc.)" />
+      <University
+         T="une université" />
+      <Village
+         T="un village" />
+      <WarField
+         T="un champ de bataille" />
+      <Waters
+         T="un espace fluvial (océan, mer, lac, rivière, etc.)" />
+      <WorkField
+         T="un chantier" />
+      <WorkOffice
+         T="un bureau" />
+      <Other
+         T="un autre lieu" />
+    </PlaceCategory>
+    <!-- Le 'PlacePrefix' est employé par la propriété de lieu 'NameNarrative' via la template de formatage '_FmtPlaceNarrative'.
+                Cependant, le rapport narratif emploie les entrées de 'PlacePrefix_x...x' dans la section du 'ReportGenerator' de ce Dictionnaire -->
+    <PlacePrefix>
+      <In
+         T="à" />
+      <InThe
+         T="dans" />
+      <InA
+         T="dans un" />
+      <At
+         T="à" />
+      <AtThe
+         T="au" />
+      <AtA
+         T="à" />
+      <On
+         T="sur" />
+      <OnThe
+         T="sur le" />
+      <OnA
+         T="sur un" />
+      <To
+         T="vers" />
+      <ToThe
+         T="vers le" />
+      <ToA
+         T="vers un" />
+    </PlacePrefix>
+    <SocialConnection>
+      <Acquaintance
+         T="Proche connaissance à" />
+      <Advisor
+         T="Conseiller de" />
+      <Associate
+         T="Associé avec" />
+      <Attending
+         T="En aide à" />
+      <Babysitter
+         T="Baby-sitter de" />
+      <Competitor
+         T="Compétiteur de" />
+      <Customer
+         T="Client de" />
+      <Director
+         T="Directeur de" />
+      <Employee
+         T="Employé de" />
+      <Funding
+         T="Fonde/subvient" />
+      <Godparent
+         T="Parrain/marraine de" />
+      <Investor
+         T="Investisseur à" />
+      <Know
+         T="Connaissance à" />
+      <LivesWith
+         T="Vit avec" />
+      <Member
+         T="Membre de" />
+      <Manager
+         T="Chef de" />
+      <NamedAfter
+         T="A pris le nom de" />
+      <Neighbor
+         T="Voisin de" />
+      <Pupil
+         T="Élève à" />
+      <Relative
+         T="Relation à" />
+      <Reporting
+         T="Rend des comptes à" />
+      <Representative
+         T="Représentant de" />
+      <Roommate
+         T="Colocataire à" />
+      <Subordinate
+         T="Subalterne à" />
+      <Supervisor
+         T="Superviseur de" />
+      <Teacher
+         T="Enseignant(e) de" />
+      <WorkAt
+         T="Travaille chez" />
+      <WorkWith
+         T="Travaille avec" />
+      <Other
+         T="Autre" />
+    </SocialConnection>
+    <SourceMediaType>
+      <Audio
+         T="un document audio (cassette, CD, MP3)" />
+      <Book
+         T="un livre" />
+      <Census
+         T="un recensement" />
+      <Certificate
+         T="un certificat" />
+      <Deed
+         T="un titre" />
+      <Document
+         T="un document (copie papier, archive)" />
+      <ElectronicDocument
+         T="un document électronique (email, fichier)" />
+      <Fiche
+         T="un fichier / microfiche / microfilm / film" />
+      <Individual
+         T="un témoignage de personne" />
+      <Interview
+         T="un interview" />
+      <Letter
+         T="un écrit (lettre / carte)" />
+      <Magazine
+         T="un magazine" />
+      <Manuscript
+         T="un manuscrit" />
+      <Map
+         T="un plan (carte / atlas)" />
+      <Newspaper
+         T="un journal" />
+      <Photo
+         T="un document photographique" />
+      <Tombstone
+         T="un tombeau (pierre tombale / monument funéraire)" />
+      <Video
+         T="un film / vidéo (enregistrement, cassette, CD/DVD, MPEG)" />
+      <Web
+         T="un site web / URL" />
+      <Other
+         T="autre" />
+    </SourceMediaType>
+    <StudyType>
+      <full
+         T="à temps plein" />
+      <part
+         T="à temps partiel" />
+      <night
+         T="le soir" />
+      <distant
+         T="par correspondance" />
+      <other
+         T="" />
+    </StudyType>
+    <TwinLink>
+      <Fraternal
+         T="faux" />
+      <Identical
+         T="vrais" />
+      <Unknown
+         T="inconnu" />
+    </TwinLink>
+    <WorkType>
+      <full
+         T="à temps plein" />
+      <part
+         T="à temps partiel" />
+      <seasonal
+         T="en saisonnier" />
+      <temporary
+         T="en travail temporaire" />
+      <contract
+         T="sous contrat" />
+      <internship
+         T="en stage" />
+      <training
+         T="en formation" />
+      <charity
+         T="en œuvre de charité / bénévolat" />
+      <other
+         T="autre" />
+    </WorkType>
+    <YesNoUnknown>
+      <Y
+         T="Oui" />
+      <N
+         T="Non" />
+      <Unknown
+         T="Inconnu / Peut-être" />
+      <Unknown_F
+         T="Inconnue / Peut-être" />
+    </YesNoUnknown>
+  </Enumerations>
+  <SearchKeywords>
+    <!-- Cette section contient les mots clés pour obtenir des résultats avec les moteurs de recherche -->
+    <AltDefault
+         T="Apprenez à construire votre arbre familial" />
+    <SK
+         Alt="Apprenez un logiciel de généalogie très sophistiqué capable de créer le plus complexe des arbres de famille"
+         T="Logiciel pour arbre généalogique"
+         Url="/family-tree-software/" />
+    <SK
+         Alt="Logiciel pour regrouper toutes les infos de votre recherche généalogique"
+         T="Arbre familial ancestral"
+         Url="/family-tree-software/" />
+    <SK
+         Alt="Apprenez comment démarrer votre arbre généalogique en quelques minutes"
+         T="Introduction sur la généalogie"
+         Url="/introduction/" />
+    <SK
+         Alt="Dessinez votre arbre généalogique"
+         T="Dessiner un arbre familial" />
+    <SK
+         Alt="Créez vos diagrammes généalogiques"
+         T="Diagrammes généalogiques" />
+    <SK
+         Alt="Apprenez les symboles de lignage avec ce logiciel puissant et efficace"
+         T="Logiciel pour créer les diagrammes de votre lignage" />
+    <SK
+         Alt="Créez votre génogramme familial"
+         T="Génogramme de famille"
+         Url="/genogram/" />
+    <SK
+         Alt="Créez des génogrammes médicaux"
+         T="Génogrammes médicaux"
+         Url="/genogram/medical/" />
+    <SK
+         Alt="Apprenez les composants d'un génogramme"
+         T="Description des symboles de génogramme"
+         Url="/genogram/symbols/" />
+    <SK
+         Alt="Apprenez à créer des génogrammes simples et compliqués"
+         T="Règles du génogramme"
+         Url="/genogram/rules/" />
+    <SK
+         Alt="Exemples de matrices de génogramme que vous pouvez utiliser"
+         T="Matrices de génogramme"
+         Url="/genogram/templates/" />
+    <SK
+         Alt="Exemples de variétés de génogrammes. Voir les différents emplois des concepts et symboles d'un génogramme"
+         T="Exemples de génogramme"
+         Url="/genogram/examples/" />
+    <SK
+         Alt="Mode d'utilisation pour créer un génogramme"
+         T="Créer un génogramme"
+         Url="/genogram/how-to-create/" />
+    <SK
+         T="Appréciation et intervention sur un génogramme"
+         Url="/genogram/assessment-and-intervention/" />
+    <SK
+         Alt="Pour aider et cicatriser les problèmes personnels et familiaux"
+         T="Théorie sur les principes familiaux"
+         Url="/genogram/family-systems-theory/" />
+    <SK
+         Alt="Pour comprendre et accepter la responsabilité individuelle dans le fonctionnement émotif de l'unité de famille"
+         T="Thérapie des systèmes familiaux"
+         Url="/genogram/family-systems-theory/" />
+    <SK
+         Alt="Découvrez le seul logiciel capable de créer l'arbre graphique de votre lignage à partir d'un fichier Gedcom"
+         T="Afficher un arbre familial à partir d'un fichier Gedcom"
+         Url="/gedcom/" />
+    <SK
+         Alt="Importez votre fichier Gedcom et créez un arbre familial graphique"
+         T="Visualisateur Gedcom"
+         Url="/gedcom/" />
+    <SK
+         T="Générateur HTML"
+         Url="/help/report-generator/" />
+    <SK
+         Alt="Logiciel pour documenter vos ancêtres"
+         T="Logiciel de recherche ancestrale" />
+    <SK
+         T="Recherche généalogique" />
+    <SK
+         T="Chercher sa généalogie" />
+    <SK
+         T="Arbre généalogique" />
+    <SK
+         T="Arbre familial" />
+    <SK
+         T="Historique familial" />
+    <SK
+         T="Créer un arbre généalogique" />
+    <SK
+         T="Publier votre arbre de famille sur le web"
+         Url="http://familytrees.genopro.com/" />
+    <SK
+         T="Serveur d'hébergement de généalogie"
+         Url="http://familytrees.genopro.com/" />
+    <SK
+         Alt="Logiciel pour créer votre arbre généalogique"
+         T="Logiciel d'arbre généalogique"
+         Url="/fr/" />
+  </SearchKeywords>
+  <ReportGenerator>
+    <!--
+        Les balises (tags) suivantes sont spécifiques au générateur de rapport et sont accessibles via le LanguageDictionary ou l'objet Dic.
+        Toutes balises commençant avec le caractère 'souligné' (_) sont employées, en interne, par GenoPro.
+        Par exemple, vous ne verrez peut-être pas '_FmtDateNarrative' dans la template de rapport, cependant cette template est employée par GenoPro pour formater les narratifs de dates. 
+        
+        SVP veuillez visiter http://www.genopro.com/sdk/Report-Generator/Dictionary/ pour compulser la documentation technique
+        -->
+    <!-- La balise '_FmtHusbandAndWife' est employée pour formater un texte tel que "André & Hélène" ou "André & épouse"
+         0=nom mari, 1=nom femme    Test={0}=André|Mari, {1}=Hélène|Femme -->
+    <_FmtHusbandAndWife
+         T="{0} &amp; {1}" />
+    <_Husband
+         T="Époux" />
+    <_Wife
+         T="Épouse" />
+    <!-- L'attribut 'G' définit la forme possessive ou génitive d'un nom. -->
+    <_Spouse_F_M
+         C1="un époux"
+         G="de l'époux"
+         P="époux"
+         T="époux" />
+    <_Spouse_M_F
+         C1="une épouse"
+         G="de l'épouse"
+         P="épouses"
+         T="épouse" />
+    <_Spouse_M_M
+         C1="un partenaire"
+         G="du partenaire"
+         P="partenaires"
+         T="partenaire" />
+    <_Spouse_F_F
+         C1="une partenaire"
+         G="de la partenaire"
+         P="partenaires"
+         T="partenaire" />
+    <_Spouse
+         C1="un époux/partenaire"
+         G="du conjoint"
+         P="époux/partenaires"
+         T="époux/partenaire" />
+    <_Spouse_F
+         C1="une épouse/partenaire"
+         G="de la conjointe"
+         P="épouses/partenaires"
+         T="épouse/partenaire" />
+    <OtherSpouse_M
+         C1="un autre époux"
+         P="autres époux"
+         T="époux" />
+    <OtherSpouse_F
+         C1="une autre épouse"
+         P="autres épouses"
+         T="épouse" />
+    <OtherSpouse_
+         C1="un(e) autre époux(se)"
+         P="autres époux(ses)"
+         T="autre époux(se)" />
+    <_Partner_F_M
+         C1="un partenaire"
+         G="du partenaire"
+         P="autre partenaire"
+         T="partenaire" />
+    <!-- masculin -->
+    <_Partner_M_F
+         C1="une partenaire"
+         G="de la partenaire"
+         P="autre partenaire"
+         T="partenaire" />
+    <!-- féminin  -->
+    <_Partner_M_M
+         C1="un partenaire"
+         G="du partenaire"
+         P="autre partenaire"
+         T="partenaire" />
+    <!-- masculin -->
+    <_Partner_F_F
+         C1="une partenaire"
+         G="de la partenaire"
+         P="autre partenaire"
+         T="partenaire" />
+    <!-- féminin  -->
+    <_Partner
+         C1="un(e) partenaire"
+         G="du partenaire"
+         P="autre partenaire"
+         T="partenaire" />
+    <_NoName_M
+         T="&lt;Inconnu&gt;" />
+    <_NoName_F
+         T="&lt;Inconnue&gt;" />
+    <_NoName
+         T="&lt;Inconnu&gt;" />
+    <!-- Commentaire privé (Private) & balise personnalisée (Custom Tag Indicator)
+        Tout texte de commentaires, tous les Custom Tag Layouts ou tous les Custom Tags commençant par l'élément "§"
+        n'apparaitront pas dans le rapport. Vous pouvez choisir un autre caractère si vous le désirez.
+        Si vous laissez cet élément vide (""), cette balise sera ignorée par le générateur de rapport -->
+    <Private
+         T="" />
+    <!-- La méthode 'place.NameNarrative' emploie le 'PlacePrefix' et le nom du lieu -->
+    <_FmtPlaceNarrative
+         T="&#32;{0} {1}" />
+    <!-- 0=préfixe lieu, 1=nom lieu  Test={0}=à|en, {1:0}=Paris|Hopital-->
+    <!--
+        La balise '_FmtPlurial' définit la façon de transformer un nom singulier en pluriel.
+        En anglais et en français, la lettre 's' est ajoutée après le mot.
+        En cas d'exception à la règle, employez l'attribut "P" pour définir la forme du pluriel,
+        et l'attribut "C1" pour définir la forme cardinale. Vous pouvez employer C2, C3, C4 pour
+        définir explicitement d'autres formes cardinales.
+        -->
+    <_FmtPlurial
+         T="{}s" />
+    <_FmtPlurialCount
+         T="{0} {1}" />
+    <_PhPluralCount
+         T="{0} {1}" />
+    <_FmtPlurialCardinal
+         T="{0} {1}" />
+    <_Cardinal_0
+         T="zéro" />
+    <_Cardinal_1
+         T="un" />
+    <_Cardinal_2
+         T="deux" />
+    <_Cardinal_3
+         T="trois" />
+    <_Cardinal_4
+         T="quatre" />
+    <_Cardinal_5
+         T="cinq" />
+    <_Cardinal_6
+         T="six" />
+    <_Cardinal_7
+         T="sept" />
+    <_Cardinal_8
+         T="huit" />
+    <_Cardinal_9
+         T="neuf" />
+    <_Cardinal_10
+         T="dix" />
+    <_Cardinal_11
+         T="onze" />
+    <_Cardinal_12
+         T="douze" />
+    <_Cardinal_13
+         T="treize" />
+    <_Cardinal_14
+         T="quatorze" />
+    <_Cardinal_15
+         T="quinze" />
+    <_Cardinal_16
+         T="seize" />
+    <_Cardinal_17
+         T="dix-sept" />
+    <_Cardinal_18
+         T="dix-huit" />
+    <_Cardinal_19
+         T="dix-neuf" />
+    <_Cardinal_20
+         T="vingt" />
+    <_Cardinal_21
+         T="vingt et un" />
+    <_Cardinal_22
+         T="vingt-deux" />
+    <_Cardinal_23
+         T="vingt-trois" />
+    <_Cardinal_24
+         T="vingt-quatre" />
+    <_Cardinal_25
+         T="vingt-cinq" />
+    <_Cardinal_26
+         T="vingt-six" />
+    <_Cardinal_27
+         T="vingt-sept" />
+    <_Cardinal_28
+         T="vingt-huit" />
+    <_Cardinal_29
+         T="vingt-neuf" />
+    <_Cardinal_30
+         T="trente" />
+    <_Cardinal_31
+         T="trente et un" />
+    <_Ordinal_1
+         T="premier" />
+    <_Ordinal_1_F
+         T="première" />
+    <_Ordinal_2
+         T="second" />
+    <_Ordinal_2_F
+         T="seconde" />
+    <_Ordinal_3
+         T="troisième" />
+    <_Ordinal_4
+         T="quatrième" />
+    <_Ordinal_5
+         T="cinquième" />
+    <_Ordinal_6
+         T="sixième" />
+    <_Ordinal_7
+         T="septième" />
+    <_Ordinal_8
+         T="huitième" />
+    <_Ordinal_9
+         T="neuvième" />
+    <_Ordinal_10
+         T="dixième" />
+    <_Ordinal_11
+         T="onzième" />
+    <_Ordinal_12
+         T="douzième" />
+    <_Ordinal_13
+         T="treizième" />
+    <_Ordinal_14
+         T="quatorzième" />
+    <_Ordinal_15
+         T="quinzième" />
+    <_Ordinal_16
+         T="seizième" />
+    <_Ordinal_17
+         T="dix-septième" />
+    <_Ordinal_18
+         T="dix-huitième" />
+    <_Ordinal_19
+         T="dix-neuvième" />
+    <_Ordinal_20
+         T="vingtième" />
+    <_Ordinal_21
+         T="vingt et unième" />
+    <_Ordinal_22
+         T="vingt-deuxième" />
+    <_Ordinal_23
+         T="vingt-troisième" />
+    <_Ordinal_24
+         T="vingt-quatrième" />
+    <_Ordinal_25
+         T="vingt-cinquième" />
+    <_Ordinal_26
+         T="vingt-sixième" />
+    <_Ordinal_27
+         T="vingt-septième" />
+    <_Ordinal_28
+         T="vingt-huitième" />
+    <_Ordinal_29
+         T="vingt-neuvième" />
+    <_Ordinal_30
+         T="trentième" />
+    <_Ordinal_31
+         T="trente et unième" />
+    <!-- suffixes pour numéros spécifiques -->
+    <_OrdinalFormat_1
+         T="{}er" />
+    <_OrdinalFormat_1_F
+         T="{}ère" />
+    <!-- suffixes pour numéros finissant avec numéros particuliers exclus les numéros ci-dessus -->
+    <_OrdinalFormat_x1
+         T="{}ème" />
+    <!-- suffixe de défaut si pas les numéros ci-dessus -->
+    <_OrdinalFormat_
+         T="{}ème" />
+    <Title
+         T="Mes ancêtres et relations familiales" />
+    <PossessiveProperNoun
+         T="(^[aehiouy].*$)=d'$1:(.+$)=de $1:" />
+    <LocativeProperNoun
+         T="^ à \[Le = au [:^ à \[Les = aux [:" />
+    <ConvertDateSpan
+         T="de ([aeiou])=d'$1:du ([aeiou])=de l'$1:au ([aeiou])=à l'$1:" />
+    <RootNameAffixes
+         T="" />
+    <PnP_M
+         P="ils"
+         T="il" 
+		 V="2011.01.15FR±"/>
+    <PnP_F
+         P="elles"
+         T="elle" 
+         V="2011.01.15FR±"/>
+    <PnP_
+         P="ils"
+         T="il/elle" />
+    <PnP_N
+         T="il/elle" />
+    <PnR_M
+         P="leur"
+         T="son"
+         V="2011.01.15FR±" />
+    <PnR_F
+         P="leur"
+         T="son"
+         V="2011.01.15FR±" />
+    <PnR_
+         P="leur"
+         T="son" />
+    <PnR_N
+         P="leur"
+         T="son" 
+         V="2011.01.15FR±"/>
+    <PnO_M
+         P="eux"
+         T="lui" 
+         V="2011.01.15FR±"/>
+    <PnO_F
+         P="eux"
+         T="elle"
+         V="2011.01.15FR±" />
+    <PnO_
+         P="eux"
+         T="lui/elle" />
+    <PnO_N
+         P="eux"
+         T="lui/elle"
+         V="2011.01.15" />
+    <!-- Les verbes 'to be' et 'to have' dans ce dictionnaire devraient être accessibles via la fonction 'StrVerb' définie dans Lang.vbs. 
+             Cela simplifiera les changements futurs. 
+
+             Note that can have alternative forms to take account of the subject's gender as well as the present & past tense forms.
+             These are specified by adding the suffix _M, _F or _P to the phrase name. _ToBe_Past_M below is an example. 
+             If the gender specific variant is not found the base phrase is used. So for example to get masculine & feminine
+             forms just make the default phrase the masculine form and add a _F variant for the feminine form.
+
+             Il y a 2 variantes du verbe 'to be' en espagnol. Dans d'autres langues, inclus l'anglais, c'est le même verbe
+
+             Ce 'ToBe' est l'équivalent de l'espagnol 'ser' souvent un passif, permanent ou état d'être général, p.ex. Sa mère est Jane Doe
+        -->
+    <_ToBe_Present
+         P="sont"
+         T="est" />
+    <_ToBe_Past
+         P="étaient"
+         T="était" />
+    <!-- 'ToBe2' est l'équivalent de l'espagnol 'estar' souvent un actif, transient ou état d'être spécifique, p.e. sont mariés, est mort -->
+    <_ToBe2_Present
+         P="sont"
+         T="est" />
+    <_ToBe2_Past
+         P="étaient"
+         T="était" />
+    <_ToHave_Present
+         P="ont"
+         T="a" />
+    <_ToHave_Past
+         P="ont eu"
+         T="a eu" />
+    <Known
+         P="connus"
+         T="connu" />
+    <Known_F
+         P="connues"
+         T="connue" />
+    <Child
+         C1="un enfant"
+         P="enfants"
+         T="enfant" />
+    <Child_M
+         C1="un fils"
+         P="fils"
+         T="fils" />
+    <Child_F
+         C1="une fille"
+         T="fille" />
+    <Child_P
+         P="animaux domestiques"
+         T="un animal domestique" />
+    <Child_
+         C1="un enfant de sexe inconnu"
+         P="enfants de sexe inconnu"
+         T="enfant de sexe inconnu" />
+    <ChildBiological_M
+         C1="un fils naturel"
+         T="fils naturel" />
+    <ChildBiological_F
+         C1="une fille naturelle"
+         T="fille naturelle" />
+    <ChildBiological_P
+         C1="un animal domestique"
+         T="animal domestique" />
+    <ChildBiological_
+         C1="un enfant naturel de sexe inconnu"
+         P="enfants naturels de sexe inconnu"
+         T="enfant naturel de sexe inconnu" />
+    <ChildAdopted_M
+         C1="un fils adoptif"
+         P="fils adoptifs"
+         T="fils adoptif" />
+    <ChildAdopted_F
+         C1="une fille adoptive"
+         P="filles adoptives"
+         T="fille adoptive" />
+    <ChildAdopted_P
+         T="un animal domestique adoptif" />
+    <ChildAdopted_
+         C1="un enfant adoptif de sexe inconnu"
+         P="enfants adoptifs de sexe inconnu"
+         T="enfant adoptif de sexe inconnu" />
+    <ChildFoster_M
+         C1="recueilli un fils"
+         P="fils recueilli"
+         T="fils recueilli" />
+    <ChildFoster_F
+         C1="recueilli une fille"
+         P="filles recueillies"
+         T="fille recueillie" />
+    <ChildFoster_P
+         T="un animal domestique recueilli" />
+    <ChildFoster_
+         C1="un enfant recueilli de sexe inconnu"
+         P="enfants recueillis de sexe inconnu"
+         T="enfant recueilli de sexe inconnu" />
+    <ChildOther_M
+         C1="un fils"
+         P="fils"
+         T="fils" />
+    <ChildOther_F
+         C1="une fille"
+         T="fille" />
+    <ChildOther_P
+         P="animaux domestiques"
+         T="animal domestique" />
+    <ChildOther_
+         C1="un enfant de sexe inconnu"
+         P="enfants de sexe inconnu"
+         T="enfant de sexe inconnu" />
+    <ChildStep_M
+         C1="un beau-fils"
+         T="beau-fils" />
+    <ChildStep_F
+         C1="une belle-fille"
+         T="belle-fille" />
+    <ChildStep_P
+         T="animal recueilli" />
+    <ChildStep_
+         C1="un(e) beau-fils/belle-fille de sexe inconnu"
+         P="beau-fils/belle-filles de sexe inconnu"
+         T="beau-fils/belle-fille de sexe inconnu" />
+    <Sibling_M
+         C1="un frère"
+         T="frère" />
+    <Sibling_F
+         C1="une sœur"
+         T="sœur" />
+    <Sibling_
+         C1="un frère ou sœur de sexe inconnu"
+         P="fratrie de sexe inconnu"
+         T="frère/sœur de sexe inconnu" />
+    <SiblingHalf_M
+         C1="un demi-frère"
+         T="demi-frère" />
+    <SiblingHalf_F
+         C1="une demi-sœur"
+         T="demi-sœur" />
+    <SiblingHalf_
+         C1="un demi-frère ou sœur de sexe inconnu"
+         P="fratrie de sexe inconnu"
+         T="demi-frère/sœur de sexe inconnu" />
+    <SiblingAdopted_M
+         C1="un frère adoptif"
+         T="frère adoptif" />
+    <SiblingAdopted_F
+         C1="une sœur adoptive"
+         T="sœur adoptive" />
+    <SiblingAdopted_
+         C1="un frère ou sœur adoptif de sexe inconnu"
+         P="frère et sœur adoptifs de sexe inconnu"
+         T="frère/sœur adoptif de sexe inconnu" />
+    <SiblingFoster_M
+         C1="un frère de lait"
+         T="frère de lait" />
+    <SiblingFoster_F
+         C1="une sœur de lait"
+         T="sœur de lait" />
+    <SiblingFoster_
+         C1="un(e) frère/sœur de lait de sexe inconnu"
+         P="frères/sœurs de lait de sexe inconnu"
+         T="frère/sœur de lait de sexe inconnu" />
+    <Twins
+         C2="jumeaux"
+         C3="triplés"
+         C4="quadruplés"
+         C5="quintuplés"
+         C6="sextuplés"
+         C7="septuplés"
+         C8="octuplés"
+         C9="nonuplés"
+         P="naissance multiple"
+         T="jumeaux" />
+    <Twins_F
+         C2="jumelles"
+         C3="triplées"
+         C4="quadruplées"
+         C5="quintuplées"
+         C6="sextuplées"
+         C7="septuplées"
+         C8="octuplées"
+         C9="nonuplées"
+         P="naissance multiple"
+         T="jumelles" />
+    <Fraternal
+         T="faux" />
+    <Fraternal_F
+         T="fausses" />
+    <Identical
+         T="vrais" />
+    <Identical_F
+         T="vraies" />
+    <Oldest
+         C2="le plus âgé"
+         P="l'ainé"
+         T="l'ainé" />
+    <Oldest_F
+         C2="la plus âgée"
+         P="l'ainée"
+         T="l'ainée" />
+    <OldestOrdinal
+         T="{1}" />
+    <!-- Display oldest ordinal: 0=???, 1=??? Test={0}=oldest|older-->
+    <Youngest
+         C2="le plus jeune"
+         P="le dernier"
+         T="le dernier" />
+    <Youngest_F
+         C2="la plus jeune"
+         P="la dernière"
+         T="la dernière" />
+    <And
+         T="et" />
+    <ConjunctionAnd
+         T="&#32;et&#32;" />
+    <Help
+         T="Aide" />
+    <!-- Visualisateur de photos -->
+    <PV_Play
+         T="Démarrer le diaporama" />
+    <PV_Pause
+         T="Pauser le diaporama" />
+    <PV_Next
+         T="Afficher la photo suivante" />
+    <PV_Prev
+         T="Afficher la photo précédente" />
+    <PV_Speed
+         T="Régler l'intervalle de pause" />
+    <!-- Textes des infobulles des icônes principales du rapport -->
+    <AltCalendar
+         T="Calendrier des anniversaires" />
+    <AltCloseIndex
+         T="Fermer cette index"
+         V="2011.01.15FR+" />
+    <AltContactAuthor
+         T="Contactez l'auteur de ce rapport généalogique" />
+    <AltContacts
+         T="Afficher toutes les résidences et contacts" />
+    <AltEntities
+         T="Afficher tous les groupes et organisations (entités sociales)" />
+    <AltEntityImage
+         T="Entité sociale" />
+    <AltFamilies
+         T="Afficher toutes les familles" />
+    <AltGenoProLogo
+         T="Créer votre arbre en quelques minutes!" />
+    <AltgMapBack
+         T="Retourner à la page de détail du lieu" />
+    <AltgMapFamily
+         T="Afficher une carte Google Map indiquant géo-lieux tagué associés à cette famille"
+         V="2011.01.15FR±" />
+    <AltgMapIndividual
+         T="Afficher une carte Google Map indiquant géo-lieux tagué associé à cette personne"
+         V="2011.01.15FR±" />
+    <AltHelpAdobeSvg
+         T="Afficher l'aide d'utilisation du visualisateur SVG d'Adobe" />
+    <AltHelpPage
+         T="aider à utiliser ce site" 
+         V="2011.01.15FR+" />
+    <AltHideGenoMapFrame
+         T="Cacher cette GénoCarte" />
+    <!-- <AltHideSvgFrame           T="Cacher ce graphique SVG"/> -->
+    <AltHidePopUpFrame
+         T="Fermer cette fenêtre" />
+    <AltHome
+         T="Revenir à la page d'accueil du rapport" />
+    <AltIndividuals
+         T="Afficher tous les individuels" />
+    <AltLabelImage
+         T="Étiquette" />
+    <AltPictures
+         T="Afficher toutes les photos" />
+    <AltPlaces
+         T="Afficher tous les lieux cités" />
+    <AltSvg
+         T="Afficher tous les sous-arbres familiaux" />
+    <AltTimeLine
+         T="Afficher toutes les chronologies de famille" />
+    <AltSources
+         T="Afficher toutes les sources et citations" />
+    <AltSvgImage
+         T="Arbre familial" />
+    <AltSvgZoomExtent
+         T="Voir l'image SVG complète" />
+    <AltSvgZoomIn
+         T="Zoomer + sur l'image SVG" />
+    <AltSvgZoomOut
+         T="Zoomer - sur l'image SVG" />
+    <AltSvgZoomPanReset
+         T="Revenir à l'image originale" />
+    <AltTimeLineImage
+         T="Voir la chronologie" />
+    <AltTimeLineImageFam
+         T="Voir la chronologie de la branche de cette famille" />
+    <AltTimeLineImageInd
+         T="Voir la chronologie de la branche de cet individuel" />
+    <AltTimeLineToggleDuration
+         T="Alterner l'affichage des barres colorées" />
+    <AltTimeLineZoomIn
+         T="Agrandir l'échelle" />
+    <AltTimeLineZoomOut
+         T="Réduire l'échelle" />
+    <AltTogglePopupFrame
+         T="Cliquer pour agrandir/réduire l'échelle de cette fenêtre" />
+    <AltToggleGenoMapFrame
+         T="Cliquer pour agrandir/réduire la GénoCarte" />
+    <!-- <AltToggleSvgFrame         T="Cliquer pour agrandir/réduire l'image SVG"/> -->
+    <AltTree
+         T="Afficher un arbre dynamique du rapport généalogique" />
+    <ErrorBrowserIssue
+         T="Avertissement: \nVous ne peut pas être en mesure de réaliser toutes les fonctionnalités de ces pages HTML basé sur les images que votre navigateur ne peut pas considérer les fichiers locaux accessibles via le fichier: régime d'être des«origine commune»\n Par conséquent, vous devez soit utiliser. un autre navigateur (par exemple Firefox) ou accéder aux pages via un serveur Web utilisant le protocole HTTP: régime"
+         V="2011.01.15FR+" />
+    <ErrorIELoad
+         T="Erreur: Impossible de charger le contrôle ActiveX d'Internet Explorer pour la configuration des paramètres de dialogue. S'il vous plaît charge Internet Explorer en dehors de GenoPro et de résoudre toutes les invites avant d'essayer à nouveau"
+         V="2011.01.15FR+" />
+    <ErrorScriptingVersion
+         T="Erreur: Cette version de rapport a besoin du Script version 5.5 (ou au-dessus) de Windows -&#10;SVP veuillez installer la dernière version depuis le centre de téléchargement de Microsoft." />
+    <ErrorXMLLoad
+         T="Attention: Incapacité de lire/parser le fichier {3}: {0} à la ligne {1}:&#10;&#09;{2}&#10;" />
+    <!-- 0=No. erreur, 1=description erreur
+         Test={0}=123456, {1}=Argument invalide -->
+    <ErrorXMLParser
+         T="Erreur: Incapacité de charger en mémoire un ActiveX control pour le parseur XML de MS. {0}:{1}" />
+    <!-- 0=type d'objet traduit (Individuel, Famille etc.) -->
+    <FmtAdditionalInformation
+         T="Information additionnelle sur {0}"
+         Test="Individuel|Famille|Lieu|Photo" />
+    <!-- 0=titre de l'arbre de famille -->
+    <FmtAltViewGnoFile
+         T="Voir {0} dans votre browser"
+         Test="Mon arbre familial|Famille Smith|Famille Jones|GénoCarte d'Harry Potter" />
+    <!-- Texte à afficher lorsque la souris est au-dessus de l'icône 'arbre'. 0=individuel ou nom de famille    Test=John Smith|Joe et Mary -->
+    <FmtAltViewInGnoFile
+         T="Cliquer pour voir {0} dans l'arbre familial" />
+    <FmtAltViewInSvgFile
+         T="Cliquer pour voir {0} dans l'arbre familial" />
+    <!-- 0=date naissance, 1= date naissance approx., 2=type cérémonie naissance, 3=date baptême approx., 4=date cérémonie naissance/baptême
+         Test={0}=13 Jun 1922|, {1}=>|, {2}=baptême|, {3}=&gt;|, {4}=23 Jun 1922| -->
+    <FmtBirth
+         T="&#32;([n. {!0}{1}][{?!1}{!2} {!3}{4}])" />
+    <!-- 0='© <année> GenoPro Inc.' -->
+    <FmtCopyright
+         T="Copyright {0&amp;t} Tous droits réservés." />
+    <!-- 0=Date début, 1=Date fin
+         Test={0}=13 Aoû 1901|, {1}=10 Sep 1911| -->
+    <FmtDatesFromTo
+         T="&#32;({0} - {1})" />
+    <!-- 0=date naissance, 1=type cérémonie naissance, 2=date baptême/autre, 3=date décès, 4=date funérailles, 5=date enterrement
+         Test={0}=13 Mai 1823|, {1}=baptême|, {2}=1824|, {3}=24 Déc 1899|, {4}=|12 Jan 1900, {5}=13 Jan 1900| -->
+    <FmtDatesIndividual
+         T="&#32;([n. {0} ][{!1} {2} ][d. {3} ][funérailles. {4} ][enterrement. {5}])" />
+    <!-- 0=date mariage/union, 1=date divorce/séparation
+         Test={0}=7 Sep 1855|, {1}=30 Avr 1871| -->
+    <FmtDatesUnion
+         T="&#32;([m. {0} ][d. {1}])" />
+    <!-- 0=année, 1=Mois, 2=jour
+         Test={0}=1910|, {1}=11|, {2}=05| -->
+    <FmtDateSort
+         T="[{2}.][{1}.]{0}" />
+    <!-- 0=nom de famille, 1=toc htm, 2=titre rapport, 3=individuel?, 4=famille?
+         Test={0}=Smith|, {1}=toc_individuals.htm|, {2}=Ancêtres de John Smith|, {3}=Y|, {4}=Y| -->
+    <FmtFramesetSafeguard
+         T="Cette page fait partie d'un jeu de cadres. &lt;b&gt;&lt;a target='_top' href='default.htm'&gt;Voir le rapport généalogique complet de[{?4} la famille][{?3}s familles {0}]&lt;/a&gt;&lt;/b&gt;, ou &lt;a href='{1}[{?3}#{0}]'&gt;Index des patronymes[{?3} des pédigrées {0}]&lt;/a&gt; ou &lt;a href='home.htm'&gt;le sommaire du rapport de[{?3} l'héritage de {0}, '{2}']&lt;/a&gt;." />
+    <!-- 0=titre rapport Test={0}=Ancêtres d'Harry Potter -->
+    <FmtGenoMapAge
+         T="{0}[{?!0}{1}m][{?!0|1}{2}d]"
+         V="2011.01.15FR+" />
+    <!-- 0=report title Test={0}=Ancestors of Harry Potter-->
+    <FmtHtmlDefault1
+         T="Ce &lt;b&gt;rapport généalogique&lt;/b&gt; concerne &lt;i&gt;{0}&lt;/i&gt;." />
+    <!-- 0=Nbre individuels, 1=Nbre familles, 2='n' photo(s), 3=description rapport
+         Test={0}=1322|, {1}=234|, {2}=123|, {3}=Rapport historique familial (family history report) -->
+    <FmtHtmlDefault2
+         T="Il contient {0} individuels et {1} familles[, et aussi {2}] dans l'arbre familial. {3}{\br}" />
+    <FmtHtmlDefault3
+         T="Vous pouvez aussi rechercher les noms de famille suivants:" />
+    <!-- 0=nom famille, 1=compteur occurrence, 2=trouvé? (autrement recherché), 3=personnes?, 4=ancêtres? (autrement individuels)
+         Test={0}=Jones|, {1}=101|, {2}=Y|, {3}=Y|, {4}=Y| -->
+    <FmtHtmlDefault4
+         T="[{?2}Trouvez][{?!2}Recherchez] la famille {0} et ses {1} [{?3}personnes][{?!3}[{?4}ancêtres][{?!4}individuels]]." />
+    <!-- 0=lien vers GenoPro Test={0}=http://www.genopro.com -->
+    <FmtHtmlDefault6
+         T="&#32;Téléchargez GenoPro sur {0}" />
+    <!-- 0=titre rapport, 1=nombre d'individuels, 2=nombre de familles
+         Test={0}=Mes ancêtres|Ancêtres Smith, {1}=45|5321, {2:1}=38|3211 -->
+    <FmtHtmlHomeIntro
+         T="Vous compulsez actuellement le résumé généalogique &lt;i&gt;&lt;u&gt;{0}&lt;/u&gt;&lt;/i&gt; comprenant &lt;b&gt;{1} individuels&lt;/b&gt; et &lt;b&gt;{2} familles&lt;/b&gt;." />
+    <!-- 0=lien vers rapport, 1=titre
+         Test={0}=default.htm|, {1}=Ancêtres d'Harry Potter| -->
+    <FmtHtmlHomeBrowser
+         T="Si vous utilisez Internet Explorer et avez &lt;a href='http://www.genopro.com/'&gt;GenoPro installé&lt;/a&gt; dans votre ordinateur, vous pouvez &lt;a href='{0}' title='{1}'&gt;cliquez sur ce lien pour voir l'arbre généalogique dans votre browser&lt;/a&gt;. &lt;a href='{0}'&gt;&lt;img border='0' src='images/gno.gif' align='absmiddle' alt='{1}' width='16' height='16' /&gt; &lt;/a&gt;." />
+    <FmtHtmlHelp
+         T="&lt;a href='help.htm' target='detail'&gt;Cliquez ici pour l'aide sur l'accès à ce site.&lt;/a&gt;" 
+         V="2011.01.15FR+" />
+    <FmtHtmlHomeDownloadGed
+         T="Vous pouvez {}&lt;a href='{}'&gt;cliquez ici pour télécharger un fichier Genopro au format Gedcom&lt;/a&gt;." />
+    <FmtHtmlHomeScripts
+         T="Si vous lisez ce texte, c'est parce que votre browser ne fait pas fonctionner les scripts pour ce rapport. Votre browser affiche probablement le message suivant:&lt;blockquote&gt; &lt;i&gt;&quot;Afin de protéger votre sécurité, Internet Explorer a bloqué les active contents qui pourraient accéder à votre ordinateur&quot;&lt;/i&gt;. &lt;/blockquote&gt; &lt;p&gt; &lt;a target=&quot;_blank&quot; title=&quot;Suivez ce lien pour supprimer le message suivant de votre browser: &amp;quot;Afin de protéger votre sécurité, Internet Explorer a bloqué les 'active contents' qui pourraient accéder à votre ordinateur&amp;quot;.&quot; href=&quot;http://www.genopro.com/help/report-generator/allow-blocked-content/&quot;&gt;Au lieu de toujours cliquer sur &lt;b&gt;&lt;i&gt;&quot;Allow Blocked Content...&quot;&lt;/i&gt;&lt;/b&gt;, suivez ce lien pour permettre à IE d'afficher les active contents dans votre ordinateur&lt;/a&gt;.&lt;/p&gt;" />
+    <!--  0=version GenoPro, 1=année rapport, 2=mois rapport, 3=jour rapport, 4=personnalisé/vide, 5=nom matrice (skin), 6=version matrice
+         Test={0}=2.0.1.4|, {1}=2008|, {2}=01|, {3}=15|, {4}=perso|, {5}=Rapport narratif français|, {6}=15.01.2008 -->
+    <FmtHtmlHomeSkin
+         T="Ce rapport généalogique a été généré par &lt;a title=&quot;Créer votre arbre familial en quelques minutes!&quot; target=&quot;_blank&quot; href=&quot;http://www.genopro.com/&quot;&gt;GenoPro&lt;/a&gt;&lt;sup&gt;&#174;&lt;/sup&gt; version {0} du {3}.{2}.{1} avec la matrice de traduction {4}e &lt;i&gt;{5}&lt;/i&gt; version {6}" />
+    <!-- 0=nom, 1=fils/fille, 2=père, 3=mère, 4=date naissance, 5=lieu naissance, 6={0} est femelle?, 7=nom possessif de {0}, 8=nom possessif de {2}, 9=nom possessif de {3}
+         Test={0}=Mary|, {1}=fille|, {2}=John|, {3}=Jane|, {4}=21 Oct 1946|, {5}= en Écosse|, {6}=Y| -->
+    <FmtHtmlLastModified
+         T="&lt;div class='small floatright'&gt;&lt;span&gt;Dernière modification de cette page &lt;/span&gt;&lt;span id='lastModified'&gt;&lt;/span&gt;&lt;/div&gt;" 
+          V="2011.01.15FR+" />
+    <!-- 0=name, 1=son/daughter, 2=father, 3=mother, 4=DoB, 5=PoB, 6=0 is female?, 7=possessive of 0, 8=possessive of 2, 9=possessive of 3
+         Test={0}=Mary|, {1}=daughter|, {2}=John|, {3}=Jane|, {4}=21 Oct 1946|, {5}= in Scotland|, {6}=Y| -->
+    <FmtMetaDescIndividual1
+         T="Rapport ancestral {7}[, {!1} {8}[[{?2} et ]{9}]][, né[{?6}e]{4}{5}]." />
+    <!-- 0=nom court, 1=a/avait, 2=x partenaire(s), 3=nom partenaire(s), 4=y enfant(s), 5=nom enfant(s), 6=partenaires toutes femelles?, 7= >1 partenaire?, 8=enfants toutes femelles?, 9= >1 enfant?
+         Test={0}=|, {1}=|, {2}=|, {3}=|, {4}=|, {5}=|, {6}=|, {7}=|, {8}=|, {9}=| -->
+    <FmtMetaDescIndividual2
+         T="{ }{!0} {!1} [{!2}[ nommé[{?6}e][{?7}s] {3}]][[{?3} et] {4}[ prénommé[{?8}e][{?9}s] {5}]]." />
+    <!-- 0=nom Test={0}=John Smith -->
+    <FmtMetaDescFamily
+         T="Famille {0}." />
+    <!-- 0=nom lieu 'locatif' Test={0}= en Irlande -->
+    <FmtMetaDescPlace
+         T="Historique de famille et ancêtres {0}" />
+    <!-- 0=titre, 1=Nbre individuels, 2=Nbre familles
+         Test={0}=Mes ancêtres et relations|, {1}=201|, {2}=60| -->
+    <FmtMetaDescReport1
+         T="Sommaire du rapport de {0} contenant {1} individuels et {2} familles." />
+    <FmtMetaDescReport2
+         T="Ce rapport décrit la généalogie et ancêtres des familles" />
+    <!-- 0=nom, 1=nom famille, 2=photos?, 3=nom possessif de {0} Test={0}=Mar|, {1}=Jones|, {2}=Y| -->
+    <FmtMetaKeyWordsIndividual
+         T="{0}[, famille et ancêtres {1}][{?2}, photos {!3}]" />
+    <!-- 0=nom Test={0}=Jane Doe -->
+    <FmtMetaKeyWordsFamily
+         T="famille {0}" />
+    <FmtMetaKeyWordsReport
+         T="Rapport de famille, Rapport généalogique, Arbre de famille, Recherche de famille" />
+    <!-- 0=nom GénoCarte Test={0}=Smith et Jones -->
+    <FmtSvgGenoMap
+         T="Sous-arbre de famille : {0}" />
+    <FmtSvgHelpBody
+         T="&lt;CENTER&gt;&lt;H2&gt;Aide pour l'affichage et l'utilisation d'un &lt;a href='http://www.genopro.com/genogram/' target='_blank'&gt;génogramme&lt;/a&gt; en format &lt;a href='http://www.w3.org/Graphics/SVG/About.html' target='_blank'&gt;SVG&lt;/a&gt; (Scalable Vector Graphics)&lt;/H2&gt;&lt;/CENTER&gt; &lt;H3&gt;Introduction&lt;/H3&gt; &lt;p&gt;Les graphiques utilisent le format SVG pour afficher l'image des arbres familiaux. Vous aurez besoin d'un visualisateur SVG (plug-in) pour les afficher.&lt;/p&gt; &lt;p&gt;Le browser Mozilla FireFox pour Windows, Linux et les stations Mac supporte le format SVG, de la version 1.5 Béta et suivantes, et peut être utilisé pour visionner et manipuler les graphiques.&lt;/p&gt; &lt;p&gt;Si vous utilisez l'Internet Explorer de Microsoft et que le graphique de l'arbre ne s'affiche pas, veuillez SVP installer le &lt;a href='http://www.adobe.com/svg/viewer/install/main.html'&gt;visualisateur SVG 3.0x d'Adobe&lt;/a&gt; pour vous permettre d'obtenir la meilleure représentation.&lt;/p&gt; &lt;p&gt;Le browser Mozilla FireFox peut aussi reconnaître le visualisateur SVG d'Adobe à condition de copier le fichier nécessaire NPSVG3.dll du répertoire d'Adobe au répertoire des plugins. (normalement de &lt;b&gt;C:\Program Files\Common Files\Adobe\SVG Viewer 3.0\Plugins&lt;/b&gt; à &lt;b&gt;C:\Program Files\Mozilla Firefox\plugins&lt;/b&gt; après l'avoir téléchargé et installé. Vous devrez aussi accéder aux paramètres de configuration de FireFox (entrer: config dans la ligne d'adresse et presser enter) et marquer svg.enabled comme faux afin de déconnecter le moteur interne SVG. &lt;/p&gt; &lt;H3&gt;Zoomer et glisser&lt;/H3&gt; Vous pouvez zoomer l'image en + ou en - en utilisant les icônes &lt;img src='images/zoomin.gif'/&gt; et &lt;img src='images/zoomout.gif'/&gt; . En cliquant sur l'icône &lt;img src='images/zoompanreset.gif'/&gt; vous retournerez l'image à ses dimensions initiales. Vous pouvez voir l'image intégrale, à petite échelle, en cliquant sur l'icône &lt;img src='images/zoomextent.gif'/&gt; . Le glissement du diagramme peut se faire en cliquant sur les flèches vertes &lt;img src='images/panarrow.gif'/&gt; situées sur le pourtour du cadre. &lt;H3&gt;Afficher les infos d'individuels &amp; de familles&lt;/H3&gt; Vous pouvez obtenir les infos sur chaque individuel en cliquant sur la représentation de leur sexe située au-dessus de leur nom (carré pour mâle, cercle pour femelle). Les détails de famille peuvent être obtenus en cliquant sur la ligne horizontale joignant les parents et enfants. Dans les deux cas, les pages d'infos sont affichées dans le cadre supérieur, au-dessus du génogramme. &lt;H3&gt;Changer d'un arbre familial (génogramme) à un autre&lt;/H3&gt; Le génogramme peut être découpé en plusieurs diagrammes différents. L'individuel portant la liaison apparaitra sur les deux diagrammes et le nom de cet individuel sera affiché en &lt;span style='color:blue;'&gt;bleu&lt;/span&gt; pour indiquer l'hyperlien entre les deux diagrammes. Cliquer sur le lien causera l'affichage de l'autre diagramme, centré sur l'individuel de liaison. &lt;H3&gt;Centrer le diagramme de l'arbre sur un individuel ou une famille&lt;/H3&gt; Rechercher l'individuel ou la famille requise dans les listes du cadre de gauche. N.B. Cliquer les icônes &lt;img src='images/toc_individuals.jpg'/&gt; ou &lt;img src='images/toc_families.jpg'/&gt; pour afficher la liste appropriée. Cliquer sur l'individuel ou la famille requise pour afficher leurs détails dans le cadre supérieur droit. Ensuite, cliquer sur l'icône &lt;img src='images/svg.gif'/&gt; à droite de leur nom pour afficher le diagramme de l'arbre, centré sur l'individuel ou la famille choisie. &lt;H3&gt;Liaisons externes&lt;/H3&gt; Certains individuels dans le diagramme peuvent avoir un hyperlien vers un site web externe. Ceux-ci sont indiqués par le nom de l'individuel affiché en &lt;span style='color:darkviolet;'&gt;violet&lt;/span&gt;. Cliquer sur un de ces noms permettra au lien d'ouvrir le-dit site web dans une nouvelle fenêtre." />
+    <FmtSvgHelpTitle
+         T="Aide d'utilisation du visualisateur SVG" />
+    <!-- 0=nom famille Test={0}=Smith -->
+    <FmtTagChange
+         T="Avertissement: [Dictionnaire Tag {1} a été remplacé par de la version {!3} avec] Tag {0}[{?!1} présenté à la version {3} est absent du dictionnaire et a été par défaut à {2}]"
+         V="2011.01.15FR+" />
+    <!-- 0=family name Test={0}=Smith-->
+    <FmtTitleFamily
+         T="Famille de {0}" />
+    <!-- 0=titre rapport  Test=Mes ancêtres|Ancêtres Smith|Harry Potter -->
+    <FmtTitleContact
+         T="{0} - Résidence/Contacts de généalogie" />
+    <FmtTitleEntity
+         T="{0} - Entité sociale" />
+    <FmtTitleHeading
+         T="{0} - Recherche généalogique" />
+    <FmtTitleHome
+         T="{0} - Sommaire du rapport" />
+    <FmtTitlePlace
+         T="{0} - Lieux et places généalogiques" />
+    <FmtTitleSource
+         T="{0} - Sources et citations généalogiques" />
+    <FmtTitleTocContacts
+         T="{0} - Liste de recherche des contacts" />
+    <FmtTitleTocEntities
+         T="{0} - Liste des entités sociales" />
+    <FmtTitleTocFamilies
+         T="{0} - Liste de recherche des noms de famille" />
+    <FmtTitleTocGenoMaps
+         T="{0} - Diagrammes des sous-arbres familiaux" />
+    <FmtTitleTocIndividuals
+         T="{0} - Liste de recherche de patronymes généalogiques" />
+    <FmtTitleTocPictures
+         T="{0} - Album de photos de famille" />
+    <FmtTitleTocPlaces
+         T="{0} - Liste de recherche des lieux et endroits" />
+    <FmtTitleTocSources
+         T="{0} - Liste de recherche des sources et citations" />
+    <FmtTitleTocTimelines
+         T="{0} - Liste des chronologies" />
+    <HomeMostPopularFamilyNames
+         T="Patronymes les plus populaires" />
+    <!-- Table des matières (Table of Contents - ToC) -->
+    <TocAlphabeticalIndex
+         T="Liste alpha des patronymes" />
+    <TocAZSurnameIndex
+         T="Liste complète A-Z des patronymes" />
+    <TocCollapseAll
+         T="Fermer les listes" />
+    <TocEducation
+         T="Récap éducation" />
+    <TocExpandAll
+         T="Ouvrir les listes" />
+    <TocExpandCollapseAll
+         T="Cliquer pour ouvrir/fermer les listes" />
+    <TocFamily
+         T="Détails familiaux" />
+    <TocIndexContactsIndividuals
+         T="Contacts Individuels" 
+         V="2011.01.15FR+" />
+    <TocIndexContactsSocialEntities
+         T="Groupe /Contacts Organisation" 
+         V="2011.01.15FR+" />
+    <TocIndexIndividuals
+         T="Individuels" />
+    <TocIndexFamilies
+         T="Familles" />
+    <TocIndexOccupancies
+         T="Résidences et contacts" />
+    <TocIndexPictures
+         T="Photos" />
+    <TocIndexPicturesContacts
+         T="Contact Images ou Résidence"
+         V="2011.01.15FR+"  />
+    <TocIndexPicturesIndividuals
+         T="Photos des individuels" />
+    <TocIndexPicturesIndividualContacts
+         T="Photos Contact individuelle"
+         V="2011.01.15FR+"  />
+    <TocIndexPicturesFamilies
+         T="Photos des familles" />
+    <TocIndexPicturesPlaces
+         T="Photos des lieux" />
+    <TocIndexPicturesSources
+         T="Photos des sources" />
+    <TocIndexPicturesEducations
+         T="Photos scolaires" />
+    <TocIndexPicturesOccupations
+         T="Photos professionnelles" />
+    <TocIndexPicturesSocialEntities
+         T="Photos des entitées sociales" />
+    <TocIndexPicturesSocialEntityContacts
+         T="photos de contacts pour les groupes ou les organisations"
+         V="2011.01.15FR+"  />
+    <TocIndexPicturesSocialRelationships
+         T="Photos des relations sociales" />
+    <TocIndexPicturesEmotionalRelationships
+         T="Photos des relations émotives" />
+    <TocIndexPlaces
+         T="Lieux cités" />
+    <TocIndexPlacesPopular
+         T="Lieux les plus cités" />
+    <TocIndexEntities
+         T="Groupes et organisations" />
+    <TocIndexSources
+         T="Sources et citations" />
+    <TocIndexSvg
+         C1="Arbres familiaux"
+         T="Sous-arbres familiaux" />
+    <TocIndexTimeLine
+         C1="Chronologie de famille"
+         T="Chronologies de famille" />
+    <TocOccupation
+         T="Récap des résidences" />
+    <HeaderCalendar
+         T="Anniversaires (naissance et mariage)" />
+    <HeaderChildren
+         T="Les enfants" />
+    <HeaderEducation
+         T="Détails scolaires" />
+    <HeaderOccupancy
+         T="Détails des résidences et contacts" />
+    <HeaderOccupation
+         T="Détails professionnels" />
+    <HeaderPersonal
+         T="Détails du couple" />
+    <HeaderGenoMap
+         C1="Diagramme de l'arbre :&#32;"
+         T="Diagramme du sous-arbre de famille :&#32;" />
+    <HeadergMapFamily
+         T="lieux associés à la famille des {}"
+         V="2011.01.15FR+"  />
+    <HeadergMapIndividual
+         T="Lieux dans la vie de {}"
+         V="2011.01.15FR+"  />
+    <HeaderTimeLine
+         C1="Chronologie de la famille :&#32;"
+         T="Chronologie des sous-arbres de Famille :&#32;" />
+    <!-- 0=No Section, 1=Nom, 2=Nom possessif Test={0}=1|, {1}=John Doe -->
+    <HeadingDescendants
+         T="[{0} ]Descendants {2}" />
+    <HeadingDescendantsReport
+         T="Rapport de descendants" />
+    <!-- 0=Position ordinale, 1=Position ordinale (Féminin), 2=Style du rapport (F-Famille, D-Descendant)  Test={0}=Premier, {1}=Première -->
+    <HeadingGenerations
+         T="{1} génération [{?2=D} de descendants]" />
+    <HeadingIndex
+         T="Liste des noms" />
+    <HeadingPlaces
+         T="Appendice A: Lieux cités" />
+    <HeadingSources
+         T="Appendice B: Citations &amp; sources citées" />
+    <ShowPdfTip
+         T="Affichage en format PDF (Portable Document Format)&#10;Pour une meilleure compatibilité, employez le lecteur Adobe Reader 8.1.2 ou au-dessus. Permet glissements, zooms faciles et impression, mais ne supporte ni les hyperliens, ni les infobulles sur graphique." />
+    <ShowSvgTip
+         T="Affichage en format SVG (Scalable Vector Graphics)&#10;Le format SVG exige le browser Firefox ou le visualisateur d'Adobe. Les hyperliens des individuels et familles sont supportés mais les glissements et zooms peuvent être lents, particulièrement avec de grandes GénoCartes ou avec le browser Firefox. Ne supporte pas l'impression." />
+    <Annotationadopted
+         T="Notes sur l'adoption" />
+    <Annotationfoster
+         T="Notes sur la garderie" />
+    <AnnotationBirth
+         T="Notes sur la naissance" />
+    <AnnotationDeath
+         T="Notes sur le décès" />
+    <AnnotationDivorce
+         T="Notes sur le divorce" />
+    <AnnotationEducation
+         T="Notes sur l'éducation" />
+    <AnnotationFamily
+         T="Notes sur la famille" />
+    <AnnotationGeneral
+         T="Notes générales" />
+    <AnnotationIndividual
+         T="Notes sur l'individuel" />
+    <AnnotationLocation
+         T="Notes sur le lieu" />
+    <AnnotationUnion
+         T="Notes sur l'union" />
+    <AnnotationOccupancy
+         T="Notes sur la résidence/contact" />
+    <AnnotationOccupation
+         T="Notes sur l'occupation" />
+    <AnnotationPedigreeLink
+         T="Notes sur le lien de parenté" />
+    <AnnotationPicture
+         T="Notes sur la photo" />
+    <AnnotationPictureTechnical
+         T="Info technique" />
+    <AnnotationRelationship
+         T="Notes sur la relation" />
+    <AnnotationSocialEntity
+         T="Notes sur l'entité sociale" />
+    <AnnotationSource
+         T="Notes sur la source" />
+    <!-- 0=Type de naissance multiple (la balise 'Twins' dans ce Dic) Test={0}=jumeaux|triplés -->
+    <AnnotationTwins
+         T="Notes sur les {0}" />
+    <!-- p.ex.: "Notes sur photo Famille", "Notes sur photo Individuel", "Notes sur photo Éducation", "Notes sur photo Occupation" -->
+    <FmtAnnotationPicture
+         T="Notes sur photo {}" />
+    <!-- p.ex.: "Photos Famille", "Photos Épouse" -->
+    <FmtPictures
+         T="Photos {&amp;t}" />
+    <Also
+         T="aussi" />
+    <Anniversary
+         T="anni. mariage" />
+    <Birthday
+         T="anniversaire" />
+    <Birth
+         T="naissance" />
+    <BirthAbbr
+         T="n." />
+    <BirthCeremonyTypeDefault
+         T="Cérémonie de naissance" />
+    <Born
+         T="né(e)" />
+    <CalendarChanges
+         T="Valider" />
+    <CalendarExport
+         T="Exporter les anniversaires affichés" />
+    <CalendarFilter
+         T="Options d'affichage" />
+    <CalendarFix1
+         T="&lt;bdo dir=\'ltr\'&gt;" />
+    <CalendarFix2
+         T="&lt;/bdo&gt;" />
+    <CalendarJump
+         T="Aller au mois de" />
+    <CalendarPrint
+         T="Imprimer" />
+    <CalendarView
+         T="" />
+    <Contact
+         T="Résidence/Contact" />
+    <Custom
+         T="personnalisé" />
+    <CustomTagLayoutDefault
+         T="Un champ personnalisé est un endroit général" />
+    <!-- ci-dessous est un texte de remplacement pour la description de défaut du 'CustomTagLayout' de Genopro -->
+    <CustomTagLayoutSubstitute
+         T="Autres attributs" />
+    <Death
+         T="Décès" />
+    <DiedAbbr
+         T=" d." />
+    <Disposition
+         T="Disposition du corps"
+         V="2011.01.15FR+"  />
+    <Divorce
+         T="Divorce/Séparation"
+         V="2011.01.15FR+"  />
+    <DivorceAbbr
+         T=" div." />
+    <Description
+         T="Description:" />
+    <DetailLink
+         T="Voir&#32;" />
+    <Education
+         T="Éducation" />
+    <EmotionalRelationship
+         T="Relation émotive" />
+    <Entries
+         T="entrées" />
+    <Family
+         P="familles"
+         T="famille" 
+         V="2011.01.15FR±" />
+    <!-- 0=ID sexe si enfant unique?, 1=marié?, 2=nom si parent unique, 3=Nom possessif 1er parent, 4=nombre enfants        Test={0}=Y|, {1}=Y| {2}=Parent seul| -->
+    <FamilyChildren
+         T="L[{?0=M}e fils][{?0=F}a fille][{?!0}es {4} enfants][{?!2} de cette [{?1}famille][{!}relation]][{?2} {3}] [{?0}est][{!}sont]:-" />
+    <First
+         T="En premier," />
+    <Funeral
+         T="funérailles" />
+    <Individual
+         P="Individuels"
+         T="Individuel" 
+         V="2011.01.15FR±" />
+    <Label
+         T="Étiquette" />
+    <Later
+         T="plus tard" />
+    <Lived
+         T="sa vie" />
+    <Location
+         T="Lieu" />
+    <LocationReferences
+         T="Référence est faite dans:" />
+    <MarkerFirstName
+         T="_" />
+    <Marriage
+         T="mariage/union" />
+    <Married
+         T="marié(e)" />
+    <Married_F
+         T="mariée" />
+    <Next
+         T="Ensuite," />
+    <Notes
+         T="notes" />
+    <Now
+         T="En dernier," />
+    <Occupancy
+         T="Résidence/Contact" />
+    <Occupation
+         T="Occupation" />
+    <OtherDetails
+         T="autres détails" />
+    <PedigreeAdopted
+         T="adoptif" />
+    <PedigreeAdopted_F
+         T="adoptive" />
+    <PedigreeAdoptedEvent
+         T="adoption" />
+    <PedigreeLink
+         T="Lien de pédigrée" />
+    <PedigreeChart
+         T="Arbre ancestral" />
+    <PedigreeChartDate
+         T="[|~|&lt;|&gt;]dd MMM yyyy" />
+    <Secret
+         T="Secret" 
+         V="2011.01.15FR+" />
+    <UnionEngagement
+         T="Engagement"
+         V="2011.01.15FR+" />
+    <UnionFirstMeeting
+         T="Première réunion"
+         V="2011.01.15FR+"  />
+    <UnionLivingTogether
+         T="Vivre Ensemble"
+         V="2011.01.15FR+"  />
+    <!-- 0=date naissance, 1=lieu naissance, 2=date décès, 3=lieu décès,
+         Test={0}=6 May 1934|, {1}= at home|, {2}=17 Oct 2001|, {3}= in a rest home|, -->
+    <PedigreeChartDetails
+         T="-[ n.[{0}][{1}]][ d.[{2}][{3}]]" />
+    <PedigreeChartFootNote
+         T="Il y a des générations antérieures pour les ancêtres indiqués. Cliquer sur leurs noms pour voir leurs pages." />
+    <PedigreeFoster
+         T="recueilli" />
+    <!-- peut aussi avoir les formes féminine et masculine _F , _M -->
+    <PedigreeFoster_F
+         T="recueillie" />
+    <PedigreeFosterEvent
+         T="garderie" />
+    <Picture
+         T="Photo" />
+    <PictureDetails
+         T="[détails]" />
+    <PictureDetailsTip
+         T="Cliquer pour plus d'information sur cette photo" />
+    <PictureGallery
+         T="Album de photos" />
+    <PictureMapHint
+         T="N.B. Naviguer sur l'image, tels que les visages, puis cliquer pour de possibles infos si disponible" />
+    <PictureMessage
+         T="Cliquer sur photos/images pour afficher une version plus grande." />
+    <PictureSubheading
+         T="Photo:" />
+    <Place
+         T="Lieu" />
+    <Place_Parent
+         T="Lieu parental" />
+    <!-- Les éléments 'PlacePrefix' ci-dessous sont employés dans le rapport narratif et remplacent les valeurs du 'PlacePrefix' dans les sections
+                d'énumérations plus haut dans ce dictionnaire.
+                Chaque élément peut avoir les formes masculine, féminine ou neutre.
+                Ces éléments peuvent aussi avoir des attributs 'P' pour définir les préfixes des pluriels. -->
+    <PlacePrefix_In
+         P="aux"
+         T="à" 
+         V="2011.01.15FR±" />
+    <PlacePrefix_In_F
+         P="aux"
+         T="en" 
+         V="2011.01.15FR±" />
+    <PlacePrefix_InThe
+         T="in the" />
+    <PlacePrefix_InA
+         T="in a" />
+    <PlacePrefix_At
+         T="at" />
+    <PlacePrefix_AtThe
+         T="at the" />
+    <PlacePrefix_AtA
+         T="at a" />
+    <PlacePrefix_On
+         T="on" />
+    <PlacePrefix_OnThe
+         T="on the" />
+    <PlacePrefix_OnA
+         T="on a" />
+    <PlacePrefix_To
+         T="to" />
+    <PlacePrefix_ToThe
+         T="to the" />
+    <PlacePrefix_ToA
+         T="to a" />
+    <!-- Les préfixes de lieu de défaut ou de catégorie peuvent être définis pour les noms féminins, masculins ou neutres. Aussi pour noms pluriel -->
+    <PlacePrefixDefault
+         P="aux"
+         T="à" />
+    <PlacePrefixDefault_F
+         P="aux"
+         T="en" />
+    <PlacePrefixDefault_M
+         P="aux"
+         T="à" />
+    <!-- laissez les préfixes suivants vides pour employer les préfixes ci-dessus. 
+                Chaque élément ci-dessous peut aussi avoir les formes féminine, masculine ou neutre.
+                Ces éléments peuvent aussi avoir des attributs 'P' pour définir les préfixes des pluriels. -->
+    <PlacePrefix_AdministrativeFacility
+         T="" />
+    <PlacePrefix_Canton
+         T="" />
+    <PlacePrefix_CelebrationHall
+         T="" />
+    <PlacePrefix_Cemetery
+         T="" />
+    <PlacePrefix_Church
+         T="" />
+    <PlacePrefix_City
+         T="" />
+    <PlacePrefix_College
+         T="" />
+    <PlacePrefix_ConcentrationCamp
+         T="" />
+    <PlacePrefix_County
+         T="" />
+    <PlacePrefix_Country_M
+         P="aux"
+         T="au" />
+    <!-- pour obtenir au Canada, aux Seychelles -->
+    <PlacePrefix_Country_F
+         T="en" />
+    <!-- pour obtenir en France -->
+    <PlacePrefix_Court
+         T="" />
+    <PlacePrefix_Department
+         T="" />
+    <PlacePrefix_Domicile
+         T="" />
+    <PlacePrefix_EducationalInstitute
+         T="" />
+    <PlacePrefix_Factory
+         T="" />
+    <PlacePrefix_Farm
+         T="" />
+    <PlacePrefix_GovernmentOffice
+         T="" />
+    <PlacePrefix_HealthFacility
+         T="" />
+    <PlacePrefix_Hospital
+         T="" />
+    <PlacePrefix_House
+         T="" />
+    <PlacePrefix_Jail
+         T="" />
+    <PlacePrefix_Landscape
+         T="" />
+    <PlacePrefix_MilitaryBase
+         T="" />
+    <PlacePrefix_Municipality
+         T="" />
+    <PlacePrefix_Province
+         T="" />
+    <PlacePrefix_Region
+         T="" />
+    <PlacePrefix_ReligiousFacility
+         T="" />
+    <PlacePrefix_Road
+         T="" />
+    <PlacePrefix_School
+         T="" />
+    <PlacePrefix_State
+         T="" />
+    <PlacePrefix_Synagogue
+         T="" />
+    <PlacePrefix_Town
+         T="" />
+    <PlacePrefix_Temple
+         T="" />
+    <PlacePrefix_TransportationFacility
+         T="" />
+    <PlacePrefix_University
+         T="" />
+    <PlacePrefix_Village
+         T="" />
+    <PlacePrefix_WarField
+         T="" />
+    <PlacePrefix_Waters
+         T="" />
+    <PlacePrefix_WorkField
+         T="" />
+    <PlacePrefix_WorkOffice
+         T="" />
+    <PrefixTitle_A
+         T="un" />
+    <PrefixTitle_An
+         T="un" />
+    <PrefixCompany_InThe
+         T="dans le" />
+    <Ref
+         T="Réf:" />
+    <Reference
+         P="références"
+         T="référence" />
+    <References
+         T="références" />
+    <Relationships
+         T="Relations sociales et émotionnelles" />
+    <RelationshipsTxt
+         T="Relations" />
+    <SocialEntity
+         T="Entité sociale" />
+    <SocialRelationship
+         T="Relation sociale" />
+    <Source
+         T="Source" />
+    <SourceCitation
+         P="Sources/Citations"
+         T="Source/Citation" />
+    <SourceCitation_Other
+         P="D'autres sources/citations:"
+         T="Autre source/citation:" />
+    <SourceCitation_Parent
+         T="Source parentale" />
+    <SourceFootnote
+         T="Voir le bas de page pour source" />
+    <SourceInformation
+         T="Cliquer pour voir info sur source" />
+    <Subtitle
+         T="Sous-titre:" />
+    <Then
+         T="puis" />
+    <!-- 0=adoptif/en garde, 1=fils/fille, 2=nom
+         Test={0}=adopté|recueilli, {1}=fils|fille, {2:1}=John|Jane, -->
+    <TimelineAdopted
+         T="{1} {0} {2}" />
+    <TimelineAccommodation
+         T="voyages" />
+    <TimelineHeadingFamily
+         T="Chronologie de la famille" />
+    <TimelineHeadingIndividual
+         T="Chronologie de l'individuel" />
+    <TimelineHelp
+         T=" N.B. Cliquer ici pour voir l'aide d'utilisation" />
+    <TimelineHelpDetails
+         T="Cliquer sur le graphique pour le faire glisser avec la souris ou cliquer et appuyer sur les touches: 'Home' pour afficher le début, 'End' pour afficher la fin, 'Page Up' &amp; 'Page Down' pour faire glisser le graphique à gauche ou à droite d'une largeur d'écran ou cliquer sur les touches &quot;Flêches&quot; pour faire glisser plus lentement. Cliquer le nom de la personne ou du couple pour afficher une bulle comme celle-ci. Cliquer sur le titre de la bulle pour faire afficher la page de la personne ou du couple." />
+    <TimelineNowTag
+         T="Auj'hui" />
+    <!-- 0=nom du lieu, Test=Montreal -->
+    <Timeline_Accommodation
+         T="résidence en voyage: {0}" />
+    <Timeline_Other
+         T="autre résidence: {0}" />
+    <Timeline_Migration
+         T="Migration: {0}"
+         V="2011.01.15FR+"  />
+    <Timeline_Relocation
+         T="relocalisation: {0}"
+         V="2011.01.15FR+"  />
+    <Timeline_Voyage
+         T="Voyage: {0}"
+         V="2011.01.15FR+"  />
+    <Timeline_Journey
+         T="Voyage: {0}"
+         V="2011.01.15FR+" />
+    <Timeline_PrimaryResidence
+         T="résidence: {0}" />
+    <Timeline_TemporaryResidence
+         T="résidence temporaire: {0}" />
+    <Timeline_WorkPlace
+         T="lieu de travail: {0}" />
+    <Timeline_WorkPlaceAndPrimaryResidence
+         T="lieu de travail et résidence: {0}" />
+    <Timeline_
+         T="adresse: {0}" />
+    <!-- dans la liste suivante, les attributs standard P, C1 & C2 ont été 'empruntés' pour les employer différemment
+                T est le nom des fichiers d'icônes .gif,
+                P est l'icône, seulement si une date de fin est présente (ex. décès ou divorce),
+                C1 est le code de la couleur RGB de la ligne,
+                C2 est le nom de la couleur (pas employé, pour info. seulement)
+        -->
+    <TimelineEducation
+         C1="#9ACD32"
+         C2="yellowgreen"
+         T="education" />
+    <TimelineFamily_MF
+         C1="#2E8B57"
+         C2="seagreen"
+         P="family_MFX"
+         T="family_MF" />
+    <TimelineFamily_FM
+         C1="#2E8B57"
+         C2="seagreen"
+         P="family_MFX"
+         T="family_MF" />
+    <TimelineFamily_MM
+         C1="#2E8B57"
+         C2="seagreen"
+         P="family_MMX"
+         T="family_MM" />
+    <TimelineFamily_FF
+         C1="#2E8B57"
+         C2="seagreen"
+         P="family_FFX"
+         T="family_FF" />
+    <TimelineFamily_F
+         C1="#2E8B57"
+         C2="seagreen"
+         T="family_" />
+    <TimelineFamily_M
+         C1="#2E8B57"
+         C2="seagreen"
+         T="family_" />
+    <TimelineIndividual_M
+         C1="#1E90FF"
+         C2="dodgerblue"
+         P="gender_MX"
+         T="gender_M" />
+    <TimelineIndividual_F
+         C1="#DC143C"
+         C2="crimson"
+         P="gender_FX"
+         T="gender_F" />
+    <TimelineIndividual_P
+         C1="#D2691E"
+         C2="chocolate"
+         P="gender_PX"
+         T="gender_P" />
+    <TimelineIndividual_
+         C1="#8A2BE2"
+         C2="blueviolet"
+         T="gender_" />
+    <TimelineContact
+         C1="#FFA500"
+         C2="orange"
+         T="occupancy" />
+    <TimelineOccupancy
+         C1="#FFA500"
+         C2="orange"
+         T="résidence"
+         V="2011.01.15FR+" />
+    <TimelineOccupation
+         C1="#8B008B"
+         C2="darkmagenta"
+         T="occupation" />
+    <GoogleMap
+         T="Carte Google" />
+    <gMapClusterHeader
+         T="Cluster des marqueurs de lieux {}" />
+    <gMapClusterFooter
+         T="Zoomer + pour voir les marqueurs individuels" />
+    <gMapError
+         T="Google Maps API n'a pas trouvé ce lieu" />
+    <gMapMissingAddress
+         T="Adresse manquante: l'adresse était manquante ou sans info." />
+    <gMapUnknownAddress
+         T="Adresse inconnue: le lieu en question n'a pas été trouvé à l'adresse indiquée." />
+    <gMapUnavailableAddress
+         T="Adresse non-disponible: cette adresse ne peut être trouvée, pour cause légale et/ou contractuelle." />
+    <gMapBadKey
+         T="Mauvaise clef: la clef API est incorrecte ou ne correspond pas au nom du domaine enregistré" />
+    <gMapTooManyQueries
+         T="Trop de demandes: le quota de recherche journalier de ce site a été épuisé." />
+    <gMapServerError
+         T="Erreur serveur: la demande de géocodage n'a pu aboutir." />
+    <gMapLink
+         T="Afficher la carte Google de ce lieu (si disponible)" />
+    <gMapPlaces
+         T="Carte générale de tous les lieux géocodés" />
+    <!--
+        Phrases narratives, voir Util.FormatPhrase() pour détails.
+
+        À noter que certaines phrases, telles que PhBirth, PhDied, PhChildRank, PhOnlyChild etc., peuvent avoir 2 formes correspondant au sexe/genre du sujet.
+        Dans ce cas, les suffixes _M, _F or _P sont ajoutés au nom de la phrase. Si la phrase associée au sexe n'est pas trouvée, la phrase initiale est employée. 
+        Employer la phrase initiale pour la forme masculine, faites une copie et ajouter _F pour la forme féminine.
+        À noter aussi que dans quelques cas, la forme additionnelle 'féminine' n'est pas nécessaire car l'ID du sexe (M, F ou P) est fournie comme paramètre à la phrase.
+        -->
+    <!-- 0=adopteur html, 1=adoptés html, 2=nul,   Test={0}=Dan|, {1}=Jim|Mary| -->
+    <PhAdoptedBy
+         T="{ &#32;}[{?0^1}{0h} a adopté {1h}. ]" />
+    <!-- 0=nom, 1=date naissance, 2=lieu naissance, 3=date baptême, 4=lieu baptême, 5=titre officiant, 6=nom officiant, 7=même lieu naissance et baptême?, 8=docteur, 9=mois gestation, 10=semaines gestation, 11=son/sa, 12=type cérémonie, 13=nom possessif, 14=ID sexe
+         Test={0}=Jane, {1}=Jan 2005|, {2}=in hospital|, {3}=11 Feb 2005|, {4}=in a church|, {5}=Reverend|, {6}=Jesse Jackson|, {7}=Y|, {8}=Dr Jekyll|, {9}=8|, {10:9}=|36, {11}=her, {12}=Baptism|, {13}=Jane's -->
+    <PhBirth
+         T="{?1|2|3|4|5|6|8|9|10|12}[{!0} est né[{?14=F}e]{1}{2h}[, délivré[{?14=F}e] par {8h}][, suivant une grossesse de [{9} mois][{?!9}{10} semaines]]][{?1|2|5|6|8|9|10}.][{?12}{ &#32;}{\U}{12} a eu lieu[{?2^4^7} en ce lieu-même]{3}[{?!7}{4h}][{?6}, conduit par [{5} ]{6h}].]"
+         X="2" />
+    <PhBirth_X1
+         T="{?1|2|3|4|5|6|8|9|10|12}[{!0} a vu le jour{1}{2h}[, délivré[{?14=F}e] par {8h}][, suivant une grossesse de [{9} mois][{?!9}{10} semaines]]][{?1|2|5|6|8|9|10}.][{?12}{ &#32;}{\U}{12} a eu lieu[{?2^4^7} en ce lieu-même]{3}[{?!7}{4h}][{?6}, conduit par [{5} ]{6h}].]" />
+    <PhBirth_X2
+         T="{?1|2|3|4|5|6|8|9|10|12}[{!0} est venu[{?14=F}e] au monde{1}{2h}[, délivré[{?14=F}e] par {8h}][, suivant une grossesse de [{9} mois][{?!9}{10} semaines]]][{?1|2|5|6|8|9|10}.][{?12}{ &#32;}{\U}{12} a eu lieu[{?2^4^7} en ce lieu-même]{3}[{?!7}{4h}][{?6}, conduit par [{5} ]{6h}].]" />
+    <PhBirthTxt
+         T="{!0}[{?1|2|8|9|10} est né[{?14=F}e]{1}{2}[, délivré[{?14=F}e] par {8}][, suivant une grossesse de [{9} mois][{?!9}{10} semaines]]]" />
+    <PhBaptismTxt
+         T="{?12}[{?1|2|8|9|10} et ][{12!=son baptême}][ a pris place[{?2^4^7} [{?2^4^7}en ce lieu-même]][{3}][{?!7}{4}]][{?5|6}, célébré par [{5} ]{6}]" />
+    <!-- 0=ID sexe, 1=date naissance, 2=lieu naissance, 3=date décès, 4=lieu décès
+         Test={0}=M|F|, {1}=20 Nov 1910|, {2}=in London|, {3}=11 May 1981|, {4}=in Glasgow| -->
+    <PhBirthAndDeathTxt
+         T="[ né[{?0=F}e][ {1}]{2}][{?1|2}[{?3|4};]][ décédé[{?0=F}e][ {3}]{4}]." />
+    <!-- 0=nom, 1=type de sang, 2=est en vie?
+         Test={0}=Jane, {1}=AB+, {2}=Y| -->
+    <PhBloodType
+         T="{\br}{\U}{!0}[{?2} es][{!} étai]t d[{?1=inconnu}'un][{!}u] groupe sanguin {1}.{\br}" />
+    <PhBloodTypeTxt
+         T="{!0}[{?2} es][{!} étai]t d[{?1=inconnu}'un][{!}u] groupe sanguin {1}." />
+    <!-- 0=son|sa, 1=type disposition corps, 2=date disposition, 3=lieu disposition, 4=il/elle, 5=ID type disposition, 6=ID sexe
+         Test={0}=her, {1}= enterré|incinéré, {2}= le 12 Mar 1970, {3}= au cimetière, {4}= elle, {5:1} enterré|incinéré, {6}=F -->
+    <PhBurial
+         T="[{?1}{ &#32;}{\U}{1}{2}{3h}.]" />
+    <PhBurialTxt
+         T="[{?1}{1}{2}{3}.]" />
+    <!-- 0=nom hyperlien, 1=rang, 2=nom évènement, 3=fix rtl/ltr, 4=fix2 rtl/ltr, 5=né/marié, 6=année présente?
+         Test={0}=John doe|John & Jane Doe, {1}=2nd, {2:1}=Birthday|anniversary, {3}=, {4}=, {5:1}=born|married, {6}=Y| -->
+    <PhCalendarEvent
+         T="{0} [{?6}[{?1}{3}{1}{4} {2}][{?!1}{5}]][{?!6}{2}]" />
+    <!-- 0=il|elle, 1=est|était, 2=ordinal/ainé|Xème|le plus jeune, 3=le plus âgé(quand 2 = ordinal), 4=nombre d'enfants, 5= connu?, 6=x enfants, 7=ID sexe
+         Test={0}=he, {1}=is|was, {2}=2nd|youngest, {3:2}=oldest|, {4}=4, {5}=Y|, {6}=children, {7}=M|F -->
+    <PhChildRank
+         T="{ &#32;}{\U}{0} {1} [{?3}l[{?7=M}e][{!}a] ]{2} [{?4=deux}][{!}de la lignée ]des {4} {6}[{?5=connues} connus][{!} {5}]." />
+    <!-- Sommaire des Collections par hommes, femmes et sexe inconnu, suivi par les noms en format HTML.
+             Exemple: "un frère et deux sœurs, prénommés Benoit, Anne et Estelle"
+         0=hommes, 1=femmes, 2=sexe inconnu, 3=noms en format html, 4=toutes femelles?, 5= > 1 au total?
+         Test={0}=a brother, {1}=two sisters, {2}=, {3}=<a href='Benoit.htm'>Benoit</a>, <a href='Anne.htm'>Anne</a> et <a href='Estelle.htm'>Estelle</a>, {4}=Y|, {5}=Y| -->
+    <PhCollectionMFU
+         T="{0}[[{?0} et ]{1}][[{?0|1}, et aussi ]{2}][[{?0^1},] prénommé[{?4}e][{?5}s] {3h}]" />
+    <!-- 0=téléphone, 1=fax, 2=email, 3=site web, 4=type résidence, 5=lieu résidence, 6=Portable
+         Test={0}=(123)456-7890|, {1}=(123)456-7899|, {2}=email@yahoo.com|, {3}=http://www.genopro.com/|, {4}=Lieu travail|Résidence principale|, {5}=Montréal|Paris|, {6}=+001122 334 455| -->
+    <PhContact
+         T="{ &#32;}{\U}[{?!5}[{?4}{!4} détails de contact: ]][Tél.: {0} ][Portable: {6} ][Fax: {1} ][Email: {2h} ][Site Web: {3h}]." />
+    <PhContactTxt
+         T="[{?!5}[{!4} ]détails de contact:][ Téléphone: {0} ][ Portable: {6} ][ Fax: {1} ][ Email: {2} ][ Site Web: {3}]." />
+    <!-- 0=téléphone, 1=fax, 2=email, 3=page d'accueil Web, 4=portable
+         Test={0}=01234 567890|, {1}=09876 543 210|, {2}=support@genopro.com|, {3}=www.genopro.com|, {4}=+001122 334 455 -->
+    <PhContactSummary
+         T="[Tél.: {0} ][Portable: {4} ][Fax: {1} ][Email: {2} ][Site Web: {3}]" />
+    <!-- 0=Nom, 1=ID sexe -->
+    <PhDead
+         T="{ &#32;}{\U}{0} n'est plus de ce monde." />
+    <!-- Individuel décédé.  0=nom   Test=Jim|mary -->
+    <PhDeadTxt
+         T="{0} n'est plus de ce monde." />
+    <!-- 0=il|elle|nom, 1=année au décès, 2=mois au décès, 3=jours au décès, 4=date décès, 5=lieu décès, 6=cause décès, 7=description cause décès, 8=Approximation naissance/décès, 9=et, 10=ID sexe
+         Test={0}=he, {1}=34||, {2:1}=|6|, {3:1}=||10, {4}= on 3 Jan 1980|, {5}= in Wales|, {6}= of natural causes|, {7:6}=|drowning, {8}=~|, {9}=and, {10}=M|F  -->
+    <PhDied
+         T="{ &#32;}{\U}{!0} est décédé[{?10=F}e]{4}[ {5h}][{?6|7}, ][{?!7}{6}][{!}des suites d'{7h}][{?!8}[[{?1|2|3}, à l'âge de][ {1} ans][{?!1}[ {2} mois][{?!2} {3} jours]]]]."
+         X="2" />
+    <PhDied_X1
+         T="{ &#32;}{\U}{!0} s'est éteint[{?10=F}e]{4}[ {5h}][{?6|7}, ][{?!7}{6}][{!}des suites d'{7h}][{?!8}[[{?1|2|3}, à l'âge de][ {1} ans][{?!1}[ {2} mois][{?!2} {3} jours]]]]." />
+    <PhDied_X2
+         T="{ &#32;}{\U}{!0} nous a quitté{4}[ {5h}][{?6|7}, ][{?!7}{6}][{!}des suites d'{7h}][{?!8}[[{?1|2|3}, à l'âge de][ {1} ans][{?!1}[ {2} mois][{?!2} {3} jours]]]]." />
+    <PhDiedTxt
+         T="[{?!9}{!0}][ {9}] est décédé[{?10=F}e]{4}{5}." />
+    <!-- 0=annulation mariage, 1=date divorce, 2=lieu divorce, 3=Id du 'demandeur', 4=énumération 'demandeur', 5=avocat mari, 6=avocat femme, 7=agence/officiant
+         Test={0}=, {1}=, {2}=, {3}=, {4}=, {5}=, {6}=, {7}=, {8}=, {9}= -->
+    <PhDivorce
+         T="{ &#32;}[{?0}Leur mariage a été annulé][{?!0}[{?1|2|3|5|6|7}Ils ont divorcé]]{1}{2h}[ {4h}][, l'avocat de l'époux était {5h}][[{?5^6} et celui][{?!5}, l'avocat] de l'épouse était {6h}].[ Le jugement a été rendu par {7h}.]" />
+    <PhDivorceTxt
+         T="[{?0}Leur mariage a été annulé][{?!0}[{?1|2|3|5|6|7}Ils ont divorcé]]{1}{2}[ {4}][, l'avocat de l'époux était {5}][[{?5^6} et celui][{?!5}, l'avocat] de l'épouse était {6}].[ Le jugement a été rendu par {7}.]" />
+    <!-- 0=nom|il|elle, 1=lieu études, 2=type études, 3=plage dates, 4=durée, 5=niveau éducation, 6=programme, 7=réussite, 8=toujours en cours?, 9=Institution, 10=il/elle, 11=date fin, 12=cause cessation -->
+    <PhEducation
+         T="{ &#32;}{\U}{0}[ [{?8}suit][{!}a suivi][, {2},][ {5}][[{?!5} un cours] en {6h}][ - {9h}][{1h}][{?1|9} -]][{?3} {3}][{!}pendant {4}]. [{?7|12}{\U}{10}[{?12}{?!8} {12h}{11}[{?7} et]][ {7h}]. ]" />
+    <PhEducationStudying
+         T="{ &#32;}{\U}{0}[ [{?8}[{?3}a étudié][{!}étudie]][{?!8}a étudié][, {2},][ - {9h}][{1h}][{?1|9} -]][{?3} {3}][{!}pendant {4}][ où {!10} [{?8}suit][{!}a suivi][ {5}][[{?!5} un cours] en {6h}]]. [{?7|12}{\U}{10}[{?12}{?!8} {12h}{11}[{?7} et]][ {7h}]. ]" />
+    <!-- 0=nom|il|elle, 1=lieu études, 2=type études, 3=plage dates, 4=durée, 5=niveau éducation, 6=programme, 7=N/A, 8=toujours en cours?, 9=Institution, 10=il/elle -->
+    <PhEducationTxt
+         T="{0}[ [{?8}suit][{!}a suivi][, {2},][ {5}][[{?!5} un cours] en {6}][ - {9}][{1}][{?1|9} -]][{?3} ][{?3} {3}][{!} pendant {4}]." />
+    <PhEducationTxtStudying
+         T="{0}[ [{?8}[{?3}a étudié][{!}étudie]][{?!8}a étudié][, {2},][ - {9}][{1}][{?1|9} -]][{?3} ][{?3} {3}][{!} pendant {4}][ où {!10} [{?8}suit][{!}a suivi][ {5}][[{?!5} un cours] en {6}]]." />
+    <!-- 0=toujours en cours?, 1=réussite, 2=il/elle, 3=date fin, 4=cause cessation -->
+    <PhEducationTerminationTxt
+         T="{!2}[{?4}{?!0} {4}{3}[{?1}[{?1=a obtenu son diplôme} et][{!} mais]]][ {1}]." />
+    <PhEmotionalRelationship
+         T="a une relation '{0}' avec" />
+    <!-- Relation émotionnelle entre deux individuels. -->
+    <!-- 0=Hyperlien -->
+    <PhExternalLink
+         T="{\br}Lien externe associé &lt;a href='{0}' target='_blank'&gt;{0}&lt;/a&gt;{\br}{\br}" />
+    <!-- 0=Nom, 1=1er|2ème|3ème|..., 2=nom époux/se, 3=préfixe (""); G1=ID sexe du param 0 -->
+    <PhFamilyWith
+         G1="F"
+         T="{\U}{3}[{1} ][{?3}la ]famille {0}[ avec {2}]" />
+    <!-- 0=date funérailles, 1=lieu, 2=agence -->
+    <PhFuneral
+         T="{ &#32;}Les funérailles[{?0|1} se sont déroulées]{0}{1h}[[{?0|1} et] ont été arrangées par {2h}]."
+         X="1" />
+    <PhFuneral_X1
+         T="{ &#32;}Les obsèques[{?0|1} se sont déroulées]{0}{1h}[[{?0|1} et] ont été arrangées par {2h}]." />
+    <PhFuneralTxt
+         T="Les funérailles[{?0|1} se sont déroulées]{0}{1}[[{?0|1} et] ont été arrangées par {2}]." />
+    <!-- 0=son|sa, 1=nom parrain(s), 2=nom marraine(s), 3=est en vie?, 4=>1 parrain, 5=>1 marraine, 6=ID sexe -->
+    <PhGodparents
+         T="{ &#32;}{\U}[{?1}s[{?4}es][{!}on] parrain[{?4}s] [{?3}[{?4}son][{!}es]t][{?!3}étai[{?4}en]t] {1h}][{?1^2} et ][{?2}s[{?5}es][{!}a] marraine[{?5}s] [{?3}[{?5}son][{!}es]t][{?!3}étai[{?5}en]t] {2h}]." />
+    <PhGodparentsTxt
+         T="[{?1}s[{?4}es][{!}on] parrain[{?4}s] [{?3}[{?4}son][{!}es]t][{?!3}étai[{?4}en]t] {1}][{?1^2} et ][{?2}s[{?5}es][{!}a] marraine[{?5}s] [{?3}[{?5}son][{!}es]t][{?!3}étai[{?5}en]t] {2}]." />
+    <!-- 0=son|sa, 1=sont/étaient, 2=est/était, 3=nom html grand-père paternel, 4=est/était, 5=nom html grand-mère paternelle, 6=sont/étaient, 7=est/était, 8=nom html grand-père maternel, 9=est/était, 10=nom html grand-mère maternelle -->
+    <PhGrandParents
+         T="{ &#32;}{\U}[{?1}ses grands-parents paternels {!1}][{?3}[{?!1}son grand-père paternel {!2}] {3h}][{?3^5} et][{?5}[{?!1} sa grand-mère paternelle {!4}] {5h}][{?3|5}[{?8|10}; ]][{?6}ses grands-parents maternels {!6}][{?8}[{?!6}son grand-père maternel {!7}] {8h}][{?8^10} et][{?10}[{?!6} sa grand-mère maternelle {9}] {10h}]." />
+    <!-- 0=son|sa, 1=sont/étaient, 2=est/était, 3=nom html grand-père adoptif, 4=est/était, 5=nom html grand-mère adoptive, 6=ID sexe parent adopté, 7=aussi -->
+    <PhGrandParentsAdopted
+         T="{ &#32;}{3h}[{?3^5} et ]{5h} [{?1}{1} [{!7} ]ses grands-parents][{!}[{?3}{2} [{!7} ]son grand-père][{?5}{4} [{!7} ]sa grand-mère]] de par l'adoption de [{?6=M}son père][{!}sa mère]." />
+    <!-- 0=nom complet, 1=séparateur, 2=année naissance, 3=année baptême, 4=année décès -->
+    <PhIndex
+         T="{1} {0} [{?2}(n.{2})][{!}[{?3}(ba.{3})][{!}[{?4}(d.{4})]]]" />
+    <!-- 0=pronom personnel, 1=a/avait, 2=liste html des hommes, femmes & inconnus -->
+    <PhMalesFemalesUnknowns
+         T="{ }{\U}{!0} {!1} {2h}." />
+    <!-- 0=chemin fichier, 1=ID ou nom, 2=largeur, 3=hauteur, 4=alignement, 5=qualité, 6=wmode, 7=couleur fond -->
+    <PhMovie_Flash
+         T="&lt;OBJECT classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=&quot;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0&quot; [{?2}width=&quot;{2}&quot; ][{?3}height=&quot;{3}&quot; ][{?1}id=&quot;{1}&quot; ]&gt; &lt;PARAM name=movie value=&quot;{0}&quot;&gt; [{?5}&lt;PARAM name=quality value={5}&gt;] [{?7}&lt;PARAM name=bgcolor value={7}&gt;] [{?6}&lt;PARAM name=wmode value={6}&gt;] &lt;PARAM name=&quot;allowScriptAccess&quot; value=&quot;sameDomain&quot;&gt; &lt;EMBED src=&quot;{0}&quot; [{?5} quality={5}][{?7} bgcolor={7}][{?2} width=&quot;{2}&quot; ][{?3} height=&quot;{3}&quot; ] [{?1} name=&quot;{1}&quot;][{?4} align=&quot;{4}&quot; ] type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot;&gt; &lt;/EMBED&gt; &lt;/OBJECT&gt;" />
+    <!-- 0=prénom, 1=nom complet, 2=surnom, 3=ID sexe -->
+    <PhNameFriendly
+         T="{0}[{?!0}{1}][, alias {2},]" />
+    <!-- 0=surnom -->
+    <PhNameFriendlyTxt
+         T=", alias {0}," />
+    <!-- 0=ont|avaient, 1=toujours ensemble? -->
+    <PhNoChildren
+         T="{ &#32;}Ils n'{0} pas [{?1}encore ][{!}eu ]d'enfant.{\br}" />
+    <!-- 0=type résidence, 1=lieu html, 2=durée, 3=plage dates -->
+    <PhOccupancy
+         T="{\U}{!0=Adresse}: {1h}[ pendant {2}][ {3}]." />
+    <!-- 0=date début, 1=durée, 2=nom|son|sa, 3=titre, 4=type emploi, 5=industrie, 6=employeur, 7=lieu, 8=toujours en place?, 9=nom|il|elle, 10=préfixe titre, 11=préfixe employeur -->
+    <PhOccupation
+         T="{ &#32;}{\U}[{0}, ][{?!0}pendant {1}, ][{?2=son}sa][{!}la] profession [{?2=son}][{!}{2} ][{?8}est][{!}a été][ {3h}][, {4}][, pour {6h}][ (secteur d'activité: {5})][,{7h}]." />
+    <PhOccupationServesAs
+         T="{ &#32;}{\U}[{!9} [{?8}sert][{!}a servi] comme][ {10}][ {3h}][, {4}][, pour {6h}][ (secteur d'activité: {5})][,{7h}][, {0}][{?!0}, pendant {1}]." />
+    <PhOccupationWorksAs
+         T="{ &#32;}{\U}[{!9} [{?8}travaille][{!}a travaillé] comme][ {10}][ {3h}][, {4}][, pour {6h}][ (secteur d'activité: {5})][,{7h}][, {0}][{?!0}, pendant {1}]." />
+    <PhOccupationIs
+         T="{ &#32;}{\U}[{!9} [{?8}est][{!}a été]][ {10}][ {3h}][, {4}][, pour {6h}][ (secteur d'activité: {5})][,{7h}][, {0}][{?!0}, pendant {1}]." />
+    <PhOccupationTxt
+         T="[{0}, ][{?!0}pendant {1}, ][{?2=son}sa][{!}la] profession [{?2=son}][{!}{2} ][{?8}est][{!}a été][ {10}][ {3}][, {4}][, pour {6}][ (secteur d'activité: {5})][,{7}]." />
+    <PhOccupationTxtServesAs
+         T="[{!9} [{?8}sert][{!}a servi] comme][ {10}][ {3}][, {4}][, pour {6}][ (secteur d'activité: {5})][,{7}][, {0}][{?!0}, pendant {1}]." />
+    <PhOccupationTxtWorksAs
+         T="[{!9} [{?8}travaille][{!}a travaillé] comme][ {10}][ {3}][, {4}][, pour {6}][ (secteur d'activité: {5})][,{7}][, {0}][{?!0}, pendant {1}]." />
+    <PhOccupationTxtIs
+         T="[{!9} [{?8}est][{!}a été]][ {10}][ {3}][, {4}][, pour {6}][ (secteur d'activité: {5})][,{7}][, {0}][{?!0}, pendant {1}]." />
+    <!-- 0=il|elle, 1=est|était, 2=ID sexe Test={0}=il|elle, {1}=est|était, {2}=M|F -->
+    <PhOnlyChild
+         T="{ &#32;}{\U}{0} {1} fil[{?2=M}s][{!}le] unique." />
+    <PhOtherSpousesAndChildren
+         T="{ &#32;}{\U}{!0}[{?2|3} {!1} aussi] {2h}[{?2^3}, et ]{3h}." />
+    <!-- 0=nom, 1=est|était, 2=nom html du père, 3=son|sa, 4=est|était, 5=nom html de la mère Test={0}=Jim's, {1}=est|était, {2}=Arthur, {3}=son|sa, {4}=est|était, {5}=Mary -->
+    <PhParents
+         T="{ &#32;}[Le père {!0} {!1} {2h}][[{?2} et sa][{!}La] mère[{?!2} {!0}] {!4} {5h}]." />
+    <!-- 0=nom photo, 1=date narrative, 2=lieu html, 3=source html -->
+    <PhPictureDetails
+         T="[{?1|2|3}Cette photo[, '{0h}',][ a été prise{1}{2h}][[{?1|2} et] provient d'{3h}].][{?!1|2|3}['{0h}']]" />
+    <PhPictureDetailsHtml
+         T="[{?1|2|3}Cette photo[, '{0h}',][ a été prise{1}{2}][[{?1|2} et] provient d'{3}].][{?!1|2|3}['{0h}']]" />
+    <!-- 0=dimensions, 1=méga pixels, 2=taille fichier en kb, 3=points par pouce (dpi), 4=bits par pixel (bpp), 5=nom fichier -->
+    <PhPictureTechnical
+         T="[Dimensions: {0} pixels ][ ({1} Méga pixels total) ][Taille: {2}KB ][{3}dpi ][{4} bpp][, fichier source: {5}]" />
+    <!-- 0=nom photo, 1=date narrative, 2=lieu, 3=source -->
+    <PhPictureTooltip
+         T="[{?1|2|3}[Prise{1}{2h}][[{?1|2} et] provient d'{3h}].][{?!1|2|3}['{0h}']]" />
+    <!-- 0=nombre de fois le lieu apparait dans le rapport, 1=vrai|faux (lieu multiple) -->
+    <PhPlaceCount
+         T="{?1}Ce lieu est mentionné {!0} fois dans ce rapport généalogique.{ &#32;}" />
+    <!-- 0=nom lieu, 1=catégorie lieu, 2=rue, 3=ville, 4=comté ou région, 5=état ou province, 6=code postal, 7=pays, 8=n/a, 9=n/a, 10=n/a, 11=latitude, 12=longitude, 13 <b>, 14 </b> -->
+    <PhPlaceDescription
+         T="[{?1|2|3|4|5|6|7|11|12}[{?!1}[{?2|3|4|5|6|7}L'emplacement de ]]{!13h}{!0}{!14h}[ est {1}][{?2|3|4|5|6|7|11|12}[{?1} et son emplacement] est:[ {2}][[{?2},] {3h}][[{?2|3},] {4h}][[{?2|3|4},] {5h}][ {6h}][ {7h}][[{?2|3|4|5|6|7},] situé à la latitude {11}, longitude {12}]].{\br}]" />
+    <!-- 0=nom lieu, 1=catégorie lieu, 2=rue, 3=ville, 4=comté ou région, 5=état ou province, 6=code postal, 7=pays, 8=latitude, 9=longitude -->
+    <PhPlaceDescriptionTxt
+         T="[{?!1}[{?2|3|4|5|6|7}L'emplacement de ]]{0}[ est {1}][{?2|3|4|5|6|7}[{?1} et son emplacement] est:[ {2}][[{?2},] {3}][[{?2|3},] {4}][[{?2|3|4},] {5}][ {6}]][ {7}][[{?2|3|4|5|6|7},][{?!1|2|3|4|5|6|7} est] situé à la latitude {8}, longitude {9}]." />
+    <PhReferences
+         T="Références {0}" />
+    <!-- 0=nom court, 1=lui/elle, 2=enfant par alliance html -->
+    <PhStepChildrenAdoption
+         T="{ &#32;}{!0} a adopté {!1} {2h}." />
+    <!-- 0=édition, 1=nom série, 2=version série, 3=imprimeur, 4=lieu impression, 5=date impression,
+         6=concepteur, 7=description, 8=où dans la source, 9=éditeur, 10=ISBN, 11=Url, 12=où le média est conservé, 13=type média, 14=No. référence, 15=niveau confiance -->
+    <PhSourceEntry
+         T="[L'information citée[{?0|1|13} provient d'][{13}[{?0|1},]][ édition {0} de][ {1}[, issue {2},]][[{?0^1}[{?!2},]] publié[ par {3}]{4h}{5}][[{?3}[{?!12} et]][{?3^12},] édité par {9}][[{?9} et][{?3}[{?!9},]] conservé {12h}][ &lt;{11h}&gt;].][{\br}ISBN {10}][ (Réf: {14h}[{?14^8} / ]{8h}).][{\br}L'auteur/concepteur était {6}.][{\br}Cette citation est considérée comme étant une {15}.][{\br}{7h}.]" />
+    <PhSourceEntryTxt
+         T="[[{13}[{?0|1},]][ édition {0} de][ {1}[, issue {2},]][[{?0^1}[{?!2},]] publié[ par {3}]{4}{5}][[{?3}[{?!12} et]][{?3^12},] édité par {9}][[{?9} et][{?3}[{?!9},]] conservé{12}][ &lt;{11}&gt;].][ ISBN {10}][ (Réf: {14}[{?14^8} / ]{8}).][ L'auteur/concepteur était {6}.][{\br}Cette citation est considérée comme étant une {15}.][{\br}{7}.]" />
+    <PhSourceOccurrence
+         T="{ }Cette source est mentionnée {0} fois dans le rapport généalogique." />
+    <!--  0=occurence autre source <> 0, 1=type objet -->
+    <PhSourceReferences
+         T="[{?0}autre source(s) {1}][{!}source(s) {1}]:" />
+    <!-- Écriture des noms des épouses et enfants.
+                Exemple: "Il avait une femme, prénommée Hélène, et trois fils et deux filles, prénommés Daniel, Benoit, Jean-Claude, Anne et Estelle"
+         0=il|elle, 1=a|avait, 2=épouses html, 3=enfants html, 4=aussi -->
+    <PhSpousesAndChildren
+         T="{ &#32;}{\U}{!0} [{!1} [{!4}[{?4} ]{2h}[{?2^3}, et ]{3h}.]]" />
+    <!-- 0=nom, 1=nom partenaire, force 'Ils' si les deux sont absents
+         Test={0}=James|, {1}=Lily| -->
+    <PhThey
+         T="[{0}][{?1}[{?0} et] {1h}][{?!0|1}{0=Ils}]" />
+    <!-- 0=noms jumeaux html, 1=sont en vie?, 2=type jumeaux (identique, fraternel, inconnu), 3=type naissance multiple (jumeaux, triplés, etc.) -->
+    <PhTwins
+         T="{ &#32;}[{?0}{0h}][{!}Les enfants unconnus][{?1} sont][{!} étaient] de[{?2=inconnu}][{!} {2}][{?2=inconnu}s] {3}[{?2=inconnu} de type indéterminé]." />
+    <!-- 0=noms époux|ils, 1=type mariage (religieux|civil), 2=date mariage, 3=lieu mariage, 4=titre officiant, 5=nom officiant, 6=nom témoin(s), 7=sont en vie?, 8=toujours ensemble?, 9=puis/aussi, 10=plusieurs témoins? -->
+    <PhUnion
+         T="{ &#32;}{\U}{!0} [{?1|2|3|4|5|6}se sont][{?9} ]{!9} unis[ en {1}]{2}{3h}[, célébrée par[[{?!5} un] {4}][ {5}]][[{?1|2|3|4|5|6};] le[{?10}s] témoin[{?10}s] étai[{?10}en]t {6}]." />
+    <PhUnionEngagement
+         T="{ &#32;}{\U}{!0} se sont[ {!9}] fiancés{2}{3h}." />
+    <PhUnionFirstMeeting
+         T="{ &#32;}{\U}{!0} se sont rencontrés{2}{3h}." />
+    <PhUnionLivingTogether
+         T="{ &#32;}{\U}{!0} [{!9} ][{?2} ont commencé leur][{!}[{?7^8}sont][{!}étaient] en] cohabitation[ {1}]{2}{3h}." />
+    <!-- 0=nom|il|elle, 1=époux(se), 2=puis, 3=en premier/ensuite, 4=date union, 5=lieu union, 6=sont en vie?, 7=toujours ensemble? -->
+    <PhUnionTxtEngagement
+         T="[{3} ]{0} [{?4|5}s'est][{!}s'[{?6^7}est][{!}était]] fiancé avec {1}" />
+    <PhUnionTxtFirstMeeting
+         T="{0} et {1} se sont rencontrés" />
+    <PhUnionTxtLivingTogether
+         T="[{3} ]{0} [{?4|5}a commencé à vivre][{!}vi[{?6^7}t][{!}vait]] ensemble avec {1}" />
+    <PhUnionTxt
+         T="[{3} ][{2} ]{0} et {1} se sont unis" />
+    <!-- 0=n/a, 1=type mariage (religieux|civil), 2=date mariage, 3=lieu mariage, 4=titre officiant, 5=nom officiant, 6=nom(s) témoin(s), 7=témoins multiples?, 8=???, 9=époux(se), 10=en premier/ensuite  -->
+    <PhUnionDetailTxt
+         T="[ en {1}]{2}{3}[ par[[{?!5} un] {4}][ {5}]][[{?4|5} et] le[{?7}s] témoin[{?7}s] étai[{?7}en]t {6}]." />
+    <!-- 0=annulation mariage, 1=date divorce, 2=lieu divorce, 3=ID 'demandeur', 4=énumération 'demandeur', 5=avocat mari, 6=avocat femme, 7=agence/officiant
+         Test={0}=, {1}=, {2}=, {3}=, {4}=, {5}=, {6}=, {7}= -->
+    <PhUnionEndBlank
+         T="[{?0=XYZ}always a null phrase phrase]"
+         V="2011.01.15FR+"  />
+    <PhUnionEndSeparated
+         T="{ &#32;}[{?1|2|3|5|6|7}Ils se sont séparés]{1}{2h}[{?3=both} {4h}]." />
+    <PhUnionEndSplit
+         T="{ &#32;}[{?1|2|3|5|6|7}Ils se sont quittés]{1}{2h}[{?3=both} {4h}]." />
+    <PhUnionEndTxtBlank
+         T="[{?0=XYZ}always a null phrase phrase]"
+         V="2011.01.15FR+" />
+    <PhUnionEndTxtSeparated
+         T="[{?1|2|3|5|6|7}Ils se sont séparés]{1}{2}[{?3=both} {4}]." />
+    <PhUnionEndTxtSplit
+         T="[{?1|2|3|5|6|7}Ils se sont quittés]{1}{2}[{?3=both} {4}]." />
+    <PhUsageCounters
+         T="{0} références, {1} subordinates" />
+    <PS_HangingIndent
+         T="Hanging indent" />
+    <PS_Numbering1
+         T="Numbering 1" />
+    <PS_Heading1
+         T="Heading 1" />
+    <PS_Heading2
+         T="Heading 2" />
+    <!-- Phrases pour descripteurs personnalisés (Custom Tags)
+        Vous pouvez créer, si vous le désirez, une phrase pour chaque sous-groupe de 'custom tags' (Dialog Layout). Ces phrases incluent, en interne, 10 paramètres 0-9. Les paramètres 0-4 sont comme listés ci-dessous et les paramètres 5-9 sont réservés pour emploi future.
+        les paramètres 10 et suivants sont les 'custom tags' présents dans le sous-groupe/Dialog Layout.
+        Le nom de la phrase est construit du préfixe standard 'PhCT_' suivi du nom du 'Dialog Layout'. 
+        Si, pour un layout particulier, la phrase est inexistante, les 'custom tags' seront affichés en tableau.
+
+        par ex.
+        Cet exemple considère qu'il y a un 'Dialog Layout' appelé 'physique' contenant les 'Custom Tags' suivants:
+                couleur yeux, couleur cheveux, taille et poids (dans cet ordre) -->
+    <!-- 0=nom, 1=pronom personnel, 2=pronom relatif, 3=pronom objectif, 4=en vie?/sont ensemble?, 10=couleur yeux, 11=couleur cheveux, 12=taille, 13=poids -->
+    <!--    <PhCT_physique          T="{ &#32;}{\U}{!0}[ mesur[{?4}e][{!}ait] {12}][[{?12} et] [{?4}pèse][{!}pesait] {13}][{?12|13}[{?10|11}; {1}]][{?10|11} [{?4}a][{!}avait]][ les yeux {10}s][[{?10} et] les cheveux {11}s]."/> -->
+    <!--    <PhCTTxt_physique       T="{!0}[ mesur[{?4}e][{!}ait] {12}][[{?12} et] [{?4}pèse][{!}pesait] {13}][{?12|13}[{?10|11}; {1}]][{?10|11} [{?4}a][{!}avait]][ les yeux {10}s][[{?10} et] les cheveux {11}s]."/> -->
+    <!-- Fin des phrases pour descripteurs personnalisés -->
+    <!-- BodyDisposition -->
+    <PhBD_burial
+         T="enterrement" />
+    <PhBD_cremation
+         T="crémation" />
+    <PhBD_entombment
+         T="mise en tombe" />
+    <PhBD_bodydonation
+         T="corps légué à l'institut médico-légal" />
+    <PhBD_bodyneverfound
+         T="corps jamais retrouvé" />
+    <PhBD_Unknown
+         T="disposition finale du corps (inconnue)" />
+    <PhBD_Other
+         T="disposition finale du corps (autre)" />
+    <PhBD_
+         T="disposition finale du corps" />
+    <!-- Ceremony Type -->
+    <PhBC_Baptism
+         T="bpt." />
+    <PhBC_Circumcision
+         T="cir." />
+    <PhBC_Christening
+         T="chr." />
+    <PhBC_Confirmation
+         T="con." />
+    <PhBC_None
+         T="none." />
+    <PhBC_Other
+         T="oth." />
+    <PhBC_Unknown
+         T="inc." />
+    <PhBC_
+         T="bpt." />
+    <!-- Education Achievement -->
+    <PhEA_StillAttending
+         T="en progression" />
+    <PhEA_1Session
+         T="a quitté après 1 trimestre" />
+    <PhEA_2Sessions
+         T="a quitté après 2 trimestres" />
+    <PhEA_1Year
+         T="a quitté après 1 an" />
+    <PhEA_2Years
+         T="a quitté après 2 ans" />
+    <PhEA_3Years
+         T="a quitté après 3 ans" />
+    <PhEA_4Years
+         T="a quitté après 4 ans" />
+    <PhEA_Failednocertificateordiploma
+         T="a raté son exam" />
+    <PhEA_failed
+         T="a raté son exam" />
+    <PhEA_Pass
+         T="a réussi son exam" />
+    <PhEA_passed
+         T="a obtenu son diplôme" />
+    <PhEA_Certificate
+         T="a obtenu son certificat" />
+    <PhEA_Diploma
+         T="a décroché son diplôme" />
+    <PhEA_Other
+         T="" />
+    <PhEA_Unknown
+         T="avec un niveau de réussite inconnue" />
+    <PhEA
+         T="[a réussi {0}]" />
+    <!-- EducationLevel -->
+    <PhEL_Illiterate
+         T="un programme pour analphabète" />
+    <PhEL_PrimaryElementary
+         T="un cours élémentaire" />
+    <PhEL_SecondaryJunior
+         T="un cours secondaire" />
+    <PhEL_HighSchool
+         T="un cours supérieur" />
+    <PhEL_ProfessionalTechnical
+         T="un cours professionnel" />
+    <PhEL_College
+         T="un cours au collège" />
+    <!-- Baccalauréat ??? -->
+    <PhEL_UndergraduateBachelors
+         T="un cours supérieur" />
+    <!-- UndergraduateBachelor en français ??? -->
+    <PhEL_MBA
+         T="une licence" />
+    <!-- MBA = licence ??? -->
+    <PhEL_Masters
+         T="un master" />
+    <PhEL_Doctorate
+         T="un doctorat" />
+    <PhEL_PhD
+         T="un PhD" />
+    <!-- PhD en français ??? -->
+    <PhEL_PostDoctorate
+         T="un doctorat supérieur" />
+    <PhEL
+         T="[au niveau {0}]" />
+    <!-- EmotionalLink phrases -->
+    <!-- 0=sujet ou pronom personnel 1=est en vie? 2=objet ou pronom objectif 3=sujet femelle? 4=objet femelle? 5=même sexe? 6=sujet ou pronom objectif 7=objet ou pronom personnel -->
+    <PhER_Plain
+         T="{ &#32;}{6h} et {7h} [{?1}o][{!}avaie]nt une relation émotive normale." />
+    <PhER_Indifferent
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt indifférent[{?3}[{?4}e]]s envers l'autre." />
+    <PhER_Distant
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt distant[{?3}[{?4}e]]s l'un[{?3}[{?4}e]] de l'autre." />
+    <PhER_Cutoff
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt très éloigné[{?3}[{?4}e]]s l'un[{?3}[{?4}e]] de l'autre." />
+    <PhER_CutoffRepaired
+         T="{ &#32;}{6h} et {7h} s[{?1}e so][{!}'étaie]nt réconcilié[{?3}[{?4}e]]s." />
+    <PhER_Discord
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt en conflit." />
+    <PhER_Hate
+         T="{ &#32;}{6h} et {7h} se haîss[{?!1}ai]ent." />
+    <PhER_Harmony
+         T="{ &#32;}{6h} et {7h} ont [{?!1}eu] une relation harmonieuse." />
+    <PhER_Friendship
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt les meilleur[{?3}[{?4}e]]s des ami[{?3}[{?4}e]]s." />
+    <PhER_Intimacy
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt très intimes." />
+    <PhER_Love
+         T="{ &#32;}{6h} et {7h} ont[{?!1} eu] une relation affective." />
+    <PhER_InLove
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt amoureu[{?3}[{?4}ses]][{?!3}{?!4}x]." />
+    <PhER_Fused
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt inséparables." />
+    <PhER_Distrust
+         T="{ &#32;}{6h} et {7h} se méfi[{?!1}ai]ent l'un[{?3}[{?4}e]] de l'autre." />
+    <PhER_Hostile
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt hostiles l'un[{?3}[{?4}e]] vers l'autre." />
+    <PhER_HostileDistant
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt distant[{?3}[{?4}e]]s et hostiles." />
+    <PhER_HostileClose
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt rapproché[{?3}[{?4}e]]s mais hostiles." />
+    <PhER_HostileFused
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt inséparables mais hostiles." />
+    <PhER_Jealous
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t jalou[{?3}se][{!}x] d[{?2=Lui}e lui][{?2=Elle}'elle][{?!2=Lui}[{?!2=Elle}e {2h}]]." />
+    <PhER_Violence
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt violent[{?3}[{?4}e]]s à l'encontre de l'autre." />
+    <PhER_ViolenceDistant
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt distant[{?3}[{?4}e]]s mais violent[{?3}[{?4}e]]s à l'encontre de l'autre." />
+    <PhER_ViolenceClose
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt très rapproché[{?3}[{?4}e]]s mais violent[{?3}[{?4}e]]s à l'encontre de l'autre." />
+    <PhER_ViolenceFused
+         T="{ &#32;}{6h} et {7h} [{?1}so][{!}étaie]nt inséparables mais violent[{?3^4}e]s à l'encontre de l'autre." />
+    <PhER_Abuse
+         T="{ &#32;}{0h} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait][{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_AbusePhysical
+         T="{ &#32;}{0h} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait] physiquement[{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_AbuseEmotional
+         T="{ &#32;}{0h} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait] émotionellement[{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_AbuseSexual
+         T="{ &#32;}{0h} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait] sexuellement[{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_AbuseNeglect
+         T="{ &#32;}{0h} [{?2=Lui}le ][{?2=Elle}la ]néglige[{?!1}ait][{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_Manipulative
+         T="{ &#32;}{0h} [{?2=Lui}le ][{?2=Elle}la ]manipul[{?1}e][{!}ait][{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_Controlling
+         T="{ &#32;}{0h} [{?2=Lui}le ][{?2=Elle}la ]contrôl[{?1}e][{!}ait][{?!2=Lui}[{?!2=Elle} {2h}]]." />
+    <PhER_FocusedOn
+         T="{ &#32;}{0h} a[{?!1}vait] une fixation sur [{?2=Lui}lui][{?2=Elle}elle][{?!2=Lui}[{?!2=Elle}{2h}]]." />
+    <PhER_Fan
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un[{?3}e] admirat[{?3}rice][{!}eur] à [{?2=Lui}lui][{?2=Elle}elle][{?!2=Lui}[{?!2=Elle}{2h}]]." />
+    <PhER_Limerence
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t follement entiché[{?3}e] d[{?2=Lui}e lui][{?2=Elle}'elle][{?!2=Lui}[{?!2=Elle}e {2h}]]." />
+    <PhER_NeverMet
+         T="{ &#32;}{6h} et {7h} ne se sont jamais rencontré[{?3^5}e]s." />
+    <PhER_Other
+         T="{ &#32;}{6h} et {7h} [{?1}o][{!}avaie]nt un autre genre de relation émotive." />
+    <PhER_
+         T="{ &#32;}{0h} a[{?!1}vait] une relation émotive non-spécifiée avec [{?2=Lui}lui][{?2=Elle}elle][{?!2=Lui}[{?!2=Elle}{2h}]]." />
+    <PhERTxt_Plain
+         T="{6} et {7} [{?1}o][{!}avaie]nt une relation émotive normale." />
+    <PhERTxt_Indifferent
+         T="{6} et {7} [{?1}so][{!}étaie]nt indifférent[{?3}[{?4}e]]s envers l'autre." />
+    <PhERTxt_Distant
+         T="{6} et {7} [{?1}so][{!}étaie]nt distant[{?3}[{?4}e]]s l'un[{?3}[{?4}e]] de l'autre." />
+    <PhERTxt_Cutoff
+         T="{6} et {7} [{?1}so][{!}étaie]nt très éloigné[{?3}[{?4}e]]s l'un[{?3}[{?4}e]] de l'autre." />
+    <PhERTxt_CutoffRepaired
+         T="{6} et {7} [{?1}se so][{!}s'étaie]nt réconcilié[{?3}[{?4}e]]s." />
+    <PhERTxt_Discord
+         T="{6} et {7} [{?1}so][{!}étaie]nt en conflit." />
+    <PhERTxt_Hate
+         T="{6} et {7} se haîss[{?!1}ai]ent." />
+    <PhERTxt_Harmony
+         T="{6} et {7} ont [{?!1}eu] une relation harmonieuse." />
+    <PhERTxt_Friendship
+         T="{6} et {7} [{?1}so][{!}étaie]nt les meilleur[{?3}[{?4}e]]s des ami[{?3}[{?4}e]]s." />
+    <PhERTxt_Intimacy
+         T="{6} et {7} [{?1}so][{!}étaie]nt très intimes." />
+    <PhERTxt_Love
+         T="{6} et {7} ont[{?!1} eu] une relation affective." />
+    <PhERTxt_InLove
+         T="{6} et {7} [{?1}so][{!}étaie]nt amoureu[{?3}[{?4}ses]][{?!3}{?!4}x]." />
+    <PhERTxt_Fused
+         T="{6} et {7} [{?1}so][{!}étaie]nt inséparables." />
+    <PhERTxt_Distrust
+         T="{6} et {7} se méfi[{?!1}ai]ent l'un[{?3}[{?4}e]] de l'autre." />
+    <PhERTxt_Hostile
+         T="{6} et {7} [{?1}so][{!}étaie]nt hostiles l'un[{?3}[{?4}e]] vers l'autre." />
+    <PhERTxt_HostileDistant
+         T="{6} et {7} [{?1}so][{!}étaie]nt distant[{?3}[{?4}e]]s et hostiles." />
+    <PhERTxt_HostileClose
+         T="{6} et {7} [{?1}so][{!}étaie]nt rapproché[{?3}[{?4}e]]s mais hostiles." />
+    <PhERTxt_HostileFused
+         T="{6} et {7} [{?1}so][{!}étaie]nt inséparables mais hostiles." />
+    <PhERTxt_Jealous
+         T="{0} [{?1}es][{!}étai]t jalou[{?3}se][{!}x] d[{?2=Lui}e lui][{?2=Elle}'elle][{?!2=Lui}[{?!2=Elle}e {2}]]." />
+    <PhERTxt_Violence
+         T="{6} et {7} [{?1}so][{!}étaie]nt violent[{?3}[{?4}e]]s à l'encontre de l'autre." />
+    <PhERTxt_ViolenceDistant
+         T="{6} et {7} [{?1}so][{!}étaie]nt distant[{?3}[{?4}e]]s mais violent[{?3}[{?4}e]]s à l'encontre de l'autre." />
+    <PhERTxt_ViolenceClose
+         T="{6} et {7} [{?1}so][{!}étaie]nt très rapproché[{?3}[{?4}e]]s mais violent[{?3}[{?4}e]]s à l'encontre de l'autre." />
+    <PhERTxt_ViolenceFused
+         T="{6} et {7} [{?1}so][{!}étaie]nt inséparables mais violent[{?3^4}e]s à l'encontre de l'autre." />
+    <PhERTxt_Abuse
+         T="{0} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait][{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_AbusePhysical
+         T="{0} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait] physiquement[{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_AbuseEmotional
+         T="{0} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait] émotionellement[{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_AbuseSexual
+         T="{0} [{?2=Lui}[{?2=Elle}l']]abus[{?1}e][{!}ait] sexuellement[{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_AbuseNeglect
+         T="{0} [{?2=Lui}le][{?2=Elle}la] néglige[{?!1}ait][{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_Manipulative
+         T="{0} [{?2=Lui}le][{?2=Elle}la] manipul[{?1}e][{!}ait][{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_Controlling
+         T="{0} [{?2=Lui}le][{?2=Elle}la] contrôl[{?1}e][{!}ait][{?!2=Lui}[{?!2=Elle} {2}]]." />
+    <PhERTxt_FocusedOn
+         T="{0} a[{?!1}vait] une fixation sur [{?2=Lui}lui][{?2=Elle}elle][{?!2=Lui}[{?!2=Elle}{2}]]." />
+    <PhERTxt_Fan
+         T="{0} [{?1}es][{!}étai]t un[{?3}e] admirat[{?3}rice][{!}eur] à [{?2=Lui}lui][{?2=Elle}elle][{?!2=Lui}[{?!2=Elle}{2}]]." />
+    <PhERTxt_Limerence
+         T="{0} [{?1}es][{!}étai]t follement entiché[{?3}e] d[{?2=Lui}e lui][{?2=Elle}'elle][{?!2=Lui}[{?!2=Elle}e {2}]]." />
+    <PhERTxt_NeverMet
+         T="{6} et {7} ne se sont jamais rencontré[{?3}[{?4}e]]s." />
+    <PhERTxt_Other
+         T="{6} et {7} [{?1}o][{!}avaie]nt un autre genre de relation émotive." />
+    <PhERTxt_
+         T="{0} a[{?!1}vait] une relation émotive non-spécifiée avec [{?2=Lui}lui][{?2=Elle}elle][{?!2=Lui}[{?!2=Elle}{2}]]." />
+    <!-- EducationTermination - peut accepter les suffixes de sexe _M, _F & _U -->
+    <!-- 0=ID sexe -->
+    <PhET_StillAttending
+         T="" />
+    <PhET_Completion
+         T="a complété le programme"
+         X="1" />
+    <PhET_Completion_X1
+         T="a terminé le cours" />
+    <PhET_Graduation
+         T="a passé les épreuves prescrites" />
+    <PhET_DropOut
+         T="a quitté" />
+    <PhET_Expulsion
+         T="a été expulsé[{?0=F}e]" />
+    <PhET_Transfer
+         T="a été transféré[{?0=F}e]" />
+    <PhET_Other
+         T="[{?!0}??]" />
+    <PhET_Unknown
+         T="a quitté, la raison étant inconnue" />
+    <PhET_
+         T="[{?!0}??]" />
+    <!-- Family Line phrases -->
+    <!-- 0=ont|avaient, 1=toujours ensemble?, 2=des enfants?, 3=nul -->
+    <PhFL_NoMoreChildren
+         T="{ &#32;}Il n'y a [{?2}pas d'autre][{!}pas d'] {3=enfant}." />
+    <PhFL_PossiblyMoreChildren
+         T="{ &#32;}Il y a peut-être [{?2}d'autres][{!}des] {3=enfants}." />
+    <PhFL_ToBeCompleted
+         T="{ &#32;}La lignée de la famille est encore à {3=compléter}." />
+    <PhFL_
+         T="[{?3}Cette ligne ne sera jamais écrite]" />
+    <!-- Family Relation phrases-->
+    <!-- 0=nom et partenaire|ils, 1=sont en vie?, 2=toujours ensemble?, 5=ID sexe, 6=ID sexe époux(se), 7=parent seul? -->
+    <PhFR_Marriage
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t marié[{?!7}s]." />
+    <PhFR_Separation
+         T="{0h} [{?7}[{?1}es][{!}étai]][{?!7}[{?1}so][{!}étaie]n]t séparé[{?!7}s]." />
+    <PhFR_SeparationLegal
+         T="{0h} [{?7}[{?1}es][{!}étai]][{?!7}[{?1}so][{!}étaie]n]t légalement séparé[{?!7}s]." />
+    <PhFR_Divorce
+         T="{0h} [{?7}[{?1}es][{!}étai]][{?!7}[{?1}so][{!}étaie]n]t divorcé[{?!7}s]." />
+    <PhFR_Nullity
+         T="{0h} étai[{?!7}en]t marié[{?!7}s] mais le mariage a été annulé." />
+    <PhFR_Widowed
+         T="{0h} étai[{?!7}en]t marié[{?!7}s]." />
+    <PhFR_Engagement
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t fiancé[{?!7}s]." />
+    <PhFR_EngagementAndCohabitation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t fiancé[{?!7}s], vivant [{?!7}ensemble][{!}avec quelqu'un]." />
+    <PhFR_EngagementAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t fiancé[{?!7}s] mais [{?!7}ont][{!}a] rompu." />
+    <PhFR_EngagementAndDecease
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t fiancé[{?!7}s], vivant [{?!7}ensemble][{!}avec quelqu'un] jusqu'à séparation dûe à un décès." />
+    <PhFR_LegalCohabitation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation sous contrat légal." />
+    <PhFR_LegalCohabitationAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation légale puis [{?!7}ont][{!}a] rompu." />
+    <PhFR_LegalCohabitationAndLegalSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation légale puis [{?!7}ont][{!}a] rompu légalement." />
+    <PhFR_LegalCohabitationAndDecease
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation légale jusqu'à séparation dûe à un décès." />
+    <PhFR_Cohabitation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation." />
+    <PhFR_CohabitationAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation, puis [{?!7}ont][{!}a] rompu." />
+    <PhFR_CohabitationAndDecease
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation, puis séparation dûe à un décès." />
+    <PhFR_NonSentimentalCohabitation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation non-sentimentale." />
+    <PhFR_NonSentimentalCohabitationAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation non-sentimentale, puis [{?!7}ont][{!}a] rompu." />
+    <PhFR_NonSentimentalCohabitationAndDecease
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en cohabitation non-sentimentale, jusqu'à séparation dûe à un décès." />
+    <PhFR_CasualRelationship
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en relation à court terme." />
+    <PhFR_CasualRelationshipAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t, à une certaine époque, en relation à court terme." />
+    <PhFR_CasualRelationshipAndDecease
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en relation à court terme, jusqu'à séparation dûe à un décès." />
+    <PhFR_CommittedRelationship
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en relation entière, étroite et amoureuse." />
+    <PhFR_CommittedRelationshipAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t, à une certaine époque, en relation à long terme." />
+    <PhFR_LoveAffair
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en relation amoureuse." />
+    <PhFR_LoveAffairAndSeparation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t, à une certaine époque, en relation amoureuse." />
+    <PhFR_TemporaryRelation
+         T="{0h} [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t en relation à court terme." />
+    <PhFR_Rape
+         T="La relation entre [{?2}{0h}][{!}eux] provient d'un abus ou d'un viol." />
+    <PhFR_Other
+         T="La relation entre [{?2}{0h}][{?!2}eux] (marié, séparé, divorcé, cohab, etc.) est inconnue." />
+    <!-- <PhFR_                                    T="[{?2}{0h}][{?!2}Ils] [{?7}[{?1^2}es][{!}étai]][{?!7}[{?1^2}so][{!}étaie]n]t partenaires, le type de leur relation étant non-spécifiée."/> -->
+    <!-- 0=nom, 1=sont en vie?, 2=toujours ensemble? 3=partenaire, 4=En premier/Ensuite, 5=ID sexe, 6=ID sexe partenaire, 7=parent seul? -->
+    <PhFRTxt_Marriage
+         T="[{4} ]{0} s'est marié[{?5=F}e][ avec {3}]." />
+    <PhFRTxt_Separation
+         T="[{4} ]{0} [{?1}es][{!}étai]t séparé[{?5=F}e][ de {3}]." />
+    <PhFRTxt_SeparationLegal
+         T="[{4} ]{0} [{?1}es][{!}étai]t légalement séparé[{?5=F}e][ de {3}]." />
+    <PhFRTxt_Divorce
+         T="[{4} ]{0} [et {3} ][{?!3}es][{!}son]t divorcé[{?3}s]." />
+    <PhFRTxt_Nullity
+         T="[{4} ]{0} [{?!7}et {3}] étai[{?!7}en]t marié[{?5=F}[{?6=F}e]][{?!7}s] mais le mariage a été annulé." />
+    <PhFRTxt_Widowed
+         T="[{4} ]{0} [{?!7}et {3}] étai[{?!7}en]t marié[{?5=F}[{?6=F}e]][{?!7}s]." />
+    <PhFRTxt_Engagement
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t fiancé[{?5=F}[{?6=F}e]][{?!7}s]." />
+    <PhFRTxt_EngagementAndCohabitation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t fiancé[{?5=F}[{?6=F}e]][{?!7}s], vivant [{?!7}ensemble][{!}avec quelqu'un]." />
+    <PhFRTxt_EngagementAndSeparation
+         T="[{4} ]{0} [et {3}] étai[{?!7}en]t fiancé[{?5^6=F}e][{?!7}s] mais s[{?!7}e son][{!}'es]t séparé[{?5=F}[{?6=F}e]][{?!7}s]." />
+    <PhFRTxt_EngagementAndDecease
+         T="[{4} ]{0} [et {3}] étai[{?!7}en]t fiancé[{?5^6=F}e][{?!7}s], vivant [{?!7}ensemble][{!}avec quelqu'un], jusqu'à séparation dûe à un décès." />
+    <PhFRTxt_LegalCohabitation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation sous contrat légal." />
+    <PhFRTxt_LegalCohabitationAndSeparation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation légale puis [{?!7}ont][{!}a] rompu." />
+    <PhFRTxt_LegalCohabitationAndLegalSeparation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation légale puis [{?!7}ont][{!}a] rompu légalement." />
+    <PhFRTxt_LegalCohabitationAndDecease
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation légale, jusqu'à séparation dûe à un décès." />
+    <PhFRTxt_Cohabitation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation." />
+    <PhFRTxt_CohabitationAndSeparation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation, puis [{?!7}ont][{!}a] rompu." />
+    <PhFRTxt_CohabitationAndDecease
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation, puis séparation dûe à un décès." />
+    <PhFRTxt_NonSentimentalCohabitation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation non-sentimentale." />
+    <PhFRTxt_NonSentimentalCohabitationAndSeparation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation non-sentimentale, puis [{?!7}ont][{!}a] rompu." />
+    <PhFRTxt_NonSentimentalCohabitationAndDecease
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en cohabitation non-sentimentale, jusqu'à séparation dûe à un décès." />
+    <PhFRTxt_CasualRelationship
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en relation à court terme." />
+    <PhFRTxt_CasualRelationshipAndSeparation
+         T="[{4} ]{0} [{?!7}et {3}] étai[{?!7}en]t, à une certaine époque, en relation à court terme." />
+    <PhFRTxt_CasualRelationshipAndDecease
+         T="[{4} ]{0} [{?!7}et {3}] étai[{?!7}en]t en relation à court terme, jusqu'à ce que la mort les sépare." />
+    <PhFRTxt_CommittedRelationship
+         T="[{4} ]{0} et {3} [{?1^2}so][{!}étaie]nt en relation entière, étroite et amoureuse." />
+    <PhFRTxt_CommittedRelationshipAndSeparation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t, à une certaine époque, en relation à long terme." />
+    <PhFRTxt_LoveAffair
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en relation amoureuse." />
+    <PhFRTxt_LoveAffairAndSeparation
+         T="[{4} ]{0} [{?!7}et {3}] étai[{?!7}en]t, à une certaine époque, en relation amoureuse." />
+    <PhFRTxt_TemporaryRelation
+         T="[{4} ]{0} [{?!7}et {3} [{?1^2}so][{!}étaie]n][{?7}[{?1^2}es][{!}étai]]t en relation à court terme." />
+    <PhFRTxt_Rape
+         T="La relation[ avec {3}] prov[{?1^2}ien][{!}enai]t d'un abus ou d'un viol." />
+    <PhFRTxt_Other
+         T="[{4} ]le type de relation (marié, séparé, divorcé, cohab, etc.) est inconnu." />
+    <PhFRTxt_
+         T="[{?3}[{4} ]{0} et {3} [{?1^2}son][{!}étaien]t partenaires.]" />
+    <!-- Occupation/Job Termination Phrases -->
+    <!--  0=il/elle, 1=date narrative, 2=ID sexe -->
+    <PhJT_StillWorking
+         T="{!0}phrase factice pour empêcher le message 'phrase vide'" />
+    <PhJT_EndOfContract
+         T="{ &#32;}{\U}{0} a quitté{1} à la fin de son contrat."
+         X="1" />
+    <PhJT_EndOfContract_X1
+         T="{ &#32;}{\U}{0} a été jusqu'à la fin de son contrat de travail{1}." />
+    <PhJT_Promotion
+         T="{ &#32;}{\U}{0} a été promu[{?2=F}e] à une position supérieure{1}." />
+    <PhJT_Redundancy
+         T="{ &#32;}{\U}{0} a quitté{1}, suite à une compression de personnel."
+         X="1" />
+    <PhJT_Redundancy_X1
+         T="{ &#32;}{\U}{0} a été remercié[{?2=F}e]{1}, suite à une compression de personnel." />
+    <PhJT_EmployerClosed
+         T="{ &#32;}{\U}{0} a quitté{1}, suite à la fermeture de son employeur."
+         X="1" />
+    <PhJT_EmployerClosed_X1
+         T="{ &#32;}{\U}{0} s'est retrouvé[{?2=F}e] sans emploi{1}, suite à la fermeture de son employeur." />
+    <PhJT_EmployerBankruptcy
+         T="{ &#32;}{\U}{0} a quitté{1}, suite à la faillite de son employeur."
+         X="1" />
+    <PhJT_EmployerBankruptcy_X1
+         T="{ &#32;}{\U}{0} s'est retrouvé[{?2=F}e] sans emploi{1}, suite à la faillite de son employeur." />
+    <PhJT_Quit
+         T="{ &#32;}{\U}{0} a quitté{1}." />
+    <PhJT_Resigned
+         T="{ &#32;}{\U}{0} a démissionné{1}." />
+    <PhJT_Fired
+         T="{ &#32;}{\U}{0} a été licencié[{?2=F}e]{1}." />
+    <PhJT_Retirement
+         T="{ &#32;}{\U}{0} est parti[{?2=F}e] en retraite{1}." />
+    <PhJT_Death
+         T="{ &#32;}{\U}{0} est décédé[{?2=F}e]{1} pendant cet emploi." />
+    <PhJT_Other
+         T="{!0}phrase factice pour empêcher le message 'phrase vide'" />
+    <PhJT_
+         T="{!0}phrase factice pour empêcher le message 'phrase vide'" />
+    <!--  0=il/elle, 1=date narrative, 2=ID sexe -->
+    <PhJTTxt_StillWorking
+         T="{!0}phrase factice pour empêcher le message 'phrase vide'" />
+    <PhJTTxt_EndOfContract
+         T="{0} a quitté{1} à la fin de son contrat." />
+    <PhJTTxt_Promotion
+         T="{0} a été promu[{?2=F}e] à une position supérieure{1}." />
+    <PhJTTxt_Redundancy
+         T="{0} a quitté{1} suite à une compression de personnel." />
+    <PhJTTxt_EmployerClosed
+         T="{0} a quitté{1} suite à la fermeture de son employeur." />
+    <PhJTTxt_EmployerBankruptcy
+         T="{0} a quitté{1} suite à la faillite de son employeur." />
+    <PhJTTxt_Quit
+         T="{0} a quitté{1}." />
+    <PhJTTxt_Resigned
+         T="{0} a démissionné{1}." />
+    <PhJTTxt_Fired
+         T="{0} a été licencié[{?2=F}e]{1}." />
+    <PhJTTxt_Retirement
+         T="{0} est parti[{?2=F}e] en retraite{1}." />
+    <PhJTTxt_Death
+         T="{0} est décédé[{?2=F}e]{1} pendant cet emploi." />
+    <PhJTTxt_Other
+         T="{!0}phrase factice pour empêcher le message 'phrase vide'" />
+    <PhJTTxt_
+         T="{!0}phrase factice pour empêcher le message 'phrase vide'" />
+    <!-- Occupancy Type Phrases -->
+    <!-- 0=il/elle, 1=son/sa, 2=plage date, 3=durée, 4=en cours et sans date de fin?, 5=lieu narratif, 6=sommaire contact -->
+    <PhOT_PrimaryResidence
+         T="{ &#32;}{\U}{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]]{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_TemporaryResidence
+         T="{ &#32;}{\U}{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]] temporairement{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_Accommodation
+         T="{ &#32;}{\U}{!0}[{?!4} a séjourné][{?4}[{?2|3} a séjourné][{?!2|3} séjourne]]{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_WorkPlace
+         T="{ &#32;}{\U}{!0}[{?!4} a travaillé][{?4}[{?2|3} a travaillé][{?!2|3} travaille]]{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_WorkPlaceAndPrimaryResidence
+         T="{ &#32;}{\U}{!0}[{?!4} a vécu et travaillé][{?4}[{?2|3} a vécu et travaillé][{?!2|3} vit et travaille]]{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_Other
+         T="{ &#32;}{\U}{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]]{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_
+         T="{ &#32;}{\U}{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]]{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_Migration
+         T="{ &#32;}{\U}{!0} a émigré[ de {7h}][ pendant {3}][ {2}]."
+         V="2011.01.15FR+" />
+    <PhOT_Relocation
+         T="{ &#32;}{\U}{!0} s'installe[ en {7h}][ pendant {3}][ {2}]."
+         V="2011.01.15FR+" />
+    <PhOT_Voyage
+         T="{ &#32;}{\U}{!0} a navigué[ pendant {3}]{5h}[ {2}]."
+         V="2.0.1.7RC8±" />
+    <PhOT_Journey
+         T="{ &#32;}{\U}{!0} a voyagé[ pendant {3}][ en {7h}][ {2}]."
+         V="2.0.1.7RC8±" />
+    <PhOT_PrimaryResidence_SocialEntity
+         T="{ &#32;}{\U}{!0}[{?!4} était][{?4} est] situé{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_TemporaryResidence_SocialEntity
+         T="{ &#32;}{\U}{!0}[{?!4} était][{?4} est] temporaireent situé{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_Accommodation_SocialEntity
+         T="{ &#32;}{\U}{!0}[{?!4} avait][{?4} a] séjourné{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_WorkPlace_SocialEntity
+         T="{ &#32;}La raison sociale[{?!4} était][{?4} est] située{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_WorkPlaceAndPrimaryResidence_SocialEntity
+         T="{ &#32;}La raison sociale[{?!4} était][{?4} est] située{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT_Other_SocialEntity
+         T="{ &#32;}{\U}{!0}[{?!4} était][{?4} est] aussi situé{5h}[ pendant {3}][{?2} ]{!2}." />
+    <PhOT__SocialEntity
+         T="{ &#32;}{\U}{!0}[{?!4} était][{?4} est] situé{5h}[ pendant {3}][{?2} ]{!2}." />
+    <!-- 0=il/elle, 1=son/sa, 2=plage date, 3=durée, 4=en vie et sans date de fin? 5=lieu narratif, 6=sommaire contact -->
+    <PhOTTxt_PrimaryResidence
+         T="{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]]{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_TemporaryResidence
+         T="{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]] temporairement{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_Accommodation
+         T="{!0}[{?!4} a habité][{?4}[{?2|3} a habité][{?!2|3} habite]]{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_WorkPlace
+         T="{!0}[{?!4} a travaillé][{?4}[{?2|3} a travaillé][{?!2|3} travaille]]{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_WorkPlaceAndPrimaryResidence
+         T="{!0}[{?!4} a travaillé et vécu][{?4}[{?2|3} a travaillé et vécu][{?!2|3} travaille et vit]]{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_Other
+         T="{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]]{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_
+         T="{!0}[{?!4} a vécu][{?4}[{?2|3} a vécu][{?!2|3} vit]]{5}[ pendant {3}][{?2} ]{!2}." />
+    <PhOTTxt_Migration
+         T="{!0} emigrated[ from {7}][ for {3}][ {2}]."
+         V="2011.01.15FR+" />
+    <PhOTTxt_Relocation
+         T="{!0} moved[ to {7}][ for {3}][ {2}]."
+         V="2011.01.15FR+" />
+    <PhOTTxt_Voyage
+         T="{!0} sailed[ for {3}]{5}[ {2}]."
+         V="2.0.1.7RC9c+" />
+    <PhOTTxt_Journey
+         T="{!0} travelled[ for {3}][ to {7}][ {2}]."
+         V="2.0.1.7RC9c+" />
+    <!-- PedigreeLink Phrases -->
+    <!-- 0=il/elle, 1=hyperlien parents gardiens/adoptifs, 2=âge à adoption/garde, 3=date adoption/garde, 4=lieu adoption/garde, 5=agence adoption/garde, 6=autre fratrie adoptive/garde dans cette famille, 7=aussi (si 2ème ou autre adoption/garde), 8=ils/il/elle (adopteur(s)), 9=ID sexe -->
+    <PhPL_Adopted
+         T="{ &#32;}{\U}{!0} a été[{?7} {7}] adopté[{?9=F}e] par {1h}[ à l'âge de {2}]{3}{4h}[ grâce à l'organisme {5}][ qui ont aussi adopté {6h}]." />
+    <PhPL_Foster
+         T="{ &#32;}{\U}{!0} a été[{?7} {7}] recueilli[{?9=F}e] par {1h}[ à l'âge de {2}]{3}{4h}[ grâce à l'organisme {5}][ qui ont aussi recueilli {6h}]." />
+    <!-- 0=nom, 1=a/a été, 2=hyperlien parents adoptifs/garde, 3=ID sexe -->
+    <PhPL_Adopted2
+         T="{ &#32;}{0h} {1} adopté[{?3=F}e][ par {2h}]." />
+    <PhPL_Foster2
+         T="{ &#32;}{0h} {1} recueilli[{?3=F}e][ par {2h}]." />
+    <!-- 0=son/sa, 1=il/elle, 3=ID sexe -->
+    <PhPL_Adopted3
+         T="dans sa famille adoptive {1}" />
+    <PhPL_Foster3
+         T="dans sa famille gardienne {1}" />
+    <!-- Social Relationship phrases -->
+    <!-- 0=sujet ou pronom personnel du sujet, 1=en vie?, 2=objet ou pronom objectif de l'objet, 3=sujet femelle?, 4=objet femelle?, 5=même sexe?, 6=sujet ou pronom objectif du sujet, 7=objet ou pronom personnel de l'objet, 8=forme possessive de l'objet {2} -->
+    <PhSR_Acquaintance
+         T="{ &#32;}{0h} [{?8}[{?1}es][{!}étai]t une proche connaissance à {2h}][{?!8}connaî[{?!1}ssai]t bien l'entité {2h}]." />
+    <PhSR_Advisor
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t conseill[{?3}ère][{!}er] [{?8}à][{!}chez] {2h}." />
+    <PhSR_Associate
+         T="{ &#32;}{0h} [[{?1}es][{!}étai]t] [{?8}en association avec][{!}un[{?3}e] associé[{?3}e] de l'entité] {2h}." />
+    <PhSR_Attending
+         T="{ &#32;}{0h} aid[{?1}e][{!}ait] {2h}." />
+    <PhSR_Babysitter
+         T="{ &#32;}{0h} baby-si[{?!1}tai]t pour {2h}." />
+    <PhSR_Caretaker
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t l[{?3}a][{!}e] gardien[{?3}ne] à {2h}." />
+    <PhSR_Competitor
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t compétit[{?3}rice][{!}eur] à {2h}." />
+    <PhSR_Customer
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t client[{?3}e] à {2h}." />
+    <PhSR_Director
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t l[{?3}a][{!}e] direct[{?3}rice][{!}eur] à {2h}." />
+    <PhSR_Employee
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un[{?3}e] employé[{?3}e] à {2h}." />
+    <PhSR_Funding
+         T="{ &#32;}{0h} [{?1}subvient][{!}a subvenu] à {2h}." />
+    <PhSR_Godparent
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t [{?3}la marraine][{!}le parrain] {8h}." />
+    <PhSR_Know
+         T="{ &#32;}{6h} et {7h} se connaiss[{?!1}ai]ent." />
+    <PhSR_Investor
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un investisseur à {2h}." />
+    <PhSR_LivesWith
+         T="{ &#32;}{0h} vi[{?!1}vai]t avec {2h}." />
+    <PhSR_Manager
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t l[{?3}a][{!}e] [{?!8}patron[{?3}ne]][{?8}chef {8h}][{!} de l'entité {2h}]." />
+    <PhSR_Member
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un membre à {2h}." />
+    <PhSR_Neighbor
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t l[{?3}a][{!}e] voisin[{?3}e] [{?8}{8h}][{!} de l'entité {2h}]." />
+    <PhSR_NamedAfter
+         T="{ &#32;}{0h} a[{?!1}vait] pris le nom {8h}." />
+    <PhSR_Pupil
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un[{?3}e] élève à {2h}." />
+    <PhSR_Relative
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t une relation familiale à {2h}." />
+    <PhSR_Reporting
+         T="{ &#32;}{0h} rend[{?!1}ait] des comptes à {2h}." />
+    <PhSR_Representative
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un[{?3}e] représentant[{?3}e] [{?8}{8h}][{!} de l'entité {2h}]." />
+    <PhSR_Roommate
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t colocataire avec {2h}." />
+    <PhSR_Subordinate
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t un[{?3}e] subalterne à {2h}." />
+    <PhSR_Supervisor
+         T="{ &#32;}{0h} [{?1}es][{!}étai]t l[{?3}a][{!}e] superviseur [{?8}à][{!}de l'entité] {2h}." />
+    <PhSR_Teacher
+         T="{ &#32;}{0h} enseign[{?1}e][{!}ait] à {2h}." />
+    <PhSR_WorkAt
+         T="{ &#32;}{0h} travaill[{?1}e][{!}ait] pour[{?!8} l'entité] {2h}." />
+    <PhSR_WorkWith
+         T="{ &#32;}{0h} et {2h} travaill[{?!1}ai]ent ensemble." />
+    <PhSR_Other
+         T="{ &#32;}{0h} a[{?!1}vait] une autre relation sociale avec {2h}." />
+    <PhSR_
+         T="{ &#32;}{0h} a[{?!1}vait] une relation sociale inconnue avec {2h}." />
+    <PhSRTxt_Acquaintance
+         T="{0} [{?8}[{?1}es][{!}étai]t une proche connaissance à {2}][{?!8}connaî[{?!1}ssai]t bien l'entité {2}]." />
+    <PhSRTxt_Advisor
+         T="{0} [{?1}es][{!}étai]t conseill[{?3}ère][{!}er] [{?8}à][{!}chez] {2}." />
+    <PhSRTxt_Associate
+         T="{0} [[{?1}es][{!}étai]t] [{?8}en association avec][{!}un[{?3}e] associé[{?3}e] de l'entité] {2}." />
+    <PhSRTxt_Attending
+         T="{0} aid[{?1}e][{!}ait] {2}." />
+    <PhSRTxt_Babysitter
+         T="{0} baby-si[{?!1}tai]t pour {2}." />
+    <PhSRTxt_Caretaker
+         T="{0} [{?1}es][{!}étai]t l[{?3}a][{!}e] gardien[{?3}ne] à {2}." />
+    <PhSRTxt_Competitor
+         T="{0} [{?1}es][{!}étai]t compétit[{?3}rice][{!}eur] à {2}." />
+    <PhSRTxt_Customer
+         T="{0} [{?1}es][{!}étai]t client[{?3}e] à {2}." />
+    <PhSRTxt_Director
+         T="{0} [{?1}es][{!}étai]t l[{?3}a][{!}e] direct[{?3}rice][{!}eur] à {2}." />
+    <PhSRTxt_Employee
+         T="{0} [{?1}es][{!}étai]t un[{?3}e] employé[{?3}e] à {2}." />
+    <PhSRTxt_Funding
+         T="{0} [{?1}subvient][{!}a subvenu] à {2}." />
+    <PhSRTxt_Godparent
+         T="{0} [{?1}es][{!}étai]t [{?3}la marraine][{!}le parrain] {8}." />
+    <PhSRTxt_Know
+         T="{0} et {2} se connaiss[{?!1}ai]ent." />
+    <PhSRTxt_Investor
+         T="{0} [{?1}es][{!}étai]t un investisseur à {2}." />
+    <PhSRTxt_LivesWith
+         T="{0} vi[{?!1}vai]t avec {2}." />
+    <PhSRTxt_Manager
+         T="{0} [{?1}es][{!}étai]t l[{?3}a][{!}e] [{?!8}patron[{?3}ne]][{?8}chef {8}][{!} de l'entité {2}]." />
+    <PhSRTxt_Member
+         T="{0} [{?1}es][{!}étai]t un membre à {2}." />
+    <PhSRTxt_Neighbor
+         T="{0} [{?1}es][{!}étai]t l[{?3}a][{!}e] voisin[{?3}e] [{?8}{8}][{!} de l'entité {2}]." />
+    <PhSRTxt_NamedAfter
+         T="{0} a[{?!1}vait] pris le nom {8}." />
+    <PhSRTxt_Pupil
+         T="{0} [{?1}es][{!}étai]t un[{?3}e] élève à {2}." />
+    <PhSRTxt_Relative
+         T="{0} [{?1}es][{!}étai]t une relation familiale à {2}." />
+    <PhSRTxt_Reporting
+         T="{0} rend[{?!1}ait] des comptes à {2}." />
+    <PhSRTxt_Representative
+         T="{0} [{?1}es][{!}étai]t un[{?3}e] représentant[{?3}e] [{?8}{8}][{!} de l'entité {2}]." />
+    <PhSRTxt_Roommate
+         T="{0} [{?1}es][{!}étai]t colocataire avec {2}." />
+    <PhSRTxt_Subordinate
+         T="{0} [{?1}es][{!}étai]t un[{?3}e] subalterne à {2}." />
+    <PhSRTxt_Supervisor
+         T="{0} [{?1}es][{!}étai]t l[{?3}a][{?!3}e] superviseur [{?8}à][{!}de l'entité] {2}." />
+    <PhSRTxt_Teacher
+         T="{0} enseign[{?1}e][{!}ait] à {2}." />
+    <PhSRTxt_WorkAt
+         T="{0} travaill[{?1}e][{!}ait] pour[{?!8} l'entité] {2}." />
+    <PhSRTxt_WorkWith
+         T="{0} et {2} travaill[{?!1}ai]ent ensemble." />
+    <PhSRTxt_Other
+         T="{0} a[{?!1}vait] une autre relation sociale avec {2}." />
+    <PhSRTxt_
+         T="{0} a[{?!1}vait] une relation sociale inconnue avec {2}." />
+    <!-- Infobulles des Chronologies 'Timeline Simile' -->
+    <!-- 0=nom, 1=date naissance, 2=lieu naissance, 3=date baptême, 4=lieu baptême, 5=titre officiant, 6=nom officiant, 7=même lieu naissance et baptême?, 8=docteur (non-employé JCG), 9=mois gestation, 10=semaines gestation, 11=son/sa, 12=type cérémonie, 13=nom possessif, 14=ID sexe -->
+    <PhTL_Birth
+         T="[{?1|2|8|9|10}{!0} est né[{?14=F}e]{1}{2}[[{?1|2|8|9|10} et ][{?!1|2|8|9|10}{!13}] {12}[ a pris place[{?2^4^7} en ce lieu]{3}[{?!7}{4}]]]]." />
+    <!-- 0=il|elle, 1=age années au décès, 2=age mois au décès, 3=age jours au décès, 4=date décès, 5=lieu décès, 6=cause décès, 7=description cause décès, 8=Approximation naissance/décès, 9=ID sexe -->
+    <PhTL_Died
+         T="{!0} est décédé[{?9=F}e][ {6}[[{?6},][{?!6} suite à] {7}[{?6},]]][{?!8}[ à l'âge de {1} ans][{?!1}[ à {2} mois][{?!2} à juste {3} jours]]]{4}{5}." />
+    <!-- 0=annulation mariage, 1=date divorce, 2=lieu divorce, 3=Id 'demandeur', 4=énumération 'demandeur', 5=avocat mari, 6=avocat femme, 7=officiant/agence -->
+    <PhTL_Divorce
+         T="[{?0}Leur mariage a été annulé][{?!0}[{?1|2|3|5|6|7}Ils ont divorcé]]{1}{2}[ {4}].[ Le jugement a été rendu par {7}.]" />
+    <!-- 0=noms époux|ils, 1=type mariage (religieux|civil), 2=date mariage, 3=lieu mariage, 4=titre officiant, 5=nom officiant, 6=nom témoin(s), 7=sont/étaient -->
+    <PhTL_Union
+         T="{!0} [{?!1|2|3|4|5|6}{7}][{?1|2|3|4|5|6}se sont] unis en[ {1}]{2}{3}." />
+    <PhTL_UnionFirstMeeting
+         T="{!0} leur première rencontre{2}{3}."
+         V="2011.01.15FR+" />
+    <PhTL_UnionEngagement
+         T="{!0} se sont fiancés de se marier{2}{3}."
+         V="2011.01.15FR+" />
+    <PhTL_Description
+         T=",'description' : '{0}'" />
+  </ReportGenerator>
+  <DateFormatting>
+    <!--
+        Cette section <DateFormatting> est optionnelle.  Dans cette section, vous pouvez spécifier les options de formatage pour afficher les dates, calendrier inclus.
+        Si vous souhaitez le format de dates du panneau de contrôle, retirez/commentez les groupes <Months>, <Weekdays>, <Digits> et <FmtDateDefault>.
+        Actuellement, il n'y a que 5 calendriers supportés: grégorien, julien, hébreu, coréen et thaï.
+        -->
+    <Calendar>Gregorian</Calendar>
+    <Months>
+      <!-- Employez l'attribut "S" pour mois et jours courts -->
+      <Jan>janvier</Jan>
+      <Feb>février</Feb>
+      <Mar>mars</Mar>
+      <Apr>avril</Apr>
+      <May>mai</May>
+      <Jun
+         S="jun">juin</Jun>
+      <Jul>juillet</Jul>
+      <Aug>août</Aug>
+      <Sep>septembre</Sep>
+      <Oct>octobre</Oct>
+      <Nov>novembre</Nov>
+      <Dec>décembre</Dec>
+      <Sol></Sol>
+      <!-- Sol est le 13ème mois, suivant le calendrier employé -->
+    </Months>
+    <Weekdays
+         FirstDay="2">
+      <!-- 1=Sun, 2=Mon 7=Sat etc. -->
+      <Sun
+         S="Dim">Dimanche</Sun>
+      <Mon>Lundi</Mon>
+      <Tue>Mardi</Tue>
+      <Wed>Mercredi</Wed>
+      <Thu>Jeudi</Thu>
+      <Fri>Vendredi</Fri>
+      <Sat>Samedi</Sat>
+    </Weekdays>
+    <Digits>0123456789</Digits>
+    <!-- 
+        Options de formatage des dates:
+                d   = jour en format numérique
+                D   = jour avec rang (1er, 2nd, 3ème, ... 31ème)
+                DD  = jour ordinal (premier, second, troisième, ... trente et unième)
+                DDD = jour cardinal (un, deux, trois, ... trente et un)
+                [ ] = affiche un préfixe de date (date exacte, date approximative, avant ou après)
+        GenoPro emploie les options de date standard de formatage du .NET framework.
+        -->
+    <FmtDateDefault>
+      <!-- Templates de défaut de formatage de dates -->
+      <FmtYMD>[|~|&lt;|&gt;]d MMM yyyy</FmtYMD>
+      <!-- 31 Jan 2006 -->
+      <FmtYM>[|~|&lt;|&gt;]MMM yyyy</FmtYM>
+      <!-- Jan 2006 -->
+      <FmtY>[|~|&lt;|&gt;]yyyy</FmtY>
+      <!-- 2006 -->
+      <FmtYG>[|~|&lt;|&gt;]yyyy GG</FmtYG>
+      <!-- 2006 -->
+      <FmtMD>[|~|&lt;|&gt;]d MMM</FmtMD>
+      <!-- 31 Jan -->
+    </FmtDateDefault>
+    <FmtDateNarrative>
+      <!-- Templates pour formater les dates narratives -->
+      <FmtYMD>&#32;[le|aux environs du|avant le|après le] d MMMM yyyy</FmtYMD>
+      <!-- Il est né le 12 janvier 1900 -->
+      <FmtYM>&#32;[en|aux environs de|avant|après] MMMM yyyy</FmtYM>
+      <!-- Il est né en janvier 1900 -->
+      <FmtY>&#32;[en|aux environs de|avant|après] yyyy</FmtY>
+      <FmtYG>&#32;[en|aux environs de|avant|après] yyyy GG</FmtYG>
+      <!-- Il est né en 1900 -->
+      <FmtMD>&#32;[le|aux environs du|avant le|après le] d MMMM</FmtMD>
+      <!-- Il est né le 12 janvier -->
+    </FmtDateNarrative>
+    <!-- Les formats de date 'courte' et 'longue' sont considérés seulement si le jour, le mois et l'année sont connus, autrement le format de défaut est employé -->
+    <!-- date.ToString("d") -->
+    <FmtDateShort>[|~|&lt;|&gt;]dd-MM-yyyy</FmtDateShort>
+    <!-- 31-01-2006 -->
+    <!-- date.ToString("D") -->
+    <FmtDateLong>[|environ le|avant le|après le] dddd d MMMM yyyy</FmtDateLong>
+    <!-- Lundi, 31 janvier 2006 -->
+    <FmtDateRange>
+      <FmtSinceYMD>[depuis le|depuis environ le|depuis avant le|depuis après le] d MMMM yyyy</FmtSinceYMD>
+      <FmtSinceYM>[depuis|depuis environ|depuis avant|depuis après] MMMM yyyy</FmtSinceYM>
+      <FmtSinceY>[depuis|depuis environ|depuis avant|depuis après] yyyy</FmtSinceY>
+      <FmtSinceMD>[depuis le|depuis environ le|depuis avant le|depuis après le] d MMMM</FmtSinceMD>
+      <FmtUntilYMD>[jusqu'au|jusqu'aux environs du|jusqu'avant le|jusqu'après le] d MMMM yyyy</FmtUntilYMD>
+      <FmtUntilYM>[jusqu'en|jusqu'aux environs de|jusqu'avant|jusqu'après] MMMM yyyy</FmtUntilYM>
+      <FmtUntilY>[jusqu'en|jusqu'aux environs de|jusqu'avant|jusqu'après] yyyy</FmtUntilY>
+      <FmtUntilMD>[jusqu'en|jusqu'aux environs du|jusqu'avant|jusqu'après] d MMMM</FmtUntilMD>
+      <FmtFromYMD>[du|d'environ du|d'avant le|d'après le] d MMMM yyyy</FmtFromYMD>
+      <FmtFromYM>[de|d'environ|d'avant|d'après] MMMM yyyy</FmtFromYM>
+      <FmtFromY>[de|d'environ|d'avant|d'après] yyyy</FmtFromY>
+      <FmtFromMD>[du|d'environ du|d'avant le|d'après le] d MMMM</FmtFromMD>
+      <FmtToYMD>[au|aux environs du|à avant le|à après le] d MMMM yyyy</FmtToYMD>
+      <FmtToYM>[à|aux environs de|à avant|à après] MMMM yyyy</FmtToYM>
+      <FmtToY>[à|aux environs de|à avant|à après] yyyy</FmtToY>
+      <FmtToMD>[au|aux environs du|à avant le|à après le]d MMMM</FmtToMD>
+      <FmtFromAndTo>{0} {1}</FmtFromAndTo>
+    </FmtDateRange>
+    <FmtTimeSpan>
+      <!--
+                Options de formatage des durées:
+                        {}      résulte en format numérique (1, 2, 3, ...)
+                        {N}     résulte en format narratif cardinal (un, deux, trois, ...)                      
+                -->
+      <FmtYear>{} an</FmtYear>
+      <FmtYears>{} ans</FmtYears>
+      <FmtMonth>{} mois</FmtMonth>
+      <FmtMonths>{} mois</FmtMonths>
+      <FmtDay>{} jour</FmtDay>
+      <FmtDays>{} jours</FmtDays>
+      <FmtYMD>{0}, {1} et {2}</FmtYMD>
+      <!-- deux ans, six mois et douze jours -->
+      <FmtYM>{0} et {1}</FmtYM>
+      <!-- un an et quatre mois -->
+      <FmtMD>{0} et {1}</FmtMD>
+      <!-- neuf mois et un jour -->
+    </FmtTimeSpan>
+  </DateFormatting>
+</Dictionary>

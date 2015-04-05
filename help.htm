@@ -1,0 +1,137 @@
+﻿<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+@[Dim slt,sgt : slt="<": sgt=">"]@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content=""/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[Report.Write StrDicExt("FmtHtmlHelpTitle","", "Getting Started Guide","","2011.10.27")]@</title>
+<meta name="description" content="@[Report.Write StrDicExt("FmtHtmlHelpDesc","", "This will help you to navigate the site","","2011.10.27")]@" />
+<meta name="keywords" content="@[Report.Write StrDicExt("FmtHtmlHelpKeywords","", "Narrative Report, Getting Started","","2011.10.27")]@" />
+<base target="popup"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' language="JavaScript" src="scripts/svgcheck.js"></script>
+<script type='text/vbscript' language="VBScript" src="scripts/svgcheck.vbs"></script>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script type='text/javascript' language="JavaScript" src="scripts/script.js"></script>
+<script type='text/javascript' language="JavaScript">
+        var mapInfo = {File:"help.svg", Bounds:[-389,-688,411,-180],SVG:true};
+        var embed, svgdoc, svgwin, pdfparam;
+        $(function () {
+            document.getElementById("svgpdf").innerHTML = '<EMBED src="' + mapInfo.File + '" id="svgEmbed" height="100%" width="100%" type="image/svg+xml" border="2"/>';
+    
+                    document.getElementById("svgpdf").innerHTML = '<EMBED src="' + mapInfo.File + '" id="svgEmbed" height="508px" width="800px" type="image/svg+xml" border="2"/>';
+                    embed = document.getElementById('svgEmbed');
+                    }
+        );
+        
+</script>
+
+</head>
+<body class='gno-detail' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '');">
+<div class='clearfix'>
+</div>
+<div class='floatright'>
+<img src='images/expand2.gif' class='toggle24' name='toggle2' onclick='javascript:ToggleTree(this.name,"2");' alt='@[Report.Write StrDicExt("FmtHtmlHelpToggle","", "Click to expand/collapse all other details","","2011.10.27")]@' title='@[Report.Write StrDicExt("FmtHtmlHelpToggle","", "Click to expand/collapse all other details","","2011.10.27")]@' />
+</div>
+<a name='Help'></a><h4>@[Report.Write StrDicExt("FmtHtmlHelpStart1","","Need Help Getting Started?","","2011.10.27")]@</h4>
+<%[
+Report.WritePhrase StrDicExt("FmtHtmlHelpStart2","","This website uses several methods to present information about the family history. " & vbLf &_
+                                                      "Indexes are available to quickly locate individuals, families, places etc. " & vbLf &_
+                                                      "The information is provided in narrative form but also as timelines, ancestor charts, diagrams (or family trees) and geographically via a map. " & vbLf &_
+                                                      "{\br}{\br}There are a number of interactive features to assist you in navigating your way around these pages. " & vbLf &_
+                                                      "{\br}Click on the subheadings marked with '{0h}' below to open each section, or the large {1h} icon above right to open up all sections below. {\br}{\br}","","2011.10.27"),_
+                                                      "<img class='top' src='images/arrow2.show.gif' alt=''/>", _
+                                                      "<img class='bottom' src='images/expand2.gif' alt=''/>"
+]%>
+<ul class='xT'><li class='xT2-c xT-h' onclick='xTclk(event,"2")'>
+<%[If (Session("fUseIconMenu")) Then]%>
+<a name='Navigation_Icons'></a><h4 class='xT-i inline'>@[Report.Write StrDicExt("FmtHtmlHelpNavIcon1","","Navigation Icons","","2011.10.27")]@</h4><ul class='xT-h'><li>
+<a name='nav00001'></a><div class='clearleft'>
+<%[
+Report.WritePhrase StrDicExt("FmtHtmlHelpNavIcon2","","The Navigation icons are all in the top left hand corner. Hover the mouse over an icon for information on its function.{\br}{\br}" & vbLf &_
+                                                    "{0h} If you find yourself a little lost the Home icon will take you back to the beginning.{\br}{\br}" & vbLf &_
+                                                    "{2h} One way to explore is to use the Name Index which lists everyone, grouped by surname. Clicking on a person's name will bring up a page with their details.{\br}{\br}" & vbLf &_
+                                                    "{3h} Similarly there is a Family Index.{\br}{\br}" & vbLf &_
+                                                    "{1h} Perhaps the easiest way to get started is with the Family Tree diagrams. The Tree icon will take you to them.{\br}{\br}" & vbLf &_
+                                                    "[{?4}{4h} This icon will display a Google map showing the locations associated with people in this report, but only for places where the author has provided latitude and longitude coordinates. The icon {5h} following the name on individual, family and place pages will show map of locations associated with that individual, family or place.]","","2011.10.27"),_
+                                                    "<img class='bottom button32' src='images/home32.gif' align='middle' alt='' title=''/>",_
+                                                    "<img class='bottom button32' src='images/trees32.gif' align='middle' alt='' title=''/>",_
+                                                    "<img class='bottom button32' src='images/individuals32.gif' align='middle' alt='' title=''/>",_
+                                                    "<img class='bottom button32' src='images/families32.gif' align='middle' alt='' title=''/>",_
+                                                    Util.IfElse(Session("fGoogleMapsOverview") And Session("GeoTagging"), "<img class='bottom button32' src='images/map_pin32.gif' align='middle' alt='' title=''/>",""),_
+                                                    "<img class='top' src='images/pin.gif' alt=''/>"
+Else]%>
+<a name='Navigation_Menu'></a><h4 class='xT-i inline'>@[Report.Write StrDicExt("FmtHtmlHelpNavMenu1","","Navigation Menu","","2011.10.27")]@</h4><ul class='xT-h'><li>
+<a name='nav00002'></a><div class='clearleft'>
+<%[
+Report.WritePhrase StrDicExt("FmtHtmlHelpNavMenu2","","The Navigation menu is at the top. Hover the mouse over a menu item for information on its function.{\br}{\br}" & vbLf &_
+                                                        "If you find yourself a little lost {0h}{2}{1h} will take you back to the beginning.{\br}{\br}" & vbLf &_
+                                                        "One way to explore is to use the {0h}{4}{1h} index which lists everyone, grouped by surname. Clicking on a person's name will bring up a page with their details.{\br}{\br}" & vbLf &_
+                                                        "Similarly there is a {0h}{5}{1h} index.{\br}{\br}" & vbLf &_
+                                                        "Perhaps the easiest way to get started is with the Family Tree diagrams, you will find an index of diagrams under {0h}{3}{1h}.{\br}{\br}" & vbLf &_
+                                                        "[{?6}Clicking on {!0h}{6h}{!1h} will display a Google map showing the locations associated with people in this report, but only for places where the author has provided latitude and longitude coordinates. ]The icon {7h} following the name on individual, family and place pages will show map of locations associated with that individual, family or place.", "", "2011.10.27"),_
+                                                        "<b>", "</b>",_
+                                                        StrDicExt("MenuHome","","home","","2011.06.15"),_
+                                                        StrDicExt("MenuSvg","","map","","2011.06.15"),_
+                                                        StrDicExt("MenuIndividuals","","individuals","","2011.06.15"),_
+                                                        StrDicExt("MenuFamilies","","families","","2011.06.15"),_
+                                                        Util.IfElse(Session("fGoogleMapsOverview") And Session("GeoTagging"), StrDicExt("MenugMapPlaces","","places","","2011.06.15"),""),_
+                                                        "<img class='top' src='images/pin.gif' alt=''/>"
+End If]%>
+<br />
+<br />
+</div>
+</li></ul></li></ul>
+<br/><ul class='xT'><li class='xT2-c xT-h' onclick='xTclk(event,"2")'>
+<a name='Family_Tree_Diagrams'></a><h4 class='xT-i inline'>@[Report.Write StrDicExt("FmtHtmlHelpTree1","","Family Tree Diagrams","","2011.10.27")]@</h4><ul class='xT-h'><li>
+<a name='tree00001'></a><div class='clearleft'></div>
+@[Report.Write StrDicExt("FmtHtmlHelpTree2","","The family tree diagrams are displayed as 'genograms' as illustrated by the example below.","","2011.10.27")]@
+<br />
+<div id="svgpdf"></div>
+<br />
+<b>@[Report.Write StrDicExt("FmtHtmlHelpSymbol1","","Symbols","","2011.10.27")]@</b>
+<br />
+<%[
+Report.WritePhrase StrDicExt("FmtHtmlHelpSymbol2","","Men are represented with a square, and women usually with a circle" & vbLf &_
+                                                      "{\br}A cross through the symbol indicates the individual is deceased" & vbLf &_
+                                                      "{\br}If the year of birth and death are known the age at death will be shown in the symbol","","2011.10.27") & "{0=.}", ""
+]%>
+<br />
+<br /><b>@[Report.Write StrDicExt("FmtHtmlHelpConventions1","","Conventions","","2011.10.27")]@</b>
+<br />
+<%[
+Report.WritePhrase StrDicExt("FmtHtmlHelpConventions2","","In a heterosexual relationship the man is placed to the left, and the woman to the right, subsequent partners of a man are drawn to the right of the previous partner " & vbLf &_
+                                                            "and subsequent partners for a woman are drawn to the left of the previous partner. In this way, a spouse is always be closer to his/her first partner, then the second partner (if any)," & vbLf &_
+                                                            " third partner, and so on.In the case of ambiguity, assume a male-female relationship, rather than male-male or female-female relationship " & vbLf &_
+                                                            "{\br}The eldest child is placed on the far left of the parents relationship line, with younger siblings being drawn sequentially to the right " & vbLf &  _
+                                                            "{\br}For further examples and information see also {0h}'Introduction to the Genogram'{1h}","","2011.10.27"), "<a href='http://www.genopro.com/genogram/' target='_blank'>", "</a>"
+]%>
+<br/>
+<br/><b>@[Report.Write StrDicExt("FmtHtmlHelpNavTree1","","Navigating the Tree","","2011.10.27")]@</b>
+<br/>
+@[Report.WritePhrase StrDicExt("FmtHtmlHelpNavTree2","","The family tree may have been split into several diagrams, or 'sub-trees', to make it easier to view. The diagrams may be available in two different formats." & vbLf &
+                                                        " The PDF format is best for printing or in a browser without an SVG viewer option. The SVG format is interactive. Where both formats are available a button icon is provided for switching between the formats.{\br}{\br}" & vbLf &
+                                                        "When using the interactive SVG format, you can click on a person's gender symbol and it will bring up a page with their details.  Clicking on a relationship line will bring up a page with that family's details. " & vbLf &
+                                                        "People whose names are highlighted in blue are the links between the different diagrams - you can click on their name to navigate to the next diagram","","2011.10.27") & "{0=.}", ""]@
+<br/>
+<br/>
+</li></ul></li></ul>
+<br/><ul class='xT'><li class='xT2-c xT-h' onclick='xTclk(event,"2")'>
+<a name='Individuals_Page'></a><h4 class='xT-i inline'>@[Report.Write StrDicExt("FmtHtmlHelpInd1","","An Individual's Page","","2011.10.27")]@</h4><ul class='xT-h'><li>
+<a name='ind00001'></a><div class='clearleft'></div>
+@[Report.WritePhrase StrDicExt("FmtHtmlHelpInd2","","Each individual in the report has their own page. On a person's page you will find the known details of their parents, grandparents and siblings, with hyperlnks to each, as well as pictures and any relationships." & vbLf &
+                                                        "It may also list the occupations of the individual, e.g. as recorded on census returns and other documents, as well as places of residence and educational records, timelines and ancestor charts","","2011.10.27") & "{0=. }", ""]@
+<br/>
+<br/>
+</li></ul></li></ul>
+<br />
+<div class='clear'></div>
+@[WriteHtmlFramesetSafeguard("Help") ]@
+</body>
+</html>

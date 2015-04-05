@@ -1,0 +1,57 @@
+﻿<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted StrDicExt("FmtTitleEntity","","{0} - Social Entity","",""), Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<base target="popup"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+@[GoogleAnalytics]@
+</head>
+<body class="gno-detail" onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);">
+<%[if session("fUseCurvyBoxes") then CurvyBoxOpen()]%>
+<div class='clearfix'>
+<div class='floatright'>
+<%[
+	Session("NotesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("Notes")
+	ichNotesEnd = Report.BufferLength
+
+	Session("ReferencesStart") = Report.BufferLength
+	WriteHtmlButtonToggle("OtherDetails")
+	ichReferencesEnd = Report.BufferLength
+
+	WriteHtmlButtonToggle("HidePopUp")
+]%>
+</div>
+<%[
+WriteHtmlEntity s
+
+' remove any unecessary items (reverse order to avoid invalidating buffer pointers)
+If Session("ReferencesStart") >= 0 Then
+	' We have no other details, so remove the "Show other details | Hide other details"
+	Report.BufferRemoveAt Session("ReferencesStart"),        ichReferencesEnd
+End If
+If (Session("NotesStart") >= 0) Then
+	' We have no annotations, so remove the "Show All Notes | Hide All Notes"
+	Report.BufferRemoveAt Session("NotesStart"), ichNotesEnd
+End If
+]%>
+<br />
+<div class='clear'></div>
+</div>
+<%[if session("fUseCurvyBoxes") then CurvyBoxClose()
+WriteHtmlFramesetSafeguard("SocialEntity") ]%>
+</body>
+
+</html>

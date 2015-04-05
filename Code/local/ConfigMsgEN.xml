@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin
+                        Language="EN"
+                        Name="Narrative Report">
+   <Version>2014.12.13
+   </Version>
+  <!-- CHANGE HISTORY
+         Changes are indicated by an additional 'V' attribute for XML elements below, and a dummy 'V' attribute in comments,
+         in the following format:
+
+                        V="a.b.c.dx?"
+
+        where a.b.c.d is version number, x is optional subversion and ? is the type of change as follows:
+
+            + indicates an insertion
+            x indicates a deletion - also deletions are placed in comments and removed at a later date
+            ± indicates an amendment   
+            ~ indicates a reposition up or down 
+    -->
+  <ReportGenerator
+                        ScriptLanguage="VBScript">
+    <ParameterDescriptions
+                        TextDirection="ltr">
+      <!-- Note to translators: You may change all text in these tags except for the values before the ':' in 'option' attributes O1, O2 etc. so O1="Y:Oui"is OK but not O1="O:Oui" -->
+      <Description Label="About" T="About">
+          <Comments               T="This report skin generates a comprehensive cross-referenced and indexed narrative style HTML report over multiple pages. The report is designed to show all data held in a GenoPro file. &#10;
+                                    Content includes but is not limited to pages for each individual and family, photos, 'tree' format indexes, timelines for events, SVG and PDF representations of GenoMaps, Google Maps of places, ancestor and descendant pedigree charts. &#10;
+                                    &lt;span class='bold'&gt;** Note&lt;/span&gt; that the web pages are intended to be served via web server such as familytrees.genopro.com\
+                                    via HTTP or HTTP protocols.&#10;&#10;
+                                      Click on the other tabs above to choose the settings required.  Each collection of settings can be saved in a named profile using the buttons below."
+                                  Type="about" V="2014.12.11±"/>
+      </Description>
+      <ThemeSettings	Label="Theme"
+                        T="Theme Settings">
+      <StyleSheet
+                        Default="Default_2"
+                        O1="Default_2:Default theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O2="Default_3:Default theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O3="AcornOliveTeal_2:AcornOliveTeal theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O4="AcornOliveTeal_3:AcornOliveTeal theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O5="Blood_3:Blood theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O6="BlueDNA_3:BlueDNA theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O7="GreenLeaf_2:GreenLeaf theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O8="GreenLeaf_3:GreenLeaf theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O9="OliveBranch_2:OliveBranch theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O10="OliveBranch_3:OliveBranch theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O11="RoseTint_3:RoseTint theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        T="Choose desired page theme using arrows. Hover over image for theme details"
+                        Type="theme" />
+      </ThemeSettings>
+      <ContentSettings Label="Content" T="Content" V="2013.07.30+">
+        <Volume      Default="!All!"
+                        Desc="Each GenoMap's own 'Report Title' can be used to indicate a subset for output.  This can be set on the 'GenoMaps' tab of the main GenoPro 'Properties' dialog (File/Properties when nothing selected). A subset is then all the GenoMaps with the same Report Title"
+                        T="Report Subset or 'Volume'"
+                        O1="!All!:All"
+                        V="2013.10.14" />
+      <Notes
+                        Default="Y"
+                        T="Show all comments?"
+                        Type="bool"
+                        V="2013.09.22" />
+      <ShowFlags
+                        Default="AEKOPRSTW"
+                        Desc="A-Attributes and Events, K-Kid's Pictures, E-Education, O-Occupations, P-Pedigree Chart, R-Relationships, S-Source/Citations, T-Custom Tags, W-Whereabouts"
+                        T="Individual and Family content flags"
+                        Type="Text"
+                        V="2013.10.21±" />
+      <fHideFamilyDetails
+                        Default="Y"
+                        Desc="Family details can appear on the 'individual' report pages. If hidden the entry is replaced by a link to the corresponding 'family' page."
+                        T="Suppress family details on Individual pages?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <OnlyPrincipalSpouse
+                        Default="N"
+                        Desc="Normally the male is the 'principal spouse' here, but this can be changed by setting a Family Custom Tag 'PrincipalSpouse' to 1"
+                        T="If above option is not set, then only show family details for principal spouse?"
+                        Type="bool"
+                        V="2013.10.21+" />
+      <Calendar
+                        Default="Y"
+                        T="Show birthdays &amp; marriage anniversaries on an Event Calendar?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <ShowDescendantTreeIcon
+                        Default="Y"
+                        T="Add link to 'Descendant Tree Chart' as icon after Individual name"
+                        Type="bool"
+                        Desc="Applies to individuals with DescendantTreeChart custom tag set.  Actual charts are generated separately via the 'Descendant Tree Chart' report."
+                        V="2013.07.30+" />
+      <OptimizeUpload
+                        Default="Y"
+                        T="Only re-upload support files on version change"
+                        Desc="Theme files, Timeline and Google scripts not uploaded again if destination already has a report of the same version"
+                        Type="bool"
+                        V="2013.08.22+" />
+      </ContentSettings>
+      <PrintSettings     Label="Printing"
+                        T="Print Settings" V="2014.02.18±" >
+        <PageOrientation Default="Portrait"
+                        T="Page Orientation"
+                        O1="Portrait:Portrait"
+                        O2="Landscape:Landscape"
+                        V="2013.09.17"
+                        />
+        <PageSize       Default="A4"
+                        T="Page Size"
+                        O1="A4:A4"
+                        O2="Letter:Letter"
+                        V="2013.09.17"
+                        />
+        <BlackText      Default="N"
+                        T="Print all text in black"
+                        Type="bool"
+                        V="2014.02.05"/>
+        <Book           Default="N"
+                        Desc="Details of all individuals are produced as a single HTML page suitable for conversion
+                                to book format (e.g. PDF) for subsequent printing. !DO NOT USE FOR WEB REPORT!"
+                        T="Produce 'Book' style Report instead of standard HTML Web Report"
+                        Type="bool"
+                        V="2013.09.08" />
+        <PageBreak   Default="LastName"
+                        T="Insert page breaks"
+                        O1="LastName:on every change of last name"
+                        O2="FirstCharacter:only on change in first character of last name"
+                        V="2014.02.09±"
+                        />
+     </PrintSettings>
+      <PDFSettings     Label="PDF Conversion"
+                        T="Settings for PDF conversion via 'wkhtmltopdf' (see &lt;a href='http://wkhtmltopdf.org'&gt;http://wkhtmltopdf.org &lt;/a&gt;)" V="2014.02.18±" >
+        <ConvertToPDF   Default="N"
+                        Desc="You need to download and install wkhtmltopdf in order to use this option."
+                        T="Run wkhtmltopdf to convert 'book' html file to PDF format."
+                        Type="bool"
+                        V="2014.02.09+"/>
+        <wkhtmltopdfPath
+                        Default="%ProgramFiles%\wkhtmltopdf\bin\wkhtmltopdf.exe"
+                        T="Path to wkhtmltopdf.exe program used to create PDF output (Default {0})"
+                        Type="file"
+                        V="2014.02.09+" />
+        <PDFCover       Default="Y"
+                        T="Include cover page (requires wkhtmltopdf.exe)"
+                        Type="bool"
+                        V="2014.02.09±" />
+         <CoverImage    Default=""
+                        T="Path to image to be used on cover page (optional, (requires wkhtmltopdf.exe)"
+                        Type="file"
+                        V="2014.02.09±" />
+        <TitleWrap      Default="N"
+                        Desc="Text is wrapped at each space, to prevent a wrap at a space, use non-breaking space (To type this, hold Alt key, type 0160 on NUMERIC keypad, then release Alt key)"
+                        T="Wrap the cover title text(requires wkhtmltopdf.exe)"
+                        Type="bool"
+                        V="2014.02.09±" />
+        <PDFTOC         Default="N"
+                        T="Include 'Table of Contents' (requires wkhtmltopdf.exe)"
+                        Type="bool"
+                        V="2014.02.09±" />
+        <PDFIntro       Default="N"
+                        Desc="text is taken from the Description field under Generate Report 'Docment' tab"
+                        T="Include 'Introduction' section (requires wkhtmltopdf.exe)"
+                        Type="bool"
+                        V="2013.09.22" />
+        <PDFHeader      Default="--header-left [title] --header-right [subsection] --header-line --header-spacing 2 --header-font-size 10"
+                        Desc="See http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf_0.10.0_rc2-doc.html for more info"
+                        T="'wkhtmltopdf' command line parameters for PDF Header (Enter space to remove)"
+                        Size="120"
+                        V="2013.12.20" />
+        <PDFFooter      Default="--footer-line --footer-left [date] --footer-right &quot;[page] / [topage]&quot; --footer-spacing 2 --footer-font-size 8"
+                        Desc="See http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf_0.10.0_rc2-doc.html for more info"
+                        T="'wkhtmltopdf' command line parameters for PDF Footer (Enter space to remove)"
+                        Size="120"
+                        V="2013.12.20" />
+        <PDFMargins      Default="-B 15mm -T 20mm -L 20mm -R 20mm"
+                        Desc="See http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf_0.10.0_rc2-doc.html for more info"
+                        T="'wkhtmltopdf' command line parameters for PDF Margins (Enter space to remove)"
+                        Size="120"
+                        V="2013.12.20" />
+        <PDFOther      Default=""
+                        Desc="See http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf_0.10.0_rc2-doc.html for more info"
+                        T="Other 'wkhtmltopdf' command line parameters for PDF, e.g. Zoom Width Height etc."
+                        Size="120"
+                        V="2013.12.20" />
+     </PDFSettings>
+      <PresentationSettings Label="Presentation"
+                        T="Other Presentation Settings">
+        <TitlePosition 
+                        Default="B"
+                        O1="B:In banner at the bottom of the Heading pane"
+                        O2="T:In banner at the top of the Heading pane"
+                        O3="H:At the top of the Home page"
+                        O4="C:In line with menu icons in a Heading pane with no banner image"
+                        T="Position of the Report Title?"
+                        V="2013.02.17"
+                        />
+      <FontFamily       Default="Arial, Helvetica"
+                        T="CSS Font Family"
+                        Size="30"
+                        Type="text"
+                        V="2013.02.17"
+                        />
+      <fAutoHideTOC
+                        Default="Y"
+                        Desc="Hide the Index frame on initial load and after each selection from it."
+                        T="Auto hide Index frame?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fJoinPlaceNames
+                        Default="N"
+                        Desc="Show place names as a comma separated list of all places in a hierarchy. This will be of use if you have named your places using single element names such as a town, rather than qualified names such as 'town, state, country'"
+                        T="Concatenate names of hierachical places?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fJoinSourceCitationNames
+                        Default="N"
+                        Desc="Show source and citation names as an @ separated list of all citations/sources in a hierarchy. This will be of use if you have named your sources using single element names such a book, rather than qualified names such 'book on shelf at library etc. Note that special action is taken if the source title is the same as the parent title, i.e. it is inherited. If the WhereInSource (or 'reference') tag is present it is assumed to be a citation of a source rather than the source itself. In this case the WhereInSource takes the place of the title, so the joined name becomes 'WhereInSource @ source title'."
+                        T="Concatenate names of hierachical sources?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fIndexChildPlacesAndSources
+                        Default="Y"
+                        T="Show child Places and Sources in index separately as well as with parent"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseNotes
+                        Default="Y"
+                        T="Initially display all notes in 'collapsed' view?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseReferences
+                        Default="Y"
+                        T="Initially display subsections &amp; references in 'collapsed' view?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <NestSourceRefs
+                        Default="N"
+						Desc="Allow Source/Citations to be hidden under a collapse/expand subheading. If not checked then all will be visible as footnotss from single 'Source' fields and a list from the 'Sources' tab entries.'"
+                        T="Put Source/Citation references in collapse/expand section"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <cTocExpand
+                        Default="1000"
+                        Desc="determines whether or not tree indexes are initally displayed expanded or not. A value of -1 means always expand the index, 0 means never expand the index"
+                        Size="6"
+                        T="Item limit before indexes are shown in 'collapsed' view"
+                        Type="int" />
+      <ContactTitle
+                        Default="TSOCI"
+                        Desc="T= title, S= Summary(Tel, Fax, Email, Mob, Web), O= Occupancy Place, C= 1st line of Comment, I= Contact ID"
+                        T="Field priority order for Contact Title"
+                        V="2009.11.15" />
+      <FrameBorder
+                        Default="Auto"
+                        Desc="N.B. If borders are not shown then frame sizes cannot be manually adjusted"
+                        O1="Auto:use theme default"
+                        O2="Yes:always show borders"
+                        O3="No:always hide borders"
+                        T="Show borders around frames making up each HTML page?" />
+      <ForceFrames
+                        Default="Y"
+                        Desc="Set to 'False' if using Acrobat Pro to create PDF versions of pages"
+                        T="Force pages to be displayed within frameset"
+                        Type="bool"
+                        V="2013.04.05±" /> 
+      <PageZoom
+                        Default="100"
+                        Size="6"
+                        T="Page font scaling percentage"
+                        Type="text" />
+	  <MaxPopup
+						Default="N"
+						T="Open 'popup' frame at maximum size, overlaying 'detail' frame"
+						Type="bool"
+						V="2014.08.14+" />
+      </PresentationSettings>
+      <PictureSettings	Label="Pictures"
+                        T="Picture Settings">
+      <ShowPictures
+                        Default="Y"
+                        T="Show Pictures in the report"
+                        Type="bool"
+                        V="2013.09.22+" /> 
+        <fAddGenericImage
+                        Default="N"
+                        Desc="Add a generic silhouette image for individuals with no associated picture"
+                        T="Use silhouette image if no individual picture?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowPictureDetails
+                        Default="N"
+                        Desc=" Show picture details phrase and any picture notes/description together with the picture on Individual &amp; Family html pages. This information is always shown on the 'picture-[pictureid].htm' and 'pictures.htm' pages."
+                        T="Show full picture information on Individual &amp; Family pages?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fHidePictureName
+                        Default="N"
+                        Desc="Hide picture name tag, that GenoPro defaults to filename, normally shown under the pictures."
+                        T="Hide picture name?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fUsePictureThumbnails
+                        Default="Y"
+                        T="Use picture thumbnails?"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <fUsePictureId
+                        Default="N"
+                        T="Use picture ID in place of picture title?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowTechnicalData
+                        Default="Y"
+                        T="Show 'Technical Details' of pictures?"
+                        Type="bool"
+						V="2012.07.XX+" />
+        <PictureSizeLarge
+                        Default="250x250"
+                        Size="9"
+                        T="Larger picture size - Width x Height (pixels)" />
+        <PictureSizeSmall
+                        Default="100x100"
+                        Size="9"
+                        T="Smaller picture size - Width x Height (pixels)" />
+        <PicturePadding
+                        Default="15"
+                        Size="2"
+                        T="Picture border (pixels)"
+                        Type="int" />
+        <PictureInterval
+                        Default="4000"
+                        Size="5"
+                        T="Picture 'slideshow' interval (milliseconds) range 1000 - 10000"
+                        Type="int" />
+        <ChildPictureSecondary
+                        Default="N"
+                        T="Use only 'secondary' picture as small 'child' picture instead of using primary picture?"
+                        Desc="Allow use of a different picture for child image.&#10;Set Custom Tag 'Pictures.Secondary' to position of secondary picture in list of Individuals pictures."
+                        Type="bool"
+                        V="2014.02.28+" />
+      </PictureSettings>
+      <ThumbnailSettings Label="Thumbnails"
+                        T="Thumbnail Settings">
+        <ThumbnailCreate
+                        Default="Y"
+                        Desc="Set to Y/yes to create resized pictures in the 'thumbnails' folder within the Report folder using IrfanView. Thumbnail size will be the same as the 'PictureSizeLarge' parameter value i.e by default 250x250. A dpi value of 72 is suggested. Thumbnails will also be produced for any Pictures to be displayed on the SVG or PDF GenoMap images, defined using the special Social Entity object. If set to No then you should also set 'Use picture thumbnails' in Picture Settings above to No"
+                        T=" Create thumbnail images? N.B. requires IrfanView (http://www.irfanview.com/) to be installed"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <ThumbnailDpi
+                        Default="72"
+                        Size="3"
+                        T="dots per inch (dpi)"
+                        Type="int" />
+        <ThumbnailQuality
+                        Default="70"
+                        Size="3"
+                        T="JPEG quality (1-100)"
+                        Type="int" />
+        <IrfanViewPath
+                        Default="%ProgramFiles%\IrfanView\i_view32.exe"
+                        T="Path to IrfanView program used to create picture thumbnails (Default {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      <ShowGallery
+                        Default="N"
+                        Desc="N.B. The gallery can take a long time to load. Thumbnails must be enabled if this is to be enabled."
+                        T="Generate Picture Gallery page in the report"
+                        Type="bool"
+                        V="2013.09.22+" /> 
+      </ThumbnailSettings>
+      <MapSettings		Label="Google Maps"
+                        T="Google Map Settings">
+        <GoogleMaps
+                        Default="Y"
+                        Desc="The following four parameters can be overridden for particular Places by creating custom tags. Use the GenoPro Tools/Tag Editor to create a new Dialog Layout for Places named 'Mapping', set the description to '_Mapping' (N.B. The leading _ is important as it prevents these custom tags from being displayed as 'Place Additional Information' Under this Dialog Layout add 3 Custom tags: Map.Google.Zoom, Map.Google.Type, Map.Google.Width &amp; Map.Google.Height. You can then use the '_Mapping' tab on Place Properties window to tailor these values for each Place."
+                        T="Display 'Google Maps' for places?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <GoogleMapsType
+                        Default="1"
+                        O1="1:map"
+                        O2="2:satellite"
+                        O3="3:hybrid"
+                        O4="4:terrain"
+                        T="Type of Google Map display" />
+        <GoogleMapsSmall
+                        Default="400x250"
+                        Size="9"
+                        T="Size of Google Map when displayed inline &amp; place has associated pictures - W x H (pixels)" />
+        <GoogleMapsLarge
+                        Default="650x250"
+                        Size="9"
+                        T="Size of Google Map when displayed inline &amp; place has no associated pictures - W x H (pixels)" />
+        <GoogleMapsZoom
+                        Default="7"
+                        Size="2"
+                        T="Default Google Map initial zoom (1-13)"
+                        Type="int" />
+        <fGoogleMapsLink
+                        Default="Y"
+                        Desc="Otherwise it is shown as a collapse/expand line in the place details popup page."
+                        T="Show place 'Google Map' in 'popup' frame via a hyperlink?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fGoogleMapsOverview
+                        Default="Y"
+                        T="Provide 'Google Maps' link on Home page to map with all geocoded places?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </MapSettings>
+      <TimelineSettings Label="Timelines"
+                        T="Timeline Settings">
+        <Timelines
+                        Default="Y"
+                        T="Display MIT Simile timelines for individuals, families &amp; genomaps?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineShowDuration
+                        Default="Y"
+                        T="Show duration of events with colored bar?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineContemporary
+                        Default="Y"
+                        Desc="Duration bars can be extended to the Report date for events that are still current e.g. living people"
+                        T="Show duration to report date for unterminated events?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEvents
+                        Default="N"
+                        Desc="If unset then each line (or track) is used for only one event. N.B. events are added in reverse chronological order when wrapped, otherwise normal."
+                        T="Re-use 'tracks' for non-overlapping events on Individual &amp; Family timelines?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEventsMap
+                        Default="Y"
+                        Desc="If unset then each line (or track) is used for only one event. N.B. events are added in reverse chronological order when wrapped, otherwise normal."
+                        T="Re-use 'tracks' for non-overlapping events on Genomap timelines?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineMinEventsIndividual
+                        Default="2"
+                        Size="2"
+                        T="Minimum no. of events before individual timeline is displayed"
+                        Type="int" />
+        <TimelineMinEventsFamily
+                        Default="2"
+                        Size="2"
+                        T="Minimum no. of events before family timeline is displayed"
+                        Type="int" />
+      </TimelineSettings>
+      <ServicesSettings Label="Analytics"
+                        T="Web Services Settings">
+        <GoogleAnalyticsAccount
+                        Default=""
+                        Desc="Use this to add Google Analytics code when using your own website. (NOT familytrees.genopro.com)"
+                        T="Google Analytics: Your Account &amp; sequence no. (UA-XXXXXXXX-Y)" />
+        <GoogleAnalyticsDomain
+                        Default=""
+                        T="Google Analytics: Your domain suffix if using multiple sub-domains" />
+      </ServicesSettings>
+      <LanguageSettings Label="Language"
+                        T="Language Settings">
+        <LangPossessiveLookup
+                        Default="N"
+                        T="Use NameDictionary to obtain possessive noun exceptional forms?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangLocativeLookup
+                        Default="N"
+                        T="Use NameDictionary to obtain 'locative' noun exceptional forms?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangBaseNameLookup
+                        Default="N"
+                        T="Use NameDictionary to obtain 'base' or 'root' form of names?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangNames
+                        Default=""
+                        Size="3"
+                        T="To use NameDictionary to translate names to the Report Language, set this to Language Code to translate FROM." />
+        <LangPlace
+                        Default=""
+                        Size="3"
+                        T="To use NameDictionary to translate places to the Report Language, set this to Language Code to translate FROM." />
+        <LangOccupation
+                        Default=""
+                        Size="3"
+                        T="To use NameDictionary to translate occupations to the Report Language, set this to Language Code to translate FROM." />
+        <LangAlternative
+                        Default=""
+                        Size="3"
+                        T="Code for language to which 'alternative' name is to be translated via NameDictionary." />
+        <LangHtmlCulture
+                        Default=""
+                        Size="2"
+                        T="HTML 'Content-Language' subtype or 'dialect' e.g. 'us' to indicate 'en-us'" />
+        <LangNameDictionary
+                        Default="NameDictionary.xml"
+                        T="NameDictionary file to be used for language translation and exceptional noun cases (Default {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+        <LangShowOthers
+                        Default="N"
+                        T="Show other languages in multi-lingual fields"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangShowDefault
+                        Default="EN"
+                        Size="3"
+                        T="Default language for multi-lingual fields when no match with skin language" />
+        <TextDirection
+                        Default=""
+                        O1=":no override"
+                        O2="rtl:right to left"
+                        O3="ltr:left to right"
+                        T="Force text direction to this value, overriding any value previously set" />
+        <OriginalNamesCharts
+                        Default="N"
+                        T="Use original, untranslated names on Pedigree Chart"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesTimelines
+                        Default="N"
+                        T="Use original, untranslated names on GenoMap Timelines"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesGoogleMaps
+                        Default="N"
+                        T="Use original, untranslated place names for lookup on Google Maps"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </LanguageSettings>
+      <NameSettings		Label="Name"
+                        T="Name Settings">
+        <TagNameFull
+                        Default="Name"
+                        T="Individual Tag to be used as the full name (used in indexes and headings)" />
+        <TagNameFormal
+                        Default="Name.First"
+                        T="Individual Tag to be used as the proper name (used in first line of narative)" />
+        <TagNameKnownAs
+                        Default="Name.Nick"
+                        T="Individual Tag to be used as the 'known as' name (displayed in first line of narrative)" />
+        <TagNameShort
+                        Default="Name.Short"
+                        T="Individual Tag to be used as the 'common' name (used elsewhere in report)" />
+        <TagNameAlternative
+                        Default="Name.Alternative"
+                        T="Individual Tag to be used as the 'alternative' name" />
+        <PhraseNameAlternative
+                        Default="{0}[{?!2}[ ({1})]]"
+                        Desc="N.B. 0=Fullname, 1=Alternative, 2=Fullname includes alternative?"
+                        T="Template for 'name with alternative' phrase" />
+        <ShowBaseNameOnly
+                        Default="N"
+                        T="Do not show name variations in index group entry"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </NameSettings>
+      <SVGSettings      Label="GenoMaps"
+                        T="SVG Genomap Settings">
+        <Svg
+                        Default="Y"
+                        T="Include SVG Genomaps in the Report"
+						Type="bool"
+                        V="2014.12.06±" />
+        <fSvgZoomExtent
+                        Default="N"
+                        T="Show initial view of the SVG graphic as the whole of the GenoMap."
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgExpandFrame
+                        Default="N"
+                        T="Maximise the 'popup' SVG frame whenever it is opened."
+                        Type="bool"
+                        V="2013.04.05±" />
+        <ShowAllAges
+                        Default="N"
+                        T="Show age in gender symbol even if individual is still living?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </SVGSettings>
+      </ParameterDescriptions>
+    <GenerationMessages>
+      <ButtonNext
+	  				    T="next" />	
+      <ButtonPrevious
+	  				    T="previous" />	
+      <Cancel
+                        T="Cancel" />
+      <CommentApplyTheme
+                        T="Applying theme '{0}'" />
+      <CommentDefaultTheme
+                        T="Copying files from default theme" />
+      <CommentDictionary
+                        T="Report Language code '{0}' Dictionary version '{1}'" />
+      <CommentMerge
+                        T="Merging {0}[ version {1}] into {2}[ version {3}]." />
+      <CommentVersion
+                        T="Report Skin version {0} [{?1} **** with modifications **** ]"
+                        V="2013.07.30±" />
+      <CommentSelectedTheme
+                        T="Copying files from selected theme" />
+      <ErrorCantLoadNameDictionary
+                        T="Error: Unable to load contents of Name Dictionary" />
+      <ErrorConfigMessageNotFound
+                        T="Config GenerationMessages: Cannot find" />
+      <ErrorCoverImage  T="Failed to load PDF cover image&#160;" V="2013.10.10"/>
+      
+                        <!-- 0=Custom Tag Name, 1=New Tag Name, Test={0}=Custom_tag|, {1}=New_Custom_tag| -->
+      <ErrorCustomDateTag
+                        T="Error Custom Tag '{0}' is invalid as it is subordinate to a GenoPro Date field, Dates may be reported incorrectly." />
+      <ErrorCustomTag
+                        T="Error Invalid Custom Tag '{0}' : tag names must start with a letter or an underscore." />
+      <ErrorCustomTagRename
+                        T="Tag should be renamed using the Tag Editor e.g. '{0}' renamed to '{1}' or tag deleted if not required." />
+      <ErrorDeleteFile
+                        T="Unable to delete existing file" />
+      <ErrorFetchHeader
+                        T="Error: Unable to retrieve 'date last modified' from HTTP header for {0}"
+                        V="2.0.1.6+" />
+      <ErrorGenoMapBounds
+                        T="Error: GenoMap '{0}' has no Boundary values set. Open that GenoMap to correct this."
+                        V="2.0.1.7RC8" />
+      <ErrorHelpSvgNames1 T="Error: 'FmtHtmlHelpSvg' ConfigMsg tag does not contain the corect number of pairs (21)"
+                          V="2011.11.04+" />
+      <ErrorHelpSvgNames2 T="Error: 'FmtHtmlHelpSvg' ConfigMsg tag does not contain the corect number of paired entries (21 x 2)"
+                          V="2011.11.04+" />
+      <ErrorInkscapeNotFound
+                        T="N.B. PDF images for GenoMaps will not be generated as the Inkscape package must be installed for this but Inkscape was not found on the path specified (or defaulted) in Config Parameter 'InkscapePath'"
+                        V="2.0.1.6+" />
+      <ErrorInkscapeRun
+                        T="Error running inkscape.exe" />
+      <ErrorIrfanviewNotFound
+                        T="N.B. Thumbnails for pictures and embedded pictures in GenoMaps will not be generated as the IrfanView package must be installed for this but IrfanView was not found on the path specified (or defaulted) in Config Parameter 'IrfanViewPath'"
+                        V="2.0.1.6+" />
+      <!-- 1=Language Markup, Test={1}={?E:test}| -->
+      <ErrorLangMarkup
+                        T="Invalid language markup: {0}" />
+      <ErrorLatLang
+                        T="Error: Unknown Latitude/Longitude format:"
+                        V="2011.01.06" />
+      <ErrorNoCachedSize
+                        T="Error: No cached size information for {}"
+                        V="2.0.1.6+" />
+      <ErrorNoCustomSkin
+                        T="Error: At present this Report can only be generated from a custom skin. Please use the 'New Skin' button above to create a custom version of this skin and run the Report again using it." />
+      <!-- 0=error number, 1=error description -->
+      <ErrorNoNameDictionary
+                        T="Error: No NameDictionary.xml file for requested language options" />
+      <ErrorPdfUpload
+                        T="Error: Failed to write Pdf to Report Folder :"
+                        V="2.0.1.6+" />
+      <ErrorPicLabelDeprecated
+                        T="Using label text 'picture=&quot;picnnnnn&quot;' for pictures in Labels is now superseded. Please use Label/SocialEntity Primary Picture and Custom Tags 'Picture.Style', 'Picture.FixRatio' and 'Picture.FitLabel' instead of text in Label/Social Entity"
+                        V="2.0.1.6+" />
+      <ErrorPictureConvert
+                        T="Error {} converting picture {} to thumbnail {}"
+                        V="2.0.1.6+" />
+      <ErrorPlaceLoop T="Error: Place hierarchy too deep or looping&#32;" V="2014.02.25+"/>
+      <ErrorRegExpBroken
+                        T="Error: ({0}: {1}) - VBScript is not installed correctly on your system. It is recommended that you download and install Windows Scripting 5.6 or 5.7 from http://www.microsoft.com/downloads" />
+      <ErrorScriptingVersion
+                        T="Error: This Report Skin requires Windows Script version 5.5 or above - Please install the latest version from the Microsoft Download Center." />
+      <ErrorSliderRange
+                        T="Config.xml parameter 'PictureInterval' must be in range 1000 - 10000 (milliseconds)" />
+      <!-- 0=object, 1=string in error, Test={0}=Individual, {1}=<?html>| -->
+      <ErrorSourceLoop T="Error: Source/Citation hierarchy too deep or looping&#32;"  V="2014.02.25+"/>
+      <ErrorTextFormat
+                        T="{0}: Invalid text format instruction: {1}" />
+      <ErrorTextSyntax
+                        T="{0}: Invalid argument syntax for text format instruction: {1}" />
+      <ErrorTextToken
+                        T="{0}: Invalid text format token: {1}" />
+      <ErrorThumbnailCheck
+                        T="Error: Unable to check if update required to thumbnail. File" />
+      <ErrorXMLEntities
+                        T="Error: The following fields contain invalid XML entities i.e. in range &amp;#0; - &amp;#31; but excluding valid entities &amp;#9;,&amp;#10; and &amp;#13; Custom Tag data including Config Parameters in Document Tags will not be processed" />
+      <!-- 0=Error reason, 1=script line number, 2=script text, 3=File details
+                        Test={0}=Invalid Entity, {1}=220, {2}=script stuff,, -->
+      <ErrorXMLLoad
+                        T="Error attempting to parse {3} data: {0} on line {1}: {2}"
+                        V="2012.07.XX±" />
+      <!--V="2.0.1.6x"         0=Error reason, 1=script line number, 2=script text -->
+      <!--<ErrorXMLLoadDic
+                        T="Warning: Unable to parse Dictionary: {0} on line {1}:&#10;&#09;{2}&#10;Some extended Dictionary elements &amp; attributes will not be available"  V="2.0.1.6x"/>-->
+      <!--<ErrorXMLLoadCfg
+                        T="Warning: Unable to parse Config.xml file: {0} on line {1}:&#10;&#09;{2}&#10;"  V="2.0.1.6x"/>-->
+      <!-- 0=Error number, 1=Error description, 2=additional info
+                        Test={0}=123456, {1}=Invalid Argument -->
+      <ErrorHttpGet
+                        T="Error {}: {} (Cannot retrieve picture {})"
+                        V="2.0.1.6+" />
+      <ErrorXMLParser
+                        T="Error: Unable to load an ActiveX control for MS XML Parser. {0}:{1}" />
+      <ErrorVB
+                        T="Error {}: {} ({})"
+                        V="2.0.1.6+" />
+      <Errorwkhtmltopdf
+                        T="Error: PDF Conversion requested but wkhtmltopdf.exe not found on path:&#32;"
+                        V="2014.02.09+" />
+      <FmtInvalidPictureID
+                        T="Picture ID {} in Label {} on GenoMap {} is invalid."
+                        V="2.0.1.6+" />
+      <!--<FmtNoDrawingObjects
+                        T="No Drawing objects for {}"  V="2.0.1.7RC1x"/>-->
+      <FmtPdfUpToDate
+                        T="Pdf for GenoMap {} is already up to date."
+                        V="2.0.1.6+" />
+      <FmtThumbnailCreate
+                        T="Updating thumbnail for {0}"
+                        V="2.0.1.6+" />
+      <FmtThumbnailUpToDate
+                        T="Thumbnail for {0} is already up to date"
+                        V="2.0.1.6+" />
+      <HeaderConfigParameters
+                        T="Click each subheading below to open or close that section. Make required changes to configuration parameters and then click 'Save changes'."
+                        V="2011.11.04±" />
+      <Marker
+                        T="?"
+                        V="2.0.1.6+" />
+      <Ok
+                        T="OK" />
+      <Parameters
+                        T="Parameter Settings" />
+      <ParametersCancelHint
+                        T="Exit this dialog and cancel report generation" />
+      <ParametersOkHint
+                        T="Exit this dialog and continue with report generation" />
+      <ParametersAbandoned
+                        T="Report generation cancelled by user during Configuration Parameters dialog" />
+      <ParametersClearOption
+                        T="To enable display of parameter settings, untick the box under 'Options' tab of this dialog." />
+      <ParametersProfile
+                        T="Profile" />
+      <ParametersDefault
+                        T="-- defaults --" />
+      <ParametersLastUsed
+                        T="-- last used --" />
+      <ParametersNew
+                        T="-- new profile --" />
+      <ParametersLoad
+                        T="Load" />
+      <ParametersLoadHint
+                        T="Load saved parameters from selected profile" />
+      <ParametersDelete
+                        T="Delete"/>
+      <ParametersDeleteHint
+                        T="Delete selected profile settings"/>
+      <ParametersSave
+                        T="Save"/>
+      <ParametersSaveHint
+                        T="Save parameters values in named profile in the Registry"/>
+      <ParametersOverride
+                        T="N.B. Display of Parameter Configuration Settings overridden by the 'ChangeParameters' Custom Tag. Clear this tag in order to use the setting from the 'Options' tab of this dialog." />
+      <ParametersSetOption
+                        T="To disable display of parameter settings, tick the box under 'Options' tab of 'Generate Report' dialog." />
+      <ProfileExisting
+                        T="Select an existing profile"/>
+      <ProfileNew
+                        T="Enter new profile name:"/>
+      <ProfileValidNew
+                        T="Choose an existing profile or new profile"/>
+      <SameTheme
+                        T="Optimized Upload - Same Theme - Copying of theme files and images suppressed.  See Config Params to override"
+                        V="2013.09.22+" />
+      <SameVersion
+                        T="Optimized Upload - Same Skin Version - Copying of Google Maps and Timeline support routines suppressed.  See Config Params to override"
+                        V="2013.09.22+" />
+      <Wait             T="Please wait...  Executing command : "
+                        V="2013.09.22+" />
+      <!-- 0=Attribute name, Test={0}=Param -->
+      <WarningAttributeKeyMissing
+                        T="Warning: StrDicAttribute. Lookup of '{0}' failed." />
+      <!-- 0=Custom Tag Name, 1=Custom Tag Layout Name Test={0}=Custom_tag, {1}=My_Tag_Layout -->
+      <WarningCustomTLayoutExcluded
+                        T="Custom Tag Layout '{0}' is marked as system or private and has been excluded" />
+      <WarningCustomTagExcluded
+                        T="Custom Tag '{0}' in Layout '{1}' is marked as system or private and has been excluded" />
+      <WarningEmptyNameDictionary
+                        T="Warning: Language option selected but Name Dictionary has no entries." />
+      <!-- This tag overrides the tag FmtTagChange in Dictionary.xml, allowing translation on the report log -->
+      <WarningDicChange
+                        T="Warning: [Dictionary Tag {1} has been replaced from version {!3} by ]Tag {0}[{?!1} [introduced at version {3} ]is missing from Dictionary and has been defaulted to '{2}]'"
+                        V="2011.9.23+" />
+      <WarningTagChange
+                        T="Warning: tag {0} introduced at version {2} is missing from Config.xml so defaulted to: {1}"
+                        V="2.0.1.6 (rev.2009.10.01)+" />
+      <WarningTitleMissing
+                        T="Title Missing! Click on the &quot;Document&quot; tab to set a title to your genealogy report." />
+      <WarningUpgrade1
+                        T="A later version of GenoPro is available" />
+      <WarningUpgrade2
+                        T="Please upgrade to ensure themes work correctly" />
+    </GenerationMessages>
+  </ReportGenerator>
+</Skin>

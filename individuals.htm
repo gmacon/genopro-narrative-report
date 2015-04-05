@@ -1,0 +1,121 @@
+<%[
+Option Explicit
+        ' module:individuals.htm version:2013.08.24
+
+        '     A big file of all individual details used to produce PDF book
+        
+]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/TimelineInfo.vbs" ]%>
+<%[
+    Dim oShell, oExec, oFso, oTLInfo, strLine, strFileName, outp, cmd, res, i
+    Set oShell = CreateObject("WScript.Shell")
+    Set oFso = CreateObject("Scripting.FileSystemObject")
+    outp = """" & Util.FirstNonEmpty(ReportGenerator.PathOutputHttp, ReportGenerator.PathOutput)
+    If Not Session("Book") Then
+        oShell.Run outp & "default.htm""",,False
+        Report.AbortPage
+    End If
+    Report.TagBr = "<br />" & vbCRLF    ' For debugging, but it does not harm to re-define the <br /> tag
+
+    If Session("Timelines") = True Then
+        Set oTLInfo = New TimelineInfo
+        'Set oLinks = Util.NewStringDictionary()
+        For Each i in Individuals
+            If Not i.Session("skip") = True Then WriteIndividualTimelineData i
+        Next
+        Report.BufferWriteToFile("timelinedata.js")
+        Report.BufferLength = 0
+    End If    
+    Dim oHyperlinkRings, oHyperlinkRingIndex, oRepertoryIndividuals
+    Set oHyperlinkRings = Session("oHyperlinkRings")
+    Set oHyperlinkRingIndex = Session("oHyperlinkRingIndex")
+    Set oRepertoryIndividuals = Session("oRepertoryIndividuals")
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[Report.Write Session("Title")]@</title>
+<script src="scripts/script.js" type="text/javascript"></script>
+<%[
+    If Session("Timelines") = True Then
+        Report.WriteLn "<script type='text/javascript'>"
+        Report.WriteLn "Timeline_ajax_url='timeline/ajax/simile-ajax-api.js';"    
+        Report.WriteLn "Timeline_urlPrefix='timeline/';"    
+        Report.WriteLn "Timeline_parameters='bundle=true';"
+        Report.WriteLn "var tl"
+        Report.WriteLn "</script>"
+        Report.WriteLn "<script src=""timeline/timeline-api.js"" type=""text/javascript""></script>"
+        Report.WriteLn "<script src=""timelinedata.js"" type=""text/javascript""></script>"
+    End If
+    Dim oStringDictionaryNames, PageBreak, o, oFamily, oRepertoryFamilies, strNameLast, cchBufferNameLast, cchBufferNames
+    Dim strTempFldr, strTempFile
+    Set oStringDictionaryNames = Session("oStringDictionaryNames")
+    Report.WriteLn "<link rel=""stylesheet"" href=""style.css"" type=""text/css""/>"
+    Report.WriteLn "<script type='text/javascript'>"
+    Report.WriteFormattedLn "addEvent(window, 'load', function() {{PageInit({}, '{}','');})", Util.IfElse(Session("ForceFrames"), "true", "false"), Session("Title")
+    Report.WriteLn "</script></head>"
+    Report.WriteLn "<body  class='gno-detail'>"
+    Report.WriteLn "<div class='cage'>"
+    PageBreak = False
+    For Each o In oRepertoryIndividuals
+        If PageBreak Then Report.WriteLn "<div style='clear:both; page-break-after: always;'><span style='display: none;'>&nbsp;</span></div>"
+        Report.WriteLn "<h1>" & o.Key & "</h1>"
+        PageBreak = False
+        Set oRepertoryFamilies = o.Object(0)
+        For Each oFamily In oRepertoryFamilies 
+            cchBufferNameLast = Report.BufferLength		' Remember the position where the last name was written
+            if PageBreak And Session("PageBreak") = "LastName" Then Report.WriteLn "<div style='clear:both; page-break-after: always;'><span style='display: none;'>&nbsp;</span></div>"
+            PageBreak = True
+            strNameLast = oFamily.Key
+            Report.WriteLn "<h2>" & Replace(strNameLast & oStringDictionaryNames.KeyValue(strNameLast), " ", "_") & "</h2>"
+            cchBufferNames = Report.BufferLength
+            For Each i In oFamily
+                If Not i.Session("skip") = True Then
+                    Report.WriteLn "<div class='clear'>"
+                    WriteIndividualBody i
+                    Report.WriteLn "</div>"
+                End If
+            Next
+            Report.WriteLn "<br />"
+        Next
+    Next
+    Report.WriteLn "<span class='clear'></span></div> <!--close cage-->"
+    Report.WriteLn "</body>"
+    Report.WriteLn "</html>"
+    Report.BufferWriteToFile "individuals.htm"
+    If Session("ConvertToPDF") Then
+        cmd = Session("wkhtmltopdfPath")
+        If InStr(cmd,"Code\")= 1 Then cmd = ReportGenerator.PathSkin & cmd
+        If Not oFso.FileExists(cmd) Then
+            Report.LogError ConfigMessage("Errorwkhtmltopdf") & cmd
+        End If
+        strTempFldr = oFso.GetSpecialFolder(2).Path & "\"
+        strTempFile = oFso.GetTempName
+        strTempFile = strTempFldr & Mid(strTempFile, 1, InstrRev(strTempFile, ".")-1) & ".pdf"
+        cmd = """" & cmd & """ " & Session("PDFMargins") & " -O " & Session("PageOrientation") & " --print-media-type --disable-external-links --page-size " & Session("PageSize") & " --no-stop-slow-scripts --outline-depth 3 --encoding utf8 " & Session("PDFOther")
+        If Session("PDFHeader") <> "" Then cmd = cmd & " " & Session("PDFHeader")
+        If Session("PDFFooter") <> "" Then cmd = cmd & " " & Session("PDFFooter")
+        If Session("PDFCover") Then
+            cmd = cmd & " cover " & outp & "cover.htm"" --footer-center """ & _
+            Util.FormatPhrase(StrDicExt("FmtPDFCoverFooter","","Generated by GenoPro {0} using {1}skin [{2} (]{3} {4}[{?2})][ &amp; profile '{5}']","","2013.09.22"), ReportGenerator.SoftwareVersion, Util.IfElse(Session("SkinModified"),Dic("Custom") & " ", ""),Session("SkinFolder"), ReportGenerator.SkinName, Session("SkinVersion"), Session("SavedProfile")) & _
+            """  --footer-font-size 6"
+        End If
+        If Session("PDFTOC") Then cmd = cmd & " toc --xsl-style-sheet """ & Session("toc.xsl") & """"
+        If Session("PDFIntro") Then cmd = cmd & " " & outp & "introduction.htm"""
+        cmd = cmd & " " & outp & "individuals.htm"" " & strTempFile
+        Report.LogComment ConfigMessage("Wait") & cmd
+        res = oShell.Run(cmd,,True)
+        oFso.DeleteFile(Session("toc.xsl"))
+        strFileName = ReportGenerator.Document.FileName
+        strFileName=Mid(strFileName, 1, InstrRev(strFileName, ".")) & "pdf"
+        ReportGenerator.FileUpload strTempFile, strFileName
+        oFso.DeleteFile(strTempFile)
+        res = oShell.Run(outp & strFileName & """")
+    End If
+]%>

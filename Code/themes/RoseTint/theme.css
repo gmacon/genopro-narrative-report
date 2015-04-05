@@ -1,0 +1,71 @@
+/* Narrative Report Theme CSS file
+ the classes gno-heading, gno-index, gno-detail, anbd gno-popup defined below are applied to <body> tags of all pages thatare 
+ displayed in the heading, toc, detail and popup frames respectively.
+ 
+ all images must be loaded from the reports images folder. Any non default images must be present in the theme folder
+ (and referenced in the files.txt file if GenoPro 2.5.3.6 or below) and will be automatically copied to the report's images folder by the skin.
+
+*/
+
+/* the line below removes frame borders if Config Param 'FrameBorders' is set to 'Auto'. This cannot be done via CSS but the text below is 
+   detected in the skin and acted upon by setting border="0" frameborder="no" in the frameset tag in default.htm.
+   
+            set frameborder=0
+            
+*/
+/*  This file can also contain any custom stylesheet file contents used in earlier releases of the skin
+*/
+/* RoseTint 2011.04.05 */
+/* RoseTint updated 2012.08.26 with calendar and title theme, background image removed */
+
+body {background: #F3F1F1 none; font-style: italic; color: #932F6E;}
+body.gno-heading {background-color: #F2DFE1;}
+body.gno-index {margin: 0px;}
+body.gno-detail {}
+body.gno-popup {}
+img.button32,img.button24,img.control24 {background:none;}
+img.toggle24 {background:url(images/button24.gif);}
+
+table
+{
+font-size: 0.75em;background-color:#F3F1F1;
+}
+tr td
+{
+background-color:#F3F1F1;
+}
+th
+{
+background-color:#F6EEEE;
+}
+
+h2 { color: #E25991; }
+h3 { color: #E25991; } 
+h4 { color: #E25991; }
+h5 { color: #E25991; }
+h6 { color: #E25991; display: inline; }
+
+a:link { color: #E25991; text-decoration: none; }
+a:visited { color: #E25991; text-decoration: none; }
+a:active { color: #E25991; text-decoration: none; }
+a:hover { color: #E25991; text-decoration: underline; }
+
+#menu li a {background:#E25991; color:#EFE1E1;border-top: 3px solid #EFE1E1;}
+#menu li a:hover {background: #F3F1F1 url(images/arrow.gif) no-repeat center bottom; color:#9C4252;}
+
+.subhead { color: #E25991;}
+.citation {margin: 0px; padding: 0px; border:none; font-size: 0.750em; background: none;}
+.citationpic {margin: 0px 0px 0px 0px; padding: 0px; border:none; font-size: 0.750em; border-color:none; background: none;}
+.infoWindow {font-size: 0.750em;}
+.footnote {font-size: 0.750em;font-style: normal;}
+.langtoggle {font-size: 0.75em;}
+.std {font-size:1em;}
+.themed {background-color:#EFE1E1;color:#E25991;}
+.tiny {font-size: 2px;}
+
+.curvyboxbackground{
+	background:#F3F1F1;
+	}
+.curvycorners_box {
+   background: #EFE1E1;
+}

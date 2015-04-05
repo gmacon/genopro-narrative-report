@@ -1,0 +1,92 @@
+﻿<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[
+Dim strTitle, strContents
+strTitle = Util.HtmlEncode(Session("Title"))
+strContents = Util.HtmlEncode(StrDicExt("Toc","","Contents","","213.09.22"))
+If Not Session("Book") Then Report.AbortTemplate
+]%><?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:outline="http://code.google.com/p/wkhtmltopdf/outline"
+                xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+              indent="yes" />
+  <xsl:template match="outline:outline">
+    <html>
+      <head>
+        <title>@[Report.WriteText strTitle]@</title>
+        <style>
+          hb {
+            text-align: center;
+            font-size: 20px;
+            font-family: arial;
+          }
+          div {border-bottom: 1px dashed rgb(200,200,200);}
+          span {float: right;}
+          li {list-style: none;}
+          ul {
+            font-size: 20px;
+            font-family: arial;
+          }
+          ul ul {font-size: 80%; }
+          ul {padding-left: 0em;}
+          ul ul {padding-left: 1em;}
+          a {text-decoration:none; color: black;}
+        </style>
+      </head>
+      <body>
+        <hb>@[Report.WriteText strContents]@</hb>
+        <ul>
+            <xsl:apply-templates select="outline:item/outline:item">
+                <xsl:with-param name="maxlevel" select="3"/>
+                <xsl:with-param name="level" select="1"/>
+            </xsl:apply-templates>
+        </ul>
+      </body>
+    </html>
+  </xsl:template>
+  <xsl:template match="outline:item">
+  <xsl:param name="maxlevel"/>  
+  <xsl:param name="level"/>  
+  <li>
+        <xsl:message>
+            <xsl:value-of select="concat($level,' of ',$maxlevel)" />
+        </xsl:message>
+      <xsl:if test="@title!='' and $level &lt;= $maxlevel">
+        <div>
+          <a>
+            <xsl:if test="@link">
+              <xsl:attribute name="href"><xsl:value-of select="@link"/></xsl:attribute>
+            </xsl:if>
+            <xsl:if test="@backLink">
+              <xsl:attribute name="name"><xsl:value-of select="@backLink"/></xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="@title" /> 
+          </a>
+          <span> <xsl:value-of select="@page" /> </span>
+        </div>
+      </xsl:if>
+      <ul>
+        <xsl:apply-templates select="outline:item">
+            <xsl:with-param name="maxlevel" select="$maxlevel"/>
+            <xsl:with-param name="level" select="$level+1"/>
+        </xsl:apply-templates>
+        </ul>
+    </li>
+  </xsl:template>
+</xsl:stylesheet>
+<%[
+    Dim oFso, strTempFldr, strTempFile, oTmp
+    Set oFso = CreateObject("Scripting.FileSystemObject")
+    strTempFldr = oFso.GetSpecialFolder(2).Path & "\"
+    strTempFile = oFso.GetTempName
+    strTempFile = strTempFldr & Mid(strTempFile, 1, InstrRev(strTempFile, ".")-1) & ".xsl"
+    Session("toc.xsl") = strTempFile
+    Set oTmp = oFso.CreateTextFile(strTempFile,False,True)
+    oTmp.Write(Report.Buffer)
+    oTmp.Close
+    Report.LogComment strTempFile
+    Report.AbortTemplate
+]%>

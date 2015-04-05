@@ -1,0 +1,69 @@
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+Set oStringDictionaryNames = Session("oStringDictionaryNames")
+strTitle = Dic("TocAlphabeticalIndex")
+
+
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteText strTitle ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+</head>
+<body class='gno-index' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '');">
+<div class='floatright'>
+@[WriteHtmlButtonToggle("HidePopUp")]@
+</div>
+<a name='AlphabeticalIndex'/>
+<h2 class="h3">@[ Report.WriteTextDic "TocAlphabeticalIndex" ]@</h2>
+<%[
+strNoName = Dic("_NoName")
+Set oStringDictionaryFirstChar = Session("oStringDictionaryFirstChar")
+Set oRepertoryNoLastName = Session("oRepertoryNoLastName")
+Set oRepertoryIndividuals = Session("oRepertoryIndividuals")
+
+If (Not Util.IsNothing(oRepertoryIndividuals)) Then
+	For Each o In oRepertoryIndividuals
+		strFirstChar = o.Key
+        Report.WriteFormatted "<a href='#{0&t}'>{0&t}</a> &nbsp; ", strFirstChar
+	Next
+	If (oRepertoryNoLastName.Count > 0) Then
+		Report.WriteFormatted "<a href='toc_individuals.htm#{0&t}' target='toc'>{0&t}</a>", strNoName
+	End If
+	
+	Report.WriteLn "<blockquote>"
+
+	strFmtTemplate = "{}<a href='toc_individuals.htm#{1&t}' target='toc'>{1&t}</a>&nbsp;" & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16")
+	If Session("fUseTreeIndexes") Then strFmtTemplate = "{}<a href='toc_individuals.htm#{1&t}' onclick='javascript:explorerTreeOpenTo(mytop.frames[""toc""], ""names"",""{1&j}"", 0, 1, ""2"");tocShow();' target='toc'>{1&t}</a>&nbsp;" & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16")
+
+	For Each o In oRepertoryIndividuals
+		strFirstChar = o.Key
+		Set oRepertoryFamilies = o.Object(0)
+	        Report.WriteFormattedBr "<a name='{0&t}' ></a> <b> - {0&t} - </b>&nbsp; <small>{}</small>", strFirstChar, o.Object(1)
+ 	        strSeparator = ""
+	        For Each oFamily In oRepertoryFamilies 
+        		strNameLast = oFamily.Key
+			Report.WriteFormatted strFmtTemplate, strSeparator, Replace(strNameLast, " ", "_"), oFamily.Count
+			strSeparator = ",&nbsp; "
+        	Next
+        	Report.WriteBr "<br />"
+	Next
+	Report.WriteLn "</blockquote>"
+
+End If
+]%>
+<%[WriteHtmlFramesetSafeguard(oStringDictionaryNames.Count)]%>
+</body>
+</html>

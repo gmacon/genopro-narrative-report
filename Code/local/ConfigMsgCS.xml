@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin
+                        Language="CS"
+                        Name="Zpráva o rodokmenu">
+   <Version>2013.09.17</Version>
+  <!-- Historie změn
+         Změny jsou označeny přidáním atributu 'V' u XML elementu, popř. atributu 'V' v komentářích
+         v následujícím formátu:
+
+                        V="a.b.c.dx?"
+
+        kde a.b.c.d je číslo verze, x je nepovinná subverze a ? je typ změny dle:
+
+            + značí přidání
+            x značí odebrání
+            ± značí změnu
+            ~ značí přemístění nahoru nebo dolů
+    -->
+  <ReportGenerator
+                        ScriptLanguage="VBScript">
+    <ParameterDescriptions
+                        TextDirection="ltr">
+      <!-- Poznámka pro překladatele: Lze měnit libovolný text zde obsažený kromě textu před znakem ':' v atributech O1, O2 atd. Např. O1="Y:Ano" je OK, ale v pořádku není O1="A:Ano" -->
+      <Description Label="O tématu vzhledu" T="O tématu vzhledu">
+          <Comments               T="Téma vzhledu vytváří rozsáhlý, indexovaný výstup v podobě webových stránek ve formátu HTML. Výstup je vytvořený tak, že zobrazuje všechny informace dostupné v souboru pro GenoPro. &#10;
+                                    Obsahem výstupu jsou stránky pro každou osobu a rodinu, fotky, rodinné stromy, časové osy s událostmi, výstupy ve formátu SVG a PDF, místa výskutů na Mapách Google, grafy předků a potomků. &#10;
+                                    &lt;span class='bold'&gt;** Je důležité vědět&lt;/span&gt;, že webové stránky jsou zpracovávány pomocí webového serveru (jako např. familytrees.genopro.com)\
+                                    přes protokoly HTTP nebo HTTPS. Jestliže je výstup vytvořen a prohlížen lokálně\
+                                    na PC přes výchozí protokol FILE, pak &lt;span class='bold'&gt;nemusí být dostupný veškerý publikovaný obsah narozdíl od online verze výstupu&lt;/span&gt;. Částečně se to může projevit i při použití prohlížeče založeného na renderovacím jádru WebKit.\
+                                    Je způsobeno faktem, že soubory v adresářích neodpovídají 'stejné doméně'.  &#10;
+                                       Jestliže není v dispozici žádný použitelný webový server, pak se doporučuje jednoduchý webový server jako je Mongoose nebo nginx.&#10;
+                                      Klikněte na další záložky a proveďte nastavení požadovaných vlastností.  Každé nastavení lze uložit jako pojmenovaný profil pomocí tlačítek níže."
+                                  Type="about" V="2013.07.30+"/>
+      </Description>
+      <ThemeSettings	Label="Téma"
+                        T="Nastavení vzhledu">
+      <StyleSheet
+                        Default="Default_2"
+                        Desc="Nastavení výchozího tématu vzhledu"
+                        O1="Default_2:Výchozí téma s ikonami v nabídce a zaoblená okna v boxech"
+                        O2="Default_3:Výchozí téma s textem v nabídce a zaoblená okna v boxech"
+                        O3="AcornOliveTeal_2:Olivově-zeleno-modré téma s ikonami v nabídce a zaoblená okna v boxech"
+                        O4="AcornOliveTeal_3:Olivově-zeleno-modré téma s textem v nabídce a zaoblená okna v boxech"
+                        O5="Blood_3:Červená s textem v nabídce a zaoblená okna v boxech"
+                        O6="BlueDNA_3:Modré DNA s textem v nabídce a zaoblená okna v boxech"
+                        O7="GreenLeaf_2:Zelený list s ikonami v nabídce a zaoblená okna v boxech"
+                        O8="GreenLeaf_3:Zelený list s textem v nabídce a zaoblená okna v boxech"
+                        O9="OliveBranch_2:Olivová větev téma s ikonami v nabídce a zaoblená okna v boxech"
+                        O10="OliveBranch_3:Olivová větev s textem v nabídce a zaoblená okna v boxech"
+                        O11="RoseTint_3:Růžový nádech s textem v nabídce a zaoblená okna v boxech"
+                        T="Vyberte požadované téma pomocí šipek. Pro zobrazení detailů najeďte korzorem nad obrázek"
+                        Type="theme" />
+      </ThemeSettings>
+      <ContentSettings Label="Obsah" T="Obsah" V="2013.07.30+">
+      <fHideFamilyDetails
+                        Default="Y"
+                        Desc="V případě zatržení jsou na stránkách o osobě skryté detailní informace o rodině a je uveden pouze odkaz na informace o rodině. V opačném případě jsou na stránkách o osobě zobrazeny i detailní informace o rodině. Výchozí hodnota je zatrženo."
+                        T="Skrýt detaily o rodině na stránce o osobě?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <PedigreeCharts
+                        Default="Y"
+                        T="Zobrazit strom předků na stránce o osobě?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <Calendar
+                        Default="Y"
+                        T="Zobrazit výročí narozenin a sňatků v kalendáři událostí?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <ShowDescendantTreeIcon
+                        Default="Y"
+                        T="Přidat odkaz na 'Strom potomků' pomocí ikony za názvem osoby"
+                        Type="bool"
+                        Desc="Je použito pro osoby, které mají nastaven vlastní tag DescendantTreeChart. Vlastní grafy jsou vytvořeny odděleně pomocí pomocí výstupu s názvem 'Descendant Tree Chart'."
+                        V="2013.07.30+" />
+      <OptimizeUpload
+                        Default="Y"
+                        T="Nahrávat pomocné soubory jen při změně verze"
+                        Desc="Theme files, Timeline and Google scripts not uploaded again if destination already has a report of the same version"
+                        Type="bool"
+                        V="2013.08.22+" />
+      </ContentSettings>
+      <PDFSettings      Label="PDF výstup"
+                        T="Nastavení PDF výstupu">
+        <Book           Default="N"
+                        T="Vytvoří výstup v PDF místo v HTML"
+                        Type="bool"
+                        V="2013.09.08" />
+        <PDFOrientation Default="Portrait"
+                        T="Orientace stránky"
+                        O1="Portrait:Na výšku"
+                        O2="Landscape:Na šířku"
+                        V="2013.09.17"
+                        />
+        <PDFPageSize    Default="A4"
+                        T="Velikost papíru"
+                        O1="A4:A4"
+                        O2="Letter:Letter"
+                        V="2013.09.17"
+                        />
+        <PDFTOC         Default="N"
+                        T="Vytvořit obsah"
+                        Type="bool"
+                        V="2013.09.08" />
+        <PDFPageBreak   Default="LastName"
+                        T="Vložit konce stránek"
+                        O1="LastName:při každé změně příjmení"
+                        O2="FirstCharacter:při změně prvního písmene v příjmení"
+                        V="2013.09.15"
+                        />
+      </PDFSettings>
+      <PresentationSettings	Label="Prezentace"
+                        T="Další nastavení vzhledu">
+        <TitlePosition
+                        Default="B"
+                        O1="B:V pruhu ve spodní části úvodního bloku"
+                        O2="T:V pruhu v horní části úvodního bloku"
+                        O3="H:Na vrcholu domovské stránky"
+                        O4="C:Na řádce s ikonami na úvodním panelu bez obrázku"
+                        T="Pozice názvu stránek?"
+                        V="2013.02.17"
+                        />
+      <FontFamily       Default="Arial, Helvetica"
+                        T="CSS Font Family"
+                        Size="30"
+                        Type="text"
+                        V="2013.02.17"
+                        />
+      <fAutoHideTOC
+                        Default="Y"
+                        Desc="V případě zatržení je při zobrazení úvodní stránky nebo po výběru z rejstříku rejstřík osob skrytý. V opačném případě je vždy zobrazený. Výchozí hodnota je zatrženo."
+                        T="Automaticky skrývat rejstřík?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fJoinPlaceNames
+                        Default="N"
+                        Desc="V případě zatržení jsou zobrazeny složené názvy místa zřetězením míst dle hierarchie. Jedná se o seznam oddělený pomocí čárek ve tvaru město, stát, země. V opačném případě je uveden pouze název místa bez hierarchie. Výchozí hodnota je nezatrženo."
+                        T="Zobrazit složená místa zřetězením názvů dle hierarchie?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fJoinSourceCitationNames
+                        Default="N"
+                        Desc="V případě zatržení jsou zobrazeny složené názvy zdrojů/citací zřetězením zdrojů/citací dle hierarchie. Jedná se o seznam oddělený pomocí @ (ve tvaru kniha na polici v knihovně). V opačném případě je uveden pouze název zdroje/citace bez hierarchie. Výchozí hodnota je nezatrženo."
+                        T="Zobrazit zdroje/citace zřetězením názvů dle hierarchie?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fIndexChildPlacesAndSources
+                        Default="Y"
+                        Desc="V případě zatržení jsou pod příslušné písmeno v indexu míst/zdrojů v případě hierarchie zobrazena jak podřízená místa/zdroje, tak i nadřízená místa/zdroje. V opačném případě jsou pod příslušné písmeno v indexu zařazena pouze nadřízená místa/zdroje. Výchozí hodnota je zatrženo."
+                        T="Zobrazit hierarchii míst/zdrojů v indexu odděleně?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseNotes
+                        Default="Y"
+                        T="Ve výchozím stavu zobrazit všechny poznámky 'sbalené'?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseReferences
+                        Default="Y"
+                        T="Ve výchozím stavu zobrazit všechny podsekce a odkazy 'sbalené'?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <NestSourceRefs
+                        Default="N"
+                        T="Přidat odkazy na zdroje/citace do rozbalovací sekce?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <cTocExpand
+                        Default="1000"
+                        Desc="Zadává se číslo, které určuje, zda jsou indexy ve formě stromu ve výchozím stavu 'sbalené' nebo 'rozbalené'. Hodnota -1 značí vždy rozbalený index, hodnota 0 značí nerozbalený index, jiná hodnota znamená počet záznamů, nad který se indexy zobrazují jako 'sbalené'."
+                        Size="6"
+                        T="Limit pro počet záznamů, nad který se indexy zobrazují jako 'sbalené'"
+                        Type="int" />
+      <ContactTitle
+                        Default="TSOCI"
+                        Desc="T= název, S= přehled (Tel, Fax, Email, Mob, Web), O= místo kontaktu, C= první řádek komentáře, I= ID kontaktu"
+                        T="Pořadí řazení kontaktů"
+                        V="2009.11.15" />
+      <FrameBorder
+                        Default="Auto"
+                        Desc="V případě, že okraje rámců nejsou zobrazeny, nejde měnit jejich velikost."
+                        O1="Auto:nastavení dle tématu"
+                        O2="Yes:zobrazit okraje rámců"
+                        O3="No:skrýt okraje rámců"
+                        T="Zobrazit okraje rámců?" />
+      <ForceFrames
+                        Default="Y"
+                        Desc="V případě použití programu Acrobat Pro pro vytvoření PDF verze stránek nastavte na nezatrženo. Výchozí hodnota je zatrženo."
+                        T="Vynutit zobrazení stránek bez rámců (pro tvorbu PDF)?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <PrintWidth
+                        Default="184mm"
+                        Desc="Výchozí šířka je vhodná pro velikost stránky A4."
+                        Size="6"
+                        T="Výchozí šířka při tisku (tip: před tiskem zavřete rejstřík)"
+                        Type="text" />
+      </PresentationSettings>
+      <PictureSettings	Label="Obrázky"
+                        T="Nastavení obrázků">
+        <fAddGenericImage
+                        Default="N"
+                        Desc="Použije se obrázek siluety v případě, že není k dispozici fotografie osoby. Výchozí hodnota je nezatrženo."
+                        T="Použít obrázek siluety v případě, že není k dispozici fotografie osoby?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowPictureDetails
+                        Default="N"
+                        Desc="V případě zatržení jsou zobrazeny podrobné informace o obrázcích na stránce o osobě a rodině. Tyto informace jsou vždy zobrazeny na stránkách 'picture-&lt;pictureid&gt;.htm' a 'pictures.htm'. V opačném případě nejsou podrobné informace zobrazeny. Výchozí hodnota je nezatrženo."
+                        T="Zobrazit podrobné informace o obrázcích na stránce o osobě a rodině?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fHidePictureName
+                        Default="N"
+                        Desc="V případě zatržení je skryt název obrázku umístěný pod obrázkem (ve výchozím stavu jde o název souboru). V opačném případě je název obrázku zobrazen. Výchozí hodnota je nezatrženo."
+                        T="Skrýt název obrázku umístěný pod obrázkem?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fUsePictureThumbnails
+                        Default="Y"
+                        T="Použít náhledy obrázků?"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <fUsePictureId
+                        Default="N"
+                        T="Použít ID obrázku místo názvu obrázku?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowTechnicalData
+                        Default="Y"
+                        T="Zobrazovat technická data k obrázkům?"
+                        Type="bool"
+						V="2012.07.XX+" />
+        <PictureSizeLarge
+                        Default="250x250"
+                        Size="9"
+                        T="Velikost většího obrázku - šířka x výška (pixely)" />
+        <PictureSizeSmall
+                        Default="100x100"
+                        Size="9"
+                        T="Velikost menšího obrázku - šířka x výška (pixely)" />
+        <PicturePadding
+                        Default="15"
+                        Size="2"
+                        T="Okraje obrázku (pixely)"
+                        Type="int" />
+        <PictureInterval
+                        Default="4000"
+                        Size="5"
+                        T="Interval pro přepnutí při prezentaci obrázků v rozsahu 1000 - 10000 (milisekund)"
+                        Type="int" />
+      </PictureSettings>
+      <ThumbnailSettings Label="Náhledy"
+                        T="Nastavení náhledů">
+        <ThumbnailCreate
+                        Default="Y"
+                        Desc="V případě zatržení se vytváří zmenšené náhledy obrázků v podadresáři 'thumbnails' uvnitř výstupního adresáře pomocí programu IrfanView. Velikost náhledu je shodná s hodnotou parametru 'Velikost většího obrázku' při rozlišení 72 DPI v části nastavení obrázků. Náhledy se vytváří i pro obrázky zobrazené na SVG a PDF výstupu. V opačném případě se náhledy k obrázkům nevytváří a je také možné nastavit parametr 'Použít náhledy obrázků?' v části Nastavení obrázků na Ne. Výchozí hodnota je zatrženo."
+                        T="Vytvářet náhlady obrázků?"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <ThumbnailDpi
+                        Default="72"
+                        Size="3"
+                        T="Bodů na palec (DPI)"
+                        Type="int" />
+        <ThumbnailQuality
+                        Default="70"
+                        Size="3"
+                        T="Kvalita JPEG (1-100)"
+                        Type="int" />
+        <IrfanViewPath
+                        Default="%ProgramFiles%\IrfanView\i_view32.exe"
+                        T="Cesta k programu IrfanView použitého na vytváření náhledů (výchozí {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      </ThumbnailSettings>
+      <MapSettings		Label="Mapy Google"
+                        T="Nastavení pro Mapy Google">
+        <GoogleMaps
+                        Default="Y"
+                        Desc="Vlastnosti pro konkrétní místo lze upravit následovně. Volbou Nástroje/Editor polí vytvořte na záložce 'Místo' nové rozvržení dialogu s názvem 'Mapping' a popisem '_Mapping' (úvodní _ je důležité, protože zamezuje zobrazení vlastních tagů v části 'Další informace o místě'). Pod tímto rozvržením přidejte následující vlastní tagy: Map.Google.Zoom, Map.Google.Type, Map.Google.Width &amp; Map.Google.Height. Pak lze použít nová záložka pro úpravu vlastností mapy pro každé místo zvlášť."
+                        T="Zobrazit 'Mapy Google' na stránkách o místech?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <GoogleMapsType
+                        Default="1"
+                        O1="1:mapa"
+                        O2="2:satelitní"
+                        O3="3:hybridní"
+                        O4="4:terénní"
+                        T="Výchozí typ pro zobrazené 'Mapy Google'" />
+        <GoogleMapsSmall
+                        Default="400x250"
+                        Size="9"
+                        T="Velikost 'Mapy Google', když místo má přiřazené obrázky - šířka x výška (pixely)" />
+        <GoogleMapsLarge
+                        Default="650x250"
+                        Size="9"
+                        T="Velikost 'Mapy Google', když místo nemá přiřazené obrázky - šířka x výška (pixely)" />
+        <GoogleMapsZoom
+                        Default="7"
+                        Size="2"
+                        T="Výchozí přiblížení pro 'Mapy Google' (1-13)"
+                        Type="int" />
+        <fGoogleMapsLink
+                        Default="Y"
+                        Desc="V případě zatržení je ve vlastnostech místa zobrazen odkaz na 'Mapy Google'. V opačném případě je ve vlastnostech místa rozbalovací část s mapou. Výchozí hodnota je zatrženo."
+                        T="Zobrazit ve vlastnostech místa odkaz na 'Mapy Google'?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fGoogleMapsOverview
+                        Default="Y"
+                        T="Zobrazit v hlavním menu odkaz na 'Mapy Google' obsahující všechna místa se zadanými souřadnicemi?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </MapSettings>
+      <TimelineSettings Label="Časová osa"
+                        T="Nastavení časové osy">
+        <Timelines
+                        Default="Y"
+                        Desc="V případě zatržení je ve výstupu zobrazena časová osa událostí u osoby, rodiny i GenoMapy (http://www.simile-widgets.org/timeline/). V opačném případě zobrazená není. Výchozí hodnota je zatrženo."
+                        T="Zobrazit časovou osu pro osoby, rodiny a GenoMapy?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineShowDuration
+                        Default="Y"
+                        T="Zobrazit trvání událostí pomocí barevných pruhů?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineContemporary
+                        Default="Y"
+                        Desc="V případě zatržení jsou na časové ose zobrazeny pruhy i pro neukončené události (např. žijící osoby). O opačném případě zobrazeny nejsou. Výchozí hodnota je zatrženo."
+                        T="Zobrazit pruhy na časové ose pro neukončené události?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEvents
+                        Default="N"
+                        Desc="V případě zatržení jsou na časové ose pro osoby a rodiny zobrazeny nepřekrývající se události na stejných řádcích. Události jsou pak přidány v opačné časovém pořádku. V opačném případě je na časové ose pro každou událost použit jeden řádek. Výchozí hodnota je nezatrženo."
+                        T="Zobrazit na časové ose pro osoby a rodiny nepřekrývající se události na stejných řádcích?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEventsMap
+                        Default="Y"
+                        Desc="V případě zatržení jsou na časové ose pro GenoMapy zobrazeny nepřekrývající se události na stejných řádcích. Události jsou pak přidány v opačné časovém pořádku. V opačném případě je na časové ose pro každou událost použit jeden řádek. Výchozí hodnota je zatrženo."
+                        T="Zobrazit na časové ose pro GenoMapy nepřekrývající se události na stejných řádcích?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineMinEventsIndividual
+                        Default="2"
+                        Size="2"
+                        T="Minimální počet událostí pro zobrazení časové osy pro stránku o osobě"
+                        Type="int" />
+        <TimelineMinEventsFamily
+                        Default="2"
+                        Size="2"
+                        T="Minimální počet událostí pro zobrazení časové osy pro stránku o rodině"
+                        Type="int" />
+      </TimelineSettings>
+      <ServicesSettings Label="Statistiky"
+                        T="Nastavení webových služeb">
+        <GoogleAnalyticsAccount
+                        Default=""
+                        Desc="V případě, že chcete přidat kód pro započítávání statistik do Google Analytics, zadejte číslo účtu pro Google Analytics (ve formátu UA-XXXXXXXX-Y)."
+                        T="Google Analytics: číslo účtu (ve formátu UA-XXXXXXXX-Y)" />
+        <GoogleAnalyticsDomain
+                        Default=""
+                        T="Google Analytics: přípona domény v případě použití více subdomén" />
+      </ServicesSettings>
+      <LanguageSettings Label="Jazyk"
+                        T="Jazykové nastavení">
+        <LangPossessiveLookup
+                        Default="N"
+                        T="Použít NameDictionary pro definování přivlastňovacích podstatných jmen?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangLocativeLookup
+                        Default="N"
+                        T="Použít NameDictionary pro definování lokálu (v češtině 6. pádu)?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangBaseNameLookup
+                        Default="N"
+                        T="Použít NameDictionary pro definování základu nebo kořene slova?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangNames
+                        Default=""
+                        Size="3"
+                        T="Pro použití NameDictionary pro překlad jmen do výstupního jazyka, nastavte kód jazyka, ze kterého se překládá." />
+        <LangPlace
+                        Default=""
+                        Size="3"
+                        T="Pro použití NameDictionary pro překlad míst do výstupního jazyka, nastavte kód jazyka, ze kterého se překládá." />
+        <LangOccupation
+                        Default=""
+                        Size="3"
+                        T="Pro použití NameDictionary pro překlad povolání do výstupního jazyka, nastavte kód jazyka, ze kterého se překládá." />
+        <LangAlternative
+                        Default=""
+                        Size="3"
+                        T="Kód jazyka, do kterého je překládáno alternativní jméno přes NameDictionary." />
+        <LangHtmlCulture
+                        Default=""
+                        Size="2"
+                        T="Podtyp nebo dialekt pro HTML 'Content-Language', např. 'us' pro 'en-us'" />
+        <LangNameDictionary
+                        Default="NameDictionary.xml"
+                        T="Název souboru použitý pro jazykové překlady a výjimečné případy podstatných jmen (výchozí {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+        <LangShowOthers
+                        Default="N"
+                        T="Zobrazit jiné jazyky ve vícejazyčných polích?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangShowDefault
+                        Default="EN"
+                        Size="3"
+                        T="Výchozí jazyk pro vícejazyčná pole, kde nelze nalézt jazyk šablony" />
+        <TextDirection
+                        Default=""
+                        O1=":nepřepisovat"
+                        O2="rtl:zprava doleva"
+                        O3="ltr:zleva doprava"
+                        T="Směr textu (má přednost před ostatními nastaveními)" />
+        <OriginalNamesCharts
+                        Default="N"
+                        T="Použít původní nepřeložená jména ve vývodu předků?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesTimelines
+                        Default="N"
+                        T="Použít původní nepřeložená jména v časové ose?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesGoogleMaps
+                        Default="N"
+                        T="Použít původní nepřeložená jména míst při hledání pro Mapy Google?"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </LanguageSettings>
+      <NameSettings		Label="Jména"
+                        T="Nastavení jmen">
+        <TagNameFull
+                        Default="Name"
+                        T="Tag pro osobu použitý jako celé jméno (použito v rejstřících a nadpisech)" />
+        <TagNameFormal
+                        Default="Name.First"
+                        T="Tag pro osobu použitý jako vlastní jméno (použito na prvním řádku zprávy)" />
+        <TagNameKnownAs
+                        Default="Name.Nick"
+                        T="Tag pro osobu použitý jako 'Přezdívka' (použito na prvním řádku zprávy)" />
+        <TagNameShort
+                        Default="Name.Short"
+                        T="Tag pro osobu použitý jako běžné jméno (použito jinde ve zprávě)" />
+        <TagNameAlternative
+                        Default="Name.Alternative"
+                        T="Tag pro osobu použitý jako 'Jiná jména'" />
+        <PhraseNameAlternative
+                        Default="{0}[{?!2}[ ({1})]]"
+                        Desc="0=celé jméno, 1=jiné jméno, 2=celé jméno včetně jiného"
+                        T="Šablona pro frázi 'jméno s alternativním'" />
+        <ShowBaseNameOnly
+                        Default="N"
+                        T="Nezobrazovat varianty jména v rejstříku"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </NameSettings>
+      <SVGSettings      Label="GenoMapy"
+                        T="Nastavení SVG/PDF">
+        <SvgPdf
+                        Default="SVGPDF"
+                        Desc="V případě zahrnutí PDF je pro úspěšný výstup potřeba program InkScape na konverzi ze SVG do PDF."
+                        O1="SVG:pouze SVG"
+                        O2="PDF:pouze PDF"
+                        O3="SVGPDF:oba a SVG jako výchozí"
+                        O4="PDFSVG:oba a PDF jako výchozí"
+                        O5="None:žádný"
+                        T="Zahrnout formát SVG a/nebo PDF GenoMapy do výstupu?"
+                        V="2.0.1.6±" />
+        <fSvgZoomExtent
+                        Default="N"
+                        T="Zobrazit výchozí pohled se SVG jako celek na GenoMapě?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgExpandFrame
+                        Default="N"
+                        T="Zobrazit rámec se SVG ve výchozím stavu maximalizovaný?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgCompress
+                        Default="Y"
+                        T="Komprimovat soubory SVG?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <ShowAllAges
+                        Default="N"
+                        T="Zobrazit aktuální věk uvnitř symbolu pohlaví i pro žijící osoby?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <PdfToolbar
+                        Default="Y"
+                        T="Zobrazit lištu pro PDF Reader (Adobe)?"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <PdfZoom
+                        Default="100"
+                        Size="2"
+                        T="Initial PDF Zoom %? (Adobe only)"
+                        Type="int"
+                        V="2013.02.17+" />
+        <InkscapePath
+                        Default="%ProgramFiles%\Inkscape\inkscape.exe"
+                        T="Cesta k programu Inkscape použitého na konverzi SVG na PDF (výchozí {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      </SVGSettings>
+      </ParameterDescriptions>
+    <GenerationMessages>
+      <ButtonNext
+	  				    T="další" />
+      <ButtonPrevious
+	  				    T="předchozí" />
+      <Cancel
+                        T="Storno" />
+      <CommentApplyTheme
+                        T="Používání tématu '{0}'" />
+      <CommentDefaultTheme
+                        T="Kopírování souborů z výchozího tématu:" />
+      <CommentDictionary
+                        T="Jazykový kód zprávy '{0}' verze slovníku '{1}'" />
+      <CommentMerge
+                        T="Slučování {0}[ verze {1}] do {2}[ verze {3}]." />
+      <CommentVersion
+                        T="Verze vzhledu {0} [{?1} **** se změnami **** ]"
+                        V="2013.07.30±" />
+      <CommentSelectedTheme
+                        T="Kopírování souborů z vybraného tématu" />
+      <ErrorCantLoadNameDictionary
+                        T="Chyba: není možné načíst obsah pro 'Slovník jmen'" />
+      <ErrorConfigMessageNotFound
+                        T="Nelze najít nastavení GenerationMessages" />
+      <!-- 0=Název vlastního pole, 1=Nové vlastní pole, Test={0}=Vlastni_pole|, {1}=Nove_vlastni_pole| -->
+      <ErrorCustomDateTag
+                        T="Chyba: Vlastní pole '{0}' je chybné, protože je odvozené od datového pole. Datová pole mohou být zobrazena nesprávně." />
+      <ErrorCustomTag
+                        T="Chyba v názvu vlastního pole '{0}': název musí začínat písmenem nebo podtržítkem." />
+      <ErrorCustomTagRename
+                        T="Tag by měl být přejmenován s pomocí 'Editorů polí'. '{0}' přejmenovat na '{1}' nebo vymazat v případě, že není potřeba." />
+      <ErrorDeleteFile
+                        T="Nelze vymazat existující soubor" />
+      <ErrorFetchHeader
+                        T="Chyba: Nelze získat 'date last modified' z hlavičky HTTP pro {0}"
+                        V="2.0.1.6+" />
+      <ErrorGenoMapBounds
+                        T="Chyba: GenoMapa '{0}' nemá nastaveno ohraničení. Pro opravu otevřete tuto GenoMapu."
+                        V="2.0.1.7RC8" />
+      <ErrorHelpSvgNames1 T="Chyba: Tag 'FmtHtmlHelpSvg' neobsahuje správný počet dvojic (21)"
+                          V="2011.11.04+" />
+      <ErrorHelpSvgNames2 T="Chyba: Tag 'FmtHtmlHelpSvg' neobsahuje správný počet záznamů (21 x 2)"
+                          V="2011.11.04+" />
+      <ErrorInkscapeNotFound
+                        T="Obrázky ve formátu PDF v GenoMapách nebudou vytvořeny. Není nainstalovaný program Inkscape nebo nebyl nalezen na zadané cestě - parametr 'InkscapePath'"
+                        V="2.0.1.6+" />
+      <ErrorInkscapeRun
+                        T="Chyba při běhu programu inkscape.exe" />
+      <ErrorIrfanviewNotFound
+                        T="Náhledy k obrázkům v GenoMapách nebudou vytvořeny. Není nainstalovaný program IrfanView nebo nebyl nalezen na zadané cestě - parametr 'IrfanViewPath'"
+                        V="2.0.1.6+" />
+      <!-- 1=Language Markup, Test={1}={?E:test}| -->
+      <ErrorLangMarkup
+                        T="Neplatný značkovací jazyk: {0}" />
+      <ErrorLatLang
+                        T="Chyba: Neznámý formát zeměpisných souřadnic (šířka/délka):"
+                        V="2011.01.06" />
+      <ErrorNoCachedSize
+                        T="Chyba: Žádné informace o velikosti cache pro {}"
+                        V="2.0.1.6+" />
+      <ErrorNoCustomSkin
+                        T="Chyba: Nelze vytvořit zprávu s šablonou vlastního vzhledu. Použijte tlačítko 'Nová šablona' pro vytvoření nové šablony vzhledu a spusťte vytvoření zprávy znova." />
+      <!-- 0=číslo chyby, 1=popis chyby -->
+      <ErrorNoNameDictionary
+                        T="Chyba: Nenalezen soubor 'NameDictionary.xml' potřebný pro jazykové nastavení" />
+      <ErrorPdfUpload
+                        T="Chyba: Nepodařilo se uložit soubor PDF do adresáře pro výslednou zprávu :"
+                        V="2.0.1.6+" />
+      <ErrorPicLabelDeprecated
+                        T="Použití textových popisků 'picture=&quot;picnnnnn&quot;' u obrázků v části Popisky není doporučené. Použijte prosím Popisky/Sociální entity a vlastní tagy 'Picture.Style', 'Picture.FixRatio' a 'Picture.FitLabel' místo textu Popisky/Sociální vztahy"
+                        V="2.0.1.6+" />
+      <ErrorPictureConvert
+                        T="Chyba {} při konverzi obrázku {} na náhled {}"
+                        V="2.0.1.6+" />
+      <ErrorRegExpBroken
+                        T="Chyba: ({0}: {1}) - v systému není správně nainstalován VBScript. Stáhněte a nainstalujte Windows Scripting 5.6 nebo 5.7 z http://www.microsoft.com/downloads" />
+      <ErrorScriptingVersion
+                        T="Chyba: Tato šablona vzhledu vyžaduje Windows Script verze 5.5 nebo vyšší - nainstalujte prosím poslední verzi z Microsoft Download Center." />
+      <ErrorSliderRange
+                        T="Hodnota parametru 'PictureInterval' v souboru 'Config.xml' musí být v rozsahu 1000 - 10000 (milisekund)" />
+      <!-- 0=objekt, 1=chybový řetězec, Test={0}=Individual, {1}=<?html>| -->
+      <ErrorTextFormat
+                        T="{0}: Neplatný textový formát: {1}" />
+      <ErrorTextSyntax
+                        T="{0}: Neplatná syntaxe argumentu pro textový formát: {1}" />
+      <ErrorTextToken
+                        T="{0}: Neplatný prvek textového formátu: {1}" />
+      <ErrorThumbnailCheck
+                        T="Chyba: Není možné určit, zda je potřeba aktualizovat náhled. Soubor" />
+      <ErrorXMLEntities
+                        T="Chyba: Následující pole obsahuje neplatné XML entity. Tzn. v rozsahu &amp;#0; - &amp;#31; s výjimkou platných entit &amp;#9;,&amp;#10; and &amp;#13; Vlastní pole včetně konfiguračních parametrů nebudou zpracována." />
+      <!-- 0=příčina chyby, 1=číslo řádku ve skriptu, 2=text skriptu, 3=detaily souboru
+                        Test={0}=Neplatná entita, {1}=220, {2}=skript,, -->
+      <ErrorXMLLoad
+                        T="Chyba při zpracování {3}: {0} na řádku {1}: {2}"
+                        V="2012.07.XX±" />
+      <!--V="2.0.1.6x"         0=příčina chyby, 1=číslo řádku ve skriptu, 2=text skriptu -->
+      <!--<ErrorXMLLoadDic
+                        T="Varování: Nelze zpracovat Slovník: {0} na řádku {1}:&#10;&#09;{2}&#10;Některé přidané hodnoty ve Slovníku nebudou k dispozici" V="2.0.1.6x"/>-->
+      <!--<ErrorXMLLoadCfg
+                        T="Varování: Nelze zpracovat soubor 'Config.xml': {0} na řádku {1}:&#10;&#09;{2}&#10;"  V="2.0.1.6x"/>-->
+      <!-- 0=číslo chyby, 1=popis chyby, 2=další informace
+                        Test={0}=123456, {1}=chybný argument -->
+      <ErrorHttpGet
+                        T="Chyba {}: {} (Nelze načíst obrázek {})"
+                        V="2.0.1.6+" />
+      <ErrorXMLParser
+                        T="Chyba: Nelze načíst ovládací prvek ActiveX pro MS XML Parser {0}: {1}" />
+      <ErrorVB
+                        T="Chyba {}: {} ({})"
+                        V="2.0.1.6+" />
+      <FmtInvalidPictureID
+                        T="Obrázek s ID {} pro Popisku {} na GenoMapě {} je chybný."
+                        V="2.0.1.6+" />
+      <!--<FmtNoDrawingObjects
+                        T="No Drawing objects for {}"  V="2.0.1.7RC1x"/>-->
+      <FmtPdfUpToDate
+                        T="Soubor PDF pro GenoMapu {} je již aktuální."
+                        V="2.0.1.6+" />
+      <FmtThumbnailCreate
+                        T="Aktualizuji náhled pro {0}"
+                        V="2.0.1.6+" />
+      <FmtThumbnailUpToDate
+                        T="Náhled pro {0} je již aktuální"
+                        V="2.0.1.6+" />
+      <HeaderConfigParameters
+                        T="Pro rozbalení (zabalení) níže uvedených částí klikněte na příslušnou část. Proveďte požadované změny v nastavení parametrů a poté klikněte na tlačítko 'Vytvořit (uložit změny)' pro uložení změn a vytvoření zprávy, popř. 'Vytvořit (ignorovat změny)' pro vytvoření zprávy bez uložení změn."
+                        V="2011.11.04±" />
+      <Marker
+                        T="?"
+                        V="2.0.1.6+" />
+      <Ok
+                        T="OK" />
+      <Parameters
+                        T="Nastavení parametrů" />
+      <ParametersCancelHint
+                        T="Zavře dialog a zruší vytvoření zprávy" />
+      <ParametersOkHint
+                        T="Zavře dialog a spustí vytvoření zprávy" />
+      <ParametersAbandoned
+                        T="Změny v nastavení parametrů zrušeny uživatelem" />
+      <ParametersClearOption
+                        T="Pro možnost zobrazení nastavení parametrů při vytváření zprávy zrušte zaškrtnutí volby 'Nezobrazovat okno pro úpravu parametrů zprávy' na záložce 'Možnosti'." />
+      <ParametersProfile
+                        T="Profil" />
+      <ParametersDefault
+                        T="-- výchozí --" />
+      <ParametersLastUsed
+                        T="-- naposledy použitý --" />
+      <ParametersNew
+                        T="-- nový profil --" />
+      <ParametersLoad
+                        T="Načíst" />
+      <ParametersLoadHint
+                        T="Načte uložené parametry vybraného profilu" />
+      <ParametersDelete
+                        T="Smazat"/>
+      <ParametersDeleteHint
+                        T="Smaže vybraný profil"/>
+      <ParametersSave
+                        T="Uložit"/>
+      <ParametersSaveHint
+                        T="Uloží hodnoty parametrů pojmenovaného profilu do registru"/>
+      <ParametersOverride
+                        T="N.B. Display of Parameter Configuration Settings overridden by the 'ChangeParameters' Custom Tag. Clear this tag in order to use the setting from the 'Options' tab of this dialog." />
+      <ParametersSetOption
+                        T="Pro zakázání zobrazení parametrů pro vytvoření zprávy zaškrtněte zatržítko na záložce 'Možnosti' okna 'Vytvořit zprávu'." />
+      <ProfileExisting
+                        T="Vyberte existující profil"/>
+      <ProfileNew
+                        T="Zadejte název nového profilu:"/>
+      <ProfileValidNew
+                        T="Vyberte existující profil neboi nový profil"/>
+      <!-- 0=název atributu, Test={0}=Param -->
+      <WarningAttributeKeyMissing
+                        T="Varování: StrDicAttribute. Hledání pro '{0}' selhalo." />
+      <!-- 0=Název vlastního pole, 1=Rozvržení dialogu pro vlastní pole Test={0}=Vlastni_pole, {1}=Muj_vlastni_dialog -->
+      <WarningCustomTLayoutExcluded
+                        T="Rozvržení dialogu pro vlastní pole '{0}' je označené jako systémové nebo soukromé, a proto bylo odstraněno." />
+      <WarningCustomTagExcluded
+                        T="Vlastní pole '{0}' v rozvržení dialogu '{1}' je označení jako systémové nebo soukromé, a proto bylo odstraněno." />
+      <WarningEmptyNameDictionary
+                        T="Varování: Vybrán slovník 'Slovník jmen', který neobsahuje žádné záznamy." />
+      <!-- Tento tag přepisuje FmtTagChange v souboru 'Dictionary.xml' -->
+      <WarningDicChange
+                        T="Varování: [Slovníkový tag {1} byl nahrazen od verze {!3} tagem ]Tag {0}[{?!1} [zavedený ve verzi {3} ]ve slovníku chybí a výchozí hodnota byla nastavena na '{2}]'"
+                        V="2011.9.23+" />
+      <WarningTagChange
+                        T="Varování: Tag {0} zavedený ve verzi {2} v souboru 'Config.xml' chybí a výchozí hodnota je tedy: {1}"
+                        V="2.0.1.6 (rev.2009.10.01)+" />
+      <WarningTitleMissing
+                        T="Chybí název zprávy! Nastavte název genealogické zprávy na záložce &quot;Dokument&quot;." />
+      <WarningUpgrade1
+                        T="K dispozici je novější verze programu GenoPro" />
+      <WarningUpgrade2
+                        T="Aktualizujte si prosím kvůli správnému fungování tématu" />
+    </GenerationMessages>
+  </ReportGenerator>
+</Skin>

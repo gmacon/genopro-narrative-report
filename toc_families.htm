@@ -1,0 +1,103 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[If Session("Book") Then Report.AbortTemplate]%>
+<%[
+' The following code generates list of families in the report.
+' The sorting of families is done using the father's last name
+' as the primary sort key, then the first and middle name.
+' If a husband had multiple partners (therefore multiple
+' families), then the sorting is done according to the
+' spouse's last name, first and middle name.
+' If the husband's name is unknown then the wife's name is used
+' This is not the ideal method of grouping families,
+' however it is better than nothing.
+
+Set oNameDicNames = Session("oNameDicNames")
+
+Set oDataSorter = Util.NewDataSorter()
+
+' Add each valid family to the DataSorter
+For Each f In Families
+	If (f.Name <> "" And Not f.IsLabel) Then
+		Set oParent = f.Parents(0)
+		If oParent.Name.Last = "" Then
+			Set oParent = f.Parents(1)
+			Set oSpouse = f.Parents(0)
+		Else	
+			Set oSpouse = f.Parents(1)
+		End if
+		oDataSorter.Add f, oParent.Session("NameLast"), StrNameTranslate(oParent.Name.First, oNameDicNames, False), StrNameTranslate(oParent.Name.Middle, oNameDicNames, False), oSpouse.Session("NameLast")
+	Else
+		' Prevent any hyperlink to a family without a name
+		f.Href = ""	
+	End If
+Next
+
+' Sort the families according the sort keys
+oDataSorter.SortByKey
+
+' Now, get a normal collection of families from the DataSorter.
+Set collFamiliesSorted = oDataSorter.ToGenoCollection
+
+' Store this collection in the Session object, so it can be accessed when generating the picture album too
+Session("collFamiliesSorted") = collFamiliesSorted
+
+If Session("cTocExpand") = -1 Or  Session("cTocExpand") >= collFamiliesSorted.Count Then
+	fTreeOpen = true
+	strToggle="collapse"
+Else
+	fTreeOpen = false
+	strToggle = "expand"
+End If
+
+]%><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Language" content="@[WriteHtmlLang]@"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>@[ Report.WriteFormatted Dic("FmtTitleTocFamilies"), Session("Title") ]@</title>
+<meta name="description" content="@[WriteMetaDescriptionReport]@" />
+<meta name="keywords" content="@[WriteMetaKeywordsReport]@" />
+<base target="detail"/>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<script type='text/javascript' src="scripts/jquery.min.js"></script>
+<script src="scripts/script.js" type="text/javascript"></script>
+<script type='text/javascript' src="scripts/tocstart.js"></script>
+</head>
+<%[If Session("fUseTreeIndexes") Then]%>
+<body class='gno-index' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '','names');">
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if ]%>
+@[WriteHtmlButtonToggle("Entries")]@
+<%[Else]%>
+<body class='gno-index' onload="javascript:PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@);">
+<%[If Session("fUseCurvyBoxes") Then
+CurvyBoxOpen()
+Else
+Report.WriteLn "<div class='boxupper'>"
+End if
+End If]%>
+<h3>@[ Report.WriteTextDic "TocIndexFamilies" ]@</h3>
+<%[Report.Write Util.IfElse(Session("fUseCurvyBoxes"), "<div id='toc' class='noboxlower'>", "</div><div id='toc' class='boxlower'>")
+
+Report.WriteLn "<ul id='names' class='xT'>"
+' Output those families to the report
+
+	WriteHtmlTocFamilies fTreeOpen, false
+
+]%>
+<%[If Session("fUseTreeIndexes") Then]%>
+</ul>
+<%[End If]%>
+
+</div>
+<%[If Session("fUseCurvyBoxes") Then CurvyBoxClose()]%>
+<%[ WriteHtmlFramesetSafeguardK iFamilyLast, "GenoProReportFamilies", nothing ]%>
+</body>
+</html>

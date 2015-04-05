@@ -1,0 +1,395 @@
+<%[@ IncludeFile "Code/Util.vbs" ]%>
+<%[@ IncludeFile "Code/Lang.vbs" ]%>
+<%[
+cxBoxWidthLarge = Session("cxPictureSizeLarge") + Session("cxyPicturePadding") + 10
+cxBoxWidthSmall = Session("cxPictureSizeSmall") + Session("cxyPicturePadding") + 10
+If Session("TextDirection") <> "" Then	strTextDirection = "direction: " & Session("TextDirection") & ";"
+If Session("TextDirection") = "rtl" Then strFileRTL = ".rtl"
+If Session("ScreenWidth") <> "" Then Report.WriteLn "html,body {width: " & Session("ScreenWidth") & ";}"
+
+If Session("CoverImageWidth") > 750 Then 
+    Session("CoverImageHeight") = Session("CoverImageHeight") * 750 / Session("CoverImageWidth")
+    Session("CoverImageWidth") = 750
+End If
+
+If Session("CoverImageHeight") > 750 Then 
+    Session("CoverImageWidth") = Session("CoverImageWidth") * 750 / Session("CoverImageHeight")
+    Session("CoverImageHeight") = 750
+End If
+
+strFont =  Util.IfElse(Session("FontFamily") <> "", Session("FontFamily"), "Arial, Helvetica")
+]%>
+/* Default theme */
+/* Default updated 2012.08.26 with calendar and title theme, background image removed */
+html{ font-size: 190%;}
+body {
+ color: #000000;
+ background-color: #F6F6F2;
+ font-size: 0.830em;
+ font-family: @[Report.Write strFont]@;
+ line-height: 1.3;
+ background: #F6F6F2 none);
+ @[Report.Write strTextDirection]@
+}
+sub {
+ line-height: 0;
+}
+body.gno-heading {background-color: #F6EAA2;margin: 0px;}
+body.gno-index {margin: 0px;}
+body.gno-detail {margin:0px; padding:8px;}
+/* body.gno-popup {} */
+
+table
+{
+font-size: 0.830em; empty-cells:show; background-color:#F6F6F2;
+}
+tr td
+{
+background-color:#F6F6F2;
+}
+th
+{
+background-color:#FBF5D1;
+}
+
+h2 { color: #000000; font-size: 1.162em;}
+h3 { color: #000000; font-size: 1em; } 
+h3.familyheading { font-size: 1em; } /* reduce if you want family heading smaller than individual heading */
+h4 { color: #000000; font-size: 0.91em; }
+h5 { color: #000000; font-size: 1em; font-weight:500;}
+h6 { color: #000000; display: inline;}
+
+a:link { color: #000000; text-decoration: none; }
+a:visited { color: #000000; text-decoration: none; }
+a:active { color: #000000; text-decoration: none; }
+a:hover { color: #000000; text-decoration: underline; }
+
+a:link img {border-style:none; border-width:0px;}
+a:visited img {border-style:none; border-width:0px;}
+a:active img {border-style:none; border-width:0px;}
+a:hover img {border-style:none; border-width:0px;}
+a:focus img {border-style:none; border-width:0px;}
+
+.bold {font-weight: bold;}
+.boldu {font-weight: bold; text-decoration: underline;}
+
+h2.heading { font-size: 1.4em; text-align:center; }
+h2.h0 { font-size: 1.66em; }
+h2.h3 { font-size: 1em; }
+
+img.bottom {vertical-align:text-bottom;}
+img.top {vertical-align:text-top;}
+
+ul { margin-top:2px;margin-bottom:2px;margin-left:0px;padding:0px;}
+ul li {margin:0px; padding:0px;}
+
+.aligncenter {text-align:center;}
+
+.alignright {text-align:right;}
+
+.alignmiddle {vertical-align:middle;}
+
+.avoidbreak {page-break-inside: avoid;}
+
+.boxupper {border-left:2px solid silver; border-top:2px solid silver; border-right:2px solid silver; padding: 5px;}
+
+.boxlower {white-space: nowrap; overflow-y: scroll; border-left:2px solid silver; border-bottom:2px solid silver; border-right:2px solid silver; padding: 5px; }
+
+.noboxlower {white-space: nowrap; overflow-y: scroll; border-left:0px; border-bottom:0px; border-right:0px; padding: 0px;}
+
+.button32 {width:32px;height:32px;border-style:none;border-width:0px; cursor:pointer;background:url(images/button32.jpg);}
+
+.button24 {width:24px;height:24px;border-style:none;border-width:0px; cursor:pointer;background:url(images/button24.jpg);text-align:middle;}
+
+.buttontoc {clear:left; float:left;margin-right: 5px; margin-top:5px; cursor:pointer;}
+
+.buttontoc2 {clear:right; float:right;margin-left: 10px; cursor:pointer;}
+
+.caption {font-size: 0.750em;}
+
+.cover {text-align:center; vertical-align: middle;}
+
+.cover .title{height:100%}
+
+.cover table {width:100%; height:100%;}
+
+/* PDF cover image, centered using known height and width */
+.cover img {
+    margin-top: @[Report.Write (800 - Session("CoverImageWidth")) / 2]@px;
+    margin-bottom: @[Report.Write (800 - Session("CoverImageWidth")) / 2]@px;
+    width:@[Report.Write Session("CoverImageWidth")]@px;
+    height:@[Report.Write Session("CoverImageHeight")]@px;
+    }
+
+.childrenindent {margin-left: 15px; }
+
+.citation {margin: 5px; padding: 5px; border:1px solid black; font-size: 0.750em; background: white;}
+
+.citationpic {margin: 5px 275px 5px 5px; padding: 5px; border:1px solid black; font-size: 0.750em; border-color:black; background: white;}
+
+.clear {clear: both;}
+
+.clearright {clear: right;}
+
+.clearleft {clear: left;}
+
+.control24 {width:24px;height:24px;border-style:none;border-width:0px; cursor:pointer;background:url(images/button24.jpg);text-align:middle;}
+
+.customtagtable td {border:thin inset #330077;padding:0px 5px 0px 5px;}
+
+.floatright {clear: right;float: right;}
+
+.floatleft  {clear:left; float:left;}
+
+.googlemap {text-align:center; width:90%; height:80%; margin-left: auto; margin-right: auto; position: relative;}
+
+.hide {display: none; }
+
+.icon {width:16px;height:16px;border:0px;}
+
+.iconsmall {vertical-align:middle;width:12px;height:12px;border:0px;}
+
+.indent {text-indent: 20px;}
+
+.infoWindow {text-align: left; font-size: 0.664em;}
+
+.infoScroll {height:150px; overflow:auto;}
+
+.inline {display: inline;}
+
+.inset {margin: 12px 8px 12px 8px;}
+
+.footnote {font-size: 0.750em;}
+
+.langtoggle { color: #000000; text-decoration: underline; font-size: 0.664em;}
+
+.Landscape {width:1150px; height:800px;}
+
+.namehighlight {text-decoration: underline;}
+
+.nobr { white-space: nowrap; }
+.note {font-size: 0.83em; margin-left:10px !important;}
+.note li.xT-h  {font-weight:bold;}
+.note ul.xT-n  {font-weight:normal;}
+
+.nowrap { white-space: nowrap;}
+
+.std {font-size:0.823em;font-style:normal;margin-left:0px;}
+
+.pic {border-style: outset; padding: 2px;cursor:pointer;text-align:left;}
+
+.picright {border-style: outset; padding: 2px;cursor:pointer;text-align:left;}
+
+.picleft {border-style: outset; padding: 2px;cursor:pointer;float:left;}
+
+.popup {text-align:center;}
+
+.Portrait {width:800px; height:1150px; }
+
+.scrolly {overflow-y:scroll;}
+.show {display: inline;}
+
+.small {font-size: 0.750em;}
+
+.subhead {color: #000000;}
+
+.table1 td {vertical-align:top;}
+
+.timeline {font-size: 0.750em;}
+
+.themed {background-color:#F6E7A1;color: #000000;}
+
+
+.banner {background: url(images/banner.jpg) repeat-x left;}
+.title {text-align: center; vertical-align: middle; line-height:30px;margin:@[Report.Write Util.IfElse(Session("TitlePosition")="T", "5px", "0px")]@ 0px 0px 0px;}
+
+.title span {font-size: 1.4em; font-weight:bold; margin:1px; padding: 1px 12px 1px 12px;}
+.title_heading {visibility:@[Report.Write Util.IfElse(Session("TitlePosition")="H", "hidden", "visible")]@;}
+.title_top    {display:@[Report.Write Util.IfElse(Session("TitlePosition")="T", "block", "none")]@;}
+.title_bottom {display:@[Report.Write Util.IfElse(Not Session("TitlePosition")="T",   Util.IfElse(Not Session("TitlePosition")="C", "block","inline"), "none")]@;}
+.title_home   {display:@[Report.Write Util.IfElse(Session("TitlePosition")="H",     "block", "none")]@;}
+
+.menuarea {padding:@[Report.Write Util.IfElse(Session("TitlePosition")="T", "5px", "8px")]@ 8px 0px 8px;}
+
+#menu {margin:@[Report.Write Util.IfElse(Session("TitlePosition")="T", "0px", "-2px")]@ 0px 0px 0px; padding:0;list-style:none;text-align:center;}
+#menu li {display:inline; margin:0px; }
+#menu li a {display:inline-block; height:30px; line-height:30px; padding:0px 10px; float:center; background:#495557; color: #000000;text-decoration:none; font-weight:normal;border-top: 3px solid #F6EAA2;border-bottom: 1px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;}
+#menu li a:hover {background: #F6F6F2 url(images/arrow.gif) no-repeat center bottom; color: #000000;}
+#menu li a:active, a:focus { outline-style: none; -moz-outline-style:none; }
+
+.toggle24 {width:24px;height:24px;border-style:none;border-width:0px; cursor:pointer;background:url(images/button24.jpg);text-align:middle;}
+
+.widthlarge {width: @[Report.Write Session("cxPictureSizeLarge")]@px;}
+
+.widthpaddedsmall {width: @[Report.Write cxBoxWidthSmall]@px;}
+
+.widthpaddedlarge {width: @[Report.Write cxBoxWidthLarge]@px;}
+
+.widthsmall {width: @[Report.Write Session("cxPictureSizeSmall")]@px;}
+
+.charttext { border: none; position: relative; left: -3px; top: -3px; padding: 1px 5px;}
+.chartbox {display: inline; margin: 0px; position: relative; background: #666;}
+.chart img { margin: 0px; border: 0px; padding: 0px; vertical-align: middle; }
+.m {background: LavenderBlush;}
+.f {background: LightCyan;}
+.iM {background: LightBlue;}
+.iF {background: LightPink;}
+.iP {background: green;}
+
+.cage {padding:10px;}
+
+.curvycorners_box {
+   background: #F6EAA2;
+}
+.curvycorners_top div {
+   background: url(images/curvycorner_tl.png) no-repeat top left;
+}
+.curvycorners_top {
+   background: url(images/curvycorner_tr.png) no-repeat top right;
+}
+.curvycorners_bottom div {
+   background: url(images/curvycorner_bl.png) no-repeat bottom left;
+}
+.curvycorners_bottom {
+   background: url(images/curvycorner_br.png) no-repeat bottom right;
+}
+
+.curvycorners_top div, .curvycorners_top, 
+.curvycorners_bottom div, .curvycorners_bottom {
+   width: 100%;
+	height: 15px;
+   font-size: 1px;
+}
+.curvycorners_content { padding:10px; }
+
+.curvyboxbackground{
+	padding:5px;
+	background:#F6F6F2;
+	}
+
+
+/* see http://www.positioniseverything.net/easyclearing.html for an explanation of the following */
+
+.clearfix:after {
+    content: "."; 
+    display:block; 
+    height: 0px; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.clearfix {display: -moz-inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display:block;}
+/* End hide from IE-mac */
+
+/* end clearfix */
+
+/*
+Explorer Tree 1.4
+=================
+by Andrew Gregory <andrew@scss.com.au>
+http://www.scss.com.au/family/andrew/webdesign/explorertree/
+
+This work is licensed under the Creative Commons Attribution License. To view a
+copy of this license, visit http://creativecommons.org/licenses/by/1.0/ or send
+a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.
+
++ Minor amendment by Ron to add list images, cursor styling & 2nd set of images
+*/
+
+/* Get the bullets inside their LI's, so they're clickable. */
+ul.xT, ul.xT ul, ul.xT li { margin: 0px; padding: 0px; text-indent:0px; }
+ul.xT li { list-style-position: inside; cursor: pointer; }
+ul.xT ul { padding-left: 14px; } /* sublist indentation */
+ul.xT ul.xT-h, ul.xT ul.xT-n { padding-left: 21px; } /* sublist indentation V="2013.07.30±" */
+/* Set the bullet images */
+ul.xT li { list-style-image: url(images/space.gif);}
+ul.xT li.xT-i5 { padding-left:5px;}
+ul.xT li.xT-o { list-style-image: url("images/arrow.hide.gif"); }
+ul.xT li.xT-c { list-style-image: url("images/arrow.show@[Report.Write strFileRTL]@.gif");}
+ul.xT li.xT2-o {list-style-position: inside; list-style-image: url("images/arrow2.hide.gif");}
+ul.xT li.xT2-c {list-style-position: inside; list-style-image: url("images/arrow2.show@[Report.Write strFileRTL]@.gif");}
+ul.xT li.xT3-o {list-style-position: inside; list-style-image: url("images/arrow3.hide.gif");}
+ul.xT li.xT3-c {list-style-position: inside; list-style-image: url("images/arrow3.show@[Report.Write strFileRTL]@.gif");}
+ul.xT li.xT-b   { list-style-image: url("images/space.gif");}
+ul.xT li.xT-bi   { list-style-image: url("images/space.gif"); padding-left:10px;}
+/* Actually show and hide sublists */
+ul.xT li.xT-o ul, ul.xT li.xT2-o ul, ul.xT li.xT3-o ul { display: block; }
+ul.xT li.xT-c ul, ul.xT li.xT2-c ul, ul.xT li.xT3-c ul { display: none; }
+ul.xT ul.xT-n li.xT-n {cursor: default;}
+ul.XT li.xT-h { color: #000000;}
+
+<%[
+Dim oFso, oFile, oFldr, strFile, strFiles, strFolder, nSize, strFrom, strTo, strCSS
+    Report.LogComment Util.FormatString(ConfigMsg("CommentApplyTheme", "Applying theme '{0}'" , "2011.10.25"), Session("StyleSheet")), "#000080"
+    If Session("SameTheme") Then
+        Report.LogComment ConfigMessage("SameTheme"), "#000080"
+    Else
+        On Error Resume Next
+        If Session("Theme") <> "Default" Then
+               Report.LogComment ConfigMsg("CommentSelectedTheme", "Copying files from selected theme", "2011.10.25")
+               ReportGenerator.FolderCopy("Code\themes\" & Session("Theme") & "\files")
+            End If
+            If Err.Number = 0 Then ' GenoPro version 2.5.3.7 or above'
+                On Error Goto 0
+                ReportGenerator.FileUpload(ReportGenerator.PathSkin & "Code\themes\" & Session("Theme") & "\theme.css")
+                Report.LogComment ConfigMsg("CommentDefaultTheme", "Copying files from default theme", "2011.10.25")
+                ReportGenerator.FolderCopy("Code\themes\Default" & "\files")
+                If Session("Theme") <> "Default" Then
+                    Report.LogComment ConfigMsg("CommentSelectedTheme", "Copying files from selected theme again", "2011.10.25")
+                    ReportGenerator.FolderCopy("Code\themes\" & Session("Theme") & "\files")
+                End If
+            Else 'older version of GenoPro 2.5.3.6 or below
+                On Error Goto 0
+                Report.LogWarning ConfigMsg("WarningUpgrade1", "A later version of GenoPro is available", "2011.10.25")
+                Report.LogWarning ConfigMsg("WarningUpgrade2", "Please upgrade to ensure themes work correctly", "2011.10.25")
+                strFolder = ReportGenerator.PathSkin & "Code\themes\Default"
+                strFiles =  Split(ReportGenerator.FileGetText("Code\themes\Default" & "\files.txt"),vbCrLf)
+                If Session("Theme") <> "Default" Then
+                        strFolder = ReportGenerator.PathSkin & "Code\themes\" & Session("Theme")
+                      strFiles =  Split(ReportGenerator.FileGetText("Code\themes\" & Session("Theme") & "\files.txt"),vbCrLf)
+                        For Each strFile in strFiles
+                               If strFile <> "" Then 
+                                If Left(strFile,1) <> "#" Then
+                                   nSize = ReportGenerator.FileUpload(strFolder & "\" & strFile, Replace(strFile,"\","/"), Util.IfElse(ReportGenerator.PathSkin <> "?", GetFileTimestamp(strFolder & "\" & strFile),"" ))
+                                End If
+                             End If   
+                      Next
+                End If
+                For Each strFile in strFiles
+                       If strFile <> "" Then 
+                          If Left(strFile,1) <> "#" Then
+                             nSize = ReportGenerator.FileUpload(strFolder & "\" & strFile, Replace(strFile,"\","/"), Util.IfElse(ReportGenerator.PathSkin <> "?", GetFileTimestamp(strFolder & "\" & strFile),"" ))
+                          End If
+                       End If   
+                Next
+                If Session("Theme") <> "Default" Then
+                        strFolder = ReportGenerator.PathSkin & "Code\themes\" & Session("Theme")
+                      strFiles =  Split(ReportGenerator.FileGetText("Code\themes\" & Session("Theme") & "\files.txt"),vbCrLf)
+                        For Each strFile in strFiles
+                               If strFile <> "" Then 
+                                If Left(strFile,1) <> "#" Then
+                                   nSize = ReportGenerator.FileUpload(strFolder & "\" & strFile, Replace(strFile,"\","/"), Util.IfElse(ReportGenerator.PathSkin <> "?", GetFileTimestamp(strFolder & "\" & strFile),"" ))
+                                End If
+                             End If   
+                      Next
+                End If
+            End If
+        End If
+	    strCSS = ReportGenerator.FileGetText("Code\themes\" & Session("Theme") & "\theme.css")
+	    Report.Write strCSS
+	    If Session("FrameBorder") = "Auto" Then
+	       Session("FrameBorders") = Not (InStr(strCSS,"set frameborder=0") > 0)
+      Else
+         Session("FrameBorders") = Util.IfElse(Session("FrameBorder")="Yes", True, False)
+      End If
+      If Session("Book") Then
+        strCSS = ReportGenerator.FileGetText("Code\themes\" &  "\book.css")
+        Report.Write strCSS
+      End If  
+      ]%>
+	

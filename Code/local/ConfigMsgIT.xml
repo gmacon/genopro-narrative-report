@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skin
+                        Language="IT"
+                        Name="Elaborazione Record HTML/PDF ">
+   <Version>14.10.2013</Version>
+  <!-- CHANGE HISTORY
+         Changes are indicated by an additional 'V' attribute for XML elements below, and a dummy 'V' attribute in comments,
+         in the following format:
+
+        V="a.b.c.dx?"
+
+        where a.b.c.d is version number, x is optional subversion and ? is the type of change as follows:
+
+            + indicates an insertion
+            x indicates a deletetion - also deletions are placed in comments and removed at a later date
+            ± indicates an amendment   
+            ~ indicates a reposition up or down 
+    -->
+  <ReportGenerator
+                        ScriptLanguage="VBScript">
+    <ParameterDescriptions
+                        TextDirection="ltr">
+	<!-- Note to translators: You may change all text in these tags except for the values before the ':' in 'option' attributes O1, O2 etc. so O1="Y:Oui"is OK but not O1="O:Oui" -->
+      <Description Label="Info" T="Informazioni">
+          <Comments               T="Questo modello di report genera una relazione dettagliata con riferimenti incrociati e indicizzati su più pagine, in formato HTML . Il report è stato progettato per mostrare tutti i dati contenuti in un file di GenoPro. &#10;
+                                    Il Contenuto delle pagine di ciascun individuo e di ciascuna  famiglia, include anche le foto, gli indici degli 'Alberi', le scadenze degli eventi significativi (Compleanni e Anniversari), rappresentazioni SVG e PDF di GenoMappe, Google Maps dei luoghi, alberi genealogici di Antenati e Discendenti...&#10;
+                                    &lt;span class='bold'&gt;** È importante tenere presente&lt;/span&gt; che le pagine web sono destinate ad essere visualizzate mediante server Web quali &lt;span class='bold'&gt;familytrees.genopro.com\&lt;/span&gt;
+                                    via HTTP o protocolli HTTP.  Il report può essere generato e visualizzato anche localmente\
+                                    su un PC tramite il protocollo del FILE di default, purchè non si utilizzi un browser basato su WebKit.\
+                                    Ciò è dovuto al fatto che i file nelle sottocartelle non corrispondono al criterio di 'stesso dominio' richiesto da quei browser.  &#10;
+                                      Se non è disponibile nessun server web adatto, allora è consigliabile installare e utilizzare un server web semplice come Mongoose o forse nginx.
+                                      Clicca sulle schede qui sopra, per scegliere le impostazioni preferite.  Ogni serie di impostazioni può essere salvatae in profili con nomi diversi, utilizzando i pulsanti qui sotto."
+                                  Type="about" V="2013.07.30+"/>
+      </Description>
+      <ThemeSettings	Label="Tema"
+                        T="SCELTA DEL TEMA DI FONDO">
+      <StyleSheet
+                        Default="Default_2"
+                        O1="Default_2:Tema di Default con pulsanti a icona per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O2="Default_3:Tema di Default con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O3="AcornOliveTeal_2:Tema AcornOliveTeal con pulsanti a icona per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O4="AcornOliveTeal_3:Tema AcornOliveTeal con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O5="Blood_3:Tema Blood con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O6="BlueDNA_3:Tema BlueDNA con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O7="GreenLeaf_2:Tema GreenLeaf con pulsanti a icona per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O8="GreenLeaf_3:Tema GreenLeaf con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O9="OliveBranch_2:Tema OliveBranch con pulsanti a icona per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O10="OliveBranch_3:Tema OliveBranch con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        O11="RoseTint_3:Tema RoseTint con pulsanti di testo per il menu in alto e angoli arrotondati per gli indici e i pop-up"
+                        T="Scegli il tema preferito utilizzando le frecce. Passare con il mouse sopra l'immagine per i dettagli a tema "
+                        Type="theme" />
+      </ThemeSettings>
+      <ContentSettings Label="Contenuto" T="Contenuto" V="2013.07.30+">
+          <Volume      Default="!All!"
+                        Desc="Ad ogni GenoMappa si può assegnare un 'Titolo' per essere usato nell'output. Questo deve essere indicato nella tabella 'GenoMappe' nel Menù principale di GenoPro sotto 'Proprietà'  (File/Proprietà/GenoMaps). Le Genomappe con lo stesso titolo, saranno raggruppate nello stesso sottoinsieme."
+                        T="Indica il Sottoinsieme o 'Volume' da elaborare"
+                        O1="!All!:Tutti"
+                        V="2013.10.14" />
+      <Notes
+                        Default="Y"
+                        T="Mostrare tutti i Commenti?"
+                        Type="bool"
+                        V="2013.09.22" />
+      <ShowFlags
+                        Default="AEKOPRSTW"
+                        Desc="A-Attributi ed Eventi, E-Istruzione, K-immagini dei Figli, O-Occupazioni, P-Albero genealogico, R-Relazioni sociali, S-Fonti/Citazioni, T-Tags personalizzati, W-Altro"
+                        T="Ordine dei contenuti Individuali e Familiari: A-Dati Anagrafici ed Eventi, E-Istruzione, K-immagini dei Figli, O-Occupazioni, P-Albero genealogico, R-Relazioni sociali, S-Fonti/Citazioni, T-Tags personalizzati, W-Altro"
+                        Type="Text"
+                        V="2013.10.21±" />
+      <fHideFamilyDetails
+                        Default="Y"
+                        Desc="Informazioni relative alla famiglia possono comparire sulle pagine dei individui. In alternativa questi dati compaiono in un link alla pagina della corrispondente 'famiglia'."
+                        T="Escludere i dettagli dei famigliari sulle pagine degli individui. (Non impostare per le elaborazioni PDF)"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <OnlyPrincipalSpouse
+                        Default="N"
+                        Desc="Normalmente il Marito è considerato il 'coniuge principale', ma questo può essere modificato creando ed impostando a '1' un Tag personalizzato per la Famiglia 'PrincipalSpouse'"
+                        T="(Se la precedente opzione non è impostata) mostrare i dettagli familiari solo per un coniuge?"
+                        Type="bool"
+                        V="2013.10.21+" />
+<!--       <PedigreeCharts
+                        Default="Y"
+                        T="Mostrare l'Albero degli Ascendenti sulla pagina della persona"
+                        Type="bool"
+                        V="2013.04.05±" />                        
+-->
+       <Calendar
+                        Default="Y"
+                        T="Mostrare il calendario dei compleanni e dei matrimoni"
+                        Type="bool"
+                        V="2013.04.05±" />          
+      <ShowDescendantTreeIcon
+                        Default="Y"
+                        T="Aggiungi link all' 'Albero Discendente' come icona dopo il nome dell'individuo"
+                        Type="bool"
+                        Desc="Vale per gli individui con tag personalizzato 'DescendantTreeChart' impostato.  Attualmente l'Albero Discendente è generato separatamente con la funzione 'Descendant Tree Chart' o 'Albero Grafico Discendente'."
+                        V="2013.07.30+" />
+      <OptimizeUpload
+                        Default="Y"
+                        T="Rielaborare i files di supporto solo a cambio versione"
+                        Desc="Non elaborate di nuovo il File del tema, le Timeline (Cronologie) e gli script di Google, se esiste già una relazione della stessa versione nella destinazione "
+                        Type="bool"
+                        V="2013.08.22+" />
+      </ContentSettings>
+      <PDFSettings      Label="Report PDF"
+                        T="Impostazioni per il Report in PDF">
+        <Book           Default="N"
+                        T="Produrre un Report per stampare un Libro in PDF invece di un Report in HTML per Web"
+                        Type="bool"
+                        V="2013.09.08" />
+        <PDFOrientation Default="Portrait"
+                        T="Orientamento della Pagina"
+                        O1="Portrait:Verticale"
+                        O2="Landscape:Orizzontale"
+                        V="2013.09.17"
+                        />
+        <PDFPageSize    Default="A4"
+                        T="Formato Pagina"
+                        O1="A4:A4|"
+                        O2="Letter:Letter"
+                        V="2013.09.17"
+                        />
+       <PDFPageBreak   Default="LastName"
+                        T="Inserire interruzioni di pagina"
+                        O1="LastName:ad ogni cambio di cognome"
+                        O2="FirstCharacter:solo al cambio della lettera iniziale del cognome"
+                        V="2013.09.15" 
+                        />
+        <PDFCover       Default="Y"
+                        T="Inserire anche la pagine di Copertina"
+                        Type="bool"
+                        V="2013.09.22" />
+         <CoverImage    Default=""
+                        T="Path della immagine che si vuole inserire nella copertina (se si vuole!)"
+                        Type="file"
+                        V="2013.09.22" />
+        <TitleWrap      Default="N"
+                        Desc="A richiesta, il Titolo spezzato ad ogni spazio. Per evitare il ritorno a capo in tutti gli spazi, utilizzare nel Titolo il carattere invisibile Alt+0160. (Per ottenere questo, tenere premuto il tasto Alt, digitare 0160 sul tastierino numerico, quindi rilasciare il tasto Alt). Lasciare il normale spazio solo dove si vuole che il Titolo venga spezzato."
+                        T="Spezzare il titolo in copertina ad ogni spazio"
+                        Type="bool"
+                        V="2013.10.10" />
+        <PDFTOC         Default="N"
+                        T="Produrre anche un Indice"
+                        Type="bool"
+                        V="2013.09.08" />
+         <PDFIntro       Default="N"
+                        Desc="Il testo viene ripreso dal campo 'Descrizione' nella scheda 'Documento' in 'Genera Report'"
+                        T="Includi anche la Sezione 'Introduzione' "
+                        Type="bool"
+                        V="2013.09.22" />
+      </PDFSettings>
+  	<PresentationSettings Label="Presentazione" 
+                    T="ALTRI PARAMETRI PER LA PRESENTAZIONE" >
+	    <TitlePosition 
+                        Default="B"
+                        O1="B:Nella Intestazione, sotto il Menù"
+                        O2="T:Nella Intestazione, sopra il Menù"
+                        O3="H:All'inizio della HomePage"
+                        O4="C:In linea con il menù a icone"
+                        T="Positione del Titolo del Report"
+                        V="2013.02.17"
+                        />
+          <FontFamily		Default="Arial, Helvetica"
+              					T="CSS Font Family"
+              					Size="30"
+              					Type="text"
+              					V="2013.02.17"
+                        />
+	       <fAutoHideTOC 
+                        Default="Y"
+                        Desc="Escludere l'indice nella visualizzazione iniziale e dopo ogni selezione."
+                        T="Chiudere automaticamente il Frame dell'Indice"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fJoinPlaceNames
+                        Default="N"
+                        Desc="Visualizzare i toponimi di tutti i luoghi, come un elenco, separati da virgole, con l'indicazione dei luoghi esposti in modo gerarchico. Questo è utile se avete inserito i vostri luoghi in un unico elemento, come una 'città' piuttosto che 'città, provincia, paese'."
+                        T="Mostrare i nomi dei luoghi in modo gerarchico"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fJoinSourceCitationNames
+                        Default="N"
+                        Desc="Consente di visualizzare o meno i nomi di fonti e citazioni in elenchi, separati da '@', contenente i dettagli delle fonti / citazioni esposte gerarchicamente . Questo è utile se avete inserito le vostre sources / citazioni in un unico elemento, come un 'libro' invece di un libro su questo scaffale in qualche biblioteca. 'Da notare che un'azione speciale viene preso se il titolo della sorgente è lo stesso del titolo del genitore, vale a dire, 'ereditato'. Se il tag 'WhereInSource' (o 'riferimento') è presente, si ritiene che una citazione della fonte piuttosto che la stessa fonte. In questo caso, il tag 'WhereInSource' prende il posto del titolo. Di conseguenza, il nome diventa concatenato 'WhereInSource @ fonte titolo'."
+                        T="Mostrare i dati delle fonti di informazione in modo gerarchico"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fIndexChildPlacesAndSources
+                        Default="Y"
+                        T="Mostrare nell'indice i Luoghi e le Fonti secondarie separatamente o assieme alle principali"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseNotes
+                        Default="N"
+                        T="Mostrare all'inizio le note in forma compressa"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <fCollapseReferences
+                        Default="Y"
+                        T="Mostrare all'inizio le sottosezioni e i riferimenti in forma compressa"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <NestSourceRefs
+                        Default="N"
+                        T="Inserire i riferimenti delle Fonti/Citazioni nella sezione 'comprimi/espandi'"
+                        Type="bool"
+                        V="2013.04.05±" />
+      <cTocExpand
+                        Default="1000"
+                        Desc="Determina il limite di elementi per stabilire se la visualizzazione iniziale di un indice debba essere in forma espansa o compressa. Per numeri inferiori a quello indicato l'indice sarà espanso, altrimenti sarà sempre compresso"
+                        Size="6"
+                        T="Limite degli elementi oltre il quale la visualizzazione sarà sempre in una forma compressa"
+                        Type="int" />
+      <ContactTitle
+                        Default="TSOCI"
+                        Desc="T= titolo, S= Rubrica(Tel, Fax, Email, Mob, Web), O= Luogo di Occupazione, C= Prima riga di commento, I= Contatto ID"
+                        T="Ordine di priorità dei dati per contattare le persone"
+                        V="2009.11.15" />                                        
+      <FrameBorder
+                        Default="Auto"
+                        Desc="N.B. Se i bordi non sono indicati, non sarà possibile regolare manualmente il formato della struttura"
+                        O1="Auto:Usa il tema di default"
+                        O2="Yes:Mostra sempre i bordi"
+                        O3="No:Nascondi sempre i bordi"
+                        T="Mostrare i bordi intorno ai frame che compongono ciascuna pagina HTML" />
+      <ForceFrames
+                        Default="Y"
+                        Desc="Imposta 'NO' se usi Acrobat Pro per creare le versioni PDF delle pagine"
+                        T="Riduci le pagine per essere mostrate all'interno delle cornici"
+                        Type="bool"
+                        V="2013.04.05±" /> 
+      <PrintWidth
+                        Default="184mm"
+                        Desc="di default la stampa viene preparata per una pagina di formato A4"
+                        Size="6"
+                        T="Larghezza di stampa (suggerimento: chiudere l'indice prima della stampa delle pagine )"
+                        Type="text" />
+	  </PresentationSettings>
+      <PictureSettings  Label="Foto"
+                        T="IMPOSTAZIONE DEI PARAMETRI PER LE IMMAGINI">
+      <ShowPictures
+                        Default="Y"
+                        T="Mostrare le immagini nel Report"
+                        Type="bool"
+                        V="2013.09.22+" /> 
+        <fAddGenericImage
+						Default="N"
+						Desc="Aggiungere una silhouette generica agli individui che non hanno associata una foto"
+                        T="Usare la silhouette se l'individuo è senza foto"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fShowPictureDetails
+                        Default="N"
+                        Desc=" Mostrare le frasi di dettaglio e le note o descrizioni di ogni immagine assieme all'immagine nelle pagine html della persona e della famiglia. Questa informazione sarà comunque sempre visualizzata nelle pagine 'picture-&lt;pictureid&gt;.htm' e 'pictures.htm'."
+                        T="Mostrare tutte le informazioni sulle immagini nelle pagine degli individui e delle famiglie"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fHidePictureName
+                        Default="N"
+                        Desc="Nascondi il titolo dell'immagine che GenoPro crea automaticamente, in assenza del titolo e che  normalmente viene mostrato sotto le immagini."
+                        T="Nascondere il titolo sotto l'immagine"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fUsePictureThumbnails
+                        Default="Y"
+                        T="Usare le Miniature delle immagini"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <fUsePictureId
+                        Default="N"
+                        T="Mostrare l'ID dell'immagine al posto del titolo"
+                        Type="bool"
+                        V="2013.04.05±" />
+         <fShowTechnicalData
+                        Default="Y"
+                        T="Mostrare i 'Dettagli Tecnici' delle Immagini"
+                        Type="bool"
+           	V="2012.07.XX+" />
+         <PictureSizeLarge
+                        Default="250x250"
+                        Size="9"
+                        T="Dimensione dell'immagine ingrandita - Larghezza x Altezza (pixel)" />
+        <PictureSizeSmall
+                        Default="100x100"
+                        Size="9"
+                        T="Dimensione dell'immagine ridotta - Larghezza x Altezza (pixel))" />
+        <PicturePadding
+                        Default="15"
+                        Size="2"
+                        T="Spessore del Bordo dell'immagine (pixels)"
+                        Type="int" />
+        <PictureInterval
+                        Default="4000"
+                        Size="5"
+                        T="Intervallo (in millisecondi) nella riproduzione sequenziale delle immagini (range 1000 - 10000)"
+                        Type="int" />
+      </PictureSettings>                       
+      <ThumbnailSettings Label="Miniature"
+                        T="PARAMETRI PER LE MINIATURE">
+        <ThumbnailCreate
+                        Default="Y"
+                        Desc="Impostare a Y/Sì per creare immagini miniaturizzate nella cartella 'thumbnails' all'interno del Report, usando IrfanView. La dimensione delle miniature sarà quello indicato dal valore del parametro 'Dimensione dell'Immagine'  (default = 250x250). Il valore dpi suggerito è di 72. Le miniature saranno anche prodotte per le immagini delle GenoMaps da visualizzare con SVG o PDF. L'uso di questo parametro insieme con la foto ridimensionata migliora notevolmente la velocità di download." 
+                        T=" Creare le immagini miniaturizzate"
+                        Type="bool"
+                        V="2.0.1.6.2±" />
+        <ThumbnailDpi
+                        Default="72"
+                        Size="3"
+                        T="Punti per pollice (dpi)"
+                        Type="int" />
+        <ThumbnailQuality
+                        Default="70"
+                        Size="3"
+                        T="Qualità della miniatura JPEG (1-100)"
+                        Type="int" />
+        <IrfanViewPath
+                        Default="%ProgramFiles%\IrfanView\i_view32.exe"
+                        T="Path del programma IrfanView usato per creare le immagini miniaturizzate (Default {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      <ShowGallery
+                        Default="N"
+                        Desc="N.B. La Galleria può richiedere molto tempo per essere elaborata. Se si attiva questa opzione, devono essere attivate anche Le Miniature."
+                        T="Generare anche una pagina con la Galleria delle Immagini nel Report"
+                        Type="bool"
+                        V="2013.09.22+" /> 
+      </ThumbnailSettings>
+       <MapSettings    Label="G-Maps"
+                        T="PARAMETRI PER LE GOOGLE-MAPS">
+        <GoogleMaps
+                        Default="Y"
+                        Desc="I seguenti quattro parametri possono essere impostati per particolari Località, creando tag personalizzati. Utilizzare gli strumenti di GenoPro/Strumenti / Tag Editor per creare un nuovo Layout di dialogo per i Luoghi denominato 'Mapping', impostare la descrizione di '_Mapping' (NB L' iniziale _ è importante in quanto impedisce che questi tag personalizzati vengano visualizzati come 'Informazioni aggiuntive per il Luogo'. Sotto questo layout di dialogo aggiungere 3 tag personalizzati: Map.Google.Zoom, Map.Google.Type, Map.Google.Width &amp; Map.Google.Height È quindi possibile utilizzare la scheda '_Mapping' posto sulla finestra delle proprietà per adattare questi valori per ciascun luogo ."
+                        T="Mostrare le Mappe di Google per i luoghi"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <GoogleMapsType
+                        Default="1"
+                        O1="1:Mappa"
+                        O2="2:Satellite"
+                        O3="3:Ibrida"
+                        O4="4:Terreno"
+                        T="Tipo di 'Google Maps' da visualizzare" />
+        <GoogleMapsSmall
+                        Default="400x250"
+                        Size="9"
+                        T="Dimensione delle 'Google Maps' quando ci sono immagini associate  - Larghezza x Altezza (pixel)" />
+        <GoogleMapsLarge
+                        Default="650x250"
+                        Size="9"
+                        T="Dimensione delle 'Google Maps' quando non ci sono immagini associate   - Larghezza x Altezza (pixel" />
+        <GoogleMapsZoom
+                        Default="7"
+                        Size="2"
+                        T="Zoom di default delle 'Google Maps' (1-13)"
+                        Type="int" />
+        <fGoogleMapsLink
+                        Default="Y"
+                        Desc="In caso contrario, viene mostrato come una linea 'Comprimi/Espandi' nella posizione della pagina popup dei dettagli."
+                        T="Mostrare il Luogo 'Google Map' nel frame 'popup' tramite un hyperlink"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fGoogleMapsOverview
+                        Default="Y"
+                        T="Fornire il link 'Google Maps' sulla Homepage per le mappe con tutti i Luoghi"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </MapSettings>
+      <TimelineSettings Label="Cronologie"
+                        T="PARAMETRI DELLE TABELLE CRONOLOGICHE">
+        <Timelines
+                        Default="Y"
+                        T="Mostrare le Cronologie 'MIT Simile' per gli individui, le famiglie e gli alberi genealogici"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineShowDuration
+                        Default="Y"
+                        T="Mostrare la durata degli eventi con una barra colorata"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineContemporary
+                        Default="Y"
+                        Desc="La lunghezza della barra può essere estesa fino alla data della elaborazione per gli eventi che riguardano, per es., le persone viventi"
+                        T="Nella creazione dei reports, mostrare le date di eventi non ancora conclusi"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEvents
+                        Default="N"
+                        Desc="Se non diversamente impostato, ogni riga (o traccia) è utilizzata per un solo evento. N.B. gli eventi sono aggiunti in ordine cronologico inverso se sovrapposti, altrimenti in ordine cronologico normale."
+                        T="Riutilizzare la riga per gli eventi che non si sovrappongono sia per gli Individui che per le Famiglie"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineWrapEventsMap
+                        Default="Y"
+                        Desc="Se non diversamente impostato, ogni riga (o traccia) è utilizzata per un solo evento. N.B. gli eventi sono aggiunti in ordine cronologico inverso se sovrapposti, altrimenti in ordine cronologico normale."
+                        T="Riutilizzare le 'righe' per gli eventi che non si sovrappongono per le Mappe Genealogiche"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <TimelineMinEventsIndividual
+                        Default="2"
+                        Size="2"
+                        T="Numero minimo di eventi personali per visualizzare la cronologia"
+                        Type="int" />
+        <TimelineMinEventsFamily
+                        Default="2"
+                        Size="2"
+                        T="Numero minimo di eventi famigliari per visualizzare la cronologia"
+                        Type="int" />
+      </TimelineSettings>
+      <ServicesSettings Label="Analytics"
+                        T="IMPOSTAZIONI WEB SERVICES">
+        <GoogleAnalyticsAccount
+                        Default=""
+                        Desc="Utilizzare questa opzione per aggiungere il codice di Google Analytics se si usa il proprio sito web. (Solo se diverso da familytrees.genopro.com)"
+                        T="Google Analytics: Il tuo account &amp; sequenza no. (UA-XXXXXXXX-Y)" />
+        <GoogleAnalyticsDomain
+                        Default=""
+                        T="Google Analytics: il suffisso del dominio se si utilizza più sottodomini" />
+      </ServicesSettings>
+      <LanguageSettings Label="Linguaggio"
+                        T="PARAMETRI PER LA LINGUA USATA">
+        <LangPossessiveLookup
+                        Default="N"
+                        T="Usare NameDictionary per le forme dei nomi possessivi"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangLocativeLookup
+                        Default="N"
+                        T="Usare NameDictionary per le forme dei nomi di luogo"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangBaseNameLookup
+                        Default="N"
+                        T="Usare NameDictionary per il formato dei nomi di 'base' o 'declinati'"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangNames
+                        Default=""
+                        Size="3"
+                        T="Per usare NameDictionary per tradurre i nomi nel linguaggio del Report, imposta questo codice di lingua per tradurre DA." />
+        <LangPlace
+                        Default=""
+                        Size="3"
+                        T="Per usare NameDictionary per tradurre i Luoghi nel linguaggio del Report, imposta questo codice di lingua per tradurre DA." />
+        <LangOccupation
+                        Default=""
+                        Size="3"
+                        T="Per usare NameDictionary per tradurre le Occupazioni nel linguaggio del Report, imposta questo codice di lingua per tradurre DA." />
+        <LangAlternative
+                        Default=""
+                        Size="3"
+                        T="Codice per la lingua in cui è da tradurre il nome 'in alternativa' con il NameDictionary" />
+        <LangHtmlCulture
+                        Default=""
+                        Size="2"
+                        T="Codice HTML per impostare 'Content-Language' con la lingua o dialetto: ad esempio 'us' per indicare 'en-us'" />
+        <LangNameDictionary
+                        Default="NameDictionary.xml"
+                        T="File NameDictionary da utilizzare per la traduzione e in casi particolari (Default {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+        <LangShowOthers
+                        Default="N"
+                        T="Visualizza un'altra lingua nei campi multi-lingua"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <LangShowDefault
+                        Default="EN"
+                        Size="3"
+                        T="Linguaggio di default nei campi multi-lingua non previsti dal Dizionario dello skin" />
+        <TextDirection
+                        Default=""
+                        O1=":non modificare"
+                        O2="rtl:da destra verso sinistra"
+                        O3="ltr:da sinistra verso destra"
+                        T="Usa questa Direzione del testo, sovrascrivendo qualsiasi valore precedentemente impostato" />
+        <OriginalNamesCharts
+                        Default="N"
+                        T="Usa i nomi originari non tradotti, nelle Pedigree Chart"
+                        Type="bool"
+                        V="2013.04.05±" />                        
+        <OriginalNamesTimelines
+                        Default="N"
+                        T="Usa i nomi originari non tradotti, nelle GenoMap Timelines"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <OriginalNamesGoogleMaps
+                        Default="N"
+                        T="Usa i nomi originari non tradotti, nei Luoghi per la ricerca su Google Maps"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </LanguageSettings>
+      <NameSettings    Label="Nomi"
+                        T="PARAMETRI PER I NOMI">
+        <TagNameFull
+                        Default="Name"
+                        T="Tag individuale da usare come nome completo (usato negli indici e nei titoli)" />
+        <TagNameFormal
+                        Default="Name.First"
+                        T="Tag individuale da usare come nome proprio (usato nella prima riga della narrazione)" />
+        <TagNameKnownAs
+                        Default="Name.Nick"
+                        T="Tag individuale da usare come 'soprannome' (conosciuto come...) (usato nella prima riga della narrazione)" />
+        <TagNameShort
+                        Default="Name.Short"
+                        T="Tag individuale da usare come nome 'comune' (usato ovunque nel report)" />
+        <TagNameAlternative
+                        Default="Name.Alternative"
+                        T="Tag individuale da usare come nome 'alternativo'" />
+        <PhraseNameAlternative
+                        Default="{0}[{?!2}[ ({1})]]"
+                        Desc="N.B. 0=Nome intero, 1=Nome Alternativo, 2=Nome Intero compreso quello Alternativo"
+                        T="Template per la frase 'nome con alternativo'" />
+        <ShowBaseNameOnly
+                        Default="N"
+                        T="Non mostrare le variazioni di nome nei raggruppamenti dell'indice"
+                        Type="bool"
+                        V="2013.04.05±" />
+      </NameSettings>
+      <SVGSettings    Label="Mappe SVG/PDF"
+                        T="PARAMETRI PER LE MAPPE IN SVG/PDF">
+        <SvgPdf
+                        Default="SVGPDF"
+                        Desc="N.B. Anche se si include solo il formato PDF, è necessario aver installato Inkscape per convertire i file prima in SVG e poi PDF affinchè il rapporto sia disponibile in modo corretto"
+                        O1="SVG:SVG Solo"
+                        O2="PDF:PDF Solo"
+                        O3="SVGPDF:Entrambe con priorità SVG"
+                        O4="PDFSVG:Entrambe con priorità PDF"
+                        O5="None:No entrambe"
+                        T="Includere le Mappe SVG e/o PDF nei Report"
+                        V="2.0.1.6±" />
+        <fSvgZoomExtent
+                        Default="N"
+                        T="Mostrare la vista iniziale di ogni grafico SVG con l'intera GenoMap"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgExpandFrame
+                        Default="N"
+                        T="Ingrandire il frame SVG quando il visualizzatore è aperto."
+                        Type="bool"
+                        V="2013.04.05±" />
+        <fSvgCompress
+                        Default="Y"
+                        T="Comprimere file SVG per ottimizzare upload e anche il download"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <ShowAllAges
+                        Default="N"
+                        T="Mostrare l'età all'interno del simbolo di genere, anche per le persone ancora in vita"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <PdfToolbar
+                        Default="Y"
+                        T="Mostrare di default la barra degli strumenti di PDF Reader"
+                        Type="bool"
+                        V="2013.04.05±" />
+        <PdfZoom
+                        Default="100"
+                        Size="2"
+                        T="Zoom Iniziale del PDF % (Solo per Adobe)"
+                        Type="int"
+                        V="2013.02.17+" />
+        <InkscapePath
+                        Default="%ProgramFiles%\Inkscape\inkscape.exe"
+                        T="Path del programma Inkscape da usare per convertire SVG in PDF (Default {0})"
+                        Type="file"
+                        V="2.0.1.6±" />
+      </SVGSettings>
+    </ParameterDescriptions>
+    <GenerationMessages>
+      <ButtonNext
+	  				    T="Successivo" />	
+      <ButtonPrevious
+	  				    T="Precedente" />	    
+      <Cancel
+                        T="Cancella" />
+      <CommentApplyTheme
+                        T="Applicazione del tema '{0}'" />
+      <CommentDefaultTheme
+                        T="Copia dei files dal tema di default" />
+      <CommentDictionary
+                        T="Codice della lingua: '{0}', versione del Dizionario  '{1}'" />
+      <CommentMerge
+                        T="Fusione di {0}[ versione {1}] con {2}[ versione {3}]." />
+      <CommentVersion
+                        T="La Versione dello Skin è {0} [{?1} **** con modifiche **** ]"
+                        V="2013.07.30±" />
+      <CommentSelectedTheme
+                        T="Copia i files dal tema scelto" />
+      <ErrorCantLoadNameDictionary
+                        T="Errore: Impossibile caricare il contenuto del Dizionario" />
+      <ErrorConfigMessageNotFound
+                        T="Configurazione GenerationMessages: non trovata" />
+      <ErrorCoverImage  T="Impossibile caricare l'immagine nella copertina PDF&#160;" V="2013.10.10"/>
+      
+      <!-- 0=Custom Tag Name, 1=New Tag Name, Test={0}=Custom_tag|, {1}=New_Custom_tag| -->
+      <ErrorCustomDateTag
+                        T="Errore: il Custom Tag '{0}' non è valido in quanto è subordinato ad un campo Data su GenoPro. Le date devono essere indicate correttamente." />
+      <ErrorCustomTag
+                        T="Errore Custom Tag '{0}' Invalido: il nome di un tag deve iniziare con una lettara o un underscore." />
+      <ErrorCustomTagRename
+                        T="Il Tag deve essere rinominato usando un Editor di Tag per esempio '{0}' rinominato in '{1}' oppure il tag deve essre cancellato se non è necessario." />
+      <ErrorDeleteFile
+                        T="Impossibile eliminare il file esistente" />
+      <ErrorFetchHeader
+                        T="Errore: Impossibile recuperare 'la data dell'ultima modifica' dall'header HTTP per {0}"
+                        V="2.0.1.6+" />
+      <ErrorGenoMapBounds
+                        T="Errore: La GenoMap '{0}' non ha i valori limite stabiliti. Apri la GenoMap per correggerli."
+                        V="2.0.1.7RC8" />
+      <ErrorHelpSvgNames1 T="Errore: 'FmtHtmlHelpSvg' ConfigMsg tag non contiene il corretto numero di coppie  (21)"
+                          V="2011.11.04+" />
+      <ErrorHelpSvgNames2 T="Errore: 'FmtHtmlHelpSvg' ConfigMsg tag non contiene il corretto numero di coppie(21 x 2)"
+                          V="2011.11.04+" />
+      <ErrorInkscapeNotFound
+                        T="N.B. Le immagini PDF delle GenoMaps non saranno generate perchè il programma Inkscape deve essere installato, ma non è stato trovato nella path indicata nel parametro di configurazione 'InkscapePath'."
+                        V="2.0.1.6+" />
+      <ErrorInkscapeRun
+                        T="Errore interno al programma inkscape.exe" />
+    	<ErrorIrfanviewNotFound 
+                        T="N.B. Le Immagini Miniaturizzate e le immagini incorporate nelle GenoMaps non saranno generati perchè il programma IrfanView deve essere installato, ma non è stato trovato nella path indicata nel parametro di configurazione 'IrfanViewPath'."
+                        V="2.0.1.6+" />
+    	<!-- 1=Language Markup, Test={1}={?E:test}| -->
+    	<ErrorLangMarkup 
+                        T="Linguaggio di markup non valido: {0}" />
+      <ErrorLatLang 
+                        T="Errore:  formato della Latitudine/Longitudine sconosciuto: " 
+                        V="2011.01.06"/>
+    	<ErrorNoCachedSize 
+                        T="Errore: No cached size information for {}" 
+                        V="2.0.1.6+" />
+    	<ErrorNoCustomSkin 
+                        T="Errore: Attualmente questo Report può essere generato solo da uno skin personalizzato. Si prega di utilizzare il tasto 'Nuovo Skin' per creare una versione personalizzata dello Skin da usare nella creazione dei Report." />
+    	<!-- 0=error number, 1=error description -->
+    	<ErrorNoNameDictionary 
+                        T="Errore: Manca il file NameDictionary.xml per le opzioni relative al linguaggio richiesto" />
+    	<ErrorPdfUpload 
+                        T="Errore: Impossibile scrivere Relazione Pdf nella cartella : " 
+                      	V="2.0.1.76+" />
+    	<ErrorPicLabelDeprecated 
+                        T="Using label text 'picture=picnnnnn' for pictures in Labels is now superseded. Please use Label/SocialEntity Primary Picture and Custom Tags 'Picture.Style', 'Picture.FixRatio' and 'Picture.FitLabel' instead of text in Label/Social Entity" 
+                      	V="2.0.1.76+" />
+    	<ErrorPictureConvert 
+                        T="Errore {} nella conversione dell'immagine {} in miniatura {}" 
+    				            V="2.0.1.76+" />
+    	<ErrorRegExpBroken 
+                        T="Errore: ({0}: {1}) - VBScript non è stato installato correttamente sul suo PC. Si raccomanda di effettuare il download e installare la versione Windows 5.6 o 5.7 da http://www.microsoft.com/downloads" />
+    	<ErrorScriptingVersion 
+                        T="Errore: Questo Report Skin richiede 'Windows Script' versione 5.5 o superiore - Si raccomanda di installare l'ultima versione dal Centro Download di Microsoft." />
+    	<ErrorSliderRange 
+                        T="Il parametro 'PictureInterval' di Config.xml, deve contenere un range 1000 - 10000 (millisecondi)" />
+    	<!-- 0=object, 1=string in error, Test={0}=Individual, {1}=<?html>| -->
+    	<ErrorTextFormat 
+                        T="{0}: Istruzione non valida per il formato testo: {1}" />
+    	<ErrorTextSyntax 
+                        T="{0}: Istruzione sintattica non valida per il formato testo: {1}" />
+    	<ErrorTextToken 
+                        T="{0}: Testo di formato formale non valido: {1}" />
+    	<ErrorThumbnailCheck 
+                        T="Errore: Impossibile controllare se  è richiesto un aggiornamento per i files miniatura" />
+    	<ErrorXMLEntities 
+                        T="Errore: I seguenti campi contengono entità XML non valide: p. e. nel range &amp;#0; - &amp;#31; ma escludendo le entità valide &amp;#9;,&amp;#10; e &amp;#13; i Tag di dati personalizzati inclusi nella configurazione dei Parametri non saranno trattati nei tags del Documento " />
+    	<!-- 0=Error reason, 1=script line number, 2=script text, 3=File details
+    				            Test={0}=Invalid Entity, {1}=220, {2}=script stuff,, -->
+    	<ErrorXMLLoad 
+                        T="Errore durante il tentativo di analizzare i dati  {3}: {0} in linea {1}: {2} " 
+                        V="2012.07.XX±" />
+      <!--V="2.0.1.6x"         0=Error reason, 1=script line number, 2=script text -->
+      <!--<ErrorXMLLoadDic
+                        T="Warning: Unable to parse Dictionary: {0} on line {1}:&#10;&#09;{2}&#10;Some extended Dictionary elements &amp; attributes will not be available"  V="2.0.1.6x"/>-->
+      <!--<ErrorXMLLoadCfg
+                        T="Warning: Unable to parse Config.xml file: {0} on line {1}:&#10;&#09;{2}&#10;"  V="2.0.1.6x"/>-->
+      <!-- 0=Error number, 1=Error description, 2=additional info
+                        Test={0}=123456, {1}=Invalid Argument -->
+    	<ErrorHttpGet 
+                        T="Errore {}: {} (Impossibile recuperare l'immagine {})" 
+                        V="2.0.1.6+" />
+    	<ErrorXMLParser 
+                        T="Errore: Impossibile caricare un controllo ActiveX per MS XML Parser. {0}:{1}" />
+    	<ErrorVB 
+                        T="Errore {}: {} ({})" 
+                   			V="2.0.1.6+" />
+      <FmtInvalidPictureID
+                        T="L'immagine ID {} nella Label {} della GenoMap {} non è valida."
+                        V="2.0.1.6+" />
+      <!--<FmtNoDrawingObjects
+                        T="No Drawing objects for {}"  V="2.0.1.7RC1x"/>-->
+      <FmtPdfUpToDate
+                        T="Pdf per la GenoMap {} è già aggiornato."
+                        V="2.0.1.6+" />
+      <FmtThumbnailCreate
+                        T="Aggiornamento della miniatura per {0}"
+                        V="2.0.1.6+" />
+      <FmtThumbnailUpToDate
+                        T="La miniatura per {0} è già aggiornata"
+                        V="2.0.1.6+" />
+      <HeaderConfigParameters
+                        T="N.B. Fare clic su ciascuna delle voci qui sotto per aprire o chiudere la sezione. Apportare le eventuali modifiche ritenute necessarie dei parametri di configurazione su questo form e quindi fare clic su 'OK'. " 
+                        V="2.0.1.6±" />
+      <Marker
+                        T="?"
+                        V="2.0.1.6+" />
+      <Ok
+                        T="OK" />
+      <Parameters
+                        T="- Impostazione dei Parametri" />
+      <ParametersCancelHint
+                        T="Exit this dialog and cancel report generation" />
+      <ParametersOkHint
+                        T="Exit this dialog and continue with report generation" />
+      <ParametersAbandoned
+                        T="Generazione del report annullata dall'utente nella finestra 'Parametri di configurazione'" />
+      <ParametersClearOption
+                        T="Per poter visualizzare le impostazioni dei parametri, deselezionare la casella nella scheda 'Opzioni' di questa finestra di dialogo." />
+      <ParametersProfile
+                        T="Profilo" />
+      <ParametersDefault
+                        T="-- di default --" />
+      <ParametersLastUsed
+                        T="-- ultimo usato --" />
+      <ParametersNew
+                        T="-- nuovo profilo --" />
+      <ParametersLoad
+                        T="Carica" />
+      <ParametersLoadHint
+                        T="Riprendi i Parametri salvati nel Profilo selezionato" />
+      <ParametersDelete
+                        T="Cancella"/>
+      <ParametersDeleteHint
+                        T="Cancella le impostazioni del profilo selezionato"/>
+      <ParametersSave
+                        T="Salva"/>
+      <ParametersSaveHint
+                        T="Salva nel Registro il valore dei Parametri selezionati con il nome del profilo"/>
+      <ParametersOverride
+                        T="N.B. La visualizzazione del settaggio dei Parametri di configurazione viene ignorato alla impostazione del TAG 'ChangeParameters'. Cancella questo segno di spunta per modificare le impostazioni nella scheda 'Opzioni' di questa finestra di dialogo." />
+      <ParametersSetOption
+                        T="Per disabilitare la visualizzazione delle impostazioni dei parametri, barrare la casella sotto 'Opzioni' nella scheda di dialogo di 'Genera report'." />
+      <ProfileExisting
+                        T="Seleziona un profilo esistente"/>
+      <ProfileNew
+                        T="Inserisci il nome di un nuovo profilo:"/>
+      <ProfileValidNew
+                        T="Scegliere un profilo esistente o nuovo profilo"/>
+      <SameTheme
+                        T="Ottimizzazione del caricamento - stesso Tema - Copiatura dei files del Tema e delle immagini che erano stati soppressi.  Vedere i Parametri di Configurazione prima di sovrascrivere"
+                        V="2013.09.22+" />
+      <SameVersion
+                        T="Ottimizzazione del caricamento - Stessa Versione dello Skin  - Copiatura delle routines di supporto di Google Maps e delle Timeline che erano stati soppressi.  Vedere i Parametri di Configurazione prima di sovrascrivere"
+                        V="2013.09.22+" />
+      <Wait             T="Attendere...  Comando in esecuzione : "
+                        V="2013.09.22+" />
+      <!-- 0=Attribute name, Test={0}=Param -->
+      <WarningAttributeKeyMissing
+                        T="Attenzione: StrDicAttribute. Ricerca di '{0}' fallita." />
+      <!-- 0=Custom Tag Name, 1=Custom Tag Layout Name Test={0}=Custom_tag, {1}=My_Tag_Layout -->
+      <WarningCustomTLayoutExcluded
+                        T="Custom Tag Layout '{0}' è contrassegnato come nome di sistema o nome privato ed è stato escluso" />
+      <WarningCustomTagExcluded
+                        T="Custom Tag '{0}' in Layout '{1}' è contrassegnato come nome di sistema o nome privato ed è stato escluso" />
+      <WarningEmptyNameDictionary
+                        T="Attenzione: E' stata selezionata l'opzione della Lingua, ma manca il Nome del Dizionario." />
+      <!-- This tag overrides the tag FmtTagChange in Dictionary.xml, allowing translation on the report log -->
+      <WarningDicChange
+                        T="Attenzione: [Il Tag {1} del Dizionario è stato sostituito a partire dalla versione {!3} con ]il Tag {0}[{?!1} [introdotto dalla versione {3} ]è assente dal Dizionario ed è  rimasto irrisolto per '{2}]'"
+                        V="2011.9.23+" />
+      <WarningTagChange
+                        T="Attenzione: il tag {0} usato nella versione {2}, manca nel file Config.xml e viene sostituito con il tag: {1}"
+                        V="2.0.1.6 (rev.2009.10.01)+" />
+      <WarningTitleMissing
+                        T="Manca il Titolo!  Click su &quot;Document&quot; e Ddi un TITOLO alla tua ricerca genealogica." />
+      <WarningUpgrade1
+                        T="E' disponibile una versione successiva di GenoPro" />
+      <WarningUpgrade2
+                        T="Si prega di aggiornare la procedura per assicurarsi che i temi funzionino correttamente" />
+    </GenerationMessages>
+  </ReportGenerator>
+</Skin>
