@@ -1,7 +1,7 @@
-﻿<Dictionary Language="EN" Version="2014.08.17">
+﻿<Dictionary Language="EN" Version="2015.04.02">
     <Authors>
     <!--
-    Brief history of each author having modified the dictonary file.
+    Brief history of each author having modified the dictionary file.
     The purpose of this list is to give credit to the contributors(s) and provide a method to communicate with them if necessary.
     
     My personal thanks to Ron from England who designed the narrative reports.  Without Ron, there would
@@ -9,11 +9,6 @@
     Dan Morin.
     -->
         <Author Name="GenoPro" DateFirstModified="2005" Contact="http://www.genopro.com/" Comment="Creation" />
-        <Author Name="GenoPro" DateLastModified="12-Dec-2006" Comment="Changes made by 'genome'" />
-        <Author Name="GenoPro" DateLastModified="20-Dec-2006" Comment="Changed some hyperlinks to point to new HTML pages from new website for GenoPro 2007" />
-        <Author Name="GenoPro" DateLastModified="Apr-2007" Comment="Gender-based phrases and name tag definitions" />
-        <Author Name="GenoPro" DateLastModified="Jun-2007" Comment="More Dictionary based phrases and NameDictionary to aid translation" />
-        <Author Name="GenoPro" DateLastModified="Dec-2007" Comment="Tweaking dictionary text" />
         <Author Name="Ron"     DateLastModified="ongoing" Contact="GenoPro Forum" Comment="Maintenance and Improvements" />
     </Authors>
 
@@ -24,7 +19,7 @@
          where yyyy.mm.dd  is release date for that version and ? is the type of change as follows:
 
             + indicates an insertion
-            x indicates a deletetion - also deletions are placed in comments and removed at a later date
+            x indicates a deletion - also deletions are placed in comments and removed at a later date
             ± indicates an amendment   
             ~ indicates a reposition up or down 
          
@@ -555,7 +550,8 @@
           Shape="Opacity"
           SocialEntity="Language|Picture\.Style|Picture\.Display|Picture\.FitLabel|Picture\.FixRatio|Extant|_Extant|Title"
           SocialRelationship="Language"
-          V="2014.02.28±"/>
+		  SourceCitation="Url.Exclude"
+          V="2015,01,20±"/>
 
         <!-- The method "place.NameNarrative" uses the "PlacePrefix" and the place name -->
         <_FmtPlaceNarrative T="&#32;{0} {1}"/>                    <!-- 0=place prefix, 1=place name   Test={0}=in|at, {1:0}=Paris|Hospital-->
@@ -1272,7 +1268,7 @@
         <Disposition T="Body disposition" V="2010.12.10"/>
         <Divorce T="Divorce/Separation" V="2010.12.10"/>
         <DivorceAbbr T=" div." />
-        <Description T="Description:" />
+        <Description T="Description" V="2015.03.18±"/>
         <DetailLink T="Details of&#32;"/>
         <Education T="Education"/>
         <EmotionalRelationship T="Emotional Relationship"/>
@@ -1653,7 +1649,16 @@
                         pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot;&gt;
                     &lt;/EMBED&gt;
               &lt;/OBJECT&gt;"/>
-
+       <!-- 0=File path, 1=unique id, 2=width, 3=height, 4=preload option, 5=poster,
+	    test={0}=mvyvideo.mp4, {1}=myvideoid, {2}=640|, {3}=480|, {4}=|, {5}=myvideoposter.jpg| -->
+	   <PhMovie_MP4 T="&lt;video id=&quot;example_video_1&quot; class=&quot;video-js vjs-default-skin&quot;
+		  controls [{?4}preload=&quot;{4=auto}&quot;] [{?2}width=&quot;{2}&quot; ][{?3}height=&quot;{3}&quot; ]
+		  [{?5}poster=&quot;{5}&quot; ]&gt;
+		 &lt;source src=&quot;{0}&quot; type='video/mp4' /&gt;
+		 &lt;p class=&quot;vjs-no-js&quot;&gt;To view this video please enable JavaScript, and consider upgrading to a web browser that 
+		 &lt;a href=&quot;http://videojs.com/html5-video-support/&quot; target=&quot;_blank&quot;&gt;supports HTML5 video&lt;/a&gt;&lt;/p&gt;
+		&lt;/video&gt;" V="2015.04.02+" />
+		 
          <!-- 0=First Name, 1=Full Name, 2=Nickname, 3=gender.ID-->
         <PhNameFriendly T="{0}[{?!0}{1}][, known as {2},]" />
          <!-- 0=Nickname -->
@@ -1708,10 +1713,11 @@
         <!-- 0=number of times the place is found in the report, 1=true|false (multiple places) -->
         <PhPlaceCount T="{?1}This place is mentioned {!0} times within the genealogy report.{ &#32;}" />
 
-        <!-- 0=place name, 1=place category, 2=street address, 3=city, 4=county or region, 5=state or province, 6=zip or postal code, 7=country 8=n/a, 9=n/a, 10=n/a, 11=latitude, 12=longitude, 13 <b>, 14 </b> -->
-        <PhPlaceDescription T="[{?1|2|3|4|5|6|7|11|12}[{?!1}[{?2|3|4|5|6|7}The address of ]]{!5h}{!0}{!14h}[ is {1}][{?2|3|4|5|6|7|11|12}[{?1} and its address] is[ {2}][[{?2},] {3h}][[{?2|3},] {4h}][[{?2|3|4},] {5h}][ {7h}][ {6h}][[{?2|3|4|5|6|7},][{?!2|3|4|5|6|7} is] located at latitude {11}, longitude {12}]].{\br}]" />
+        <!-- 0=place name, 1=place category, 2=street address, 3=city, 4=county or region, 5=state or province, 6=zip or postal code, 7=country, 8=n/a, 9=n/a, 10=n/a, 11=latitude, 12=longitude, 13=<b>, 14=</b> 
+			Test={0}=Hogwarts, {1}=an educational institute|, {2}=Diagon Alley|, {3}=Dufftown|, {4}=The Highlands|, {5}=Scotland|, {6}=AB1 3HP|, {7}=UK|, {11}=57.45N|, {12}=3.13W|, {13}=<b>, {14}=</b> -->
+        <PhPlaceDescription T="[{!13h}{!0}{!14h} is[ {1}][{?2} at {2}][{?3|4|5|6|7}[{?2},][{!} in][ {3h}][[{?2|3},] {4h}][[{?2|3|4},] {5h}][ {7h}][ {6h}][{?11|12}[{?2|3|4|5|6|7} and is] located at[ latitude {11}][[{?11},] longitude {12}]]].{\br}]" V="2015.03.18±"/>
         <!-- 0=place name, 1=place category, 2=street address, 3=city, 4=county or region, 5=state or province, 6=zip or postal code, 7=country 8=latitude, 9=longitude -->
-        <PhPlaceDescriptionTxt T="[{?!1}[{?2|3|4|5|6|7}The address of ]]{0}[ is {1}][{?2|3|4|5|6|7}[{?1} and its address] is[ {2}][[{?2},] {3}][[{?2|3},] {4}][[{?2|3|4},] {5}][ {7}]][ {6}][[{?2|3|4|5|6|7},][{?!1|2|3|4|5|6|7} is] located at latitude {8}, longitude {9}]." />
+        <PhPlaceDescriptionTxt T="[{!0} is[ {1}][{?2} at {2}][{?3|4|5|6|7}[{?2},][{!} in][ {3}][[{?2|3},] {4}][[{?2|3|4},] {5}][ {7}][ {6}][{?11|12}[{?2|3|4|5|6|7} and is] located at[ latitude {11}][[{?11},] longitude {12}]]]." V="2015.03.18±"/>
 
         <!-- 0=start date/date span, 1=short name, 2=name's|his|her, 3=event/attribute text, 4=opening h5, 5=closing h5, 6=agency, 7=place, 8=agency prefix, 9=name|he|her, 10=event/attribute text prefix -->
         <PhPROB N="Probate" T="{ &#32;}Probate was granted for {2} will[ {10}][ {3h}][{?6} {8=by} {6h}][{?6^7},]{7h}[ {0}]." V="2013.07.30+"/>

@@ -415,6 +415,15 @@ Function StrPlaceTranslate(strName)
     StrPlaceTranslate = strTranslated            
 End Function
 
+Function StrPreferredName(strName)
+    nStart = Instr(strName, Session("MarkerFirstName"))
+    If nStart > 0 Then
+        StrPreferredName = Mid(strName, nStart + 1, Instr(nStart, strName & " ", " ") - nStart -1)
+    Else
+        StrPreferredName = strName
+    End If
+End Function
+
 Function StrSubstitute(strValue, arrPatterns)
     Dim i,strTemp, oRegEx
     Set oRegEx = Session("RegEx")
@@ -664,19 +673,11 @@ Sub WriteHtmlFamily(f, nFamily, iParent)
     Session("BufferBegin") = Report.BufferLength
 
     If (Not Util.IsNothing(spouse)) Then
-        WriteHtmlPicturesLarge spouse, "", Util.StrFirstCharUCase(Dic.FormatString("FmtPictures", strSpousePossessive)), Session("fHidePictureName") Or Session("fShowPictureDetails")
-        If Session("fShowPictureDetails") Then
-            WriteHtmlDetailsPicture spouse, Session("fHidePictureName"), False
-            WriteHtmlAnnotationPicture strSpouseType, spouse, "right", Session("cxPictureSizeLarge")
-        End If
+        WriteHtmlPicturesLarge spouse, "", Util.StrFirstCharUCase(Dic.FormatString("FmtPictures", strSpousePossessive)), Session("fHidePictureName") Or Session("fShowPictureDetails"), False
         If f.Session("PicturesIncluded") > 0 Then Report.WriteBr
-        WriteHtmlPicturesLarge f, "", Util.FirstNonEmpty(Dic.Peek("HeadingPicturesFamily"), Dic.FormatString("FmtPictures", Dic("Family"))), Session("fHidePictureName") Or Session("fShowPictureDetails")
+        WriteHtmlPicturesLarge f, "", Util.FirstNonEmpty(Dic.Peek("HeadingPicturesFamily"), Dic.FormatString("FmtPictures", Dic("Family"))), Session("fHidePictureName") Or Session("fShowPictureDetails"), False
      Else
-        WriteHtmlPicturesLarge f, "", "", Session("fHidePictureName") Or Session("fShowPictureDetails")
-    End If
-    If Session("fShowPictureDetails") Then
-        WriteHtmlDetailsPicture f, Session("fHidePictureName"), False
-        WriteHtmlAnnotationPicture Dic("Family"), f, "", Session("cxPictureSizeLarge")
+        WriteHtmlPicturesLarge f, "", "", Session("fHidePictureName") Or Session("fShowPictureDetails"), False
     End If
 
     If Report.BufferLength = Session("BufferBegin") Then        ' no picture information written
@@ -1535,69 +1536,72 @@ Sub WriteHtmlTocEntities(SocialEntities, fPicturesOnly, fContactsOnly)
 
     Set oDataSorter = Util.NewDataSorter()
     For Each s in SocialEntities
-        If s.Session("Name") <> "" And IsFalse(CustomTag(s, "IsLabel"), False) And (strLang = "" Or strLang = Session("ReportLanguage")) Then oDataSorter.Add s, s.Session("Name")
+		strLang = CustomTag(s,"Language")
+        If s.Session("Name") <> "" And IsFalse(CustomTag(s, "IsLabel"), False) And (strLang = "" Or strLang = Session("ReportLanguage")) Then
+			oDataSorter.Add s, s.Session("Name")
+		End If
     Next
 
     oDataSorter.SortByKey
     Set collSocialEntities = oDataSorter.ToGenoCollection
 
     For Each s in collSocialEntities
-           strName = s.Session("Name")
-           If (Not fPicturesOnly And Not fContactsOnly) Or _
-                        (fPicturesOnly And s.Session("PicturesIncluded") > 0) Or _
-                (fContactsOnly And s.Contacts.Count > 0) Then
-            strFirstChar = Util.StrStripAccentsUCase(Util.StrStripPunctuation(Util.StrGetFirstChar(strName)))
-            If strFirstChar <> strFirstCharPrev Then
-                If strFirstCharPrev <> "" Then
-                        If Report.BufferLength > cchBufferEntities Then
-                                            Report.WriteLn "</ul></li>"
-                                        Else
-                                                Report.BufferLength = cchBufferLetter
-                                        End If
-                                End If
-                cchBufferLetter = Report.BufferLength
-                Report.WriteFormattedLn "<li class='xT2-{}' onclick='xTclk(event,""2"");'> <span class='xT-i bold'>{&t}</span><ul>", Util.IfElse(fTreeOpen,"o","c"), strFirstChar 
-                strFirstCharPrev = strFirstChar
-                                cchBufferEntities = Report.BufferLength
-            End If
-        If Not fContactsOnly Then
-           Report.WriteLn "<li class='xT-b'>"
-                 Report.WriteFormatted "<img src='images/entity.gif' border='0' width='16' height='16' alt='{}'/> <a href='entities.htm#{}'>{&t}</a>", StrDicExt("AltEntityImage","","Social Entity","",""), s.ID, s.Session("Name")
-                 If Not fPicturesOnly Then
-                         Report.WriteBr StrHtmlImgPhotoLink(s, "Entities.htm")
-                 Else
-                         Report.WriteBr
-                         For Each p in s.Pictures
-                       Report.Write3Br "", StrHtmlImgPhoto(p), ""
-                   Next
-                 End If
-                 Report.WriteLn "</li>"
-         Else
-              cchBufferEntity = Report.BufferLength
-              Report.WriteFormattedLn "<li class='xT2-{}' onclick='xTclk(event,""2"")'>", Util.IfElse(fTreeOpen,"o","c")
-                 Report.WriteFormatted "<img src='images/entity.gif' border='0' width='16' height='16' alt='{}'/> <a href='entities.htm#{}'>{&t}</a>", StrDicExt("AltEntityImage","","Social Entity","",""), s.ID, s.Session("Name")
-                 strFmtTemplate = "<li class='xT-b'><a href='contacts.htm#{&t}' onclick='tocExit();'><img src='images/{}.gif' alt='{}'/> {&t}</a> " & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16") & "{}"
-                 Report.WriteLn "<ul>"
-                 cchBufferContacts = Report.BufferLength
-                 For Each c In s.Contacts
-                         If Not fPicturesOnly Or c.Session("PicturesIncluded") > 0 Then
-                                      Report.WriteFormatted strFmtTemplate, c.ID, "contact2", Dic("Occupancy"), c.Session("Name"), c.References.Count, Util.IfElse(fPicturesOnly,"",StrHtmlImgPhoto(c))
-                                         If fPicturesOnly Then
-                                              For Each p in c.Pictures
-                                                         Report.WriteBr
-                                                       Report.Write3 "", StrHtmlImgPhoto(p), ""
-                                              Next
-                                    End If
-                                    Report.WriteLn "</li>"
-                         End If
-                 Next
-                 If Report.BufferLength = cchBufferContacts Then
-                                     Report.BufferLength = cchBufferIndividual
-                             Else
-                         Report.WriteLn "</ul></li>"
-                 End If
-              End If
-           End If
+	   strName = s.Session("Name")
+	   If (Not fPicturesOnly And Not fContactsOnly) Or _
+					(fPicturesOnly And s.Session("PicturesIncluded") > 0) Or _
+			(fContactsOnly And s.Contacts.Count > 0) Then
+			strFirstChar = Util.StrStripAccentsUCase(Util.StrStripPunctuation(Util.StrGetFirstChar(strName)))
+		End If
+		If strFirstChar <> strFirstCharPrev Then
+			If strFirstCharPrev <> "" Then
+				If Report.BufferLength > cchBufferEntities Then
+					Report.WriteLn "</ul></li>"
+				Else
+					Report.BufferLength = cchBufferLetter
+				End If
+			End If
+			cchBufferLetter = Report.BufferLength
+			Report.WriteFormattedLn "<li class='xT2-{}' onclick='xTclk(event,""2"");'> <span class='xT-i bold'>{&t}</span><ul>", Util.IfElse(fTreeOpen,"o","c"), strFirstChar 
+			strFirstCharPrev = strFirstChar
+							cchBufferEntities = Report.BufferLength
+		End If
+	If Not fContactsOnly Then
+	   Report.WriteLn "<li class='xT-b'>"
+			 Report.WriteFormatted "<img src='images/entity.gif' border='0' width='16' height='16' alt='{}'/> <a href='entities.htm#{}'>{&t}</a>", StrDicExt("AltEntityImage","","Social Entity","",""), s.ID, s.Session("Name")
+			 If Not fPicturesOnly Then
+					 Report.WriteBr StrHtmlImgPhotoLink(s, "Entities.htm")
+			 Else
+					 Report.WriteBr
+					 For Each p in s.Pictures
+				   Report.Write3Br "", StrHtmlImgPhoto(p), ""
+			   Next
+			 End If
+			 Report.WriteLn "</li>"
+		Else
+			cchBufferEntity = Report.BufferLength
+			Report.WriteFormattedLn "<li class='xT2-{}' onclick='xTclk(event,""2"")'>", Util.IfElse(fTreeOpen,"o","c")
+			Report.WriteFormatted "<img src='images/entity.gif' border='0' width='16' height='16' alt='{}'/> <a href='entities.htm#{}'>{&t}</a>", StrDicExt("AltEntityImage","","Social Entity","",""), s.ID, s.Session("Name")
+			strFmtTemplate = "<li class='xT-b'><a href='contacts.htm#{&t}' onclick='tocExit();'><img src='images/{}.gif' alt='{}'/> {&t}</a> " & StrDicExt("FmtCounter", "", "<small><bdo dir'ltr'> ({})</bdo></small>", "", "2011.02.16") & "{}"
+			Report.WriteLn "<ul>"
+			cchBufferContacts = Report.BufferLength
+			For Each c In s.Contacts
+				 If Not fPicturesOnly Or c.Session("PicturesIncluded") > 0 Then
+							  Report.WriteFormatted strFmtTemplate, c.ID, "contact2", Dic("Occupancy"), c.Session("Name"), c.References.Count, Util.IfElse(fPicturesOnly,"",StrHtmlImgPhoto(c))
+								 If fPicturesOnly Then
+									  For Each p in c.Pictures
+												 Report.WriteBr
+											   Report.Write3 "", StrHtmlImgPhoto(p), ""
+									  Next
+							End If
+							Report.WriteLn "</li>"
+				 End If
+			Next
+			If Report.BufferLength = cchBufferContacts Then
+							 Report.BufferLength = cchBufferIndividual
+					 Else
+				 Report.WriteLn "</ul></li>"
+			End If
+		End If
     Next
     If strFirstCharPrev <> "" Then
             If Report.BufferLength > cchBufferEntities Then
@@ -1997,11 +2001,7 @@ Sub WriteHtmlEntity(s)
     Report.WriteFormattedLn "<a name='{&t}'></a><h4>{&t}</h4>", s.ID, s.Session("Name")
     If (s.Session("PicturesIncluded") > 0) Then
         Report.WriteLn "<div class='floatright aligncenter widthpaddedlarge'>"
-        WriteHtmlPicturesLarge s, "left", "", Session("fHidePictureName") Or Session("fShowPictureDetails")
-        if Session("fShowPictureDetails") Then
-           WriteHtmlDetailsPicture s, Session("fHidePictureName"), False
-           WriteHtmlAnnotationPicture Dic("SourceCitation"), s, "right", Session("cxPictureSizeLarge")
-        End If
+        WriteHtmlPicturesLarge s, "left", "", Session("fHidePictureName") Or Session("fShowPictureDetails"), False
         Report.WriteLn "</div>"
     End If
     arrText = Split(s.Text, vbLf)
@@ -2052,7 +2052,7 @@ Sub WriteHtmlOccupancies(obj)
                                         strName, strRelative, StrDateSpan(o.DateStart, o.DateEnd), _
                                         Util.IfElse(o.DateStart.ToStringNarrative <> o.DateEnd.ToStringNarrative, StrTimeSpan(o.Duration), ""), _
                                         (Not fExtant Or (o.DateEnd.ToStringNarrative<>""))=False, _
-                                        StrHtmlHyperlink(o.Place), o.Summary, o.Place.Session("Hlink"), strType
+                                        o.Place.Session("HlinkLocative"), o.Summary, o.Place.Session("Hlink"), strType
             If Report.BufferLength > ich And o.Summary <> "" Then Report.WriteBr
             Report.WritePhraseDic "PhContact", o.telephone, o.Fax, Util.FormatHtmlHyperlink(Util.IfElse(o.Email <> "","mailto:" & o.Email,""), o.Email), Util.FormatHtmlHyperlink(o.Homepage, ,"target='_blank'"), o.Type, o.Place, o.Mobile
             WriteHtmlFootnoteRef o.Source
@@ -2060,10 +2060,6 @@ Sub WriteHtmlOccupancies(obj)
             WriteHtmlExtraNarrative o
             WriteHtmlAdditionalInformation(o)
             WriteHtmlAnnotation o, Dic("AnnotationOccupancy"), o.Comment
-            If Session("fShowPictureDetails") Then
-                WriteHtmlDetailsPicture o, Session("fHidePictureName"), True
-                WriteHtmlAnnotationPicture Dic("Contact"), o, "", ""
-            End If
             strName = strPnP
             strType = ""
             Report.WriteLn "</div>"
@@ -2073,7 +2069,7 @@ Sub WriteHtmlOccupancies(obj)
 End Sub
 
 Sub WriteHtmlSource(s)
-    Dim collReferences, pub, ser, strClassCitation, fTemp, strUrl
+    Dim collReferences, pub, ser, strClassCitation, fTemp, strUrl, strText, strFile
     Set pub = s.Publication
     Set ser = s.Series
     strClassCitation="citation"
@@ -2081,22 +2077,27 @@ Sub WriteHtmlSource(s)
 
     If (s.Session("PicturesIncluded") > 0) Then
         Report.WriteLn "<div class='floatright aligncenter widthpaddedlarge'>"
-        WriteHtmlPicturesLarge s, "left", "", Session("fHidePictureName") Or Session("fShowPictureDetails")
-        if Session("fShowPictureDetails") Then
-           WriteHtmlDetailsPicture s, Session("fHidePictureName"), False
-           WriteHtmlAnnotationPicture Dic("SourceCitation"), s, "right", Session("cxPictureSizeLarge")
-        End If
+        WriteHtmlPicturesLarge s, "left", "", Session("fHidePictureName") Or Session("fShowPictureDetails"), False
         Report.WriteLn "</div>"
         strClassCitation="citationpic"
     End If
 
-    strUrl = StrParseText(s.Url, False)        ' arg UseLangShowOthers=False so this always sets just a single language version
-    
+	strUrl = StrParseText(s.Url, False)        ' arg UseLangShowOthers=False so this always sets just a single language version
+	strText = strUrl
+	If strUrl <> "" And CustomTag(s, "Url.Exclude") = "" Then
+		If Not Instr(strUrl, ":") > 0 Then strUrl = ReportGenerator.Document.BasePath & strUrl ' relative link
+		If  oFso.FileExists(strUrl) Then
+			strFile = strUrl
+			strUrl = "media/" & Session("UUID") & "_" & Util.HrefEncode(oFso.GetFile(strUrl).Name) ' make url valid and unique
+			Session("UUID") = Session("UUID") + 1
+			ReportGenerator.FileUpload strFile, Util.UrlDecode(strUrl)
+		End If
+	End If
     If s.subtitle <> "" Then Report.WriteFormattedLn "<div class='subhead'>{}</div>", StrFormatText(s, s.subtitle)
     If s.QuotedText <> "" Then Report.WriteFormattedLn "<div class='{0}'>{1}</div>", strClassCitation, StrFormatText(s, s.QuotedText)
     Report.WritePhraseDic "PhSourceEntry", s.Edition, ser.Name, ser.Issue, pub.publisher, pub.Place.Session("HlinkLocative"), _
                 CustomDate(pub.Date).ToStringNarrative, s.Originator , StrFormatText(s, s.Description), StrFormatText(s, StrParseText(s.WhereInSource, True)), s.Editor, _
-                s.ISBN, Util.FormatHtmlHyperlink(strUrl, strUrl, "target='_blank'"), s.Repository.Session("HlinkLocative"), s.MediaType, StrFormatText(s, StrParseText(s.ReferenceNumber, True)), s.ConfidenceLevel
+                s.ISBN, Util.FormatHtmlHyperlink(strUrl, strText, "target='_blank'"), s.Repository.Session("HlinkLocative"), s.MediaType, StrFormatText(s, StrParseText(s.ReferenceNumber, True)), s.ConfidenceLevel
     
     WriteHtmlExtraNarrative s
 
@@ -2127,11 +2128,7 @@ Sub WriteHtmlPlace(p, GoogleMaps, fLink)
     Report.WriteFormattedLn "<a name='{&t}'></a><h4>{&t}{}</h4>", p.ID, p.Session("NameFull"), strMapLink
     If (p.Session("PicturesIncluded") > 0) Then
         Report.WriteLn "<div class='floatright aligncenter widthpaddedlarge'>"
-        WriteHtmlPicturesLarge p, "left", "", Session("fHidePictureName") Or Session("fShowPictureDetails")
-        if Session("fShowPictureDetails") Then
-           WriteHtmlDetailsPicture p, Session("fHidePictureName"), False
-           WriteHtmlAnnotationPicture Dic("Place"), p, "right", Session("cxPictureSizeLarge")
-        End If
+        WriteHtmlPicturesLarge p, "left", "", Session("fHidePictureName") Or Session("fShowPictureDetails"), False
         Report.WriteLn "</div>"
         If GoogleMaps Then
             strWidth = CustomTag(p, "Map.Google.Width")
@@ -2153,8 +2150,8 @@ Sub WriteHtmlPlace(p, GoogleMaps, fLink)
     End If
     Report.WritePhraseDic "PhPlaceDescription", p.Session("NameShort"), Util.IfElse(p.Category <> p.Parent.Category, p.Category, ""), p.Street, p.Session("City"), p.Session("County"), p.Session("State"), strZip, p.Session("Country"), _
                     "", "", "", p.Latitude, p.Longitude, "<b>", "</b>"
-    Report.Write3Br "", Util.IfElse((p.Description & "") <> (p.Parent.Description & ""), StrFormatText(p, p.Description), ""), "" 
     WriteHtmlExtraNarrative p
+    WriteHtmlAnnotation p, Dic("Description"),Util.IfElse((p.Description & "") <> (p.Parent.Description & ""), StrFormatText(p, p.Description), "")
   If GoogleMaps And Not fLink Then ' show map on this page
             Report.WriteLn        "<div id='GoogleMapWrapper'><ul class='xT'>"
             Report.WriteFormattedLn "    <li class='xT3-o xT-h' onclick='xTclk(event,""3"")'>{&t}", Dic("GoogleMap")

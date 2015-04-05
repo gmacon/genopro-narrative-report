@@ -45,7 +45,7 @@
         where a.b.c.d is version number, x is optional subversion and ? is the type of change as follows:
 
             + indicates an insertion
-            x indicates a deletetion - also deletions are placed in comments and removed at a later date
+            x indicates a deletion - also deletions are placed in comments and removed at a later date
             ± indicates an amendment   
             ~ indicates a reposition up or down 
     -->

@@ -46,7 +46,7 @@ if (maxPopups ) {
 }
 
 $.cookie('popupToggleState',"images/maximize.gif");
-$.cookie('tocStateToggle', (@[Report.Write Session("AutoHideTOCjs")]@ ? 'Close' : 'Open'));
+$.cookie('tocStateToggle', (@[Report.Write Session("AutoHideTOCjs")]@ || maxPopups ? 'Close' : 'Open'));
 /*
 $.cookie('tocOpensrc', "images/toc_open.gif");
 $.cookie('tocOpentitle', "@[Report.Write StrDicExt("AltTOCToggleOpen", "", "This frame will stay open after an entry is selected. Click to change","", "2011.02.04")]@");

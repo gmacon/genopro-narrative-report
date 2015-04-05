@@ -23,7 +23,8 @@ If Not Session("Book") Then
 ]%>
 /* Default theme */
 @media print {
-    html,body {width: @[Report.Write Util.IfElse(Session("Orientation")="Portrait", "187mm", "257mm")]@;}
+    html,body {width: @[Report.Write Util.IfElse(Session("Orientation")="Portrait", "187mm", "257mm")]@;
+			   font-family: @[Report.Write strFont]@;}
     .page-break	{ display: block; page-break-before: always; }
     h1,h2,h3,h4 {page-break-after: avoid;}
 }
@@ -44,7 +45,7 @@ sub {
  line-height: 0;
 }
 body.gno-heading {background-color: #F6EAA2;margin: 0px;}
-body.gno-index {margin: 0px;}
+body.gno-index {margin: 0px; overflow-y:hidden;}
 body.gno-detail {margin:0px; padding:8px;}
 /* body.gno-popup {} */
 
@@ -76,6 +77,8 @@ a:visited img {border-style:none; border-width:0px;}
 a:active img {border-style:none; border-width:0px;}
 a:hover img {border-style:none; border-width:0px;}
 a:focus img {border-style:none; border-width:0px;}
+
+svg a:hover {text-decoration: none}
 
 .bold {font-weight: bold;}
 .boldu {font-weight: bold; text-decoration: underline;}
@@ -238,8 +241,11 @@ table.photo {border:0;}
 
 .widthsmall {width: @[Report.Write Session("cxPictureSizeSmall")]@px;}
 
-.charttext { border: none; position: relative; left: -3px; top: -3px; padding: 1px 5px;}
-.chartbox {display: inline; margin: 0px; position: relative; background: #666;}
+.chartblock {line-height: 10px;  white-space: nowrap; width:95%; direction:ltr; }
+
+.charttext {display: inline; margin: 0px; border: none; padding: 0px; position: relative; left: -3px; top: -5px; padding: 1px 5px;}
+.chartbox {display: inline; margin: 0px; border: none; padding: 0px; position: relative; top: -8px; ; background: #666; line-height: 0.9em}
+.chartdates {display: inline; margin: 0px; border: none; padding: 0px; position: relative; top: -10px;}
 .chart img { margin: 0px; border: 0px; padding: 0px; vertical-align: middle; }
 .m {background: LavenderBlush;}
 .f {background: LightCyan;}
@@ -339,6 +345,10 @@ ul.xT li.xT-o ul, ul.xT li.xT2-o ul, ul.xT li.xT3-o ul { display: block; }
 ul.xT li.xT-c ul, ul.xT li.xT2-c ul, ul.xT li.xT3-c ul { display: none; }
 ul.xT ul.xT-n li.xT-n {cursor: default;}
 ul.XT li.xT-h { color: #330077;}
+
+/* Override fancybox css to display navigation arrows permanently and move them outside the image area */
+#fancybox-left-ico, #fancybox-left:hover span { left: -20px; }
+#fancybox-right-ico, #fancybox-right:hover span { right: -20px;left: auto; }
 
 <%[
 Dim oFso, oFile, oFldr, strFile, strFiles, strFolder, nSize, strFrom, strTo, strCSS

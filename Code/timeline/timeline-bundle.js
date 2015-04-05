@@ -2031,9 +2031,11 @@ Timeline.OriginalEventPainter.prototype._encodeEventElID=function(B,A){return Ti
 Timeline.OriginalEventPainter.prototype._findFreeTrack=function(E,D){var A=E.getTrackNum();
 if(A!=null){return A;
 /* mod 2011/02/19 (genome) if wrap not required always return a new track */
-}if(!this._band._wrapEvents){return this._tracks.length;
+}
+if(!this._band._wrapEvents){return this._tracks.length;}
 /* mod 2011/02/19 end */
-}for(var C=0;
+
+for(var C=0;
 C<this._tracks.length;
 C++){var B=this._tracks[C];
 if(B>D){break;

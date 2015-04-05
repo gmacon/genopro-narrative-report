@@ -6,9 +6,9 @@ strTitle = Util.HtmlEncode(Session("Title"))
 strContents = Util.HtmlEncode(StrDicExt("Toc","","Contents","","213.09.22"))
 If Not Session("Book") Then Report.AbortTemplate
 ]%><?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:outline="http://code.google.com/p/wkhtmltopdf/outline"
+                xmlns:outline="http://wkhtmltopdf.org/outline"
                 xmlns="http://www.w3.org/1999/xhtml">
   <xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
@@ -17,6 +17,7 @@ If Not Session("Book") Then Report.AbortTemplate
     <html>
       <head>
         <title>@[Report.WriteText strTitle]@</title>
+       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style>
           hb {
             text-align: center;
@@ -69,6 +70,7 @@ If Not Session("Book") Then Report.AbortTemplate
         </div>
       </xsl:if>
       <ul>
+        <xsl:comment>added to prevent self-closing tags in QtXmlPatterns</xsl:comment>
         <xsl:apply-templates select="outline:item">
             <xsl:with-param name="maxlevel" select="$maxlevel"/>
             <xsl:with-param name="level" select="$level+1"/>
@@ -78,15 +80,18 @@ If Not Session("Book") Then Report.AbortTemplate
   </xsl:template>
 </xsl:stylesheet>
 <%[
-    Dim oFso, strTempFldr, strTempFile, oTmp
+    Dim oFso, strTempFldr, strTempFile, oTmp, objStream
     Set oFso = CreateObject("Scripting.FileSystemObject")
     strTempFldr = oFso.GetSpecialFolder(2).Path & "\"
     strTempFile = oFso.GetTempName
     strTempFile = strTempFldr & Mid(strTempFile, 1, InstrRev(strTempFile, ".")-1) & ".xsl"
     Session("toc.xsl") = strTempFile
-    Set oTmp = oFso.CreateTextFile(strTempFile,False,True)
-    oTmp.Write(Report.Buffer)
-    oTmp.Close
+	Set objStream = CreateObject("ADODB.Stream")
+	objStream.CharSet = "utf-8"
+	objStream.Open
+    objStream.WriteText Report.Buffer
+	objStream.SaveToFile strTempFile, 2
+    objStream.Close
     Report.LogComment strTempFile
     Report.AbortTemplate
 ]%>

@@ -33,7 +33,7 @@ Function IsFalse(YorN, Default_)
     Case 11        ' boolean
         IsFalse = YorN
     Case Else    ' string etc.
-        IsFalse = Util.IfElse(Util.IsNothing(YorN), Default_, Left(UCase(YorN), 1) = "N")
+        IsFalse = Util.IfElse(Util.IsNothing(YorN), Not Default_, Left(UCase(YorN), 1) = "N")
     End Select
 End Function
 
@@ -257,12 +257,12 @@ Sub WriteHtmlButtonToggle(style)
     Report.WriteFormattedLn "<div class='floatright buttontoc'><img name='tocStateButton' onclick='tocToggle();' class='control24' src='images/blank.gif' alt='' title='' style='margin-right:3px;'/><img class='control24' src='images/close.gif' alt='{}' title='{0}' onclick='javascript:tocHide();' /></div>", StrDicExt("AltCloseIndex", "", "Close this index", "", "2.0.1.7")
         Report.WriteFormattedLn "<div class='buttontoc'><img src='images/{}2.gif' class='toggle24' name='toggle2' onclick='javascript:ToggleTree(this.name,""2"");' alt='{1}' title='{1}'/></div>", Util.IfElse(fTreeOpen,"collapse","expand"), StrDicOpt("TocExpandCollapseAll", Dic(style), "{0} {1}")
     Case "HidePopUp"  ' close 'popup' frame
-        Report.WriteFormattedLn "<img src='images/close.gif' class='control24' onclick='javascript:hidePopUpFrame(event);' alt='{0}' title='{0}'/>", Dic("AltHidePopUpFrame")
+        Report.WriteFormattedLn "<img src='images/close.gif' class='togglepopup control24' onclick='javascript:hidePopUpFrame(event);' alt='{0}' title='{0}'/>", Dic("AltHidePopUpFrame")
     End Select
 End Sub
 
 ' Write the HTML code to display all the pictures of an individual, family or place
-Sub WriteHtmlPictures(i, cxWidthMax, cyHeightLimit, cxyPadding, strAlign, strHeading, fNoName)
+Sub WriteHtmlPictures(i, cxWidthMax, cyHeightLimit, cxyPadding, strAlign, strHeading, fNoName, fBr)
     Dim p, pic, fExclude, pic1, pCnt
     pCnt = 0
     Set pic1 = i.Pictures.Primary    ' Get the primary picture of the individual or family
@@ -286,6 +286,11 @@ Sub WriteHtmlPictures(i, cxWidthMax, cyHeightLimit, cxyPadding, strAlign, strHea
 		Report.WriteLn "<div class='queue-entry'>"
         WriteHtmlPicture i, pic1, cxWidthMax, cyHeightMax, cxyPadding, strAlign, cxWidthMax, cyHeightLimit
         WriteHtmlNamePicture i, pic1
+		If (pCnt > 1) And Not Session("Book") Then WriteHtmlButtonsPV i.ID
+		If Session("fShowPictureDetails") Then
+			WriteHtmlDetailsPicture i, pic1
+			WriteHtmlAnnotationPicture i, pic1
+        End If
 		Report.WriteLn "</div>"
 		pic1End = Report.BufferLength
 
@@ -295,33 +300,26 @@ Sub WriteHtmlPictures(i, cxWidthMax, cyHeightLimit, cxyPadding, strAlign, strHea
 					Report.WriteLn "<div class='queue-entry hide'>"
 					WriteHtmlPicture i, pic, cxWidthMax, cyHeightMax, cxyPadding, strAlign, cxWidthMax, cyHeightLimit
 					WriteHtmlNamePicture i, pic
+					WriteHtmlButtonsPV i.ID
+					If Session("fShowPictureDetails") Then
+						WriteHtmlDetailsPicture i, pic
+						WriteHtmlAnnotationPicture i, pic
+					End If
 					Report.WriteLn "</div>"
                 End If
             Next
         End If
-        Report.Write "</div>"
-        If (pCnt > 1) And Not Session("Book") Then
-			Report.Write "<div>"
-            ' Generate the code to create a slide show of pictures
-            WriteHtmlButtonPV strId, "Play"
-            WriteHtmlButtonPV strId, "Pause"
-            WriteHtmlButtonPV strId, "Prev"
-            WriteHtmlButtonPV strId, "Next"
-            Report.WriteFormattedLn "<img id='idPVslider_{2}' src='images/slider.gif' style='position:relative;' width='30' height='16' alt='{0&t}' title='{0&t}'/>" & _
-                    "<img onmousemove='sliderMouseMove(event);' onmousedown='sliderMouseDown(event);' onmouseout='sliderMouseUpOut(event);' onmouseup='sliderMouseUpOut(event);' " & _
-                        "style='position:relative;left:{1}px;' src='images/knob.gif' width='9' height='15' alt='{0&t}' title='{0&t}'/>", Dic("PV_Speed"), Session("PictureInterval"), strId
-			Report.Write "</div>"
-        End If
+		Report.WriteLn "</div>"
     End If
 End Sub
 
-Sub WriteHtmlPicturesLarge(i, strAlign, strHeading, fNoName)
-    WriteHtmlPictures i, Session("cxPictureSizeLarge"), Session("cyPictureSizeLarge"), Session("cxyPicturePadding"), strAlign, strHeading, fNoName
+Sub WriteHtmlPicturesLarge(i, strAlign, strHeading, fNoName, fBr)
+    WriteHtmlPictures i, Session("cxPictureSizeLarge"), Session("cyPictureSizeLarge"), Session("cxyPicturePadding"), strAlign, strHeading, fNoName, fBr
 End Sub
 
 Sub WriteHtmlPicturesSmall(i, strAlign, fNoName)
     Report.WriteLn "<table class='photo floatleft aligncenter widthpaddedsmall'><tr><td>"
-    WriteHtmlPictures i, Session("cxPictureSizeSmall"), Session("cyPictureSizeSmall"), Session("cxyPicturePadding"), strAlign, "", fNoName
+    WriteHtmlPictures i, Session("cxPictureSizeSmall"), Session("cyPictureSizeSmall"), Session("cxyPicturePadding"), strAlign, "", fNoName, ""
     Report.WriteLn "</td></tr></table>"
 End Sub
 
@@ -510,9 +508,20 @@ End Function
 
 ' Write the HTML code to generate a button (Play, Pause, Next, Prev) of the Picture Viewer (PV).
 Sub WriteHtmlButtonPV(strId, strVerb)
-    Report.WriteFormattedLn "<a href=""JavaScript:PV_{1}('{0}');"" {2}><img src='images/PV_{1}.gif' border='0' alt='{3&t}' title='{3&t}'/></a>", strId, strVerb, StrMouseOver(Dic("PV_" & strVerb)), Dic("PV_" & strVerb)
+    Report.WriteFormattedLn "<a href=""#"" onclick=""PV_{1}(this, '{0}');""><img src='images/PV_{1}.gif' border='0' alt='{2&t}' title='{2&t}'/></a>", strId, strVerb, Dic("PV_" & strVerb)
 End Sub
-
+' Generate the buttons to create a slide show of pictures
+Sub WriteHtmlButtonsPV(strId)
+			Report.Write "<div>"
+            WriteHtmlButtonPV strId, "Play"
+            WriteHtmlButtonPV strId, "Pause"
+            WriteHtmlButtonPV strId, "Prev"
+            WriteHtmlButtonPV strId, "Next"
+            Report.WriteFormattedLn "<img id='idPVslider_{2}' src='images/slider.gif' style='position:relative;' width='30' height='16' alt='{0&t}' title='{0&t}'/>" & _
+                    "<img onmousemove='sliderMouseMove(event);' onmousedown='sliderMouseDown(event);' onmouseout='sliderMouseUpOut(event);' onmouseup='sliderMouseUpOut(event);' " & _
+                        "style='cursor:pointer;position:relative;left:{1}px;' class='knob' src='images/knob.gif' width='9' height='15' alt='{0&t}' title='{0&t}'/>", Dic("PV_Speed"), Session("PictureInterval"), strId
+			Report.Write "</div>"
+End Sub 
 
 ' Return a string containing the HTML code to display the gender of the individual.
 Function StrHtmlImgGender(i)
@@ -540,7 +549,7 @@ Function StrHtmlImgPhoto(obj)
     Select Case obj.Class
     Case "Picture"
         If Not obj.Session("IsExcluded") Then
-            StrHtmlImgPhoto = Util.FormatString("<img src='images/space.gif' width='16' alt=''/>&nbsp;<a href='picture-{}.htm' onclick='showPopUpFrame();' target='popup' title='{&t}'><img src='images/photo.gif' class='icon' alt='' title='' />&nbsp;{}</a>", _
+            StrHtmlImgPhoto = Util.FormatString("<img src='images/space.gif' width='16' alt=''/>&nbsp;<a href='picture-{}.htm' onclick='tocExit();' title='{&t}'><img src='images/photo.gif' class='icon' alt='' title='' />&nbsp;{}</a>", _
                 obj.ID, Dic("PictureDetailsTip"), Util.IfElse(Trim(obj.Name) <> "", StrFormatText(obj, StrParseText(Trim(obj.Name), True)), "(" & obj.ID &")"))
         End If
     Case Else
@@ -634,7 +643,7 @@ Function StrHtmlImgTimeline(obj)
         End Select
         On Error Resume Next
         oDate=DateAdd("d",-1,strDate)
-        If Err.Number = 0 Then StrHtmlImgTimeline = Util.FormatString(" <a href='timeline{}.htm?{},date={} {} {}' target='popup'><img src='images/timeline.gif' class='icon' alt='{&t}' title='{4&t}'/> </a> ", _
+        If Err.Number = 0 Then StrHtmlImgTimeline = Util.FormatString(" <a href='timeline{}.htm?{},date={} {} {}'><img src='images/timeline.gif' class='icon' alt='{&t}' title='{4&t}'/> </a> ", _
                           obj.Position.GenoMap.Index, strData, Day(oDate), MonthName(Month(oDate),True), Year(oDate), strAlt)
         On Error Goto 0
         SetLocale(strLocale)
@@ -675,13 +684,13 @@ Function StrHtmlHyperlink(obj)
         StrHtmlHyperlink=Util.FormatString("<a href='{0}' onclick='javascript:hidePopUpFrame("""");' target='detail'>{1}</a>", obj.Href, StrHtmlHighlightName(obj.Session("Name")))
     Case "Place"
         arrLocative = Split(Replace(obj.Session("LocativeRaw"),"]","["),"[") ' break into preposition (if any), name & postpostion(if any)
-        StrHtmlHyperlink=Util.FormatString("{0}<a href='place-{1}.htm' onclick='showPopUpFrame();' target='popup'>{2&t}</a>{3}", arrLocative(0), obj.ID, arrLocative(1), arrLocative(2))
+        StrHtmlHyperlink=Util.FormatString("{0}<a href='place-{1}.htm?popup' onclick='showPopUpFrame();' target='popup'>{2&t}</a>{3}", arrLocative(0), obj.ID, arrLocative(1), arrLocative(2))
     Case "Picture"
-        StrHtmlHyperlink=Util.FormatString("<a href='picture-{1}.htm' onclick='openPopUpFrame(""picture-{1}.htm"");' target='popup' title='{2&t}'>{0}</a>", Util.IfElse(Session("fUsePictureId"), obj.ID, Util.FirstNonEmpty(StrFormatText(obj, Trim(StrParseText(obj.Name, True))), Dic("PictureDetails"))), obj.ID, Dic("PictureDetailsTip"))
+        StrHtmlHyperlink=Util.FormatString("<a href='picture-{1}.htm?popup' onclick='openPopUpFrame(""picture-{1}.htm"");' target='popup' title='{2&t}'>{0}</a>", Util.IfElse(Session("fUsePictureId"), obj.ID, Util.FirstNonEmpty(StrFormatText(obj, Trim(StrParseText(obj.Name, True))), Dic("PictureDetails"))), obj.ID, Dic("PictureDetailsTip"))
     Case "SourceCitation"
-        StrHtmlHyperlink=Util.FormatString(" <a href='source-{1}.htm' onclick='showPopUpFrame();' target='popup'>{0&t}</a>", JoinSourceCitationNames(obj, obj.title, true), obj.ID)
+        StrHtmlHyperlink=Util.FormatString(" <a href='source-{1}.htm?popup' onclick='showPopUpFrame();' target='popup'>{0&t}</a>", JoinSourceCitationNames(obj, obj.title, true), obj.ID)
     Case "SocialEntity"
-        StrHtmlHyperlink=Util.FormatString(" <a href='entity-{1}.htm' onclick='showPopUpFrame();' target='popup'>{0&t}</a>", obj.Session("Name"), obj.ID)
+        StrHtmlHyperlink=Util.FormatString(" <a href='entity-{1}.htm?popup' onclick='showPopUpFrame();' target='popup'>{0&t}</a>", obj.Session("Name"), obj.ID)
     Case Else
             StrHtmlHyperlink = ""
     End Select
@@ -700,8 +709,9 @@ Function StrHtmlHyperlinkPlace(obj)
     Dim arrLocative
     Select Case obj.Class
     Case "Place"
-        arrLocative = Split(Replace(obj.Session("LocativeRaw"),"]","["),"[") ' break into preposition (if any), name & postpostion(if any)
-        StrHtmlHyperlinkPlace=Util.FormatString(" <a href='place-{1}.htm' onclick='showPopUpFrame();' target='popup'>{0&t}</a>", arrLocative(1), obj.ID)
+        ' arrLocative = Split(Replace(obj.Session("LocativeRaw"),"]","["),"[") ' break into preposition (if any), name & postpostion(if any)
+        'StrHtmlHyperlinkPlace=Util.FormatString(" <a href='place-{1}.htm' onclick='showPopUpFrame();' target='popup'>{0&t}</a>", arrLocative(1), obj.ID)
+		StrHtmlHyperlinkPlace=Util.FormatString(" <a href='place-{1}.htm' onclick='showPopUpFrame();' target='popup' alt='{2&t}' title='{2&t}'>{0&t}</a>", obj.Session("NameShort"), obj.ID, obj.Session("Address"))
     Case Else
             StrHtmlHyperlinkPlace = ""
     End Select
@@ -746,7 +756,7 @@ Function WriteOccupancyEvents (oTLInfo, obj, strTitle, fYearOnly)
                                strTitle, strRelative, StrDateSpan(o.DateStart, o.DateEnd), _
                                Util.IfElse(o.DateStart <> o.DateEnd, StrTimeSpan(o.Duration), ""), _
                                (Not fExtant Or (o.DateEnd.ToStringNarrative<>""))=False, _
-                               StrHtmlHyperlink(o.Place), o.Summary, o.Place.Session("Hlink")))
+                               o.Place.Session("HlinkLocative"), o.Summary, o.Place.Session("Hlink")))
     Next
 End Function
 Function WriteFamilyEvents (oTLInfo, f, strSuffix, fYearOnly, fFull)
@@ -810,7 +820,7 @@ Sub WriteHtmlAdditionalInformation(obj)
 ' Write details of this object's Custom Tags to the report
 
     Dim oCustomTagRepertory, oCustomTagDictionary, Layout, Layouts, i, j, cchBufferStart, cchBufferNow
-    Dim strCustomTagData, strCustomTagDesc, strPrivate, strTag, strFmtTemplate, Args(), strSubHead, strGender
+    Dim strCustomTagData, strCustomTagDesc, strPrivate, strLink, strTag, strFmtTemplate, Args(), strSubHead, strGender
     strPrivate = StrDicOrTag("", "Private")
     Session("BufferBegin") = Report.BufferLength
     Set oCustomTagRepertory = Session("oCustomTagRepertory")
@@ -821,7 +831,17 @@ Sub WriteHtmlAdditionalInformation(obj)
 
     If obj.Class = "Individual" Then ' List any External Hyperlink or Blood Type here
         cchBufferNow = Report.BufferLength
-        If obj.Hyperlink <> "" Then Report.Write Util.FormatPhrase(Dic("PhExternalLink"), obj.Hyperlink)
+        If obj.Hyperlink <> "" Then
+			strLink = Mid(Lcase(obj.Hyperlink.Target),1,5)
+			If  strLink = "http:" or  strLink = "file:" or  mid(Lcase(obj.Hyperlink.Target),1,7) = "mailto:" Then
+				strLink = obj.Hyperlink.Target
+			Else
+				i = InStrRev(obj.Hyperlink.Target, "\")
+				strLink = "media/" & Mid(obj.Hyperlink.Target, i+1)
+				ReportGenerator.FileUpload obj.Hyperlink.Target, strLink
+			End If
+			Report.Write Util.FormatPhrase(Dic("PhExternalLink"), strLink)
+		End If
         Report.WritePhraseDic("PhBloodType"), obj.Name.short, obj.Birth.BloodType, obj.IsDead=false
         If Report.BufferLength > cchBufferNow Then ' some phrase written
             Session("BufferBegin")= -1      ' indicate data present in Additional Information section
@@ -1027,9 +1047,9 @@ End Function
 ' Write the HTML code to display the comment of the primary picture (if present)
 ' If the picture does not have a description, the code must be written, otherwise
 ' the slideshow will abort by a script error
-Sub WriteHtmlAnnotationPicture(strAnnotationType, obj, strAlign, nWidth )
-    Dim p, strId, strClass, strDescription
-    Set p = obj.Session("PictureMain")    ' Get the main picture of the object
+Sub WriteHtmlAnnotationPicture(obj, p)
+    Dim strId, strClass, strDescription
+    If IsNull(p) Then Set p = obj.Session("PictureMain")    ' Get the main picture of the object
     If (Not Util.IsNothing(p)) Then
         strId = obj.ID
         strClass = "show"
@@ -1049,12 +1069,10 @@ Sub WriteHtmlAnnotationPicture(strAnnotationType, obj, strAlign, nWidth )
 End Sub
 
 ' Write details associated with a main picture with a specific HTML id so that it can be overwritten for each picture in a slideshow if required
-Sub WriteHtmlDetailsPicture(obj, fNoName, fBr)
-    Dim p, strId
-    Set p = obj.Session("PictureMain")    ' Get the main picture of the object
+Sub WriteHtmlDetailsPicture(obj,p)
+	if IsNull(p) Then Set p = obj.Session("PictureMain")
     If Not (p Is Nothing) And p.PictureDimension <> "" Then
-        strId = obj.ID
-        Report.WriteFormattedLn "<div class='caption' id='idPVc_{}'>{}</div>", strId, LanguageDictionary.FormatPhrase("PhPictureDetailsHtml", Util.IfElse(fNoName, "",StrHtmlHyperLink(p)), p.Date.ToStringNarrative, p.Place.Session("HlinkLocative"), p.Source.Session("Hlink"))
+        Report.WriteFormattedLn "<div class='caption' id='idPVc_{}'>{}</div>", obj.ID, LanguageDictionary.FormatPhrase("PhPictureDetailsHtml", Util.IfElse(Session("fHidePictureName"), "",StrHtmlHyperLink(p)), p.Date.ToStringNarrative, p.Place.Session("HlinkLocative"), p.Source.Session("Hlink"))
     End If
 End Sub
 
@@ -1103,7 +1121,7 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
           Else
               Report.WriteLn           "<div class='clearleft'>"
               Report.WriteLn           "  <ul class='xT'>"
-              Report.WriteFormattedLn  "    <li class='xT2-{} xT-h' onclick='xTclk(event,""2"")'>", Util.IfElse(g_fCollapseReferences, "c", "o")
+              Report.WriteFormattedLn  "    <li class='xT2-{} xT-h' onclick='xTclk(event,""2"")'>", Util.IfElse(Session("fCollapseReferences"), "c", "o")
               Report.WriteFormattedLn  "      <a name='SourcesCitations'></a><h4 class='xT-i inline'>{&t}</h4>", Dic.Plurial("SourceCitation", 2)
               Report.WriteLn           "      <ul class='xT-h'>"
               litag =           "        <li>"
@@ -1120,7 +1138,7 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
                   If (strTitle <> "") Then
                       strTitle = Util.FormatString(" title='{}'", strTitle)
                   End If
-                  Report.WriteFormattedBr "<sup><a name='{0}'></a>{0} </sup> <a href='source-{&t}.htm?noframes' onclick='showPopUpFrame();' {}><i>{}</i></a>", iFootnote, oFootnote.ID, strTitle, JoinSourceCitationNames(oFootnote, StrFormatText(oFootnote, StrParseText(oFootnote.title, True)), true)
+                  Report.WriteFormattedBr "<sup><a name='{0}'></a>{0} </sup> <a href='source-{&t}.htm' {}><i>{}</i></a>", iFootnote, oFootnote.ID, strTitle, JoinSourceCitationNames(oFootnote, StrFormatText(oFootnote, StrParseText(oFootnote.title, True)), true)
                   ' remove referenced source from list
                   collSources.Remove(oFootnote)
               Next
@@ -1132,7 +1150,7 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
 				strTitle = StrPlainText(oFootnote, Util.FirstNonEmpty(oFootnote.Subtitle, oFootnote.Description, oFootnote.QuotedText, Dic("SourceInformation")))
 				If (strTitle <> "") Then strTitle = Util.FormatString(" title='{}'", strTitle)
 				If Session("NestSourceRefs") Then Report.WriteLn litag
-				Report.WriteFormatted strSep & " <a href='source-{&t}.htm?noframes' onclick='showPopUpFrame();' {}><i>{}</i></a>", oFootnote.ID, strTitle, JoinSourceCitationNames(oFootnote, StrFormatText(oFootnote, StrParseText(oFootnote.title, True)), true)
+				Report.WriteFormatted strSep & " <a href='source-{&t}.htm' {}><i>{}</i></a>", oFootnote.ID, strTitle, JoinSourceCitationNames(oFootnote, StrFormatText(oFootnote, StrParseText(oFootnote.title, True)), true)
 				strSep = Util.IfElse(Session("NestSourceRefs"), "", ", ")
 				If Session("NestSourceRefs") Then Report.WriteLn "        </li>"
               Next
@@ -1201,7 +1219,7 @@ Sub WriteHtmlPedigreeChart(i)
             Report.WriteFormattedLn "    <li class='xT2-{} xT-h XT-clr clear{}' onclick='xTclk(event,""2"")'>", Util.IfElse(Session("fCollapseReferences"), "c", "o"), Util.IfElse(Session("fCollapseReferences"), "left", "")
             Report.WriteFormattedLn "<a name='PedigreeChart'></a><h4 class='xT-i inline'>{&t}</h4><ul class='xT-h'><li>", Dic("PedigreeChart")
             Report.WriteBr
-            Report.WriteLn "<div class='nowrap' style='width:95%;direction:ltr;' >"
+            Report.WriteLn "<div class='chartblock'>"
             For e = 0 to 62
                 r = ChartMap.Entry(e).Object(0)
                 k = r(r(0))
@@ -1257,7 +1275,7 @@ Function PrintChartLine(r, i, s)
             strLink = strLink & "&nbsp;"
         Next
     End If
-    Report.WriteFormattedLn "<div class='chartbox'><div class='chartbox charttext {0}'>{1}</div></div>{2}{3}"+Report.TagBr, _
+    Report.WriteFormattedLn "<div class='chartbox'><div class='charttext {0}'>{1}</div></div><div class='chartdates'>{2}{3}</div>"+Report.TagBr, _
                     gender, strLink, "&nbsp;",_
                     Replace(Util.HtmlEncode(Util.FormatPhrase(Dic("PedigreeChartDetails"), _
                         Trim(CustomDate(i.Birth.Date).ToString(Dic("PedigreeChartDate"))), i.Birth.Place.Session("Locative"), _
@@ -1320,8 +1338,8 @@ Sub WriteHtmlEducations(i)
             WriteHtmlAdditionalInformation(e)
             WriteHtmlAnnotation e, Dic("AnnotationEducation"), e.Comment
             If Session("fShowPictureDetails") Then
-                WriteHtmlDetailsPicture e, True, True
-                WriteHtmlAnnotationPicture Dic("Education"), e, "", ""
+                WriteHtmlDetailsPicture e, Null
+                WriteHtmlAnnotationPicture e, Null
             End If
             'Report.WriteBr "</div>"
             strPrefix = PnP(i)
@@ -1364,8 +1382,8 @@ Sub WriteHtmlEventsAndAttributes(i, collOccupations)
               WriteHtmlAdditionalInformation(o)
               WriteHtmlAnnotation o, Dic("AnnotationEventAttribute"), o.Comment
               If Session("fShowPictureDetails") Then
-                  WriteHtmlDetailsPicture o, True, True
-                  WriteHtmlAnnotationPicture Dic("EventAttribute"), o, "", ""
+                  WriteHtmlDetailsPicture o, Null
+                  WriteHtmlAnnotationPicture o, Null
               End If
               If InStr(strPhrase, "{9}") > 0 Or InStr(strPhrase, "{!9}") > 0 Then strName = strPnP
               If InStr(strPhrase, "{2}") > 0 Or InStr(strPhrase, "{!2}") > 0 Then strRelative = PnR(i)
@@ -1409,8 +1427,8 @@ Sub WriteHtmlOccupations(i, collOccupations)
               WriteHtmlAdditionalInformation(o)
               WriteHtmlAnnotation o, Dic("AnnotationOccupation"), o.Comment
               If Session("fShowPictureDetails") Then
-                  WriteHtmlDetailsPicture o, True, True
-                  WriteHtmlAnnotationPicture Dic("Occupation"), o, "", ""
+                  WriteHtmlDetailsPicture o, Null
+                  WriteHtmlAnnotationPicture o, Null
               End If
               strName = strPnP
               strRelative = PnR(i)
@@ -1545,11 +1563,7 @@ Sub WriteIndividualBody(i)
 
     Session("BufferBegin") = Report.BufferLength
     If i.Pictures.Count > 0 Then
-        WriteHtmlPicturesLarge i, "right", "", Session("fHidePictureName") Or Session("fShowPictureDetails")
-        If Session("fShowPictureDetails") Then
-            WriteHtmlDetailsPicture i, Session("fHidePictureName"), False
-            WriteHtmlAnnotationPicture Dic("Individual"), i, "right", Session("cxPictureSizeLarge")
-        End If
+        WriteHtmlPicturesLarge i, "right", "", Session("fHidePictureName") Or Session("fShowPictureDetails"), False
     Else
         If Session("fAddGenericImage") Then WriteHtmlGenericPicture i, "P", "l", Session("cxPictureSizeLarge"), Session("cyPictureSizeLarge"), Session("cxyPicturePadding"), "right"
     End If
@@ -1670,7 +1684,7 @@ End Sub
 Sub WriteMetaKeywordsReport
     Report.Write Dic("FmtMetaKeyWordsReport")
 End Sub
-
+' ===============================================================================
 Function StrFormatText(obj, strRawText)
 '
 ' Handles text 'processing instructions' embedded in Comment, Descriptions, Custom Tags etc.
@@ -1691,7 +1705,8 @@ Function StrFormatText(obj, strRawText)
     strMode = "<?text?>"
     strParts = split(strText, "<?")
     strSubParts = split(strParts(0),StrDicOrTag("", "Private"))
-    strResult = Util.HtmlEncode(strSubParts(0))        ' get any leading text less any old format private section
+	strResult=""
+    If strParts(0) <> "" Then strResult = Util.HtmlEncode(strSubParts(0))        ' get any leading text less any old format private section
     For i=1 to Ubound(strParts)
         strSubParts = split(strParts(i), "?>")
         If Ubound(strSubParts) <> 1 Then Report.LogError Util.FormatString(ConfigMessage("ErrorTextFormat"), obj, strRawText)

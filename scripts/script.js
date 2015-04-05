@@ -88,28 +88,22 @@ var SmartPhone = {
 
 
 //	routines for the Picture Viewer (PV) to animate the slideshow.
-function PV_Next(id)
+function PV_Next(el, id)
 	{
 	$('#idPVp_'+id).fadeQueue('slow');
 	}
-function PV_Prev(id)
+function PV_Prev(el, id)
 	{
 	$('#idPVp_'+id).fadeQueue(-600);
 	}
-function PV_Pause(id)
+function PV_Pause(el, id)
 	{
 	$('#idPVp_'+id).fadeQueue(false);
 	}
-function PV_Play(id)
+function PV_Play(el, id)
 	{
 	$('#idPVp_'+id).fadeQueue(true, getSliderVal(document.getElementById("idPVslider_" + id)), 'slow');
 	}
-
-// Set the text of the status bar
-function ss(s){window.status=s;return true;}
-
-// Clear the text of the status bar
-function cs(){window.status='';}
 
 /*
 
@@ -884,10 +878,9 @@ var sliderActive = false;
 function drawSliderByVal(slider, val) {
 	var p=(val-sliderMin)/(sliderMax-sliderMin);
 	var x=-slider.width+(slider.width-sliderKnob.width)*p;
-	sliderKnob.style.left=x + "px";
+	var knobs = $('div#idPVp_'+slider.id.substr(11)+' img.knob');
 	var v=(Math.round((sliderMax+sliderMin-val)/100)/10)+'';
-	sliderKnob.title=v;
-	sliderKnob.alt=v;
+	knobs.css('left', x+'px').attr({title: v, alt : v});
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function setSliderByClientX(slider, clientX) {
@@ -1189,6 +1182,8 @@ function timeLineOnLoad(tlParam) {
   if ('unit' in urlParam) urlParam.unit = parseInt(urlParam.unit);
   for (prop in urlParam) {
 	tlParam[prop] = urlParam[prop];
+	if (tlParam[prop] == "true") tlParam[prop] = true;
+	if (tlParam[prop] == "false") tlParam[prop] = false;
   }
 
   tlParam.eventSource0 = new Timeline.DefaultEventSource();

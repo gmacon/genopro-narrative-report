@@ -2,7 +2,7 @@
 <Skin
                         Language="EN"
                         Name="Narrative Report">
-   <Version>2014.12.13
+   <Version>2015.04.02
    </Version>
   <!-- CHANGE HISTORY
          Changes are indicated by an additional 'V' attribute for XML elements below, and a dummy 'V' attribute in comments,
@@ -94,7 +94,12 @@
                         Desc="Theme files, Timeline and Google scripts not uploaded again if destination already has a report of the same version"
                         Type="bool"
                         V="2013.08.22+" />
-      </ContentSettings>
+ 	  <VideoJs			T="Include 'video.js' plugin to provide 'Flash' fall-back for any .mp4 videos in your report"
+						Desc="Only required if you have 'custom markup' adding .mp4 videos AND you want fallback.  See 'www.videojs.com' for more"
+						Default="N"
+						Type="bool"
+						V="2015.04.02+" />
+     </ContentSettings>
       <PrintSettings     Label="Printing"
                         T="Print Settings" V="2014.02.18±" >
         <PageOrientation Default="Portrait"
@@ -134,7 +139,7 @@
                         Type="bool"
                         V="2014.02.09+"/>
         <wkhtmltopdfPath
-                        Default="%ProgramFiles%\wkhtmltopdf\bin\wkhtmltopdf.exe"
+                        Default="%ProgramFiles%\wkhtmltopdf\wkhtmltopdf.exe"
                         T="Path to wkhtmltopdf.exe program used to create PDF output (Default {0})"
                         Type="file"
                         V="2014.02.09+" />
@@ -268,9 +273,9 @@
                         Type="text" />
 	  <MaxPopup
 						Default="N"
-						T="Open 'popup' frame at maximum size, overlaying 'detail' frame"
+						T="Open 'popup' &amp; index frames at maximum size, overlaying 'detail' frame"
 						Type="bool"
-						V="2014.08.14+" />
+						V="2015.01.18±" />
       </PresentationSettings>
       <PictureSettings	Label="Pictures"
                         T="Picture Settings">
@@ -773,6 +778,9 @@
       <!-- 0=Attribute name, Test={0}=Param -->
       <WarningAttributeKeyMissing
                         T="Warning: StrDicAttribute. Lookup of '{0}' failed." />
+	  <WarningAutoHideMismatch
+						T="Warning: Autohide Index should be set when using Maximise Index/Popup option"
+						V="2015.01.18+" />
       <!-- 0=Custom Tag Name, 1=Custom Tag Layout Name Test={0}=Custom_tag, {1}=My_Tag_Layout -->
       <WarningCustomTLayoutExcluded
                         T="Custom Tag Layout '{0}' is marked as system or private and has been excluded" />

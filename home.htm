@@ -21,7 +21,7 @@ strTitle = Session("Title")
 <script src="scripts/script.js" type="text/javascript"></script>
 @[GoogleAnalytics]@
 </head>
-<body class="gno-index" onload="PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '@[Report.Write Util.JavaScriptEncode(strTitle)]@');">
+<body onload="PageInit(@[Report.Write Util.IfElse(Session("ForceFrames"), "true", "false")]@, '@[Report.Write Util.JavaScriptEncode(strTitle)]@');">
 <div class='floatright inset'>
 <%[
 If (Left(ReportGenerator.PathOutputHttp, 31) = "http://familytrees.genopro.com/") Then

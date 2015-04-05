@@ -55,8 +55,49 @@
     <ParameterDescriptions
            TextDirection="ltr">
       <!-- Note aux traducteurs: Vous pouvez changer tout texte sauf les valeurs avant ':' dans les attributs 'option' O1, O2 etc. En conséquence, O1="Y:Oui" est OK mais pas O1="O:Oui" -->
-      <PresentationSettings
-           T="Présentation générale">
+      <Description Label="About" T="About">
+          <Comments               T="This report skin generates a comprehensive cross-referenced and indexed narrative style HTML report over multiple pages. The report is designed to show all data held in a GenoPro file. &#10;
+                                    Content includes but is not limited to pages for each individual and family, photos, 'tree' format indexes, timelines for events, SVG and PDF representations of GenoMaps, Google Maps of places, ancestor and descendant pedigree charts. &#10;
+                                    &lt;span class='bold'&gt;** Note&lt;/span&gt; that the web pages are intended to be served via web server such as familytrees.genopro.com\
+                                    via HTTP or HTTP protocols.&#10;&#10;
+                                      Click on the other tabs above to choose the settings required.  Each collection of settings can be saved in a named profile using the buttons below."
+                                  Type="about" V="2014.12.11±"/>
+      </Description>
+      <ThemeSettings	Label="Theme"
+                        T="Theme Settings">
+      <StyleSheet
+                        Default="Default_2"
+                        O1="Default_2:Default theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O2="Default_3:Default theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O3="AcornOliveTeal_2:AcornOliveTeal theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O4="AcornOliveTeal_3:AcornOliveTeal theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O5="Blood_3:Blood theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O6="BlueDNA_3:BlueDNA theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O7="GreenLeaf_2:GreenLeaf theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O8="GreenLeaf_3:GreenLeaf theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O9="OliveBranch_2:OliveBranch theme with icon buttons for top menu and rounded corners on index and pop-up frames"
+                        O10="OliveBranch_3:OliveBranch theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        O11="RoseTint_3:RoseTint theme with text buttons for top menu and rounded corners on index and pop-up frames"
+                        T="Choose desired page theme using arrows. Hover over image for theme details"
+                        Type="theme" />
+      </ThemeSettings>
+      <ContentSettings Label="Content" T="Content" V="2013.07.30+">
+        <Volume      Default="!All!"
+                        Desc="Each GenoMap's own 'Report Title' can be used to indicate a subset for output.  This can be set on the 'GenoMaps' tab of the main GenoPro 'Properties' dialog (File/Properties when nothing selected). A subset is then all the GenoMaps with the same Report Title"
+                        T="Report Subset or 'Volume'"
+                        O1="!All!:All"
+                        V="2013.10.14" />
+      <Notes
+                        Default="Y"
+                        T="Show all comments?"
+                        Type="bool"
+                        V="2013.09.22" />
+      <ShowFlags
+                        Default="AEKOPRSTW"
+                        Desc="A-Attributes and Events, K-Kid's Pictures, E-Education, O-Occupations, P-Pedigree Chart, R-Relationships, S-Source/Citations, T-Custom Tags, W-Whereabouts"
+                        T="Individual and Family content flags"
+                        Type="Text"
+                        V="2013.10.21±" />
         <fHideFamilyDetails
            Default="Y"
            Desc="Affiche, ou non, les détails de famille sur les pages des 'individuels'. Si le paramètre = 'oui', un hyperlien ouvrira la page dédicacée de la famille."
@@ -64,12 +105,33 @@
            O2="N:non"
            T="Cacher les détails de famille sur les pages d'individuel?"
            Type="bool" />
-        <fHideNameTreeIndex
+      <OnlyPrincipalSpouse
+                        Default="N"
+                        Desc="Normally the male is the 'principal spouse' here, but this can be changed by setting a Family Custom Tag 'PrincipalSpouse' to 1"
+                        T="If above option is not set, then only show family details for principal spouse?"
+                        Type="bool"
+                        V="2013.10.21+" />
+        <Calendar
            Default="Y"
            O1="Y:oui"
            O2="N:non"
-           T="Cacher la liste alphabétique des noms sur la page d'accueil du site?"
+           T="Afficher les anniversaires de naissance et de mariage sur le calendrier?"
            Type="bool" />
+      <ShowDescendantTreeIcon
+                        Default="Y"
+                        T="Add link to 'Descendant Tree Chart' as icon after Individual name"
+                        Type="bool"
+                        Desc="Applies to individuals with DescendantTreeChart custom tag set.  Actual charts are generated separately via the 'Descendant Tree Chart' report."
+                        V="2013.07.30+" />
+      <OptimizeUpload
+                        Default="Y"
+                        T="Only re-upload support files on version change"
+                        Desc="Theme files, Timeline and Google scripts not uploaded again if destination already has a report of the same version"
+                        Type="bool"
+                        V="2013.08.22+" />
+      </ContentSettings>
+      <PresentationSettings Label="Presentation"
+                        T="Other Presentation Settings">
         <fJoinPlaceNames
            Default="N"
            Desc="Affiche, ou non, le nom des lieux sous forme de listes, séparées par des virgules, contenant les détails des lieux hiérarchiques. Ce paramètre est utile si vous avez saisi vos lieux en un seul élément, tel qu'une 'ville', au lieu de 'ville, province, pays'."
@@ -101,24 +163,6 @@
            Desc="Détermine si les listes sont initialement affichées 'ouvertes' ou 'fermées'. Une valeur de -1 = 'ouvertes', 0 = 'fermées'."
            Size="6"
            T="Nombre d'items avant que les listes soient présentées 'fermées'" />
-					
-        <StyleSheet
-           Default=""
-           Desc="À employer pour remplacer le fichier des styles de défaut"
-           T="Fichier contenant les styles/formats HTML CSS (facultatif)"
-           Type="file" />
-        <PedigreeCharts
-           Default="Y"
-           O1="Y:oui"
-           O2="N:non"
-           T="Afficher le graphe des liens de parenté?"
-           Type="bool" />
-        <Calendar
-           Default="Y"
-           O1="Y:oui"
-           O2="N:non"
-           T="Afficher les anniversaires de naissance et de mariage sur le calendrier?"
-           Type="bool" />
         <ContactTitle
            Default="TSOCI"
                       Desc = "T = titre, S = Sommaire (Tel, Fax, Email, Mob, Web), O = occupation Place, C = 1ère ligne de commentaire, I = ID"
@@ -165,13 +209,13 @@
         <PicturePadding
            Default="15"
            Size="2"
+           Type="int"
            T="Marge des photos (pixels)" />
-           Type="int" />
         <PictureInterval
            Default="4000"
            Size="5"
+           Type="int"
            T="Intervalle d'affichage du diaporama, plage 1000 - 10000 (millisecondes)" />
-           Type="int" />
       </PictureSettings>
       <ThumbnailSettings
            T="Configuration des photos 'thumbnails'">
@@ -186,13 +230,13 @@
         <ThumbnailDpi
            Default="72"
            Size="3"
+           Type="int"
            T="Résolution - points par pouce (dpi)" />
-           Type="int" />
         <ThumbnailQuality
            Default="70"
            Size="3"
+           Type="int"
            T="Qualité JPEG (1-100)" />
-           Type="int" />
         <IrfanViewPath
            Default="?:\Program Files\IrfanView\i_view32.exe"
            T="Chemin d'IrfanView, employé pour créer les photos thumbnails&#10;(Défaut {0})"
@@ -224,8 +268,8 @@
         <GoogleMapsZoom
            Default="7"
            Size="2"
+           Type="int"
            T="Niveau, par défaut, du zoom initial (1-13)" />
-           Type="int" />
         <fGoogleMapsLink
            Default="Y"
            Desc="Si 'non', la carte est affichée en une ligne expandable/retractable dans le cadre de la page de la carte."
@@ -239,9 +283,6 @@
            O2="N:non"
            T="Prévoir, sur la page d'accueil du site, un hyperlien vers la carte des lieux géocodés?"
            Type="bool" />
-        <GoogleMapsApiKey
-           Default="ABQIAAAASJ0G4SOiaQ8eyk3nzNi7YhS8Sug1lBz5d9mEGdwPgwjMebPy9xQoQLPIM-CcpjAnaGoBwGuJrnArCQ"
-           T="Code/clé API pour 'Google Maps' (à changer si le serveur de votre site web n'est pas familytrees.genopro.com)" />
       </MapSettings>
       <TimelineSettings
            T="Configuration des chronologies">
@@ -278,8 +319,8 @@
         <TimelineMinEventsFamily
            Default="2"
            Size="2"
+           Type="int"
            T="Nombre mini. d'évènements afin de générer les chronologies de famille" />
-           Type="int" />
       </TimelineSettings>
       <LanguageSettings
            T="Configuration du langage">
@@ -391,15 +432,11 @@
       </NameSettings>
       <SVGSettings
            T="Configuration des GénoCartes SVG/PDF">
-        <SvgPdf
-           Default="SVGPDF"
-           Desc="Si vous incluez PDF, vous aurez besoin d'InkScape pour convertir les fichiers SVG en PDF afin que le rapport soit correctement accessible"
-           O1="SVG:SVG seulement"
-           O2="PDF:PDF seulement"
-           O3="SVGPDF:Les deux avec SVG en défaut"
-           O4="PDFSVG:Les deux avec PDF en défaut"
-           O5=":Aucun"
-           T="Inclure les GénoCartes SVG et/ou PDF dans le rapport" />
+        <Svg
+                        Default="Y"
+                        T="Inclure les GénoCartes SVG dans le rapport"
+						Type="bool"
+                        V="2014.12.06±" />
         <fSvgZoomExtent
            Default="N"
            O1="N:non"
@@ -412,12 +449,6 @@
            O2="Y:oui"
            T="Maximiser la fenêtre 'popup' SVG lors de l'ouverture"
            Type="bool" />
-        <fSvgCompress
-           Default="Y"
-           O1="N:non"
-           O2="Y:oui"
-           T="Compresser les fichiers SVG pour optimiser les téléchargements"
-           Type="bool" />
         <ShowAllAges
            Default="N"
            O1="N:non"
@@ -425,23 +456,13 @@
            T="Voir l'âge de symbole entre les sexes, même si la personne est encore en vie?"
            Type="bool"
            V="2.0.1.6.1+" />
-        <PdfToolbar
-           Default="Y"
-           O1="N:non"
-           O2="Y:oui"
-           T="Afficher, par défaut, la barre d'outils du lecteur PDF d'Adobe (Acrobat)?"
-           Type="bool" />
-        <InkscapePath
-           Default="?:\Program Files\Inkscape\inkscape.exe"
-           T="Chemin d'Inkscape, employé pour la convertion des SVG en PDF&#10;(Défaut {0})"
-           Type="file" />
       </SVGSettings>
     </ParameterDescriptions>
     <GenerationMessages>
       <Cancel
            T="Annuler" />
-      <CommentSkinVersion
-           T="Version de base de la peau Config.xml:"
+      <CommentVersion
+           T="Version de base de la peau {0} [{?1} **** avec les adaptations **** ]"
            V="2011.01.15" />
       <ErrorCantLoadNameDictionary
            T="Erreur: Impossibilité de charger le contenu de 'NameDictionary'" />
@@ -517,8 +538,6 @@
            T="Erreur {}: {} ({})" />
       <FmtInvalidPictureID
            T="ID de la photo {} dans l'étiquette {} de la GénoCarte {} est invalide." />
-      <FmtNoDrawingObjects
-           T="Pas d'objects 'Drawing' pour {}" />
       <FmtPdfUpToDate
            T="Le PDF de la GénoCarte {} est déjà à jour." />
       <FmtThumbnailCreate
@@ -539,8 +558,6 @@
            T="N.B. L'affichage (ou non) des paramètres de configuration ne sera pas pris en compte si le champ personnalisé 'ChangeParameters' a été changé. Retirez la saisie de ce tag de façon à ce que la case de l'onglet 'Options' de ce panneau soit prise en compte." />
       <ParametersSetOption
            T="Pour supprimer l'affichage des paramètres de configuration, cochez la case dans l'onglet 'Options' de ce panneau." />
-      <ParametersFormLoad
-           T="Attendez SVP le temps que la forme IE initialise" />
       <!-- 0=Nom attribut, Test={0}=Param -->
       <WarningAttributeKeyMissing T="Attention: StrDicAttribute. Erreur du Lookup de '{0}'." />
       <!-- 0=Nom champ perso, 1=Nom Layout champ perso Test={0}=Custom_tag, {1}=My_Tag_Layout -->
