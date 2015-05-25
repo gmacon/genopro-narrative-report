@@ -3,20 +3,9 @@
 '
 ' HISTORY
 ' Aug-2005        GenoPro            Creation
-' Sep 2005 - Apr 2008    Ron            Development & Maintenace
-
+' Sep 2005 -      Ron            Development & Maintenance
 
 '===========================================================
-' Initialize the global variables required to display individuals, families and pictures
-' Those global variables begin by "g_" and are used by the routines found in multiple files.
-' The global object g_collFootnotes is used to maintain a list of unique footnotes
-' to be displayed at the bottom of the page
-Dim g_collFootnotes, g_UID
-
-    g_UID = 0
-
-    ' Create an empty collection to keep all the footnotes on the generated page
-    Set g_collFootnotes = Util.NewGenoCollection()
 
 ' following 2 functions are to simplify changes when GenoPro supports boolean Custom Tags
 Function IsTrue(YorN, Default_)
@@ -825,7 +814,7 @@ Sub WriteHtmlAdditionalInformation(obj)
     Session("BufferBegin") = Report.BufferLength
     Set oCustomTagRepertory = Session("oCustomTagRepertory")
 
-    Report.WriteLn    "<div class='clearleft'><br /><ul class='xT'>"
+    Report.WriteLn    "<br /><div class='clearleft no-break'><ul class='xT'>"
     Report.WriteFormattedLn "    <li class='xT2-{} xT-h' onclick='xTclk(event,""2"")'>", Util.IfElse(Session("fCollapseReferences"), "c", "o")
     Report.WriteFormattedLn "<a name='Additional_Information'></a><h4 class='xT-i inline'>{&t}</h4><ul class='xT-h'>", Util.StrFirstCharUCase(Util.FormatPhrase(Dic("FmtAdditionalInformation"), LCase(Dic(obj.Class))))
 
@@ -1077,12 +1066,12 @@ Sub WriteHtmlDetailsPicture(obj,p)
 End Sub
 
 ' Write a reference to a footnote item
-' This routine requires the presence of a GenoCollection object named g_collFootnotes to store
+' This routine requires the presence of a GenoCollection object referenced by Session("Footnotes") to store
 ' the unique footnotes.
 Sub WriteHtmlFootnoteRef(oFootnote)
     If Session("Flag_S") And (Not Util.IsNothing(oFootnote)) Then
         Dim iFootnote        ' Zero-based index representing the position where the footnote is found in the collection
-        iFootnote = g_collFootnotes.AddUnique(oFootnote)
+        iFootnote = Session("Footnotes").AddUnique(oFootnote)
         Report.WriteFormatted "<sup><a href='#{0}' title='{}'>{0}</a>&nbsp;</sup>", iFootnote + 1, Dic("SourceFootnote")
     End If
 End Sub
@@ -1109,7 +1098,7 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
   Dim collSources, litag
   Set collSources = Util.NewGenoCollection()
   If Not Util.IsNothing(oSources) Then collSources.Add(oSources.ToGenoCollection)
-  If Session("Flag_S") And (g_collFootnotes.Count > 0) Or (collSources.Count > 0) Then
+  If Session("Flag_S") And (Session("Footnotes").Count > 0) Or (collSources.Count > 0) Then
       If Session("NestSourceRefs") Then
 		  Report.WriteLn "<br />"
           If asNote then
@@ -1129,10 +1118,10 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
       Else
           Report.WriteLn "<div class='footnote clearleft'>"
       End If
-          If (g_collFootnotes.Count > 0) Then
+          If (Session("Footnotes").Count > 0) Then
               Dim iFootnote, oFootnote, strTitle, strSep, s
               iFootnote = 0
-              For Each oFootnote In g_collFootnotes
+              For Each oFootnote In Session("Footnotes")
                   iFootnote = iFootnote + 1
                   strTitle = StrPlainText(oFootnote, Util.FirstNonEmpty(oFootnote.Subtitle, oFootnote.Description, oFootnote.QuotedText, Dic("SourceInformation")))
                   If (strTitle <> "") Then
@@ -1144,7 +1133,7 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
               Next
           End If
           If collSources.Count > 0 Then ' write details of remaining source/citations
-              If Not Session("NestSourceRefs") Then Report.WriteBr Dic.Plurial("SourceCitation" & Util.IfElse(g_collFootnotes.Count > 0, "_Other",""), collSources.Count)
+              If Not Session("NestSourceRefs") Then Report.WriteBr Dic.Plurial("SourceCitation" & Util.IfElse(Session("Footnotes").Count > 0, "_Other",""), collSources.Count)
               strSep = ""
               For Each oFootnote in collSources
 				strTitle = StrPlainText(oFootnote, Util.FirstNonEmpty(oFootnote.Subtitle, oFootnote.Description, oFootnote.QuotedText, Dic("SourceInformation")))
@@ -1161,7 +1150,7 @@ Sub WriteHtmlAllFootnotes(oSources, asNote)
           Report.WriteLn "  </ul>"
       End If
       Report.WriteBr "</div>"
-             g_collFootnotes.clear
+             Session("Footnotes").Clear
       End If
 End Sub
 
@@ -1215,7 +1204,7 @@ Sub WriteHtmlPedigreeChart(i)
         Dim e, r, s, c, obj, k
         s = Array(0)
         If depth > 0 Then
-            Report.WriteLn "<div class='clearleft'><br /><ul class='xT'>"
+            Report.WriteLn "<br /><div class='clearleft no-break'><ul class='xT'>"
             Report.WriteFormattedLn "    <li class='xT2-{} xT-h XT-clr clear{}' onclick='xTclk(event,""2"")'>", Util.IfElse(Session("fCollapseReferences"), "c", "o"), Util.IfElse(Session("fCollapseReferences"), "left", "")
             Report.WriteFormattedLn "<a name='PedigreeChart'></a><h4 class='xT-i inline'>{&t}</h4><ul class='xT-h'><li>", Dic("PedigreeChart")
             Report.WriteBr
@@ -1450,7 +1439,6 @@ Function WriteIndividualEvents (oTLInfo, i, strTitle, fYearOnly)
     Set d = i.Death
     Set f = d.Funerals
     Set c = d.Cause
-    fLink = (i.Hyperlink.Internal = "Y")
     If b.Date <> "" Then
         Set oStart = b.Date
     ElseIf ba.Date <> "" Then
@@ -1461,14 +1449,7 @@ Function WriteIndividualEvents (oTLInfo, i, strTitle, fYearOnly)
     ElseIf f.Date <> "" Then
         Set oEnd = f.Date
     End If
-'    If fLink Then
-'        If i.IndividualInternalHyperlink.ID <> "" Then
-'             fLink = Not oLinks.Added(i.IndividualInternalHyperlink.ID)
-'        Else
-'            fLink = Not oLinks.Added(i.ID)
-'        End If
-'    End If
-    If Not fLink And IsObject(oStart) Then
+    If IsObject(oStart) Then
         If IsObject(oEnd) Then
             oTLInfo.AddEvent i, oStart, oEnd, fYearOnly, strTitle, _
                     Util.FormatPhrase(StrDicMFU("PhTL_Birth", strGender), PnP(i), b.Date.ToStringNarrative, b.Place.Session("Locative"), ba.Date.ToStringNarrative, _
@@ -1483,7 +1464,7 @@ Function WriteIndividualEvents (oTLInfo, i, strTitle, fYearOnly)
                                 b.Doctor, b.PregnancyLength.Months,  b.PregnancyLength.Weeks, strPnR, b.CeremonyType, i.Session("NamePossessive"), strGender)
         End If
     End If
-    If Not fLink And IsObject(oEnd) And Not IsObject(oStart) Then
+    If IsObject(oEnd) And Not IsObject(oStart) Then
         oTLInfo.AddEvent i, oEnd, oEnd, fYearOnly, strTitle & " " & Dic("DiedAbbr"), _
             Util.FormatPhrase(StrDicMFU("PhTL_Died", strGender), PnP(i), i.Death.Age.Years, i.Death.Age.Months, i.Death.Age.Days, d.Date.ToStringNarrative, d.Place.Session("Locative"), c, c.Description, i.Birth.Date.Approximation & i.Death.Date.Approximation, strGender)
     End If
@@ -1818,7 +1799,21 @@ Function StrFormatText(obj, strRawText)
                     Next
                     strArgs = Split(strParam & "|||||||||", "|")
                     strTemp=Split(Trim(Mid(strSubParts(0),7)) & "       "," ")
-                    If Left(strTemp(1),1) <> """" Then strArgs(2) = Session("oPicIndex")(strArgs(2)).Path.Report
+                    If Left(strTemp(1),1) <> """" Then
+						strArgs(2) = Session("oPicIndex")(strArgs(2)).Path.Report
+					Else
+						If Not Instr(strArgs(2), ":") > 0 Then strArgs(2) = ReportGenerator.Document.BasePath & strArgs(2) ' relative link
+						On Error Resume Next
+						Dim oFso
+						Set oFso = CreateObject("Scripting.FileSystemObject")
+						On Error GoTo 0
+						If  oFso.FileExists(strArgs(2)) Then
+							strFile = strArgs(2)
+							strArgs(2) = "media/" & Session("UUID") & "_" & Util.HrefEncode(oFso.GetFile(strArgs(2)).Name) ' make filename valid and unique
+							Session("UUID") = Session("UUID") + 1
+							ReportGenerator.FileUpload strFile, Util.UrlDecode(strArgs(2))
+						End If
+					End If
                     strResult = strResult & Util.FormatPhrase(Dic("PhMovie_" & strArgs(1)), strArgs(2), strArgs(3), strArgs(4), strArgs(5), strArgs(6), strArgs(7), strArgs(8), strArgs(9)) & Util.HtmlEncode(strSubParts(1))
                 End If
             Case "phrase"
@@ -2061,8 +2056,8 @@ End Function
 
 Function StrNewUID()
 '===================
-    g_UID = g_UID + 1
-    StrNewUID = g_UID & ""
+    StrNewUID = Session("UUID") & ""
+    Session("UUID") = Session("UUID") + 1
 End Function
 
 Function CustomTag(obj,tag)

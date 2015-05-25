@@ -1715,9 +1715,10 @@
 
         <!-- 0=place name, 1=place category, 2=street address, 3=city, 4=county or region, 5=state or province, 6=zip or postal code, 7=country, 8=n/a, 9=n/a, 10=n/a, 11=latitude, 12=longitude, 13=<b>, 14=</b> 
 			Test={0}=Hogwarts, {1}=an educational institute|, {2}=Diagon Alley|, {3}=Dufftown|, {4}=The Highlands|, {5}=Scotland|, {6}=AB1 3HP|, {7}=UK|, {11}=57.45N|, {12}=3.13W|, {13}=<b>, {14}=</b> -->
-        <PhPlaceDescription T="[{!13h}{!0}{!14h} is[ {1}][{?2} at {2}][{?3|4|5|6|7}[{?2},][{!} in][ {3h}][[{?2|3},] {4h}][[{?2|3|4},] {5h}][ {7h}][ {6h}][{?11|12}[{?2|3|4|5|6|7} and is] located at[ latitude {11}][[{?11},] longitude {12}]]].{\br}]" V="2015.03.18±"/>
-        <!-- 0=place name, 1=place category, 2=street address, 3=city, 4=county or region, 5=state or province, 6=zip or postal code, 7=country 8=latitude, 9=longitude -->
-        <PhPlaceDescriptionTxt T="[{!0} is[ {1}][{?2} at {2}][{?3|4|5|6|7}[{?2},][{!} in][ {3}][[{?2|3},] {4}][[{?2|3|4},] {5}][ {7}][ {6}][{?11|12}[{?2|3|4|5|6|7} and is] located at[ latitude {11}][[{?11},] longitude {12}]]]." V="2015.03.18±"/>
+        <PhPlaceDescription T="[{!13h}{!0}{!14h} [[{?!1|2|3|5|6|7}{4}][{!}is[ {1h}][{?2} at {2h}[{?3|4|5|7},]][{?!2}[{?3|4|5|6|7} in]][{?3} {!3h}[{?4|5|7},]][{?4} {4h}[{?5|7},]][{?5} {5h}[{?4|5|7},]][ {7h}][ {6h}]][{?11|12}[{?2|3|5|6|7} and is][{?4} is] located at[ latitude {11}][[{?11},] longitude {12}]]].{\br}]" V="2015.04.15±"/>
+        <!-- 0=place name, 1=place category, 2=street address, 3=city, 4=county or region, 5=state or province, 6=zip or postal code, 7=country 8=latitude, 9=longitude 
+			Test={0}=Hogwarts, {1}=an educational institute|, {2}=Diagon Alley|, {3}=Dufftown|, {4}=The Highlands|, {5}=Scotland|, {6}=AB1 3HP|, {7}=UK|, {8}=57.45N|, {9}=3.13W| -->
+		<PhPlaceDescriptionTxt T="{!0} [[{?!1|2|3|5|6|7}{4}][{!}is[ {1}][{?2} at {2}[{?3|4|5|7},]][{?!2}[{?3|4|5|6|7} in]][{?3} {!3}[{?4|5|7},]][{?4} {4}[{?5|7},]][{?5} {5}[{?4|5|7},]][ {7}][ {6}]][{?8|9}[{?2|3|5|6|7} and is][{?4} is] located at[ latitude {8}][[{?8},] longitude {9}]]]." V="2015.04.15±"/>
 
         <!-- 0=start date/date span, 1=short name, 2=name's|his|her, 3=event/attribute text, 4=opening h5, 5=closing h5, 6=agency, 7=place, 8=agency prefix, 9=name|he|her, 10=event/attribute text prefix -->
         <PhPROB N="Probate" T="{ &#32;}Probate was granted for {2} will[ {10}][ {3h}][{?6} {8=by} {6h}][{?6^7},]{7h}[ {0}]." V="2013.07.30+"/>

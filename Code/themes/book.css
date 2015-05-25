@@ -1,6 +1,12 @@
 /*  styles for PDF printing
 */
-body {background: none;}
+body, table {background: none;}
+tr td {background-color: transparent;}
+h1,h2,h3,h4,table{page-break-after: avoid; page-break-inside: avoid; }
+
+.page-break	{ display: block; page-break-before: always; }
+.no-break {page-break-inside: avoid;}
+
 ul.xT li.xT-o { list-style-image: url(images/space.gif); }
 ul.xT li.xT-c { list-style-image: url(images/space.gif);}
 ul.xT li.xT2-o {list-style-position: inside; list-style-image: url(images/space.gif);}

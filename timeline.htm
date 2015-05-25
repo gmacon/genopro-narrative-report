@@ -6,7 +6,7 @@ If Session("Book") Or Not Session("Timelines") Then Report.AbortPage
 
 ' Create an timeline page for each GenoMap.
 
-Dim strSep, cchBegin, g_Delim, strLocale, oLinks, oObjRep, strWrapEvents
+Dim strSep, cchBegin, g_Delim, strLocale, oLinks, oObjRep, strWrapEvents, dupID
 
 Set oTLInfos = Util.NewObjectRepertory()
 Session("oTLInfos") = oTLInfos
@@ -32,13 +32,22 @@ For Each g In GenoMaps
 		On Error Resume Next
 		On Error Goto 0
 			Select Case o.Class
-				Case "Individual"	: If Not o.IsLabel Then WriteIndividualEvents	oTLInfo, o, Util.IfElse(Not Session("OriginalNamesTimelines"), o.Session("NameFull"), o.Session("NameOriginal")), True
-				Case "Family"		: If Not o.IsLabel Then WriteFamilyEvents	oTLInfo, o, Util.IfElse(Not Session("OriginalNamesTimelines"), o.Session("Name"), o.Session("NameOriginal")), True, False
-				Case "SocialEntity"	: WriteOccupancyEvents	oTLInfo, o, o.Session("Name"), True
+				Case "Individual"	: 	If Not o.IsLabel Then
+											' check if this Individual is already on the timeline i.e. hyperlinked on same GenoMap) see 
+											If o.IndividualInternalHyperlink.ID <> "" Then
+												 dupID = Not oLinks.Added(o.IndividualInternalHyperlink.ID)
+											Else
+												dupID = Not oLinks.Added(o.ID)
+											End If
+											' don't add duplicates
+											If Not dupID Then WriteIndividualEvents oTLInfo, o, Util.IfElse(Not Session("OriginalNamesTimelines"), o.Session("NameFull"), o.Session("NameOriginal")), True
+										End If
+				Case "Family"		: 	If Not o.IsLabel Then WriteFamilyEvents	oTLInfo, o, Util.IfElse(Not Session("OriginalNamesTimelines"), o.Session("Name"), o.Session("NameOriginal")), True, False
+				Case "SocialEntity"	: 	WriteOccupancyEvents	oTLInfo, o, o.Session("Name"), True
 			End Select
 			If Report.BufferLength <> cchBegin Then strSep = "," & vbNewline
 		Next
-
+		oLinks.Clear
 		oTLInfo.AddTrailer False, Util.IfElse(GenoMaps.Count > 1, Dic("HeaderTimeline"), Dic.PlurialCardinal("HeaderTimeline",1)) & g.Name
 
 		If oTLInfo.Nodes > 1 Then

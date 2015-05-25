@@ -25,8 +25,6 @@ If Not Session("Book") Then
 @media print {
     html,body {width: @[Report.Write Util.IfElse(Session("Orientation")="Portrait", "187mm", "257mm")]@;
 			   font-family: @[Report.Write strFont]@;}
-    .page-break	{ display: block; page-break-before: always; }
-    h1,h2,h3,h4 {page-break-after: avoid;}
 }
 <%[
 End If

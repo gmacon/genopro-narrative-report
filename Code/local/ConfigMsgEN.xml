@@ -139,7 +139,7 @@
                         Type="bool"
                         V="2014.02.09+"/>
         <wkhtmltopdfPath
-                        Default="%ProgramFiles%\wkhtmltopdf\wkhtmltopdf.exe"
+                        Default="%ProgramFiles%\wkhtmltopdf\bin\wkhtmltopdf.exe"
                         T="Path to wkhtmltopdf.exe program used to create PDF output (Default {0})"
                         Type="file"
                         V="2014.02.09+" />

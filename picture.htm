@@ -78,7 +78,7 @@ Dim strDimension, c, strName, strMap
 	End If
 	Report.WritePhraseDic "PhPictureDetails", Util.IfElse(Session("fHidePictureName"), "", strName), p.Date.ToStringNarrative, StrHtmlHyperlink(p.Place), ""
 	WriteHtmlFootnoteRef p.Source
-	If Not Util.IsNothing(p.Source) Then g_collFootnotes.AddUnique(p.Source)
+	If Not Util.IsNothing(p.Source) Then Session("Footnotes").AddUnique(p.Source)
 	
 	WriteHtmlExtraNarrative p
 
